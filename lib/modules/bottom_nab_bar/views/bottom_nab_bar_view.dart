@@ -14,70 +14,72 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(() => IndexedStack(
-            index: controller.currentIndex.value,
-            children: const [
-              HomeView(),
-              SermonsView(),
-              NewsView(),
-              GiveView(),
-              EventsView(),
-              MoreView(),
-            ],
-          )),
-      bottomNavigationBar: Obx(
-        () => Theme(
-          data: ThemeData(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFF0D1B3E),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 10,
-                  offset: const Offset(0, -2),
-                ),
+    return SafeArea(
+      child: Scaffold(
+        body: Obx(() => IndexedStack(
+              index: controller.currentIndex.value,
+              children: const [
+                HomeView(),
+                SermonsView(),
+                NewsView(),
+                GiveView(),
+                EventsView(),
+                MoreView(),
               ],
-              border: Border(
-                top: BorderSide(
-                  color: Colors.white.withOpacity(0.05),
-                  width: 1,
+            )),
+        bottomNavigationBar: Obx(
+          () => Theme(
+            data: ThemeData(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 6, 51, 165),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 10.r,
+                    offset: Offset(0, -2.h),
+                  ),
+                ],
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.white.withOpacity(0.05),
+                    width: 1.r,
+                  ),
                 ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BottomNavigationBar(
-                currentIndex: controller.currentIndex.value,
-                onTap: controller.changeTab,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Colors.transparent, // Use container color
-                selectedItemColor: const Color(0xFFFFD700),
-                unselectedItemColor: const Color(0xFF8E99AF),
-                elevation: 0,
-                selectedLabelStyle: TextStyle(
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.2,
+              child: Padding(
+                padding: EdgeInsets.all(8.r),
+                child: BottomNavigationBar(
+                  currentIndex: controller.currentIndex.value,
+                  onTap: controller.changeTab,
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: Colors.transparent,
+                  selectedItemColor: const Color(0xFFFFD700),
+                  unselectedItemColor: const Color(0xFF8E99AF),
+                  elevation: 0,
+                  selectedLabelStyle: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                  unselectedLabelStyle: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                  items: [
+                    _buildNavItem(Icons.home_rounded, 'Home'),
+                    _buildNavItem(Icons.video_library_rounded, 'Sermons'),
+                    _buildNavItem(Icons.campaign_rounded, 'News'),
+                    _buildNavItem(Icons.favorite_rounded, 'Give'),
+                    _buildNavItem(Icons.calendar_month_rounded, 'Events'),
+                    _buildNavItem(Icons.more_horiz_rounded, 'More'),
+                  ],
                 ),
-                unselectedLabelStyle: TextStyle(
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.2,
-                ),
-                items: [
-                  _buildNavItem(Icons.home_rounded, 'Home'),
-                  _buildNavItem(Icons.video_library_rounded, 'Sermons'),
-                  _buildNavItem(Icons.campaign_rounded, 'News'),
-                  _buildNavItem(Icons.favorite_rounded, 'Give'),
-                  _buildNavItem(Icons.calendar_month_rounded, 'Events'),
-                  _buildNavItem(Icons.more_horiz_rounded, 'More'),
-                ],
               ),
             ),
           ),
@@ -90,7 +92,7 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
     return BottomNavigationBarItem(
       icon: Padding(
         padding: EdgeInsets.only(bottom: 2.h, top: 4.h),
-        child: Icon(icon, size: 22.sp),
+        child: Icon(icon, size: 26.sp),
       ),
       label: label,
     );
