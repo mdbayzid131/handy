@@ -1,5 +1,5 @@
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get.dart';
 
 class NewsController extends GetxController {
-  var currentIndex = 0;
+  final RxInt currentIndex = 0.obs;
 }

@@ -7,6 +7,8 @@ import 'package:handy/modules/more/bindings/more_binding.dart';
 import 'package:handy/modules/more/views/more_view.dart';
 import 'package:handy/modules/news/bindings/news_binding.dart';
 import 'package:handy/modules/news/views/news_view.dart';
+import 'package:handy/modules/sermon_ditails/bindings/sermon_ditails_binding.dart';
+import 'package:handy/modules/sermon_ditails/views/sermon_ditails_view.dart';
 import 'package:handy/modules/sermons/bindings/sermons_binding.dart';
 import 'package:handy/modules/sermons/views/sermons_view.dart';
 import '../../core/middleware/auth_middleware.dart';
@@ -47,6 +49,7 @@ abstract class AppRoutes {
   static const String GIVE = '/give';
   static const String EVENTS = '/events';
   static const String MORE = '/more';
+  static const String SERMON_DITAILS = '/sermon-ditails';
 }
 
 /// ===================== APP PAGES =====================
@@ -135,5 +138,11 @@ final List<GetPage> pages = [
     page: () => const MoreView(),
     binding: MoreBinding(),
     middlewares: [AuthMiddleware()],
+  ),
+  GetPage(
+    name: AppRoutes.SERMON_DITAILS,
+    page: () => const SermonDitailsView(),
+    binding: SermonDitailsBinding(),
+    transition: Transition.fadeIn,
   ),
 ];

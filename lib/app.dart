@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
             //   backgroundColor: Color(0xffF9FAFB),
             //   scrolledUnderElevation: 0,
             // ),
-            scaffoldBackgroundColor: Color(0xffFfffff),
+            scaffoldBackgroundColor: const Color.fromARGB(255, 10, 10, 10),
           ),
           initialRoute: AppRoutes.SPLASH,
           getPages: pages,
