@@ -16,7 +16,7 @@ class NewsView extends GetView<NewsController> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        toolbarHeight: 160.h,
+        toolbarHeight: 120.h,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -75,91 +75,13 @@ class NewsView extends GetView<NewsController> {
                 ),
               ],
             ),
-            SizedBox(height: 24.h),
-            // Toggle Tabs
-            Container(
-              height: 48.h,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(24.r),
-              ),
-              child: Obx(
-                () => Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => controller.currentIndex.value = 0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: controller.currentIndex.value == 0
-                                ? const Color(0xFFFFC107)
-                                : const Color(0xFF283259), // Dark blue/grey
-                            borderRadius: BorderRadius.circular(24.r),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Announcements',
-                              style: TextStyle(
-                                color: controller.currentIndex.value == 0
-                                    ? Colors.black
-                                    : Colors.white,
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => controller.currentIndex.value = 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: controller.currentIndex.value == 1
-                                ? const Color(0xFFFFC107)
-                                : const Color(0xFF283259), // Dark blue/grey
-                            borderRadius: BorderRadius.circular(24.r),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Event Fliers',
-                              style: TextStyle(
-                                color: controller.currentIndex.value == 1
-                                    ? Colors.black
-                                    : Colors.white,
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
         titleSpacing: 20.w,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SafeArea(
-              top: false,
-              child: Obx(() {
-                if (controller.currentIndex.value == 0) {
-                  return _buildAnnouncementsList();
-                } else {
-                  return _buildEventFliersList();
-                }
-              }),
-            ),
-          ),
-        ],
+      body: SafeArea(
+        top: false,
+        child: _buildAnnouncementsList(),
       ),
     );
   }
@@ -168,8 +90,7 @@ class NewsView extends GetView<NewsController> {
     final List<Map<String, dynamic>> newsData = [
       {
         'type': 'megaphone',
-        'title':
-            'Sunday Service · 10:00 AM – 12:30 PM · 71 Stoneyburn Street, EH47 8JT',
+        'title': 'Sunday Service · 10:00 AM – 12:30 PM · 71 Stoneyburn Street, EH47 8JT',
         'color': const Color(0xFFFFC107),
       },
       {
@@ -177,38 +98,38 @@ class NewsView extends GetView<NewsController> {
         'isPinned': true,
         'title': 'Sunday Service — This Week',
         'tag': 'Service',
-        'tagColor': const Color(0xFF3B68E7), // Blue
-        'borderColor': const Color(0xFFFFC107), // Yellow
-        'description':
-            'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are ...',
+        'tagColor': const Color(0xFF3B68E7),
+        'borderColor': const Color(0xFFFFC107),
+        'description': 'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are ...',
         'date': 'May 5, 2026',
+        'imageUrl': 'https://images.unsplash.com/photo-1438232992991-995b7058bbb3',
       },
       {
         'type': 'regular',
         'isPinned': false,
         'title': 'Baptism Sunday — Register Now',
         'tag': 'Milestone',
-        'tagColor': const Color(0xFF00BFA5), // Green
-        'borderColor': const Color(0xFF00BFA5), // Green
-        'description':
-            'If you\'re ready to take the step of water baptism, please speak with any of our elders or pastors. Ba...',
+        'tagColor': const Color(0xFF00BFA5),
+        'borderColor': const Color(0xFF00BFA5),
+        'description': 'If you\'re ready to take the step of water baptism, please speak with any of our elders or pastors. Ba...',
         'date': 'May 4, 2026',
+        'imageUrl': 'https://images.unsplash.com/photo-1544427920-c49ccfb85579',
       },
       {
         'type': 'regular',
         'isPinned': false,
         'title': 'Volunteer Opportunities Open',
         'tag': 'Serve',
-        'tagColor': const Color(0xFFFF5722), // Orange
-        'borderColor': const Color(0xFFFF5722), // Orange
-        'description':
-            'We have openings in Ushering, Children\'s Ministry, Media Team, and Hospitality. If you\'d like to serve,...',
+        'tagColor': const Color(0xFFFF5722),
+        'borderColor': const Color(0xFFFF5722),
+        'description': 'We have openings in Ushering, Children\'s Ministry, Media Team, and Hospitality. If you\'d like to serve,...',
         'date': 'May 3, 2026',
+        'imageUrl': 'https://images.unsplash.com/photo-1511632765486-a01980e01a18',
       },
     ];
 
     return ListView.separated(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       itemCount: newsData.length,
       separatorBuilder: (context, index) => SizedBox(height: 16.h),
       itemBuilder: (context, index) {
@@ -219,15 +140,32 @@ class NewsView extends GetView<NewsController> {
             color: item['color'] as Color,
           );
         } else {
-          return _buildNewsCard(
-            isPinned: item['isPinned'] as bool,
-            title: item['title'] as String,
-            tag: item['tag'] as String,
-            tagColor: item['tagColor'] as Color,
-            borderColor: item['borderColor'] as Color,
-            description: item['description'] as String,
-            date: item['date'] as String,
-          );
+          return Obx(() {
+            final isExpanded = controller.expandedIndex.value == index;
+            return Column(
+              children: [
+                GestureDetector(
+                  onTap: () => controller.toggleExpanded(index),
+                  child: _buildNewsCard(
+                    isPinned: item['isPinned'] as bool,
+                    title: item['title'] as String,
+                    tag: item['tag'] as String,
+                    tagColor: item['tagColor'] as Color,
+                    borderColor: item['borderColor'] as Color,
+                    description: item['description'] as String,
+                    date: item['date'] as String,
+                  ),
+                ),
+                if (isExpanded && item['imageUrl'] != null) ...[
+                  SizedBox(height: 16.h),
+                  _buildFlierCard(
+                    imageUrl: item['imageUrl'] as String,
+                    label: item['tag'] as String,
+                  ),
+                ],
+              ],
+            );
+          });
         }
       },
     );
@@ -239,7 +177,7 @@ class NewsView extends GetView<NewsController> {
       decoration: BoxDecoration(
         color: const Color(0xFF1E2336), // Slightly lighter than background
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: color.withValues(alpha: 0.5), width: 1),
+        border: Border.all(color: color.withOpacity(0.5), width: 1),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -275,12 +213,10 @@ class NewsView extends GetView<NewsController> {
       decoration: BoxDecoration(
         color: const Color(0xFF1E2336),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: borderColor.withValues(alpha: 0.3), width: 1),
+        border: Border.all(color: borderColor.withOpacity(0.3), width: 1),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(
-          15.r,
-        ), // slightly less than container to fit inside border
+        borderRadius: BorderRadius.circular(15.r),
         child: IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -331,7 +267,7 @@ class NewsView extends GetView<NewsController> {
                               vertical: 4.h,
                             ),
                             decoration: BoxDecoration(
-                              color: tagColor.withValues(alpha: 0.15),
+                              color: tagColor.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Text(
@@ -351,7 +287,7 @@ class NewsView extends GetView<NewsController> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.6),
+                          color: Colors.white.withOpacity(0.6),
                           fontSize: 14.sp,
                           height: 1.4,
                         ),
@@ -363,12 +299,12 @@ class NewsView extends GetView<NewsController> {
                           Text(
                             date,
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: Colors.white.withOpacity(0.5),
                               fontSize: 12.sp,
                             ),
                           ),
                           Text(
-                            'Read more',
+                            'Tap for flier',
                             style: TextStyle(
                               color: const Color(0xFF3B68E7),
                               fontSize: 13.sp,
@@ -385,24 +321,6 @@ class NewsView extends GetView<NewsController> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildEventFliersList() {
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-      children: [
-        _buildFlierCard(
-          imageUrl:
-              'https://images.unsplash.com/photo-1438232992991-995b7058bbb3',
-          label: 'WEEKLY',
-        ),
-        SizedBox(height: 20.h),
-        _buildFlierCard(
-          imageUrl: 'https://images.unsplash.com/photo-1544427920-c49ccfb85579',
-          label: 'YOUTH',
-        ),
-      ],
     );
   }
 
@@ -461,11 +379,11 @@ class NewsView extends GetView<NewsController> {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.6),
+              color: Colors.black.withOpacity(0.6),
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
-              label,
+              label.toUpperCase(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 10.sp,

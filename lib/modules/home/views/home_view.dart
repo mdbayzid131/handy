@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/data/models/home_model.dart';
 import '../../../config/constants/image_paths.dart';
 import '../../../config/routes/app_pages.dart';
 import '../controllers/home_controller.dart';
@@ -137,9 +138,9 @@ class HomeView extends GetView<HomeController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20.h),
-              _buildTodaysVerseCard(),
+              _buildTodaysVerseCard(controller.homeData.todaysVerse),
               SizedBox(height: 16.h),
-              _buildNextServiceCard(),
+              _buildNextServiceCard(controller.homeData.nextService),
               SizedBox(height: 16.h),
               _buildWatchLiveCard(),
               SizedBox(height: 32.h),
@@ -154,28 +155,25 @@ class HomeView extends GetView<HomeController> {
               SizedBox(height: 16.h),
               _buildQuickAccessGrid(),
               SizedBox(height: 32.h),
-              _buildSectionHeader('Latest Sermon'),
+              _buildSectionHeader(
+                'Latest Sermon',
+                onSeeAllTap: () => Get.find<BottomNavBarController>().changeTab(1),
+              ),
               SizedBox(height: 16.h),
-              _buildLatestSermonCard(),
+              _buildLatestSermonCard(controller.homeData.latestSermon),
               SizedBox(height: 32.h),
-              _buildSectionHeader('Announcements'),
+              _buildSectionHeader(
+                'Announcements',
+                onSeeAllTap: () => Get.find<BottomNavBarController>().changeTab(2),
+              ),
               SizedBox(height: 16.h),
-              _buildAnnouncementCard(
-                isImportant: true,
-                title: 'Sunday Service — This Week',
-                description:
-                    'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are ...',
-                date: 'May 5, 2026',
-              ),
-              SizedBox(height: 12.h),
-              _buildAnnouncementCard(
-                isImportant: false,
-                title: 'Baptism Sunday — Register Now',
-                description:
-                    'If you\'re ready to take the step of water baptism, please speak with any of our elders or pastors. B...',
-                date: 'May 4, 2026',
-              ),
-              SizedBox(height: 40.h),
+              ...controller.homeData.announcements.map((announcement) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 12.h),
+                  child: _buildAnnouncementCard(announcement),
+                );
+              }),
+              SizedBox(height: 28.h),
             ],
           ),
         ),
@@ -183,7 +181,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildTodaysVerseCard() {
+  Widget _buildTodaysVerseCard(TodaysVerseModel data) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
@@ -219,7 +217,7 @@ class HomeView extends GetView<HomeController> {
           ),
           SizedBox(height: 16.h),
           Text(
-            '"I can do all things through him who strengthens me."',
+            data.verse,
             style: TextStyle(
               color: Colors.white,
               fontSize: 16.sp,
@@ -229,7 +227,7 @@ class HomeView extends GetView<HomeController> {
           ),
           SizedBox(height: 12.h),
           Text(
-            '— Philippians 4:13',
+            data.reference,
             style: TextStyle(
               color: const Color(0xFFFFC107),
               fontSize: 14.sp,
@@ -241,7 +239,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildNextServiceCard() {
+  Widget _buildNextServiceCard(NextServiceModel data) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
@@ -274,7 +272,7 @@ class HomeView extends GetView<HomeController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'NEXT SERVICE',
+                  data.label,
                   style: TextStyle(
                     color: const Color(0xFF0B101E).withOpacity(0.6),
                     fontSize: 10.sp,
@@ -284,7 +282,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Sunday Worship',
+                  data.title,
                   style: TextStyle(
                     color: const Color(0xFF0B101E),
                     fontSize: 16.sp,
@@ -293,7 +291,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Sunday · 10:00 AM – 12:30 PM',
+                  data.schedule,
                   style: TextStyle(
                     color: const Color(0xFF0B101E).withOpacity(0.8),
                     fontSize: 12.sp,
@@ -303,18 +301,21 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-            decoration: BoxDecoration(
-              color: const Color(0xFF2844B4),
-              borderRadius: BorderRadius.circular(24.r),
-            ),
-            child: Text(
-              'Details',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: () => Get.find<BottomNavBarController>().changeTab(1),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+              decoration: BoxDecoration(
+                color: const Color(0xFF2844B4),
+                borderRadius: BorderRadius.circular(24.r),
+              ),
+              child: Text(
+                'Details',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -324,64 +325,67 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildWatchLiveCard() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFFE53935), Color(0xFFFF5722)],
+    return GestureDetector(
+      onTap: () => Get.toNamed(AppRoutes.WATCH_LIVE),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(20.w),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFE53935), Color(0xFFFF5722)],
+          ),
+          borderRadius: BorderRadius.circular(20.r),
         ),
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 50.w,
-            height: 50.w,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Container(
-                width: 16.w,
-                height: 16.w,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
+        child: Row(
+          children: [
+            Container(
+              width: 50.w,
+              height: 50.w,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Container(
+                  width: 16.w,
+                  height: 16.w,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Watch Live',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Watch Live',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  'Join Sunday service on YouTube or\nFacebook',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
-                    fontSize: 12.sp,
-                    height: 1.3,
+                  SizedBox(height: 4.h),
+                  Text(
+                    'Join Sunday service on YouTube or\nFacebook',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.9),
+                      fontSize: 12.sp,
+                      height: 1.3,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16.w),
-        ],
+            Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16.w),
+          ],
+        ),
       ),
     );
   }
@@ -389,7 +393,8 @@ class HomeView extends GetView<HomeController> {
   Widget _buildQuickAccessGrid() {
     final items = [
       _QuickAccessItem(
-        onTap: () => Get.find<BottomNavBarController>().changeTab(1), // Sermons tab
+        onTap: () =>
+            Get.find<BottomNavBarController>().changeTab(1), // Sermons tab
         icon: Icons.video_library_rounded,
         title: 'Sermons',
         gradient: const LinearGradient(
@@ -399,7 +404,8 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
       _QuickAccessItem(
-        onTap: () => Get.find<BottomNavBarController>().changeTab(3), // Give tab
+        onTap: () =>
+            Get.find<BottomNavBarController>().changeTab(3), // Give tab
         icon: Icons.favorite,
         title: 'Give',
         gradient: const LinearGradient(
@@ -419,7 +425,8 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
       _QuickAccessItem(
-        onTap: () => Get.find<BottomNavBarController>().changeTab(4), // Events tab
+        onTap: () =>
+            Get.find<BottomNavBarController>().changeTab(4), // Events tab
         icon: Icons.event,
         title: 'Events',
         gradient: const LinearGradient(
@@ -495,11 +502,7 @@ class HomeView extends GetView<HomeController> {
                   gradient: item.gradient,
                   borderRadius: BorderRadius.circular(24.r),
                 ),
-                child: Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 32.w,
-                ),
+                child: Icon(item.icon, color: Colors.white, size: 32.w),
               ),
               SizedBox(height: 10.h),
               Text(
@@ -520,7 +523,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildSectionHeader(String title) {
+  Widget _buildSectionHeader(String title, {VoidCallback? onSeeAllTap}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -532,100 +535,101 @@ class HomeView extends GetView<HomeController> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(
-          'See all',
-          style: TextStyle(
-            color: const Color(0xFF3B68E7), // Light blue text
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
+        GestureDetector(
+          onTap: onSeeAllTap,
+          child: Text(
+            'See all',
+            style: TextStyle(
+              color: const Color(0xFF3B68E7), // Light blue text
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildLatestSermonCard() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1B233D),
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 70.w,
-            height: 70.w,
-            decoration: BoxDecoration(
-              color: const Color(0xFF2844B4),
-              borderRadius: BorderRadius.circular(16.r),
+  Widget _buildLatestSermonCard(LatestSermonModel data) {
+    return GestureDetector(
+      onTap: () => Get.toNamed(AppRoutes.SERMON_DITAILS),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1B233D),
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 70.w,
+              height: 70.w,
+              decoration: BoxDecoration(
+                color: const Color(0xFF2844B4),
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              child: Icon(
+                Icons.play_arrow_rounded,
+                color: const Color(0xFFFFC107),
+                size: 36.w,
+              ),
             ),
-            child: Icon(
-              Icons.play_arrow_rounded,
-              color: const Color(0xFFFFC107),
-              size: 36.w,
-            ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'WALKING IN FAITH',
-                  style: TextStyle(
-                    color: const Color(0xFF3B68E7),
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.series,
+                    style: TextStyle(
+                      color: const Color(0xFF3B68E7),
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                    ),
                   ),
-                ),
-                SizedBox(height: 6.h),
-                Text(
-                  'The Anchor of Hope',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
+                  SizedBox(height: 6.h),
+                  Text(
+                    data.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 6.h),
-                Text(
-                  'Pastor Emmanuel Asante · 42 min',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
-                    fontSize: 12.sp,
+                  SizedBox(height: 6.h),
+                  Text(
+                    '${data.preacher} · ${data.duration}',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 12.sp,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(
-            width: 40.w,
-            height: 40.w,
-            decoration: const BoxDecoration(
-              color: Color(0xFFFFC107),
-              shape: BoxShape.circle,
+            Container(
+              width: 40.w,
+              height: 40.w,
+              decoration: const BoxDecoration(
+                color: Color(0xFFFFC107),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.play_arrow_rounded,
+                color: const Color(0xFF0B101E),
+                size: 24.w,
+              ),
             ),
-            child: Icon(
-              Icons.play_arrow_rounded,
-              color: const Color(0xFF0B101E),
-              size: 24.w,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildAnnouncementCard({
-    required bool isImportant,
-    required String title,
-    required String description,
-    required String date,
-  }) {
+  Widget _buildAnnouncementCard(HomeAnnouncementModel data) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
@@ -637,7 +641,7 @@ class HomeView extends GetView<HomeController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isImportant) ...[
+          if (data.isImportant) ...[
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
               decoration: BoxDecoration(
@@ -657,7 +661,7 @@ class HomeView extends GetView<HomeController> {
             SizedBox(height: 12.h),
           ],
           Text(
-            title,
+            data.title,
             style: TextStyle(
               color: Colors.white,
               fontSize: 16.sp,
@@ -666,7 +670,7 @@ class HomeView extends GetView<HomeController> {
           ),
           SizedBox(height: 8.h),
           Text(
-            description,
+            data.description,
             style: TextStyle(
               color: Colors.white.withOpacity(0.7),
               fontSize: 13.sp,
@@ -675,7 +679,7 @@ class HomeView extends GetView<HomeController> {
           ),
           SizedBox(height: 12.h),
           Text(
-            date,
+            data.date,
             style: TextStyle(
               color: Colors.white.withOpacity(0.5),
               fontSize: 12.sp,

@@ -12,61 +12,61 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
 
     return Container(
       color: Colors.black,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: const Color(0xFF0B101E),
-          appBar: AppBar(
-            flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF2844B4), // Lighter blue
-                    Color(0xFF0A123D), // Darker blue
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+      child: Scaffold(
+        backgroundColor: const Color(0xFF0B101E),
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF2844B4), // Lighter blue
+                  Color(0xFF0A123D), // Darker blue
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
-            elevation: 0,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
-              onPressed: () => Get.back(),
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Sermon',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'PIWC Stoneyburn',
-                  style: TextStyle(
-                    color: const Color(0xFFFFC107),
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            titleSpacing: 0,
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.bookmark_border,
+          ),
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+            onPressed: () => Get.back(),
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Sermon',
+                style: TextStyle(
                   color: Colors.white,
-                  size: 24.w,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
                 ),
-                onPressed: () {},
+              ),
+              Text(
+                'PIWC Stoneyburn',
+                style: TextStyle(
+                  color: const Color(0xFFFFC107),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ],
           ),
-          body: SingleChildScrollView(
+          titleSpacing: 0,
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.bookmark_border,
+                color: Colors.white,
+                size: 24.w,
+              ),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

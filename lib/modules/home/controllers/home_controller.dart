@@ -1,25 +1,38 @@
 import 'package:get/get.dart';
-import '../../../config/constants/api_constants.dart';
-import '../../../core/services/api_client.dart';
+import 'package:handy/data/models/home_model.dart';
 
 class HomeController extends GetxController {
-  final ApiClient _apiClient = ApiClient();
-  final RxBool isLoading = true.obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    Future.delayed(const Duration(seconds: 2), () => isLoading.value = false);
-  }
-
-  fetchProducts() async {
-    try {
-      isLoading.value = true;
-      final response = await _apiClient.getData(ApiConstants.products);
-
-      isLoading.value = false;
-    } catch (e) {
-      isLoading.value = false;
-    }
-  }
+  final HomeDataModel homeData = HomeDataModel(
+    todaysVerse: TodaysVerseModel(
+      verse: '"I can do all things through him who strengthens me."',
+      reference: '— Philippians 4:13',
+    ),
+    nextService: NextServiceModel(
+      label: 'NEXT SERVICE',
+      title: 'Sunday Worship',
+      schedule: 'Sunday · 10:00 AM – 12:30 PM',
+    ),
+    latestSermon: LatestSermonModel(
+      series: 'WALKING IN FAITH',
+      title: 'The Anchor of Hope',
+      preacher: 'Pastor Emmanuel Asante',
+      duration: '42 min',
+    ),
+    announcements: [
+      HomeAnnouncementModel(
+        isImportant: true,
+        title: 'Sunday Service — This Week',
+        description:
+            'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are ...',
+        date: 'May 5, 2026',
+      ),
+      HomeAnnouncementModel(
+        isImportant: false,
+        title: 'Baptism Sunday — Register Now',
+        description:
+            'If you\'re ready to take the step of water baptism, please speak with any of our elders or pastors. B...',
+        date: 'May 4, 2026',
+      ),
+    ],
+  );
 }
