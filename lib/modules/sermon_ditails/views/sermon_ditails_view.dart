@@ -9,109 +9,127 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
   @override
   Widget build(BuildContext context) {
     final sermon = controller.sermon;
-    
+
     return Container(
       color: Colors.black,
       child: SafeArea(
         child: Scaffold(
-        backgroundColor: const Color(0xFF0B101E),
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Color(0xFF132488), // Deep blue at top
-                Color(0xFF091244), // Darker blue at bottom
+          backgroundColor: const Color(0xFF0B101E),
+          appBar: AppBar(
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Color(0xFF132488), // Deep blue at top
+                    Color(0xFF091244), // Darker blue at bottom
+                  ],
+                ),
+              ),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+              onPressed: () => Get.back(),
+            ),
+            title: Text(
+              'Sermon',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: Icon(
+                  Icons.bookmark_border,
+                  color: Colors.white,
+                  size: 24.w,
+                ),
+                onPressed: () {},
+              ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeroImage(sermon.category),
+                Padding(
+                  padding: EdgeInsets.all(20.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        sermon.title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                        ),
+                      ),
+                      SizedBox(height: 8.h),
+                      Text(
+                        sermon.pastor,
+                        style: TextStyle(
+                          color: const Color(0xFF3B68E7),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today,
+                            color: Colors.white.withValues(alpha: 0.5),
+                            size: 14.w,
+                          ),
+                          SizedBox(width: 6.w),
+                          Text(
+                            sermon.date,
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.5),
+                              fontSize: 13.sp,
+                            ),
+                          ),
+                          SizedBox(width: 20.w),
+                          Icon(
+                            Icons.access_time,
+                            color: Colors.white.withValues(alpha: 0.5),
+                            size: 14.w,
+                          ),
+                          SizedBox(width: 6.w),
+                          Text(
+                            sermon.duration,
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.5),
+                              fontSize: 13.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 24.h),
+                      _buildMediaPlayer(sermon.duration),
+                      SizedBox(height: 20.h),
+                      _buildKeyScripture(),
+                      SizedBox(height: 24.h),
+                      _buildAboutSection(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          'Sermon',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.bookmark_border, color: Colors.white, size: 24.w),
-            onPressed: () {},
-          ),
-        ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeroImage(sermon.category),
-            Padding(
-              padding: EdgeInsets.all(20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    sermon.title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    sermon.pastor,
-                    style: TextStyle(
-                      color: const Color(0xFF3B68E7),
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 16.h),
-                  Row(
-                    children: [
-                      Icon(Icons.calendar_today, color: Colors.white.withOpacity(0.5), size: 14.w),
-                      SizedBox(width: 6.w),
-                      Text(
-                        sermon.date,
-                        style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 13.sp),
-                      ),
-                      SizedBox(width: 20.w),
-                      Icon(Icons.access_time, color: Colors.white.withOpacity(0.5), size: 14.w),
-                      SizedBox(width: 6.w),
-                      Text(
-                        sermon.duration,
-                        style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 13.sp),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24.h),
-                  _buildMediaPlayer(sermon.duration),
-                  SizedBox(height: 20.h),
-                  _buildKeyScripture(),
-                  SizedBox(height: 24.h),
-                  _buildAboutSection(),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  ),
-);
-}
+    );
+  }
 
   Widget _buildHeroImage(String category) {
     return Container(
@@ -125,7 +143,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
             width: 100.w,
             height: 100.w,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
             child: Center(
@@ -133,10 +151,14 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                 width: 64.w,
                 height: 64.w,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.mic, color: Colors.white.withOpacity(0.8), size: 40.w),
+                child: Icon(
+                  Icons.mic,
+                  color: Colors.white.withValues(alpha: 0.8),
+                  size: 40.w,
+                ),
               ),
             ),
           ),
@@ -144,7 +166,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
@@ -168,7 +190,10 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
       decoration: BoxDecoration(
         color: const Color(0xFF1B233D),
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.05),
+          width: 1,
+        ),
       ),
       child: Column(
         children: [
@@ -180,7 +205,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                 width: double.infinity,
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
@@ -209,8 +234,20 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('12:36', style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12.sp)),
-              Text(duration, style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12.sp)),
+              Text(
+                '12:36',
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.5),
+                  fontSize: 12.sp,
+                ),
+              ),
+              Text(
+                duration,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.5),
+                  fontSize: 12.sp,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 16.h),
@@ -230,7 +267,11 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                   color: Color(0xFF4A72FF),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.play_arrow_rounded, color: Colors.white, size: 40.w),
+                child: Icon(
+                  Icons.play_arrow_rounded,
+                  color: Colors.white,
+                  size: 40.w,
+                ),
               ),
               SizedBox(width: 24.w),
               IconButton(
@@ -251,7 +292,10 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
       decoration: BoxDecoration(
         color: const Color(0xFF1B233D),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.05),
+          width: 1,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,7 +339,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
         Text(
           "In uncertain times, our hope is not wishful thinking but a firm anchor rooted in God's promises. This message explores Hebrews 6 and what it means to hold fast to hope.",
           style: TextStyle(
-            color: Colors.white.withOpacity(0.6),
+            color: Colors.white.withValues(alpha: 0.6),
             fontSize: 14.sp,
             height: 1.6,
           ),
@@ -352,7 +396,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.white.withOpacity(0.7),
+          color: Colors.white.withValues(alpha: 0.7),
           fontSize: 12.sp,
         ),
       ),

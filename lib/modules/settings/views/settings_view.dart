@@ -68,7 +68,7 @@ class SettingsView extends GetView<SettingsController> {
                     TextSpan(
                       text: 'Made with ',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                         fontSize: 13.sp,
                       ),
                     ),
@@ -79,7 +79,7 @@ class SettingsView extends GetView<SettingsController> {
                     TextSpan(
                       text: ' for the PIWC Stoneyburn family',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                         fontSize: 13.sp,
                       ),
                     ),
@@ -99,7 +99,7 @@ class SettingsView extends GetView<SettingsController> {
       decoration: BoxDecoration(
         color: const Color(0xFF1A2340),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
       child: Column(
         children: [
@@ -109,7 +109,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.newSermons,
           ),
           Divider(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -120,7 +120,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.events,
           ),
           Divider(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -131,7 +131,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.prayerUpdates,
           ),
           Divider(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -142,7 +142,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.dailyDevotionals,
           ),
           Divider(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -185,7 +185,7 @@ class SettingsView extends GetView<SettingsController> {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                     fontSize: 12.sp,
                   ),
                 ),
@@ -199,7 +199,7 @@ class SettingsView extends GetView<SettingsController> {
               activeColor: Colors.white,
               activeTrackColor: const Color(0xFF3B68E7), // Royal Blue
               inactiveThumbColor: Colors.white,
-              inactiveTrackColor: Colors.white.withOpacity(0.1),
+              inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
             ),
           ),
         ],
@@ -212,20 +212,20 @@ class SettingsView extends GetView<SettingsController> {
       decoration: BoxDecoration(
         color: const Color(0xFF1A2340),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
       child: Column(
         children: [
           _buildInfoRow('App Version', '1.0.0'),
           Divider(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
           ),
           _buildInfoRow('Church', 'PIWC Stoneyburn', isValueBold: true),
           Divider(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -254,7 +254,7 @@ class SettingsView extends GetView<SettingsController> {
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
               fontSize: 15.sp,
             ),
           ),

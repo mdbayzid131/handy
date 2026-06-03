@@ -6,19 +6,4 @@ class SettingsController extends GetxController {
   final prayerUpdates = false.obs;
   final dailyDevotionals = true.obs;
   final announcements = true.obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

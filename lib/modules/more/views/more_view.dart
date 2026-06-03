@@ -145,6 +145,7 @@ class MoreView extends StatelessWidget {
               Icons.person,
               'My Profile',
               [const Color(0xFF64B5F6), const Color(0xFF1976D2)],
+              onTap: () => Get.toNamed(AppRoutes.PROFILE),
             ),
             _buildFeatureItem(
               Icons.settings,
