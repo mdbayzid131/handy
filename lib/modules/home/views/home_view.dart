@@ -5,6 +5,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../config/constants/image_paths.dart';
 import '../../../config/routes/app_pages.dart';
 import '../controllers/home_controller.dart';
+import '../../bottom_nab_bar/controllers/bottom_nab_bar.dart';
+
+class _QuickAccessItem {
+  final VoidCallback onTap;
+  final IconData icon;
+  final String title;
+  final Gradient gradient;
+
+  _QuickAccessItem({
+    required this.onTap,
+    required this.icon,
+    required this.title,
+    required this.gradient,
+  });
+}
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -373,78 +388,86 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildQuickAccessGrid() {
     final items = [
-      {
-        'icon': Icons.video_library_rounded,
-        'title': 'Sermons',
-        'gradient': const LinearGradient(
+      _QuickAccessItem(
+        onTap: () => Get.find<BottomNavBarController>().changeTab(1), // Sermons tab
+        icon: Icons.video_library_rounded,
+        title: 'Sermons',
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [Color(0xFF4A72FF), Color(0xFF284EE6)],
         ),
-      },
-      {
-        'icon': Icons.favorite,
-        'title': 'Give',
-        'gradient': const LinearGradient(
+      ),
+      _QuickAccessItem(
+        onTap: () => Get.find<BottomNavBarController>().changeTab(3), // Give tab
+        icon: Icons.favorite,
+        title: 'Give',
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [Color(0xFFFF6B6B), Color(0xFFFF4747)],
         ),
-      },
-      {
-        'icon': Icons.volunteer_activism,
-        'title': 'Prayer',
-        'gradient': const LinearGradient(
+      ),
+      _QuickAccessItem(
+        onTap: () => Get.toNamed(AppRoutes.PRAYER_WALL),
+        icon: Icons.volunteer_activism,
+        title: 'Prayer',
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [Color(0xFFD088FF), Color(0xFFA64DFF)],
         ),
-      },
-      {
-        'icon': Icons.event,
-        'title': 'Events',
-        'gradient': const LinearGradient(
+      ),
+      _QuickAccessItem(
+        onTap: () => Get.find<BottomNavBarController>().changeTab(4), // Events tab
+        icon: Icons.event,
+        title: 'Events',
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [Color(0xFF66BB6A), Color(0xFF388E3C)],
         ),
-      },
-      {
-        'icon': Icons.menu_book,
-        'title': 'Devotionals',
-        'gradient': const LinearGradient(
+      ),
+      _QuickAccessItem(
+        onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
+        icon: Icons.menu_book,
+        title: 'Devotionals',
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [Color(0xFFFF9800), Color(0xFFF57C00)],
         ),
-      },
-      {
-        'icon': Icons.book,
-        'title': 'Bible',
-        'gradient': const LinearGradient(
+      ),
+      _QuickAccessItem(
+        onTap: () => Get.toNamed(AppRoutes.BIBLE),
+        icon: Icons.book,
+        title: 'Bible',
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [Color(0xFF26A69A), Color(0xFF00796B)],
         ),
-      },
-      {
-        'icon': Icons.videocam,
-        'title': 'Watch Live',
-        'gradient': const LinearGradient(
+      ),
+      _QuickAccessItem(
+        onTap: () => Get.toNamed(AppRoutes.WATCH_LIVE),
+        icon: Icons.videocam,
+        title: 'Watch Live',
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [Color(0xFFFF7043), Color(0xFFE64A19)],
         ),
-      },
-      {
-        'icon': Icons.groups,
-        'title': 'Community',
-        'gradient': const LinearGradient(
+      ),
+      _QuickAccessItem(
+        onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
+        icon: Icons.groups,
+        title: 'Community',
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [Color(0xFF4DB6AC), Color(0xFF00897B)],
         ),
-      },
+      ),
     ];
 
     return GridView.builder(
@@ -461,25 +484,26 @@ class HomeView extends GetView<HomeController> {
       itemBuilder: (context, index) {
         final item = items[index];
         return GestureDetector(
-          onTap: item['onTap'] as VoidCallback?,
+          behavior: HitTestBehavior.opaque,
+          onTap: item.onTap,
           child: Column(
             children: [
               Container(
                 width: 76.w,
                 height: 76.w,
                 decoration: BoxDecoration(
-                  gradient: item['gradient'] as Gradient,
+                  gradient: item.gradient,
                   borderRadius: BorderRadius.circular(24.r),
                 ),
                 child: Icon(
-                  item['icon'] as IconData,
+                  item.icon,
                   color: Colors.white,
                   size: 32.w,
                 ),
               ),
               SizedBox(height: 10.h),
               Text(
-                item['title'] as String,
+                item.title,
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

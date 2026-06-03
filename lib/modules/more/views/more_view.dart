@@ -113,10 +113,12 @@ class MoreView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildFeatureItem(Icons.volunteer_activism, 'Prayer Wall', [
-              const Color(0xFFCE93D8),
-              const Color(0xFF8E24AA),
-            ]),
+            _buildFeatureItem(
+              Icons.volunteer_activism,
+              'Prayer Wall',
+              [const Color(0xFFCE93D8), const Color(0xFF8E24AA)],
+              onTap: () => Get.toNamed(AppRoutes.PRAYER_WALL),
+            ),
             _buildFeatureItem(
               Icons.menu_book,
               'Devotionals',

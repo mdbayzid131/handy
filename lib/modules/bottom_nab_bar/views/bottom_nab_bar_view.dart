@@ -6,6 +6,7 @@ import 'package:handy/modules/give/views/give_view.dart';
 import 'package:handy/modules/more/views/more_view.dart';
 import 'package:handy/modules/news/views/news_view.dart';
 import 'package:handy/modules/sermons/views/sermons_view.dart';
+import '../../../config/routes/app_pages.dart';
 import '../controllers/bottom_nab_bar.dart';
 import '../../home/views/home_view.dart';
 
