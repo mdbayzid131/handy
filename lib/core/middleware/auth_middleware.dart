@@ -12,11 +12,13 @@ class AuthMiddleware extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
-    final authService = Get.find<AuthService>();
-
-    if (!authService.isAuthenticated) {
-      return const RouteSettings(name: AppRoutes.LOGIN);
-    }
+    // Disable auth check for now to allow UI testing
     return null;
+    
+    // final authService = Get.find<AuthService>();
+    // if (!authService.isAuthenticated) {
+    //   return const RouteSettings(name: AppRoutes.LOGIN);
+    // }
+    // return null;
   }
 }

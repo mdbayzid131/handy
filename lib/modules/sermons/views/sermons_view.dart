@@ -142,7 +142,7 @@ class SermonsView extends GetView<SermonsController> {
             return GestureDetector(
               onTap: () => controller.selectCategory(category),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   color: isSelected
                       ? const Color(0xFF1E37AB)

@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:handy/modules/event_details/bindings/event_details_binding.dart';
+import 'package:handy/modules/event_details/views/event_details_view.dart';
 import 'package:handy/modules/events/bindings/events_binding.dart';
 import 'package:handy/modules/events/views/events_view.dart';
 import 'package:handy/modules/give/bindings/give_binding.dart';
@@ -50,6 +52,7 @@ abstract class AppRoutes {
   static const String EVENTS = '/events';
   static const String MORE = '/more';
   static const String SERMON_DITAILS = '/sermon-ditails';
+  static const String EVENT_DITAILS = '/event-ditails';
 }
 
 /// ===================== APP PAGES =====================
@@ -143,6 +146,12 @@ final List<GetPage> pages = [
     name: AppRoutes.SERMON_DITAILS,
     page: () => const SermonDitailsView(),
     binding: SermonDitailsBinding(),
+    transition: Transition.fadeIn,
+  ),
+  GetPage(
+    name: AppRoutes.EVENT_DITAILS,
+    page: () => const EventDetailsView(),
+    binding: EventDetailsBinding(),
     transition: Transition.fadeIn,
   ),
 ];

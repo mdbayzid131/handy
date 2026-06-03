@@ -1,7 +1,11 @@
 import 'package:get/get.dart';
 
 class SettingsController extends GetxController {
-  final count = 0.obs;
+  final newSermons = true.obs;
+  final events = true.obs;
+  final prayerUpdates = false.obs;
+  final dailyDevotionals = true.obs;
+  final announcements = true.obs;
 
   @override
   void onInit() {
@@ -17,6 +21,4 @@ class SettingsController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }
