@@ -17,6 +17,8 @@ import 'package:handy/modules/events/bindings/events_binding.dart';
 import 'package:handy/modules/events/views/events_view.dart';
 import 'package:handy/modules/give/bindings/give_binding.dart';
 import 'package:handy/modules/give/views/give_view.dart';
+import 'package:handy/modules/history_and_core_values/bindings/history_and_core_values_binding.dart';
+import 'package:handy/modules/history_and_core_values/views/history_and_core_values_view.dart';
 import 'package:handy/modules/more/bindings/more_binding.dart';
 import 'package:handy/modules/more/views/more_view.dart';
 import 'package:handy/modules/news/bindings/news_binding.dart';
@@ -76,6 +78,7 @@ abstract class AppRoutes {
   static const String DEVOTIONALS_DETAILS = '/devotionals-details';
   static const String PRAYER_WALL = '/prayer-wall';
   static const String WATCH_LIVE = '/watch-live';
+  static const String HISTORY_AND_CORE_VALUES = '/history-and-core-values';
 }
 
 /// ===================== APP PAGES =====================
@@ -229,6 +232,12 @@ final List<GetPage> pages = [
     name: AppRoutes.WATCH_LIVE,
     page: () => const WatchLiveView(),
     binding: WatchLiveBinding(),
+    middlewares: [AuthMiddleware()],
+  ),
+  GetPage(
+    name: AppRoutes.HISTORY_AND_CORE_VALUES,
+    page: () => const HistoryAndCoreValuesView(),
+    binding: HistoryAndCoreValuesBinding(),
     middlewares: [AuthMiddleware()],
   ),
 ];

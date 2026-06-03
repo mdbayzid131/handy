@@ -141,7 +141,7 @@ class MoreView extends StatelessWidget {
             _buildFeatureItem(Icons.book, 'Bible', [
               const Color(0xFF81C784),
               const Color(0xFF388E3C),
-            ]),
+            ], onTap: () => Get.toNamed(AppRoutes.BIBLE)),
             _buildFeatureItem(Icons.person, 'My Profile', [
               const Color(0xFF64B5F6),
               const Color(0xFF1976D2),
@@ -151,6 +151,22 @@ class MoreView extends StatelessWidget {
               'Settings',
               [const Color(0xFFB0BEC5), const Color(0xFF607D8B)],
               onTap: () => Get.toNamed(AppRoutes.SETTINGS),
+            ),
+          ],
+        ),
+        SizedBox(height: 24.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildFeatureItem(
+              Icons.auto_stories,
+              'History and\nCore Values',
+              [
+                const Color.fromARGB(255, 45, 42, 245),
+                const Color.fromARGB(255, 62, 35, 171),
+              ],
+              onTap: () => Get.toNamed(AppRoutes.HISTORY_AND_CORE_VALUES),
             ),
           ],
         ),
