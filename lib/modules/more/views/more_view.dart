@@ -106,8 +106,6 @@ class MoreView extends StatelessWidget {
     );
   }
 
-
-
   Widget _buildFeaturesGrid() {
     return Column(
       children: [
@@ -115,20 +113,21 @@ class MoreView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildFeatureItem(
-              Icons.volunteer_activism,
-              'Prayer Wall',
-              [const Color(0xFFCE93D8), const Color(0xFF8E24AA)],
-            ),
+            _buildFeatureItem(Icons.volunteer_activism, 'Prayer Wall', [
+              const Color(0xFFCE93D8),
+              const Color(0xFF8E24AA),
+            ]),
             _buildFeatureItem(
               Icons.menu_book,
               'Devotionals',
               [const Color(0xFFFFB74D), const Color(0xFFF57C00)],
+              onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
             ),
             _buildFeatureItem(
               Icons.groups,
               'Community',
               [const Color(0xFF4DB6AC), const Color(0xFF00796B)],
+              onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
             ),
           ],
         ),
@@ -137,17 +136,14 @@ class MoreView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildFeatureItem(
-              Icons.book,
-              'Bible',
-              [const Color(0xFF81C784), const Color(0xFF388E3C)],
-            ),
-            _buildFeatureItem(
-              Icons.person,
-              'My Profile',
-              [const Color(0xFF64B5F6), const Color(0xFF1976D2)],
-              onTap: () => Get.toNamed(AppRoutes.PROFILE),
-            ),
+            _buildFeatureItem(Icons.book, 'Bible', [
+              const Color(0xFF81C784),
+              const Color(0xFF388E3C),
+            ]),
+            _buildFeatureItem(Icons.person, 'My Profile', [
+              const Color(0xFF64B5F6),
+              const Color(0xFF1976D2),
+            ], onTap: () => Get.toNamed(AppRoutes.PROFILE)),
             _buildFeatureItem(
               Icons.settings,
               'Settings',
@@ -160,7 +156,12 @@ class MoreView extends StatelessWidget {
     );
   }
 
-  Widget _buildFeatureItem(IconData icon, String title, List<Color> gradientColors, {VoidCallback? onTap}) {
+  Widget _buildFeatureItem(
+    IconData icon,
+    String title,
+    List<Color> gradientColors, {
+    VoidCallback? onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -241,17 +242,9 @@ class MoreView extends StatelessWidget {
             '10:00 AM – 12:30 PM',
           ),
           SizedBox(height: 20.h),
-          _buildConnectRow(
-            Icons.email,
-            'Email',
-            'info@piwcstoneyburn.org',
-          ),
+          _buildConnectRow(Icons.email, 'Email', 'info@piwcstoneyburn.org'),
           SizedBox(height: 20.h),
-          _buildConnectRow(
-            Icons.language,
-            'Website',
-            'www.piwcstoneyburn.org',
-          ),
+          _buildConnectRow(Icons.language, 'Website', 'www.piwcstoneyburn.org'),
         ],
       ),
     );
@@ -305,10 +298,7 @@ class MoreView extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFFFC107),
-            Color(0xFFFF9800),
-          ],
+          colors: [Color(0xFFFFC107), Color(0xFFFF9800)],
         ),
         borderRadius: BorderRadius.circular(20.r),
       ),

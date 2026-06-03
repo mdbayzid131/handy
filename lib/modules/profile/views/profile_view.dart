@@ -13,44 +13,20 @@ class ProfileView extends GetView<ProfileController> {
       backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         elevation: 0,
+        backgroundColor: const Color(0xFF0F172A),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+        centerTitle: true,
+        title: Text(
+          'My Profile',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'My Profile',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'PIWC Stoneyburn',
-              style: TextStyle(
-                color: const Color(0xFFFFC107),
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        titleSpacing: 0,
         actions: [
           IconButton(
             icon: Icon(Icons.settings, color: Colors.white, size: 24.w),
@@ -66,14 +42,14 @@ class ProfileView extends GetView<ProfileController> {
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(top: 40.h, bottom: 40.h),
-              color: const Color(0xFF3B68E7), // Royal Blue
+              color: const Color(0xFF476BFF), // Royal Blue
               child: Column(
                 children: [
                   Container(
                     width: 80.w,
                     height: 80.w,
                     decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(20),
+                      color: Colors.white.withOpacity(0.2),
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
@@ -99,7 +75,7 @@ class ProfileView extends GetView<ProfileController> {
                   Text(
                     'Member since January 2023',
                     style: TextStyle(
-                      color: Colors.white.withAlpha(8),
+                      color: Colors.white.withOpacity(0.7),
                       fontSize: 14.sp,
                     ),
                   ),
@@ -110,7 +86,7 @@ class ProfileView extends GetView<ProfileController> {
                       vertical: 8.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(20),
+                      color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
@@ -146,20 +122,20 @@ class ProfileView extends GetView<ProfileController> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF1A2340),
                       borderRadius: BorderRadius.circular(16.r),
-                      border: Border.all(color: Colors.white.withAlpha(5)),
+                      border: Border.all(color: Colors.white.withOpacity(0.05)),
                     ),
                     child: Column(
                       children: [
                         _buildGivingRow('Total Given (2025)', '\$475.00'),
                         Divider(
-                          color: Colors.white.withAlpha(5),
+                          color: Colors.white.withOpacity(0.05),
                           height: 1,
                           indent: 20.w,
                           endIndent: 20.w,
                         ),
                         _buildGivingRow('Last Gift', '\$250.00 · Apr 27'),
                         Divider(
-                          color: Colors.white.withAlpha(5),
+                          color: Colors.white.withOpacity(0.05),
                           height: 1,
                           indent: 20.w,
                           endIndent: 20.w,
@@ -227,7 +203,7 @@ class ProfileView extends GetView<ProfileController> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF1A2340),
                       borderRadius: BorderRadius.circular(16.r),
-                      border: Border.all(color: Colors.white.withAlpha(5)),
+                      border: Border.all(color: Colors.white.withOpacity(0.05)),
                     ),
                     child: Column(
                       children: [
@@ -238,7 +214,7 @@ class ProfileView extends GetView<ProfileController> {
                           onTap: () {},
                         ),
                         Divider(
-                          color: Colors.white.withAlpha(5),
+                          color: Colors.white.withOpacity(0.05),
                           height: 1,
                           indent: 60.w,
                           endIndent: 20.w,
@@ -250,7 +226,7 @@ class ProfileView extends GetView<ProfileController> {
                           onTap: () => Get.toNamed(AppRoutes.SETTINGS),
                         ),
                         Divider(
-                          color: Colors.white.withAlpha(5),
+                          color: Colors.white.withOpacity(0.05),
                           height: 1,
                           indent: 60.w,
                           endIndent: 20.w,
@@ -271,7 +247,7 @@ class ProfileView extends GetView<ProfileController> {
                     child: Text(
                       'PIWC Stoneyburn · v1.0.0',
                       style: TextStyle(
-                        color: Colors.white.withAlpha(4),
+                        color: const Color(0xFF8E99AF),
                         fontSize: 12.sp,
                       ),
                     ),
@@ -298,7 +274,7 @@ class ProfileView extends GetView<ProfileController> {
         children: [
           Text(
             label,
-            style: TextStyle(color: Colors.white.withAlpha(5), fontSize: 15.sp),
+            style: TextStyle(color: const Color(0xFF8E99AF), fontSize: 15.sp),
           ),
           Text(
             value,
@@ -319,19 +295,19 @@ class ProfileView extends GetView<ProfileController> {
       decoration: BoxDecoration(
         color: const Color(0xFF1A2340),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withAlpha(5)),
+        border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),
       child: Row(
         children: [
           Container(
             padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
-              color: const Color(0xFF3B68E7).withAlpha(10),
+              color: const Color(0xFF3B68E7).withOpacity(0.2),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Icon(
               Icons.play_arrow,
-              color: const Color(0xFF3B68E7),
+              color: const Color(0xFF476BFF), // A bit brighter
               size: 24.w,
             ),
           ),
@@ -352,7 +328,7 @@ class ProfileView extends GetView<ProfileController> {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    color: Colors.white.withAlpha(5),
+                    color: const Color(0xFF8E99AF),
                     fontSize: 13.sp,
                   ),
                 ),
@@ -361,7 +337,7 @@ class ProfileView extends GetView<ProfileController> {
           ),
           Icon(
             Icons.chevron_right,
-            color: Colors.white.withAlpha(3),
+            color: const Color(0xFF8E99AF),
             size: 20.w,
           ),
         ],
@@ -385,7 +361,7 @@ class ProfileView extends GetView<ProfileController> {
             Container(
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
-                color: iconColor.withAlpha(10),
+                color: iconColor.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Icon(icon, color: iconColor, size: 20.w),
@@ -403,7 +379,7 @@ class ProfileView extends GetView<ProfileController> {
             ),
             Icon(
               Icons.chevron_right,
-              color: Colors.white.withAlpha(3),
+              color: const Color(0xFF8E99AF),
               size: 20.w,
             ),
           ],
