@@ -16,8 +16,7 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
-      child: SafeArea(
-        child: Scaffold(
+      child: Scaffold(
         body: Obx(() => IndexedStack(
               index: controller.currentIndex.value,
               children: const [
@@ -87,9 +86,8 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   BottomNavigationBarItem _buildNavItem(IconData icon, String label) {
     return BottomNavigationBarItem(

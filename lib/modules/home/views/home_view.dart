@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../config/constants/image_paths.dart';
+import '../../../config/routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -11,11 +13,107 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0B101E), // Very dark blue/black
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(
-          135.h,
-        ), // Increased height to prevent overflow
-        child: _buildHeader(context),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        toolbarHeight: 110.h,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF2844B4), // Lighter blue
+                Color(0xFF0A123D), // Darker blue
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                // Logo
+                Container(
+                  width: 50.w,
+                  height: 50.w,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: ClipOval(
+                    child: Image.asset(
+                      ImagePaths.appLogo,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Icon(Icons.church, size: 24.w, color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                // Titles
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'PIWC Stoneyburn',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'The Church of Pentecost - UK',
+                        style: TextStyle(
+                          color: const Color(0xFFFFC107), // Amber
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Action Icons
+                GestureDetector(
+                  onTap: () => Get.toNamed(AppRoutes.NOTIFICATION),
+                  child: Icon(
+                    Icons.notifications,
+                    color: const Color(0xFFFFC107),
+                    size: 24.w,
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                GestureDetector(
+                  onTap: () => Get.toNamed(AppRoutes.PROFILE),
+                  child: Container(
+                    width: 40.w,
+                    height: 40.w,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFFC107),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.person,
+                      color: const Color(0xFF091244),
+                      size: 24.w,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 18.h),
+            Text(
+              'Welcome, Beloved 🙏',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        titleSpacing: 20.w,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -66,105 +164,6 @@ class HomeView extends GetView<HomeController> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 16.h,
-        left: 20.w,
-        right: 20.w,
-        bottom: 12.h,
-      ),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Color(0xFF132488), // Deep blue at top
-            Color(0xFF091244), // Darker blue at bottom
-          ],
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Row(
-            children: [
-              // Logo
-              Container(
-                width: 50.w,
-                height: 50.w,
-                decoration: const BoxDecoration(shape: BoxShape.circle),
-                child: ClipOval(
-                  child: Image.asset(
-                    ImagePaths.appLogo,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Icon(Icons.church, size: 24.w, color: Colors.white),
-                  ),
-                ),
-              ),
-              SizedBox(width: 12.w),
-              // Titles
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'PIWC Stoneyburn',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'The Church of Pentecost - UK',
-                      style: TextStyle(
-                        color: const Color(0xFFFFC107), // Amber
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // Action Icons
-              Icon(
-                Icons.notifications,
-                color: const Color(0xFFFFC107),
-                size: 24.w,
-              ),
-              SizedBox(width: 16.w),
-              Container(
-                width: 40.w,
-                height: 40.w,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFFC107),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.person,
-                  color: const Color(0xFF091244), // Match bottom gradient
-                  size: 24.w,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 18.h),
-          Text(
-            'Welcome, Beloved 🙏',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
       ),
     );
   }

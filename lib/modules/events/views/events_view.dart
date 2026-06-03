@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/routes/app_pages.dart';
@@ -14,10 +15,63 @@ class EventsView extends GetView<EventsController> {
     Get.put(EventsController());
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: const Color(0xFF0F172A), // Dark navy background
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        toolbarHeight: 90.h,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF2844B4), // Lighter blue
+                Color(0xFF0A123D), // Darker blue
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Events',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32.sp,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        'PIWC Stoneyburn',
+                        style: TextStyle(
+                          color: const Color(0xFFFFC107),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        titleSpacing: 20.w,
+      ),
       body: Column(
         children: [
-          _buildHeader(),
           _buildCategoryFilters(),
           Expanded(
             child: SafeArea(
@@ -36,61 +90,6 @@ class EventsView extends GetView<EventsController> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Color(0xFF132488), // Deep blue at top
-            Color(0xFF091244), // Darker blue at bottom
-          ],
-        ),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 20.w,
-            right: 20.w,
-            top: 10.h,
-            bottom: 20.h,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Events',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      'PIWC Stoneyburn',
-                      style: TextStyle(
-                        color: const Color(0xFFFFC107),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

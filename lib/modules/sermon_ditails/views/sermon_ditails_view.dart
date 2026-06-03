@@ -19,30 +19,42 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
             flexibleSpace: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
                   colors: [
-                    Color(0xFF132488), // Deep blue at top
-                    Color(0xFF091244), // Darker blue at bottom
+                    Color(0xFF2844B4), // Lighter blue
+                    Color(0xFF0A123D), // Darker blue
                   ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
               ),
             ),
-            backgroundColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
               onPressed: () => Get.back(),
             ),
-            title: Text(
-              'Sermon',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-              ),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Sermon',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'PIWC Stoneyburn',
+                  style: TextStyle(
+                    color: const Color(0xFFFFC107),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
-            centerTitle: true,
+            titleSpacing: 0,
             actions: [
               IconButton(
                 icon: Icon(

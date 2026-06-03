@@ -32,21 +32,45 @@ class EventDetailsView extends GetView<EventDetailsController> {
       return Scaffold(
         backgroundColor: const Color(0xFF0F172A),
         appBar: AppBar(
-          backgroundColor: const Color(0xFF0F172A),
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
             onPressed: () => Get.back(),
           ),
-          title: Text(
-            'Event Details',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF2844B4), // Lighter blue
+                  Color(0xFF0A123D), // Darker blue
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
           ),
-          centerTitle: true,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Event Details',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'PIWC Stoneyburn',
+                style: TextStyle(
+                  color: const Color(0xFFFFC107),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          titleSpacing: 0,
         ),
         body: SingleChildScrollView(
           child: Column(

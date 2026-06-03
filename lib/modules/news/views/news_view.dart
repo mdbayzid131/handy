@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/config/routes/app_pages.dart';
 import '../controllers/news_controller.dart';
 
 class NewsView extends GetView<NewsController> {
@@ -10,9 +12,141 @@ class NewsView extends GetView<NewsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0F172A), // Dark navy background
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        toolbarHeight: 160.h,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF2844B4), // Lighter blue
+                Color(0xFF0A123D), // Darker blue
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Announcements',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      'PIWC Stoneyburn',
+                      style: TextStyle(
+                        color: const Color(0xFFFFC107), // Yellow
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.NOTIFICATION);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.notifications,
+                      color: const Color(0xFFFFC107),
+                      size: 24.w,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 24.h),
+            // Toggle Tabs
+            Container(
+              height: 48.h,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(24.r),
+              ),
+              child: Obx(
+                () => Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => controller.currentIndex.value = 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: controller.currentIndex.value == 0
+                                ? const Color(0xFFFFC107)
+                                : const Color(0xFF283259), // Dark blue/grey
+                            borderRadius: BorderRadius.circular(24.r),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Announcements',
+                              style: TextStyle(
+                                color: controller.currentIndex.value == 0
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => controller.currentIndex.value = 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: controller.currentIndex.value == 1
+                                ? const Color(0xFFFFC107)
+                                : const Color(0xFF283259), // Dark blue/grey
+                            borderRadius: BorderRadius.circular(24.r),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Event Fliers',
+                              style: TextStyle(
+                                color: controller.currentIndex.value == 1
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        titleSpacing: 20.w,
+      ),
       body: Column(
         children: [
-          _buildHeader(),
           Expanded(
             child: SafeArea(
               top: false,
@@ -26,145 +160,6 @@ class NewsView extends GetView<NewsController> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Color(0xFF132488), // Deep blue at top
-            Color(0xFF091244), // Darker blue at bottom
-          ],
-        ),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 20.w,
-            right: 20.w,
-            bottom: 12.h,
-            top: 10.h,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Announcements',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28.sp,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        'PIWC Stoneyburn',
-                        style: TextStyle(
-                          color: const Color(0xFFFFC107), // Yellow
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // Get.toNamed(Routes.notifications);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.notifications,
-                        color: const Color(0xFFFFC107),
-                        size: 24.w,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 24.h),
-              // Toggle Tabs
-              Container(
-                height: 48.h,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(24.r),
-                ),
-                child: Obx(
-                  () => Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => controller.currentIndex.value = 0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: controller.currentIndex.value == 0
-                                  ? const Color(0xFFFFC107)
-                                  : const Color(0xFF283259), // Dark blue/grey
-                              borderRadius: BorderRadius.circular(24.r),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Announcements',
-                                style: TextStyle(
-                                  color: controller.currentIndex.value == 0
-                                      ? Colors.black
-                                      : Colors.white,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => controller.currentIndex.value = 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: controller.currentIndex.value == 1
-                                  ? const Color(0xFFFFC107)
-                                  : const Color(0xFF283259), // Dark blue/grey
-                              borderRadius: BorderRadius.circular(24.r),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Event Fliers',
-                                style: TextStyle(
-                                  color: controller.currentIndex.value == 1
-                                      ? Colors.black
-                                      : Colors.white,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
