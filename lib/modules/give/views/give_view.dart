@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/give_controller.dart';
+import '../../../config/routes/app_pages.dart';
 
 class GiveView extends GetView<GiveController> {
   const GiveView({super.key});
@@ -155,18 +156,8 @@ class GiveView extends GetView<GiveController> {
           SizedBox(height: 24.h),
           _buildSectionTitle('Amount (£)'),
           _buildAmountSelection(),
-          SizedBox(height: 24.h),
-          _buildSectionTitle('Frequency'),
-          _buildFrequencySelection(),
-          SizedBox(height: 24.h),
-          _buildSectionTitle('Payment Method'),
-          _buildPaymentMethodSelection(),
           SizedBox(height: 32.h),
           _buildGiveNowButton(),
-          SizedBox(height: 16.h),
-          _buildSecurePaymentNote(),
-          SizedBox(height: 24.h),
-          _buildQuoteBox(),
           SizedBox(height: 20.h),
         ],
       ),
@@ -188,37 +179,10 @@ class GiveView extends GetView<GiveController> {
   }
 
   Widget _buildFundGrid() {
-    final funds = [
-      {
-        'title': 'Tithe',
-        'desc': 'Your regular 10% offering',
-        'icon': Icons.attach_money,
-        'color': const Color(0xFF3B68E7),
-      },
-      {
-        'title': 'Offering',
-        'desc': 'Freewill offering to the Lord',
-        'icon': Icons.favorite,
-        'color': const Color(0xFFFF5252),
-      },
-      {
-        'title': 'Missions',
-        'desc': 'Support global outreach',
-        'icon': Icons.language,
-        'color': const Color(0xFF00E676),
-      },
-      {
-        'title': 'Building Fund',
-        'desc': 'Help us build for the future',
-        'icon': Icons.star,
-        'color': const Color(0xFFFF9800),
-      },
-    ];
-
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: funds.length,
+      itemCount: controller.funds.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 12.w,
@@ -226,18 +190,15 @@ class GiveView extends GetView<GiveController> {
         childAspectRatio: 1.1,
       ),
       itemBuilder: (context, index) {
-        final fund = funds[index];
+        final fund = controller.funds[index];
         return Obx(() {
-          final isSelected = controller.selectedFund.value == fund['title'];
+          final isSelected = controller.selectedFund.value == fund.title;
           return GestureDetector(
-            onTap: () =>
-                controller.selectedFund.value = fund['title'] as String,
+            onTap: () => controller.selectedFund.value = fund.title,
             child: Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                color: isSelected
-                    ? (fund['color'] as Color)
-                    : const Color(0xFF1E2336),
+                color: isSelected ? fund.color : const Color(0xFF1E2336),
                 borderRadius: BorderRadius.circular(16.r),
                 border: Border.all(
                   color: isSelected
@@ -251,28 +212,25 @@ class GiveView extends GetView<GiveController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    fund['icon'] as IconData,
-                    color: isSelected ? Colors.white : (fund['color'] as Color),
+                    fund.icon,
+                    color: isSelected ? Colors.white : fund.color,
                     size: 24.w,
                   ),
                   SizedBox(height: 12.h),
                   Text(
-                    fund['title'] as String,
+                    fund.title,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 14.sp,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    fund['desc'] as String,
+                    fund.desc,
                     style: TextStyle(
-                      color: isSelected
-                          ? Colors.white.withOpacity(0.9)
-                          : Colors.white.withOpacity(0.5),
-                      fontSize: 11.sp,
-                      height: 1.3,
+                      color: Colors.white.withOpacity(0.5),
+                      fontSize: 12.sp,
                     ),
                   ),
                 ],
@@ -285,19 +243,19 @@ class GiveView extends GetView<GiveController> {
   }
 
   Widget _buildAmountSelection() {
-    final amounts = [10, 20, 50, 100, 200];
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: amounts
-              .map(
-                (amount) => Obx(() {
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: controller.presetAmounts.map((amount) {
+              return Padding(
+                padding: EdgeInsets.only(right: 12.w),
+                child: Obx(() {
                   final isSelected = controller.selectedAmount.value == amount;
                   return GestureDetector(
                     onTap: () {
-                      controller.selectedAmount.value = amount;
-                      controller.customAmount.value = '';
+                      controller.selectAmount(amount);
                     },
                     child: Container(
                       width: 60.w,
@@ -326,8 +284,9 @@ class GiveView extends GetView<GiveController> {
                     ),
                   );
                 }),
-              )
-              .toList(),
+              );
+            }).toList(),
+          ),
         ),
         SizedBox(height: 16.h),
         Container(
@@ -349,17 +308,26 @@ class GiveView extends GetView<GiveController> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                child: Obx(() {
-                  final amount = controller.selectedAmount.value;
-                  return Text(
-                    amount > 0 ? amount.toString() : 'Enter amount',
-                    style: TextStyle(
-                      color: amount > 0 ? Colors.white : Colors.white.withOpacity(0.5),
+                child: TextField(
+                  controller: controller.amountController,
+                  keyboardType: TextInputType.number,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'Enter amount',
+                    hintStyle: TextStyle(
+                      color: Colors.white.withOpacity(0.5),
                       fontSize: 16.sp,
-                      fontWeight: amount > 0 ? FontWeight.bold : FontWeight.w600,
+                      fontWeight: FontWeight.w600,
                     ),
-                  );
-                }),
+                    border: InputBorder.none,
+                    isDense: true,
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
               ),
             ],
           ),
@@ -368,273 +336,37 @@ class GiveView extends GetView<GiveController> {
     );
   }
 
-  Widget _buildFrequencySelection() {
-    final frequencies = ['One-time', 'Weekly', 'Monthly'];
-    return Row(
-      children: frequencies
-          .map(
-            (freq) => Expanded(
-              child: Obx(() {
-                final isSelected = controller.selectedFrequency.value == freq;
-                return GestureDetector(
-                  onTap: () => controller.selectedFrequency.value = freq,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      right: freq != 'Monthly' ? 12.w : 0,
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? const Color(0xFF3B68E7)
-                          : const Color(0xFF1E2336),
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(
-                        color: isSelected
-                            ? const Color(0xFF3B68E7)
-                            : Colors.white.withOpacity(0.05),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        freq,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            ),
-          )
-          .toList(),
-    );
-  }
-
-  Widget _buildPaymentMethodSelection() {
-    final methods = [
-      {
-        'id': 'Card (Stripe)',
-        'title': 'Card (Stripe)',
-        'desc': 'Visa, Mastercard, American Express',
-        'icon': Icons.credit_card,
-        'color': const Color(0xFF3B68E7),
-      },
-      {
-        'id': 'PayPal',
-        'title': 'PayPal',
-        'desc': 'Pay with your PayPal account',
-        'icon': Icons.attach_money,
-        'color': const Color(0xFF0091EA),
-      },
-      {
-        'id': 'Bank Transfer',
-        'title': 'Bank Transfer',
-        'desc': 'Direct bank transfer (BACS)',
-        'icon': Icons.account_balance,
-        'color': const Color(0xFF4CAF50),
-      },
-    ];
-
-    return Column(
-      children: methods
-          .map(
-            (method) => Obx(() {
-              final isSelected =
-                  controller.selectedPaymentMethod.value == method['id'];
-              return GestureDetector(
-                onTap: () => controller.selectedPaymentMethod.value =
-                    method['id'] as String,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 12.h),
-                  padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1E2336),
-                    borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(
-                      color: isSelected
-                          ? const Color(0xFF3B68E7)
-                          : Colors.white.withOpacity(0.05),
-                      width: isSelected ? 1.5 : 1,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 40.w,
-                        height: 40.w,
-                        decoration: BoxDecoration(
-                          color: method['color'] as Color,
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: method['icon'] != null
-                            ? Icon(
-                                method['icon'] as IconData,
-                                color: Colors.white,
-                                size: 20.w,
-                              )
-                            : null,
-                      ),
-                      SizedBox(width: 16.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              method['title'] as String,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              method['desc'] as String,
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.5),
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (isSelected)
-                        Container(
-                          width: 24.w,
-                          height: 24.w,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF3B68E7),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                            size: 16.w,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              );
-            }),
-          )
-          .toList(),
-    );
-  }
-
   Widget _buildGiveNowButton() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 16.h),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFF9800), // Orange
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.favorite, color: const Color(0xFF132488), size: 20.w),
-          SizedBox(width: 8.w),
-          Text(
-            'Give Now',
-            style: TextStyle(
-              color: const Color(0xFF132488),
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(width: 8.w),
-          Icon(Icons.chevron_right, color: const Color(0xFF132488), size: 20.w),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSecurePaymentNote() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.lock, color: const Color(0xFFFFC107), size: 14.w),
-        SizedBox(width: 6.w),
-        Expanded(
-          child: Text(
-            'Secure payment · Redirects to Card (Stripe) to complete your gift',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.6),
-              fontSize: 12.sp,
-            ),
-          ),
+    return GestureDetector(
+      onTap: () => Get.toNamed(AppRoutes.DONATE),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 16.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFF9800), // Orange
+          borderRadius: BorderRadius.circular(16.r),
         ),
-      ],
-    );
-  }
-
-  Widget _buildQuoteBox() {
-    return Container(
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E2336).withOpacity(0.5),
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.9),
-              fontSize: 14.sp,
-              fontStyle: FontStyle.italic,
-              height: 1.5,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Donate',
+              style: TextStyle(
+                color: const Color(0xFF132488),
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          SizedBox(height: 12.h),
-          Text(
-            '— 2 Corinthians 9:7',
-            style: TextStyle(
-              color: const Color(0xFF3B68E7),
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+            SizedBox(width: 8.w),
+            Icon(Icons.chevron_right, color: const Color(0xFF132488), size: 20.w),
+          ],
+        ),
       ),
     );
   }
 
   // Giving History List
   Widget _buildHistoryList() {
-    final historyData = [
-      {
-        'title': 'Tithe',
-        'amount': '£250.00',
-        'date': 'Apr 27, 2026',
-        'status': 'Completed',
-      },
-      {
-        'title': 'Offering',
-        'amount': '£50.00',
-        'date': 'Apr 20, 2026',
-        'status': 'Completed',
-      },
-      {
-        'title': 'Building Fund',
-        'amount': '£100.00',
-        'date': 'Apr 13, 2026',
-        'status': 'Completed',
-      },
-      {
-        'title': 'Missions',
-        'amount': '£75.00',
-        'date': 'Apr 6, 2026',
-        'status': 'Completed',
-      },
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -652,10 +384,10 @@ class GiveView extends GetView<GiveController> {
         Expanded(
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0.h),
-            itemCount: historyData.length,
+            itemCount: controller.historyData.length,
             separatorBuilder: (context, index) => SizedBox(height: 16.h),
             itemBuilder: (context, index) {
-              final item = historyData[index];
+              final item = controller.historyData[index];
               return Container(
                 padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
@@ -666,16 +398,16 @@ class GiveView extends GetView<GiveController> {
                 child: Row(
                   children: [
                     Container(
-                      width: 44.w,
-                      height: 44.w,
+                      width: 48.w,
+                      height: 48.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF3B68E7), // Blue heart box
+                        color: const Color(0xFF3B68E7).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Icon(
-                        Icons.favorite,
-                        color: Colors.white,
-                        size: 20.w,
+                        Icons.receipt_long,
+                        color: const Color(0xFF3B68E7),
+                        size: 24.w,
                       ),
                     ),
                     SizedBox(width: 16.w),
@@ -684,7 +416,7 @@ class GiveView extends GetView<GiveController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item['title']!,
+                            item.title,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16.sp,
@@ -693,7 +425,7 @@ class GiveView extends GetView<GiveController> {
                           ),
                           SizedBox(height: 4.h),
                           Text(
-                            item['date']!,
+                            item.date,
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.5),
                               fontSize: 13.sp,
@@ -706,31 +438,34 @@ class GiveView extends GetView<GiveController> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          item['amount']!,
+                          item.amount,
                           style: TextStyle(
-                            color: const Color(0xFF3B68E7),
+                            color: const Color(0xFFFFC107),
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8.h),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
-                            vertical: 4.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF00E676).withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Text(
-                            item['status']!,
-                            style: TextStyle(
-                              color: const Color(0xFF00E676),
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.bold,
+                        SizedBox(height: 4.h),
+                        Row(
+                          children: [
+                            Container(
+                              width: 6.w,
+                              height: 6.w,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF00E676),
+                                shape: BoxShape.circle,
+                              ),
                             ),
-                          ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              item.status,
+                              style: TextStyle(
+                                color: const Color(0xFF00E676),
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

@@ -11,6 +11,7 @@ import 'package:handy/modules/devotionals/bindings/devotionals_binding.dart';
 import 'package:handy/modules/devotionals/views/devotionals_view.dart';
 import 'package:handy/modules/devotionals_details/bindings/devotionals_details_binding.dart';
 import 'package:handy/modules/devotionals_details/views/devotionals_details_view.dart';
+import 'package:handy/modules/donate/bindings/donate_binding.dart';
 import 'package:handy/modules/event_details/bindings/event_details_binding.dart';
 import 'package:handy/modules/event_details/views/event_details_view.dart';
 import 'package:handy/modules/events/bindings/events_binding.dart';
@@ -33,6 +34,7 @@ import 'package:handy/modules/sermons/bindings/sermons_binding.dart';
 import 'package:handy/modules/sermons/views/sermons_view.dart';
 import 'package:handy/modules/watch_live/bindings/watch_live_binding.dart';
 import 'package:handy/modules/watch_live/views/watch_live_view.dart';
+import 'package:handy/modules/donate/views/donate_view.dart';
 import '../../core/middleware/auth_middleware.dart';
 import '../../core/widgets/screens/no_internet_screen.dart';
 import '../../modules/bottom_nab_bar/bindings/bottom_nab_bar_binding.dart';
@@ -79,6 +81,7 @@ abstract class AppRoutes {
   static const String PRAYER_WALL = '/prayer-wall';
   static const String WATCH_LIVE = '/watch-live';
   static const String HISTORY_AND_CORE_VALUES = '/history-and-core-values';
+  static const String DONATE = '/donate';
 }
 
 /// ===================== APP PAGES =====================
@@ -239,5 +242,12 @@ final List<GetPage> pages = [
     page: () => const HistoryAndCoreValuesView(),
     binding: HistoryAndCoreValuesBinding(),
     middlewares: [AuthMiddleware()],
+  ),
+  GetPage(
+    name: AppRoutes.DONATE,
+    page: () => const DonateView(),
+    middlewares: [AuthMiddleware()],
+    binding: DonateBinding(),
+    transition: Transition.fadeIn,
   ),
 ];
