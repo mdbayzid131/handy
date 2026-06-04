@@ -6,7 +6,6 @@ import 'package:handy/modules/give/views/give_view.dart';
 import 'package:handy/modules/more/views/more_view.dart';
 import 'package:handy/modules/news/views/news_view.dart';
 import 'package:handy/modules/sermons/views/sermons_view.dart';
-import '../../../config/routes/app_pages.dart';
 import '../controllers/bottom_nab_bar.dart';
 import '../../home/views/home_view.dart';
 
@@ -18,17 +17,19 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
     return Container(
       color: Colors.black,
       child: Scaffold(
-        body: Obx(() => IndexedStack(
-              index: controller.currentIndex.value,
-              children: const [
-                HomeView(),
-                SermonsView(),
-                NewsView(),
-                GiveView(),
-                EventsView(),
-                MoreView(),
-              ],
-            )),
+        body: Obx(
+          () => IndexedStack(
+            index: controller.currentIndex.value,
+            children: const [
+              HomeView(),
+              SermonsView(),
+              NewsView(),
+              GiveView(),
+              EventsView(),
+              MoreView(),
+            ],
+          ),
+        ),
         bottomNavigationBar: Obx(
           () => Theme(
             data: ThemeData(
@@ -41,16 +42,13 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
                 color: const Color.fromARGB(255, 6, 51, 165),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withAlpha(2),
                     blurRadius: 10.r,
                     offset: Offset(0, -2.h),
                   ),
                 ],
                 border: Border(
-                  top: BorderSide(
-                    color: Colors.white.withOpacity(0.05),
-                    width: 1.r,
-                  ),
+                  top: BorderSide(color: Colors.white.withAlpha(5), width: 1.r),
                 ),
               ),
               child: Padding(

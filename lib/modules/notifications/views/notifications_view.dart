@@ -180,35 +180,7 @@ class NotificationView extends GetView<NotificationController> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
-
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1E3197),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.notifications, color: Color(0xFFFFB800)),
-                      SizedBox(width: 8),
-                      Text(
-                        'Send Test Notification',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 const SizedBox(height: 16),
-
                 const Text(
                   'Sunday service reminders are sent every Saturday at 6:00 PM. You can adjust or disable individual notifications at any time.',
                   textAlign: TextAlign.center,
