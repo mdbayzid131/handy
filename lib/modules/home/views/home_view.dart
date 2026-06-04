@@ -172,11 +172,19 @@ class HomeView extends GetView<HomeController> {
                     Get.find<BottomNavBarController>().changeTab(2),
               ),
               SizedBox(height: 16.h),
-              ...controller.homeData.announcements.map((announcement) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 12.h),
-                  child: _buildAnnouncementCard(announcement),
-                );
+              ...controller.homeData.announcements.asMap().entries.map((entry) {
+                final index = entry.key;
+                final announcement = entry.value;
+                return Obx(() {
+                  final isExpanded = controller.expandedIndex.value == index;
+                  return GestureDetector(
+                    onTap: () => controller.toggleExpanded(index),
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 12.h),
+                      child: _buildAnnouncementCard(announcement, isExpanded),
+                    ),
+                  );
+                });
               }),
               SizedBox(height: 28.h),
             ],
@@ -634,63 +642,134 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildAnnouncementCard(HomeAnnouncementModel data) {
+  Widget _buildAnnouncementCard(HomeAnnouncementModel data, bool isExpanded) {
+    final borderColor = data.isImportant ? const Color(0xFFFF5252) : const Color(0xFF3B68E7);
+    final tagColor = data.isImportant ? const Color(0xFFFF5252) : const Color(0xFF3B68E7);
+    final tag = data.isImportant ? 'IMPORTANT' : 'ANNOUNCEMENT';
+
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1B233D),
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+        color: const Color(0xFF1E2336),
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: borderColor.withOpacity(0.3), width: 1),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (data.isImportant) ...[
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFF5252),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Text(
-                'IMPORTANT',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.0,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15.r),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Content
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (data.isImportant) ...[
+                                  Icon(
+                                    Icons.push_pin,
+                                    color: const Color(0xFFFFC107),
+                                    size: 16.w,
+                                  ),
+                                  SizedBox(width: 8.w),
+                                ],
+                                Expanded(
+                                  child: Text(
+                                    data.title,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.2,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 12.w),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: tagColor.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Text(
+                              tag,
+                              style: TextStyle(
+                                color: tagColor,
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 12.h),
+                      Text(
+                        data.description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.6),
+                          fontSize: 14.sp,
+                          height: 1.4,
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            data.date,
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.5),
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                          Text(
+                            isExpanded ? 'Hide flier' : 'Tap for flier',
+                            style: TextStyle(
+                              color: const Color(0xFF3B68E7),
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (isExpanded && data.imageUrl != null) ...[
+                        SizedBox(height: 16.h),
+                        Container(
+                          height: 350.h,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.r),
+                            image: DecorationImage(
+                              image: AssetImage(data.imageUrl!),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 12.h),
-          ],
-          Text(
-            data.title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-            ),
+            ],
           ),
-          SizedBox(height: 8.h),
-          Text(
-            data.description,
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
-              fontSize: 13.sp,
-              height: 1.4,
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Text(
-            data.date,
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.5),
-              fontSize: 12.sp,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
