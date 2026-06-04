@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:handy/modules/bottom_nab_bar/controllers/bottom_nab_bar.dart';
 import '../../../config/routes/app_pages.dart';
 import '../controllers/profile_controller.dart';
 
@@ -164,7 +165,10 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.find<BottomNavBarController>().changeTab(1);
+                          Get.back();
+                        },
                         child: Text(
                           'See all',
                           style: TextStyle(
@@ -180,13 +184,18 @@ class ProfileView extends GetView<ProfileController> {
                   _buildSermonCard(
                     'The Anchor of Hope',
                     'Pastor James Okafor · May 4, 2025',
+                    onTap: () {
+                      Get.toNamed(AppRoutes.SERMON_DITAILS);
+                    },
                   ),
                   SizedBox(height: 12.h),
                   _buildSermonCard(
                     'Sing a New Song',
                     'Deacon Michael Eze · Apr 13, 2025',
+                    onTap: () {
+                      Get.toNamed(AppRoutes.SERMON_DITAILS);
+                    },
                   ),
-
                   SizedBox(height: 32.h),
 
                   // Account
@@ -211,7 +220,9 @@ class ProfileView extends GetView<ProfileController> {
                           Icons.notifications,
                           const Color(0xFF3B68E7),
                           'Notifications',
-                          onTap: () {},
+                          onTap: () {
+                            Get.toNamed(AppRoutes.NOTIFICATION);
+                          },
                         ),
                         Divider(
                           color: Colors.white.withOpacity(0.05),
@@ -289,58 +300,66 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
-  Widget _buildSermonCard(String title, String subtitle) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1A2340),
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(12.w),
-            decoration: BoxDecoration(
-              color: const Color(0xFF3B68E7).withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12.r),
+  Widget _buildSermonCard(
+    String title,
+    String subtitle, {
+    GestureTapCallback? onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16.r),
+      child: Container(
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A2340),
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(color: Colors.white.withOpacity(0.05)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                color: const Color(0xFF3B68E7).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Icon(
+                Icons.play_arrow,
+                color: const Color(0xFF476BFF), // A bit brighter
+                size: 24.w,
+              ),
             ),
-            child: Icon(
-              Icons.play_arrow,
-              color: const Color(0xFF476BFF), // A bit brighter
-              size: 24.w,
-            ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: const Color(0xFF8E99AF),
-                    fontSize: 13.sp,
+                  SizedBox(height: 4.h),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      color: const Color(0xFF8E99AF),
+                      fontSize: 13.sp,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Icon(
-            Icons.chevron_right,
-            color: const Color(0xFF8E99AF),
-            size: 20.w,
-          ),
-        ],
+            Icon(
+              Icons.chevron_right,
+              color: const Color(0xFF8E99AF),
+              size: 20.w,
+            ),
+          ],
+        ),
       ),
     );
   }

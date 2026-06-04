@@ -53,159 +53,174 @@ class NotificationView extends GetView<NotificationController> {
       body: Obx(() {
         return SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (!controller.isSystemNotificationsEnabled.value)
-                Container(
-                  margin: const EdgeInsets.only(bottom: 24),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF5252), Color(0xFFFF416C)],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.notifications_off, color: Colors.white),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Notifications are off',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Tap to enable and stay connected with PIWC Stoneyburn',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!controller.isSystemNotificationsEnabled.value)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 24),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFF5252), Color(0xFFFF416C)],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
                       ),
-                      const SizedBox(width: 8),
-                      const Icon(Icons.chevron_right, color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.notifications_off,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Notifications are off',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Tap to enable and stay connected with PIWC Stoneyburn',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Icon(Icons.chevron_right, color: Colors.white),
+                      ],
+                    ),
+                  ),
+
+                const Text(
+                  'Notification Preferences',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A223E),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: const Color(0xFF2A3355),
+                      width: 1,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildPreferenceItem(
+                        icon: Icons.notifications,
+                        iconBgColor: const Color(0xFF2F45D1),
+                        title: 'Sunday Service Reminder',
+                        subtitle:
+                            'Reminder every Saturday at 6:00 PM before Sunday service',
+                        value: controller.sundayServiceReminder.value,
+                        onChanged: (val) =>
+                            controller.sundayServiceReminder.value = val,
+                      ),
+                      _buildDivider(),
+                      _buildPreferenceItem(
+                        icon: Icons.calendar_month,
+                        iconBgColor: const Color(0xFF0F8A74),
+                        title: 'Event Reminders',
+                        subtitle: "1-hour reminder before events you've saved",
+                        value: controller.eventReminders.value,
+                        onChanged: (val) =>
+                            controller.eventReminders.value = val,
+                      ),
+                      _buildDivider(),
+                      _buildPreferenceItem(
+                        icon: Icons.campaign,
+                        iconBgColor: const Color(0xFFE54148),
+                        title: 'New Announcements',
+                        subtitle:
+                            'Notified when the church posts new announcements',
+                        value: controller.newAnnouncements.value,
+                        onChanged: (val) =>
+                            controller.newAnnouncements.value = val,
+                      ),
+                      _buildDivider(),
+                      _buildPreferenceItem(
+                        icon: Icons.play_circle_fill,
+                        iconBgColor: const Color(0xFF7524AA),
+                        title: 'New Sermons',
+                        subtitle: 'Notified when a new sermon is uploaded',
+                        value: controller.newSermons.value,
+                        onChanged: (val) => controller.newSermons.value = val,
+                      ),
+                      _buildDivider(),
+                      _buildPreferenceItem(
+                        icon: Icons.volunteer_activism,
+                        iconBgColor: const Color(0xFFDD6120),
+                        title: 'Prayer Updates',
+                        subtitle:
+                            'Notified when someone prays for your request',
+                        value: controller.prayerUpdates.value,
+                        onChanged: (val) =>
+                            controller.prayerUpdates.value = val,
+                      ),
                     ],
                   ),
                 ),
+                const SizedBox(height: 24),
 
-              const Text(
-                'Notification Preferences',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1A223E),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFF2A3355), width: 1),
-                ),
-                child: Column(
-                  children: [
-                    _buildPreferenceItem(
-                      icon: Icons.notifications,
-                      iconBgColor: const Color(0xFF2F45D1),
-                      title: 'Sunday Service Reminder',
-                      subtitle: 'Reminder every Saturday at 6:00 PM before Sunday service',
-                      value: controller.sundayServiceReminder.value,
-                      onChanged: (val) => controller.sundayServiceReminder.value = val,
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1E3197),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    _buildDivider(),
-                    _buildPreferenceItem(
-                      icon: Icons.calendar_month,
-                      iconBgColor: const Color(0xFF0F8A74),
-                      title: 'Event Reminders',
-                      subtitle: "1-hour reminder before events you've saved",
-                      value: controller.eventReminders.value,
-                      onChanged: (val) => controller.eventReminders.value = val,
-                    ),
-                    _buildDivider(),
-                    _buildPreferenceItem(
-                      icon: Icons.campaign,
-                      iconBgColor: const Color(0xFFE54148),
-                      title: 'New Announcements',
-                      subtitle: 'Notified when the church posts new announcements',
-                      value: controller.newAnnouncements.value,
-                      onChanged: (val) => controller.newAnnouncements.value = val,
-                    ),
-                    _buildDivider(),
-                    _buildPreferenceItem(
-                      icon: Icons.play_circle_fill,
-                      iconBgColor: const Color(0xFF7524AA),
-                      title: 'New Sermons',
-                      subtitle: 'Notified when a new sermon is uploaded',
-                      value: controller.newSermons.value,
-                      onChanged: (val) => controller.newSermons.value = val,
-                    ),
-                    _buildDivider(),
-                    _buildPreferenceItem(
-                      icon: Icons.volunteer_activism,
-                      iconBgColor: const Color(0xFFDD6120),
-                      title: 'Prayer Updates',
-                      subtitle: 'Notified when someone prays for your request',
-                      value: controller.prayerUpdates.value,
-                      onChanged: (val) => controller.prayerUpdates.value = val,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1E3197),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(Icons.notifications, color: Color(0xFFFFB800)),
+                      SizedBox(width: 8),
+                      Text(
+                        'Send Test Notification',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.notifications, color: Color(0xFFFFB800)),
-                    SizedBox(width: 8),
-                    Text(
-                      'Send Test Notification',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                const SizedBox(height: 16),
+
+                const Text(
+                  'Sunday service reminders are sent every Saturday at 6:00 PM. You can adjust or disable individual notifications at any time.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF8C93A8),
+                    fontSize: 13,
+                    height: 1.5,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              
-              const Text(
-                'Sunday service reminders are sent every Saturday at 6:00 PM. You can adjust or disable individual notifications at any time.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF8C93A8),
-                  fontSize: 13,
-                  height: 1.5,
-                ),
-              ),
-              const SizedBox(height: 24),
-            ],
+                const SizedBox(height: 24),
+              ],
+            ),
           ),
         );
       }),
