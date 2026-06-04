@@ -55,7 +55,10 @@ class HomeView extends GetView<HomeController> {
                 Container(
                   width: 50.w,
                   height: 50.w,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.yellow,
+                  ),
                   child: ClipOval(
                     child: Image.asset(
                       ImagePaths.appLogo,
@@ -123,7 +126,7 @@ class HomeView extends GetView<HomeController> {
               'Welcome, Beloved 🙏',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -157,14 +160,16 @@ class HomeView extends GetView<HomeController> {
               SizedBox(height: 32.h),
               _buildSectionHeader(
                 'Latest Sermon',
-                onSeeAllTap: () => Get.find<BottomNavBarController>().changeTab(1),
+                onSeeAllTap: () =>
+                    Get.find<BottomNavBarController>().changeTab(1),
               ),
               SizedBox(height: 16.h),
               _buildLatestSermonCard(controller.homeData.latestSermon),
               SizedBox(height: 32.h),
               _buildSectionHeader(
                 'Announcements',
-                onSeeAllTap: () => Get.find<BottomNavBarController>().changeTab(2),
+                onSeeAllTap: () =>
+                    Get.find<BottomNavBarController>().changeTab(2),
               ),
               SizedBox(height: 16.h),
               ...controller.homeData.announcements.map((announcement) {
