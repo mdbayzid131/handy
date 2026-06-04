@@ -69,7 +69,7 @@ class CustomTextField extends StatelessWidget {
               style: GoogleFonts.manrope(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
-                color: Colors.black,
+                color: Colors.white.withValues(alpha: 0.9),
               ),
             ),
           ),
@@ -94,7 +94,7 @@ class CustomTextField extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 15.sp,
             fontWeight: FontWeight.w400,
-            color: Colors.black,
+            color: Colors.white,
           ),
           decoration: _buildDecoration(),
         ),
@@ -106,33 +106,37 @@ class CustomTextField extends StatelessWidget {
     final borderRadius = BorderRadius.circular(16.r);
     final border = OutlineInputBorder(
       borderRadius: borderRadius,
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05), width: 1),
+    );
+    final focusBorder = OutlineInputBorder(
+      borderRadius: borderRadius,
+      borderSide: const BorderSide(color: Color(0xFF3B68E7), width: 1.5),
     );
 
     return InputDecoration(
       hintText: hintText,
       hintStyle: GoogleFonts.arimo(
-        fontSize: 17.sp,
+        fontSize: 15.sp,
         fontWeight: FontWeight.w400,
-        color: const Color(0xff8E8E93),
+        color: Colors.white.withValues(alpha: 0.4),
       ),
       contentPadding: EdgeInsets.symmetric(
-        vertical: 14.h,
+        vertical: 16.h,
         horizontal: 16.w,
       ),
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       filled: true,
-      fillColor: fillColor ?? const Color(0xffF2F2F7),
+      fillColor: fillColor ?? const Color(0xFF1E2336),
       border: border,
       enabledBorder: border,
-      focusedBorder: border,
-      errorBorder: border,
-      focusedErrorBorder: border,
+      focusedBorder: focusBorder,
+      errorBorder: border.copyWith(borderSide: const BorderSide(color: Colors.red, width: 1)),
+      focusedErrorBorder: border.copyWith(borderSide: const BorderSide(color: Colors.red, width: 1)),
       counterText: '',
       errorStyle: GoogleFonts.arimo(
         fontSize: 11.sp,
-        color: Colors.red,
+        color: Colors.redAccent,
       ),
     );
   }

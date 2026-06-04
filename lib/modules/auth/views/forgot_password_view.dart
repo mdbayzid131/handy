@@ -1,85 +1,124 @@
-//
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import '../../../core/utils/validators.dart';
-// import '../../../core/widgets/custom_button.dart';
-// import '../../../core/widgets/custom_text_field.dart';
-// import '../controllers/forgot_password_controller.dart';
-//
-// class ForgotPasswordView extends GetView<ForgotPasswordController> {
-//   const ForgotPasswordView({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Forgot Password'),
-//       ),
-//       body: SafeArea(
-//         child: SingleChildScrollView(
-//           padding: const EdgeInsets.all(20),
-//           child: Form(
-//             key: controller.formKey,
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.stretch,
-//               children: [
-//                 const SizedBox(height: 40),
-//
-//                 const Icon(
-//                   Icons.lock_reset,
-//                   size: 80,
-//                   color: Colors.blue,
-//                 ),
-//                 const SizedBox(height: 20),
-//
-//                 const Text(
-//                   'Reset Password',
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(
-//                     fontSize: 24,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 ),
-//                 const SizedBox(height: 10),
-//
-//                 const Text(
-//                   'Enter your email address and we will send you a link to reset your password',
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(
-//                     fontSize: 14,
-//                     color: Colors.grey,
-//                   ),
-//                 ),
-//                 const SizedBox(height: 40),
-//
-//                 // Email Field
-//                 CustomTextField(
-//                   controller: controller.emailController,
-//                   hintText: 'Email',
-//                   keyboardType: TextInputType.emailAddress,
-//                   prefixIcon: const Icon(Icons.email),
-//                   validator: Validators.email,
-//                 ),
-//                 const SizedBox(height: 30),
-//
-//                 // Send Reset Link Button
-//                 Obx(() => CustomButton(
-//                       text: 'Send Reset Link',
-//                       onPressed: controller.sendResetLink,
-//                       isLoading: controller.isLoading.value,
-//                     )),
-//                 const SizedBox(height: 20),
-//
-//                 // Back to Login
-//                 TextButton(
-//                   onPressed: controller.goBack,
-//                   child: const Text('Back to Login'),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:handy/config/routes/app_pages.dart';
+import '../../../core/utils/validators.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_text_field.dart';
+import '../controllers/forgot_password_controller.dart';
+
+class ForgotPasswordView extends GetView<ForgotPasswordController> {
+  const ForgotPasswordView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0F172A),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      extendBodyBehindAppBar: true,
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Header Graphic
+              Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF2844B4), Color(0xFF0A123D)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: SafeArea(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.lock_reset,
+                          size: 70.w,
+                          color: const Color(0xFFFFC107),
+                        ),
+                        SizedBox(height: 16.h),
+                        Text(
+                          'Reset Password',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 28.sp,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // Form Section
+              Padding(
+                padding: EdgeInsets.all(24.w),
+                child: Form(
+                  key: controller.formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(height: 20.h),
+                      Text(
+                        'Enter your email address and we will send you a link to reset your password',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Colors.white.withValues(alpha: 0.7),
+                          height: 1.5,
+                        ),
+                      ),
+                      SizedBox(height: 32.h),
+
+                      // Email Field
+                      CustomTextField(
+                        controller: controller.emailController,
+                        hintText: 'Email Address',
+                        keyboardType: TextInputType.emailAddress,
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: Colors.white.withValues(alpha: 0.5),
+                        ),
+                        validator: Validators.email,
+                      ),
+                      SizedBox(height: 40.h),
+
+                      // Send Reset Link Button
+                      Obx(
+                        () => CustomButton(
+                          text: 'Send Reset Link',
+                          backgroundColor: const Color(0xFF3B68E7),
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.OTP_VERIFICATION);
+                            // if (controller.formKey.currentState!.validate()) {
+                            //   controller.sendResetLink();
+                            // }
+                          },
+                          isLoading: controller.isLoading.value,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -104,7 +104,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 SizedBox(width: 16.w),
                 GestureDetector(
-                  onTap: () => Get.toNamed(AppRoutes.PROFILE),
+                  onTap: () => Get.toNamed(AppRoutes.LOGIN),
                   child: Container(
                     width: 40.w,
                     height: 40.w,
@@ -643,8 +643,12 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildAnnouncementCard(HomeAnnouncementModel data, bool isExpanded) {
-    final borderColor = data.isImportant ? const Color(0xFFFF5252) : const Color(0xFF3B68E7);
-    final tagColor = data.isImportant ? const Color(0xFFFF5252) : const Color(0xFF3B68E7);
+    final borderColor = data.isImportant
+        ? const Color(0xFFFF5252)
+        : const Color(0xFF3B68E7);
+    final tagColor = data.isImportant
+        ? const Color(0xFFFF5252)
+        : const Color(0xFF3B68E7);
     final tag = data.isImportant ? 'IMPORTANT' : 'ANNOUNCEMENT';
 
     return Container(

@@ -8,6 +8,102 @@ import '../controllers/profile_controller.dart';
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
 
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: const Color(0xFF1E2336),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(24.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.logout_rounded,
+                  color: const Color(0xFFFF5252),
+                  size: 48.w,
+                ),
+                SizedBox(height: 16.h),
+                Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Text(
+                  'Are you sure you want to log out of your account?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    fontSize: 14.sp,
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Get.back(),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: Colors.white.withValues(alpha: 0.2),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                          //Get.offAllNamed(AppRoutes.LOGIN);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF5252),
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,61 +139,99 @@ class ProfileView extends GetView<ProfileController> {
               // Top Blue Header
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(top: 40.h, bottom: 40.h),
+                padding: EdgeInsets.only(bottom: 40.h),
                 color: const Color(0xFF476BFF), // Royal Blue
-                child: Column(
+                child: Stack(
+                  alignment: Alignment.topCenter,
                   children: [
-                    Container(
-                      width: 80.w,
-                      height: 80.w,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        shape: BoxShape.circle,
+                    Padding(
+                      padding: EdgeInsets.only(top: 40.h),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 80.w,
+                            height: 80.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'JD',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16.h),
+                          Text(
+                            'John Doe',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 8.h),
+                          Text(
+                            'Member since January 2023',
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.7),
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                          SizedBox(height: 16.h),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 8.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              'ACTIVE MEMBER',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'JD',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.bold,
+                    ),
+                    Positioned(
+                      top: 16.h,
+                      right: 16.w,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _showLogoutDialog(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(
+                            0xFFFF5252,
+                          ), // Red button
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 6.w,
+                            vertical: 2.h,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.r),
+                          ),
+                          elevation: 0,
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    Text(
-                      'John Doe',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      'Member since January 2023',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.w,
-                        vertical: 8.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Text(
-                        'ACTIVE MEMBER',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

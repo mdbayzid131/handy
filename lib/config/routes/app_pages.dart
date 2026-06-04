@@ -1,4 +1,10 @@
 import 'package:get/get.dart';
+import 'package:handy/modules/auth/bindings/auth_binding.dart';
+import 'package:handy/modules/auth/views/login_view.dart';
+import 'package:handy/modules/auth/views/register_view.dart';
+import 'package:handy/modules/auth/views/forgot_password_view.dart';
+import 'package:handy/modules/auth/views/otp_view.dart';
+import 'package:handy/modules/auth/views/update_password_view.dart';
 import 'package:handy/modules/bible/bindings/bible_binding.dart';
 import 'package:handy/modules/bible/views/bible_view.dart';
 import 'package:handy/modules/bible_chapters/views/bible_chapters_view.dart';
@@ -57,6 +63,8 @@ abstract class AppRoutes {
   static const String LOGIN = '/login';
   static const String REGISTER = '/register';
   static const String FORGOT_PASSWORD = '/forgot-password';
+  static const String OTP_VERIFICATION = '/otp-verification';
+  static const String UPDATE_PASSWORD = '/update-password';
   static const String HOME = '/home';
   static const String PROFILE = '/profile';
   static const String BOTTOM_NAV_BAR = '/bottom-nav-bar';
@@ -93,21 +101,22 @@ final List<GetPage> pages = [
     page: () => const SplashView(),
     binding: SplashBinding(),
   ),
-  // GetPage(
-  //   name: AppRoutes.LOGIN,
-  //   page: () => const LoginView(),
-  //   binding: AuthBinding(),
-  // ),
-  // GetPage(
-  //   name: AppRoutes.REGISTER,
-  //   page: () => const RegisterView(),
-  //   binding: AuthBinding(),
-  // ),
-  // GetPage(
-  //   name: AppRoutes.FORGOT_PASSWORD,
-  //   page: () => const ForgotPasswordView(),
-  //   binding: AuthBinding(),
-  // ),
+  GetPage(
+    name: AppRoutes.LOGIN,
+    page: () => const LoginView(),
+    binding: AuthBinding(),
+  ),
+  GetPage(
+    name: AppRoutes.REGISTER,
+    page: () => const RegisterView(),
+    binding: AuthBinding(),
+  ),
+  GetPage(
+    name: AppRoutes.FORGOT_PASSWORD,
+    page: () => const ForgotPasswordView(),
+    binding: AuthBinding(),
+  ),
+  GetPage(name: '/otp', page: () => const OtpView()),
   GetPage(name: AppRoutes.NO_INTERNET, page: () => const NoInternetScreen()),
 
   // ─── Protected Routes (require authentication) ───
@@ -249,5 +258,17 @@ final List<GetPage> pages = [
     middlewares: [AuthMiddleware()],
     binding: DonateBinding(),
     transition: Transition.fadeIn,
+  ),
+  GetPage(
+    name: AppRoutes.OTP_VERIFICATION,
+    page: () => const OtpView(),
+    binding: AuthBinding(),
+    middlewares: [AuthMiddleware()],
+  ),
+  GetPage(
+    name: AppRoutes.UPDATE_PASSWORD,
+    page: () => const UpdatePasswordView(),
+    binding: AuthBinding(),
+    middlewares: [AuthMiddleware()],
   ),
 ];

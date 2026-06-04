@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_text_field.dart';
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
@@ -66,6 +68,17 @@ class SettingsView extends GetView<SettingsController> {
             ),
             SizedBox(height: 16.h),
             _buildNotificationsCard(),
+            SizedBox(height: 32.h),
+            Text(
+              'Account',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 16.h),
+            _buildAccountCard(context),
             SizedBox(height: 32.h),
             Text(
               'About',
@@ -172,6 +185,130 @@ class SettingsView extends GetView<SettingsController> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildAccountCard(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A2340),
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+      ),
+      child: Column(
+        children: [
+          ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+            title: Text(
+              'Change Password',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            trailing: Icon(
+              Icons.chevron_right,
+              color: Colors.white.withValues(alpha: 0.5),
+              size: 24.w,
+            ),
+            onTap: () {
+              _showChangePasswordBottomSheet(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showChangePasswordBottomSheet(BuildContext context) {
+    Get.bottomSheet(
+      Container(
+        height: Get.height * 0.85,
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFF0F172A),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Top Header
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20.w),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Change Password',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20.w), // Balance for centering
+              ],
+            ),
+            SizedBox(height: 32.h),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Change Password',
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.7),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 24.h),
+                    const CustomTextField(
+                      label: 'Old Password',
+                      hintText: 'Enter Old Password',
+                      obscureText: true,
+                    ),
+                    SizedBox(height: 20.h),
+                    const CustomTextField(
+                      label: 'New Password',
+                      hintText: 'Enter New Password',
+                      obscureText: true,
+                    ),
+                    SizedBox(height: 20.h),
+                    const CustomTextField(
+                      label: 'Confirm Password',
+                      hintText: 'Enter Confirm Password',
+                      obscureText: true,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Save Button
+            CustomButton(
+              text: 'Save',
+              backgroundColor: const Color(0xFFF97316),
+              onPressed: () {
+                Get.back();
+                Get.snackbar(
+                  'Success',
+                  'Password changed successfully',
+                  backgroundColor: Colors.green,
+                  colorText: Colors.white,
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      isScrollControlled: true,
     );
   }
 
