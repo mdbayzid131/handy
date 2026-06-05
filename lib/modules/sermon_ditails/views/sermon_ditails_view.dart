@@ -14,6 +14,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
       color: Colors.black,
       child: Scaffold(
         appBar: AppBar(
+        scrolledUnderElevation: 0,
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(

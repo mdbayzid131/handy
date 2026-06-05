@@ -32,6 +32,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
       return Scaffold(
         backgroundColor: const Color(0xFF0F172A),
         appBar: AppBar(
+        scrolledUnderElevation: 0,
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
