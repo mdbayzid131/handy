@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/routes/app_pages.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/sermon_ditails/bindings/sermon_ditails_binding.dart';
 import 'package:handy/modules/sermon_ditails/views/sermon_ditails_view.dart';
 import '../controllers/sermons_controller.dart';
@@ -13,7 +14,6 @@ class SermonsView extends GetView<SermonsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0B101E),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100.h),
         child: _buildHeader(context),
@@ -51,14 +51,14 @@ class SermonsView extends GetView<SermonsController> {
         right: 20.w,
         bottom: 16.h,
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
           colors: [
-            Color(0xFF132488), // Deep blue at top
-            Color(0xFF091244), // Darker blue at bottom
+            Color(0xFF2844B4), // Lighter blue
+            Color(0xFF0A123D), // Darker blue
           ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
       ),
       child: Column(
@@ -77,7 +77,7 @@ class SermonsView extends GetView<SermonsController> {
           Text(
             'PIWC Stoneyburn',
             style: TextStyle(
-              color: const Color(0xFFFFC107),
+              color: AppTheme.warningColor,
               fontSize: 12.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -94,9 +94,9 @@ class SermonsView extends GetView<SermonsController> {
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         height: 50.h,
         decoration: BoxDecoration(
-          color: const Color(0xFF1B233D),
+          color: AppTheme.containerColor,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+          border: Border.all(color: AppTheme.secondaryColor, width: 1),
         ),
         child: Row(
           children: [
@@ -145,13 +145,13 @@ class SermonsView extends GetView<SermonsController> {
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? const Color(0xFF1E37AB)
-                      : Colors.transparent,
+                      ? AppTheme.primaryColor
+                      : AppTheme.containerColor,
                   borderRadius: BorderRadius.circular(20.r),
                   border: Border.all(
                     color: isSelected
                         ? Colors.transparent
-                        : Colors.white.withOpacity(0.1),
+                        : AppTheme.secondaryColor,
                     width: 1,
                   ),
                 ),
@@ -185,9 +185,9 @@ class SermonsView extends GetView<SermonsController> {
       child: Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: const Color(0xFF1B233D),
+          color: AppTheme.containerColor,
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+          border: Border.all(color: AppTheme.secondaryColor, width: 1),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,12 +196,12 @@ class SermonsView extends GetView<SermonsController> {
               width: 80.w,
               height: 80.w,
               decoration: BoxDecoration(
-                color: const Color(0xFF1A3BB6),
+                color: AppTheme.primaryColor,
                 borderRadius: BorderRadius.circular(16.r),
               ),
               child: Icon(
                 Icons.play_arrow_rounded,
-                color: const Color(0xFFFFC107),
+                color: AppTheme.warningColor,
                 size: 40.w,
               ),
             ),
@@ -213,7 +213,7 @@ class SermonsView extends GetView<SermonsController> {
                   Text(
                     sermon.category,
                     style: TextStyle(
-                      color: const Color(0xFF3B68E7),
+                      color: AppTheme.primaryColor,
                       fontSize: 10.sp,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.0,
@@ -251,7 +251,7 @@ class SermonsView extends GetView<SermonsController> {
                       Text(
                         sermon.duration,
                         style: TextStyle(
-                          color: const Color(0xFF3B68E7),
+                          color: AppTheme.primaryColor,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
                         ),

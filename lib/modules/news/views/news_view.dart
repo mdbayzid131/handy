@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/routes/app_pages.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/config/constants/image_paths.dart';
 import '../controllers/news_controller.dart';
 
@@ -12,7 +13,6 @@ class NewsView extends GetView<NewsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A), // Dark navy background
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -54,7 +54,7 @@ class NewsView extends GetView<NewsController> {
                     Text(
                       'PIWC Stoneyburn',
                       style: TextStyle(
-                        color: const Color(0xFFFFC107), // Yellow
+                        color: AppTheme.warningColor, // Yellow
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -69,7 +69,7 @@ class NewsView extends GetView<NewsController> {
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(
                       Icons.notifications,
-                      color: const Color(0xFFFFC107),
+                      color: AppTheme.warningColor,
                       size: 24.w,
                     ),
                   ),
@@ -90,7 +90,7 @@ class NewsView extends GetView<NewsController> {
         'type': 'megaphone',
         'title':
             'Sunday Service · 10:00 AM – 12:30 PM · 71 Stoneyburn Street, EH47 8JT',
-        'color': const Color(0xFFFFC107),
+        'color': AppTheme.warningColor,
       },
       {
         'type': 'regular',
@@ -98,7 +98,7 @@ class NewsView extends GetView<NewsController> {
         'title': 'Sunday Service — This Week',
         'tag': 'Service',
         'tagColor': const Color(0xFF3B68E7),
-        'borderColor': const Color(0xFFFFC107),
+        'borderColor': AppTheme.warningColor,
         'description':
             'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are ...',
         'date': 'May 5, 2026',
@@ -168,9 +168,9 @@ class NewsView extends GetView<NewsController> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E2336), // Slightly lighter than background
+        color: AppTheme.containerColor, // Slightly lighter than background
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: color.withOpacity(0.5), width: 1),
+        border: Border.all(color: AppTheme.secondaryColor, width: 1),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,9 +206,9 @@ class NewsView extends GetView<NewsController> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1E2336),
+        color: AppTheme.containerColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: borderColor.withOpacity(0.3), width: 1),
+        border: Border.all(color: AppTheme.secondaryColor, width: 1),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15.r),
@@ -234,7 +234,7 @@ class NewsView extends GetView<NewsController> {
                                 if (isPinned) ...[
                                   Icon(
                                     Icons.push_pin,
-                                    color: const Color(0xFFFFC107),
+                                    color: AppTheme.warningColor,
                                     size: 16.w,
                                   ),
                                   SizedBox(width: 8.w),

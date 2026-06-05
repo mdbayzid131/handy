@@ -153,7 +153,6 @@ class Helpers {
           ),
         ),
       ),
-      backgroundColor: Colors.transparent,
       snackPosition: SnackPosition.TOP,
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       duration: duration,

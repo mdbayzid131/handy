@@ -10,7 +10,6 @@ class BibleChaptersView extends GetView<BibleChapterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFF0F172A),
@@ -20,14 +19,16 @@ class BibleChaptersView extends GetView<BibleChapterController> {
           icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
-        title: Obx(() => Text(
-          controller.bookName.value,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
+        title: Obx(
+          () => Text(
+            controller.bookName.value,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        )),
+        ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
           child: Container(color: Colors.white.withOpacity(0.05), height: 1.h),
@@ -69,11 +70,14 @@ class BibleChaptersView extends GetView<BibleChapterController> {
               ),
               Expanded(
                 child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 8.h,
+                  ),
                   itemCount: totalRows,
                   itemBuilder: (context, rowIndex) {
                     int itemsInRow = (rowIndex < fullRows) ? 5 : remainder;
-                    
+
                     List<Widget> rowChildren = [];
                     for (int i = 0; i < itemsInRow; i++) {
                       int chapter = rowIndex * 5 + i + 1;
@@ -92,9 +96,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
 
                     return Padding(
                       padding: EdgeInsets.only(bottom: 12.h),
-                      child: Row(
-                        children: rowChildren,
-                      ),
+                      child: Row(children: rowChildren),
                     );
                   },
                 ),
@@ -115,8 +117,8 @@ class BibleChaptersView extends GetView<BibleChapterController> {
           color: isSelected ? const Color(0xFF3B68E7) : const Color(0xFF1A2340),
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: isSelected 
-                ? Colors.transparent 
+            color: isSelected
+                ? Colors.transparent
                 : Colors.white.withOpacity(0.05),
           ),
         ),

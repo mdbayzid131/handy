@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/data/models/home_model.dart';
 import '../../../config/constants/image_paths.dart';
 import '../../../config/routes/app_pages.dart';
@@ -28,118 +29,106 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0B101E), // Very dark blue/black
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        toolbarHeight: 110.h,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                // Logo
-                Container(
-                  width: 50.w,
-                  height: 50.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.yellow,
-                  ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      ImagePaths.appLogo,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Icon(Icons.church, size: 24.w, color: Colors.white),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                // Titles
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'PIWC Stoneyburn',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'The Church of Pentecost - UK',
-                        style: TextStyle(
-                          color: const Color(0xFFFFC107), // Amber
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Action Icons
-                GestureDetector(
-                  onTap: () => Get.toNamed(AppRoutes.NOTIFICATION),
-                  child: Icon(
-                    Icons.notifications,
-                    color: const Color(0xFFFFC107),
-                    size: 24.w,
-                  ),
-                ),
-                SizedBox(width: 16.w),
-                GestureDetector(
-                  onTap: () => Get.toNamed(AppRoutes.LOGIN),
-                  child: Container(
-                    width: 40.w,
-                    height: 40.w,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFFC107),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.person,
-                      color: const Color(0xFF091244),
-                      size: 24.w,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 18.h),
-            Text(
-              'Welcome, Beloved 🙏',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        titleSpacing: 20.w,
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 70.h),
+              Container(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        // Logo
+                        Container(
+                          width: 50.w,
+                          height: 50.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.yellow,
+                          ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              ImagePaths.appLogo,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(
+                                    Icons.church,
+                                    size: 24.w,
+                                    color: Colors.white,
+                                  ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        // Titles
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'PIWC Stoneyburn',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'The Church of Pentecost - UK',
+                                style: TextStyle(
+                                  color: const Color(0xFFFFC107), // Amber
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Action Icons
+                        GestureDetector(
+                          onTap: () => Get.toNamed(AppRoutes.NOTIFICATION),
+                          child: Icon(
+                            Icons.notifications,
+                            color: const Color(0xFFFFC107),
+                            size: 24.w,
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        GestureDetector(
+                          onTap: () => Get.toNamed(AppRoutes.LOGIN),
+                          child: Container(
+                            width: 40.w,
+                            height: 40.w,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFFFC107),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.person,
+                              color: const Color(0xFF091244),
+                              size: 24.w,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 18.h),
+                    Text(
+                      'Welcome, Beloved 🙏',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 20.h),
               _buildTodaysVerseCard(controller.homeData.todaysVerse),
               SizedBox(height: 16.h),
@@ -199,14 +188,7 @@ class HomeView extends GetView<HomeController> {
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Color(0xFF2844B4), // Lighter blue
-            Color(0xFF142470), // Darker blue
-          ],
-        ),
+        color: AppTheme.primaryColor,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
@@ -257,11 +239,7 @@ class HomeView extends GetView<HomeController> {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [Color(0xFFFFD54F), Color(0xFFFF9800)],
-        ),
+        color: AppTheme.warningColor,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
@@ -319,7 +297,7 @@ class HomeView extends GetView<HomeController> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
               decoration: BoxDecoration(
-                color: const Color(0xFF2844B4),
+                color: AppTheme.primaryColor,
                 borderRadius: BorderRadius.circular(24.r),
               ),
               child: Text(
@@ -344,11 +322,7 @@ class HomeView extends GetView<HomeController> {
         width: double.infinity,
         padding: EdgeInsets.all(20.w),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFFE53935), Color(0xFFFF5722)],
-          ),
+          color: AppTheme.watchLiveColor,
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Row(
@@ -570,9 +544,9 @@ class HomeView extends GetView<HomeController> {
         width: double.infinity,
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: const Color(0xFF1B233D),
+          color: AppTheme.containerColor,
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+          border: Border.all(color: AppTheme.secondaryColor),
         ),
         child: Row(
           children: [
@@ -580,12 +554,12 @@ class HomeView extends GetView<HomeController> {
               width: 70.w,
               height: 70.w,
               decoration: BoxDecoration(
-                color: const Color(0xFF2844B4),
+                color: AppTheme.primaryColor,
                 borderRadius: BorderRadius.circular(16.r),
               ),
               child: Icon(
                 Icons.play_arrow_rounded,
-                color: const Color(0xFFFFC107),
+                color: AppTheme.warningColor,
                 size: 36.w,
               ),
             ),
@@ -597,7 +571,7 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     data.series,
                     style: TextStyle(
-                      color: const Color(0xFF3B68E7),
+                      color: AppTheme.primaryColor,
                       fontSize: 10.sp,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.0,
@@ -653,9 +627,9 @@ class HomeView extends GetView<HomeController> {
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1E2336),
+        color: AppTheme.containerColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: borderColor.withOpacity(0.3), width: 1),
+        border: Border.all(color: AppTheme.secondaryColor, width: 1),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15.r),

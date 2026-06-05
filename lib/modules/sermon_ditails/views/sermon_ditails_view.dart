@@ -13,7 +13,6 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
     return Container(
       color: Colors.black,
       child: Scaffold(
-        backgroundColor: const Color(0xFF0B101E),
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(

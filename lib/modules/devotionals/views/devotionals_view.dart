@@ -72,7 +72,6 @@ class DevotionalsView extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -189,11 +188,14 @@ class DevotionalsView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: 80.w, // increased slightly to fit longer dates right-aligned
+                            width: 80
+                                .w, // increased slightly to fit longer dates right-aligned
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                SizedBox(height: 22.h), // Push down to align with reference text
+                                SizedBox(
+                                  height: 22.h,
+                                ), // Push down to align with reference text
                                 Text(
                                   item.day,
                                   style: TextStyle(

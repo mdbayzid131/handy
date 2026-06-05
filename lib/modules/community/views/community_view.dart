@@ -12,7 +12,6 @@ class CommunityView extends StatelessWidget {
     final communityItems = CommunityModel.dummyData;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,

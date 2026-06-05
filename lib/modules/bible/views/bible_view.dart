@@ -12,10 +12,9 @@ class BibleView extends GetView<BibleController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF0F172A),
+        backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
@@ -200,10 +199,10 @@ class BibleView extends GetView<BibleController> {
 
   Widget _buildBookCard(BibleBook book) {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.BIBLE_CHAPTERS, arguments: {
-        'name': book.name,
-        'chaptersCount': book.chaptersCount,
-      }),
+      onTap: () => Get.toNamed(
+        AppRoutes.BIBLE_CHAPTERS,
+        arguments: {'name': book.name, 'chaptersCount': book.chaptersCount},
+      ),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         decoration: BoxDecoration(

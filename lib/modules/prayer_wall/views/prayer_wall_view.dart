@@ -202,9 +202,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0F172A),
-      body: DefaultTabController(
-        length: 2,
-        child: Column(
+      body: Column(
           children: [
             // Header
             Container(
@@ -305,46 +303,86 @@ class PrayerWallView extends GetView<PrayerWallController> {
             ),
 
             // Tabs
-            Container(
-              color: const Color(
-                0xFF1A2340,
-              ), // slightly lighter background for tab bar
-              child: TabBar(
-                indicatorColor: const Color(0xFFFFC107),
-                indicatorWeight: 3.0,
-                labelColor: const Color(0xFF3B68E7), // Active tab text color
-                unselectedLabelColor: const Color(
-                  0xFF8E99AF,
-                ), // Inactive tab text color
-                labelStyle: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              child: Obx(
+                () => Container(
+                  height: 52.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A2340),
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.05),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => controller.isPrayerWall.value = true,
+                          child: Container(
+                            margin: EdgeInsets.all(4.w),
+                            decoration: BoxDecoration(
+                              color: controller.isPrayerWall.value
+                                  ? const Color(0xFF3B68E7)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Prayer Wall',
+                              style: TextStyle(
+                                color: controller.isPrayerWall.value
+                                    ? Colors.white
+                                    : const Color(0xFF8E99AF),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => controller.isPrayerWall.value = false,
+                          child: Container(
+                            margin: EdgeInsets.all(4.w),
+                            decoration: BoxDecoration(
+                              color: !controller.isPrayerWall.value
+                                  ? const Color(0xFF3B68E7)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'My Requests',
+                              style: TextStyle(
+                                color: !controller.isPrayerWall.value
+                                    ? Colors.white
+                                    : const Color(0xFF8E99AF),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                unselectedLabelStyle: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-                tabs: const [
-                  Tab(text: 'Prayer Wall'),
-                  Tab(text: 'My Requests'),
-                ],
               ),
             ),
 
             // Tab Views
             Expanded(
               child: Obx(
-                () => TabBarView(
-                  children: [
-                    _buildPrayerList(controller.requests),
-                    _buildEmptyState(),
-                  ],
-                ),
+                () => controller.isPrayerWall.value
+                    ? _buildPrayerList(controller.requests)
+                    : _buildEmptyState(),
               ),
             ),
           ],
         ),
-      ),
     );
   }
 

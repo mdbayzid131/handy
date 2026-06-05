@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/bottom_nab_bar/controllers/bottom_nab_bar.dart';
 import '../../../config/routes/app_pages.dart';
 import '../controllers/profile_controller.dart';
@@ -13,7 +14,7 @@ class ProfileView extends GetView<ProfileController> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: const Color(0xFF1E2336),
+          backgroundColor: AppTheme.backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.r),
           ),
@@ -107,7 +108,6 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFF0F172A),

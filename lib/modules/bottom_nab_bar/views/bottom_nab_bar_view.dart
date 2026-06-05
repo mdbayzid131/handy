@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/events/views/events_view.dart';
 import 'package:handy/modules/give/views/give_view.dart';
 import 'package:handy/modules/more/views/more_view.dart';
@@ -39,7 +40,7 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 6, 51, 165),
+                color: AppTheme.primaryColor,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withAlpha(2),
@@ -58,7 +59,7 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
                   onTap: controller.changeTab,
                   type: BottomNavigationBarType.fixed,
                   backgroundColor: Colors.transparent,
-                  selectedItemColor: const Color(0xFFFFD700),
+                  selectedItemColor: AppTheme.warningColor,
                   unselectedItemColor: const Color(0xFF8E99AF),
                   elevation: 0,
                   selectedLabelStyle: TextStyle(

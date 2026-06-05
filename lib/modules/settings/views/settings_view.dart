@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../controllers/settings_controller.dart';
@@ -11,7 +12,6 @@ class SettingsView extends GetView<SettingsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
@@ -198,7 +198,10 @@ class SettingsView extends GetView<SettingsController> {
       child: Column(
         children: [
           ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 20.w,
+              vertical: 4.h,
+            ),
             title: Text(
               'Change Password',
               style: TextStyle(
@@ -227,7 +230,7 @@ class SettingsView extends GetView<SettingsController> {
         height: Get.height * 0.85,
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
         decoration: BoxDecoration(
-          color: const Color(0xFF0F172A),
+          color: AppTheme.backgroundColor,
           borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
         ),
         child: Column(
@@ -238,7 +241,11 @@ class SettingsView extends GetView<SettingsController> {
               children: [
                 GestureDetector(
                   onTap: () => Get.back(),
-                  child: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20.w),
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Colors.white,
+                    size: 20.w,
+                  ),
                 ),
                 Expanded(
                   child: Center(

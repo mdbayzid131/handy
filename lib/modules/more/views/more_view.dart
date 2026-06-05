@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import '../../../config/routes/app_pages.dart';
 
 class MoreView extends StatelessWidget {
@@ -10,7 +11,6 @@ class MoreView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -216,7 +216,7 @@ class MoreView extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E37AB), // Blue card background
+        color: AppTheme.primaryColor, // Blue card background
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
@@ -225,7 +225,7 @@ class MoreView extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFC107),
+              color: AppTheme.warningColor,
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
@@ -278,7 +278,7 @@ class MoreView extends StatelessWidget {
             color: Colors.white.withOpacity(0.15),
             borderRadius: BorderRadius.circular(12.r),
           ),
-          child: Icon(icon, color: const Color(0xFFFFC107), size: 20.w),
+          child: Icon(icon, color: AppTheme.warningColor, size: 20.w),
         ),
         SizedBox(width: 16.w),
         Expanded(
@@ -313,11 +313,7 @@ class MoreView extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFFFFC107), Color(0xFFFF9800)],
-        ),
+        color: AppTheme.warningColor,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(

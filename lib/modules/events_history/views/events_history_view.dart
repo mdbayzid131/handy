@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/config/routes/app_pages.dart';
-import '../controllers/events_controller.dart';
+import '../controllers/events_history_controller.dart';
 import '../../../data/models/events_model.dart';
 
-class EventsView extends GetView<EventsController> {
-  const EventsView({super.key});
+class EventsHistoryView extends GetView<EventsHistoryController> {
+  const EventsHistoryView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Ensure controller is initialized
-    Get.put(EventsController());
-
     return Scaffold(
+      backgroundColor: const Color(0xFF0F172A), // Dark navy background
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         toolbarHeight: 90.h,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+          onPressed: () => Get.back(),
+        ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -34,62 +35,30 @@ class EventsView extends GetView<EventsController> {
           ),
         ),
         title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Events',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        'PIWC Stoneyburn',
-                        style: TextStyle(
-                          color: AppTheme.warningColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => Get.toNamed(AppRoutes.EVENTS_HISTORY),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 8.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.warningColor,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Text(
-                      'History',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            Text(
+              'Events History',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24.sp,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+              ),
+            ),
+            SizedBox(height: 4.h),
+            Text(
+              'PIWC Stoneyburn',
+              style: TextStyle(
+                color: const Color(0xFFFFC107),
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ],
         ),
-        titleSpacing: 20.w,
+        titleSpacing: 0,
       ),
       body: Column(
         children: [
@@ -138,13 +107,13 @@ class EventsView extends GetView<EventsController> {
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? AppTheme.primaryColor
-                      : AppTheme.containerColor,
+                      ? const Color(0xFF132488)
+                      : const Color(0xFF1E2336),
                   borderRadius: BorderRadius.circular(20.r),
                   border: Border.all(
                     color: isSelected
-                        ? Colors.transparent
-                        : AppTheme.secondaryColor,
+                        ? const Color(0xFF3B68E7)
+                        : Colors.white.withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),
@@ -154,7 +123,7 @@ class EventsView extends GetView<EventsController> {
                   style: TextStyle(
                     color: isSelected
                         ? Colors.white
-                        : Colors.white.withOpacity(0.7),
+                        : Colors.white.withValues(alpha: 0.7),
                     fontSize: 14.sp,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   ),
@@ -170,17 +139,17 @@ class EventsView extends GetView<EventsController> {
   Color _getCategoryColor(String category) {
     switch (category) {
       case 'Study':
-        return AppTheme.warningColor;
+        return const Color(0xFFFF8C00); // Orange
       case 'Worship':
-        return AppTheme.primaryColor;
+        return const Color(0xFF3B68E7); // Royal Blue
       case 'Youth':
-        return AppTheme.watchLiveColor;
+        return const Color(0xFFFF5252); // Coral/Red
       case 'Prayer':
         return const Color(0xFFB388FF); // Purple
       case 'Community':
-        return AppTheme.successColor;
+        return const Color(0xFF26A69A); // Teal
       default:
-        return AppTheme.primaryColor;
+        return const Color(0xFF132488); // Default Blue
     }
   }
 
@@ -188,12 +157,12 @@ class EventsView extends GetView<EventsController> {
     final headerColor = _getCategoryColor(event.category);
 
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.EVENT_DITAILS, arguments: event),
+      onTap: () => Get.toNamed(AppRoutes.EVENTS_HISTORY_DETAILS, arguments: event),
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.containerColor,
+          color: const Color(0xFF1E2336),
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: AppTheme.secondaryColor),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,14 +212,14 @@ class EventsView extends GetView<EventsController> {
                     children: [
                       Icon(
                         Icons.access_time,
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                         size: 14.w,
                       ),
                       SizedBox(width: 8.w),
                       Text(
                         '${event.date} · ${event.time}',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withValues(alpha: 0.6),
                           fontSize: 13.sp,
                         ),
                       ),
@@ -261,14 +230,14 @@ class EventsView extends GetView<EventsController> {
                     children: [
                       Icon(
                         Icons.location_on,
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                         size: 14.w,
                       ),
                       SizedBox(width: 8.w),
                       Text(
                         event.location,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withValues(alpha: 0.6),
                           fontSize: 13.sp,
                         ),
                       ),
@@ -284,13 +253,13 @@ class EventsView extends GetView<EventsController> {
                           vertical: 6.h,
                         ),
                         decoration: BoxDecoration(
-                          color: AppTheme.secondaryColor,
+                          color: Colors.white.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(
-                          '${event.attendeeCount} attending',
+                          '${event.attendeeCount} attended',
                           style: TextStyle(
-                            color: headerColor.withOpacity(0.9),
+                            color: headerColor.withValues(alpha: 0.9),
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
                           ),

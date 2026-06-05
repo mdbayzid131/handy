@@ -4,6 +4,7 @@ import '../../../data/models/prayer_wall_model.dart';
 class PrayerWallController extends GetxController {
   final requests = <PrayerWallModel>[].obs;
   final isAnonymous = false.obs;
+  final isPrayerWall = true.obs;
 
   @override
   void onInit() {

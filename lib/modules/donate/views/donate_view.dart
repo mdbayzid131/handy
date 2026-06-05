@@ -9,7 +9,6 @@ class DonateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A), // Dark blue background
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFF0F172A),

@@ -10,7 +10,6 @@ class BibleVersesView extends GetView<BibleVersesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: const Color(0xFF0F172A),
@@ -20,14 +19,16 @@ class BibleVersesView extends GetView<BibleVersesController> {
           icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
-        title: Obx(() => Text(
-          '${controller.bookName.value} ${controller.chapter.value}',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
+        title: Obx(
+          () => Text(
+            '${controller.bookName.value} ${controller.chapter.value}',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        )),
+        ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
           child: Container(color: Colors.white.withOpacity(0.05), height: 1.h),
@@ -39,7 +40,10 @@ class BibleVersesView extends GetView<BibleVersesController> {
             Expanded(
               child: Obx(() {
                 return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 24.h,
+                  ),
                   itemCount: controller.verses.length + 1, // +1 for the header
                   itemBuilder: (context, index) {
                     if (index == 0) {
@@ -55,11 +59,11 @@ class BibleVersesView extends GetView<BibleVersesController> {
                         ),
                       );
                     }
-                    
+
                     final verseIndex = index - 1;
                     final verseNumber = verseIndex + 1;
                     final verseText = controller.verses[verseIndex];
-                    
+
                     return Padding(
                       padding: EdgeInsets.only(bottom: 24.h),
                       child: Row(
@@ -93,7 +97,7 @@ class BibleVersesView extends GetView<BibleVersesController> {
                 );
               }),
             ),
-            
+
             // Bottom Navigation
             Obx(() {
               final chapter = controller.chapter.value;
@@ -117,7 +121,7 @@ class BibleVersesView extends GetView<BibleVersesController> {
                       )
                     else
                       const SizedBox(),
-                      
+
                     if (chapter < controller.maxChapters.value)
                       _buildNavButton(
                         icon: Icons.chevron_right,

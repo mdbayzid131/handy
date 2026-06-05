@@ -22,6 +22,10 @@ import 'package:handy/modules/event_details/bindings/event_details_binding.dart'
 import 'package:handy/modules/event_details/views/event_details_view.dart';
 import 'package:handy/modules/events/bindings/events_binding.dart';
 import 'package:handy/modules/events/views/events_view.dart';
+import 'package:handy/modules/events_history/bindings/events_history_binding.dart';
+import 'package:handy/modules/events_history/views/events_history_view.dart';
+import 'package:handy/modules/events_history_details/bindings/events_history_details_binding.dart';
+import 'package:handy/modules/events_history_details/views/events_history_details_view.dart';
 import 'package:handy/modules/give/bindings/give_binding.dart';
 import 'package:handy/modules/give/views/give_view.dart';
 import 'package:handy/modules/history_and_core_values/bindings/history_and_core_values_binding.dart';
@@ -90,6 +94,8 @@ abstract class AppRoutes {
   static const String WATCH_LIVE = '/watch-live';
   static const String HISTORY_AND_CORE_VALUES = '/history-and-core-values';
   static const String DONATE = '/donate';
+  static const String EVENTS_HISTORY = '/events-history';
+  static const String EVENTS_HISTORY_DETAILS = '/events-history-details';
 }
 
 /// ===================== APP PAGES =====================
@@ -269,6 +275,18 @@ final List<GetPage> pages = [
     name: AppRoutes.UPDATE_PASSWORD,
     page: () => const UpdatePasswordView(),
     binding: AuthBinding(),
+    middlewares: [AuthMiddleware()],
+  ),
+  GetPage(
+    name: AppRoutes.EVENTS_HISTORY,
+    page: () => const EventsHistoryView(),
+    binding: EventsHistoryBinding(),
+    middlewares: [AuthMiddleware()],
+  ),
+  GetPage(
+    name: AppRoutes.EVENTS_HISTORY_DETAILS,
+    page: () => const EventsHistoryDetailsView(),
+    binding: EventsHistoryDetailsBinding(),
     middlewares: [AuthMiddleware()],
   ),
 ];

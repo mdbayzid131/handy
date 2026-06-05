@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import '../controllers/give_controller.dart';
 import '../../../config/routes/app_pages.dart';
 
@@ -11,133 +12,133 @@ class GiveView extends GetView<GiveController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        toolbarHeight: 160.h,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Give',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      'PIWC Stoneyburn',
-                      style: TextStyle(
-                        color: const Color(0xFFFFC107),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                Obx(
-                  () => GestureDetector(
-                    onTap: () => controller.toggleHistory(),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 8.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFC107),
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            controller.showHistory.value
-                                ? Icons.arrow_back_rounded
-                                : Icons.history_rounded,
-                            color: Colors.black,
-                            size: 16.w,
-                          ),
-                          SizedBox(width: 6.w),
-                          Text(
-                            controller.showHistory.value ? 'Back' : 'History',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            _buildHeader(context),
+            Obx(
+              () => controller.showHistory.value
+                  ? _buildHistoryList()
+                  : _buildGiveForm(),
             ),
-            SizedBox(height: 24.h),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 20.h,
+        left: 20.w,
+        right: 20.w,
+        bottom: 20.h,
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color(0xFF2844B4), // Lighter blue
+            Color(0xFF0A123D), // Darker blue
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Your giving this year',
+                    'Give',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
-                      fontSize: 14.sp,
+                      color: Colors.white,
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.5,
                     ),
                   ),
+                  SizedBox(height: 4.h),
                   Text(
-                    '£475.00',
+                    'PIWC Stoneyburn',
                     style: TextStyle(
-                      color: const Color(0xFFFFC107),
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
+                      color: AppTheme.warningColor,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-        titleSpacing: 20.w,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SafeArea(
-              top: false,
-              child: Obx(
-                () => controller.showHistory.value
-                    ? _buildHistoryList()
-                    : _buildGiveForm(),
+              Obx(
+                () => GestureDetector(
+                  onTap: () => controller.toggleHistory(),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.warningColor,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          controller.showHistory.value
+                              ? Icons.arrow_back_rounded
+                              : Icons.history_rounded,
+                          color: Colors.black,
+                          size: 16.w,
+                        ),
+                        SizedBox(width: 6.w),
+                        Text(
+                          controller.showHistory.value ? 'Back' : 'History',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
+            ],
+          ),
+          SizedBox(height: 24.h),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Your giving this year',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 14.sp,
+                  ),
+                ),
+                Text(
+                  '£475.00',
+                  style: TextStyle(
+                    color: AppTheme.warningColor,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -146,7 +147,7 @@ class GiveView extends GetView<GiveController> {
   }
 
   Widget _buildGiveForm() {
-    return SingleChildScrollView(
+    return Padding(
       padding: EdgeInsets.all(20.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,12 +199,12 @@ class GiveView extends GetView<GiveController> {
             child: Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                color: isSelected ? fund.color : const Color(0xFF1E2336),
+                color: isSelected ? fund.color : AppTheme.containerColor,
                 borderRadius: BorderRadius.circular(16.r),
                 border: Border.all(
                   color: isSelected
                       ? Colors.transparent
-                      : Colors.white.withOpacity(0.05),
+                      : AppTheme.secondaryColor,
                   width: 1,
                 ),
               ),
@@ -262,13 +263,13 @@ class GiveView extends GetView<GiveController> {
                       padding: EdgeInsets.symmetric(vertical: 12.h),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? const Color(0xFF132488)
-                            : const Color(0xFF1E2336),
+                            ? AppTheme.primaryColor
+                            : AppTheme.containerColor,
                         borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(
                           color: isSelected
-                              ? const Color(0xFF3B68E7)
-                              : Colors.white.withOpacity(0.05),
+                              ? AppTheme.primaryColor
+                              : AppTheme.secondaryColor,
                         ),
                       ),
                       child: Center(
@@ -292,16 +293,16 @@ class GiveView extends GetView<GiveController> {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           decoration: BoxDecoration(
-            color: const Color(0xFF1E2336),
+            color: AppTheme.containerColor,
             borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: Colors.white.withOpacity(0.05)),
+            border: Border.all(color: AppTheme.secondaryColor),
           ),
           child: Row(
             children: [
               Text(
                 '£',
                 style: TextStyle(
-                  color: const Color(0xFF3B68E7),
+                  color: AppTheme.primaryColor,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -343,7 +344,7 @@ class GiveView extends GetView<GiveController> {
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 16.h),
         decoration: BoxDecoration(
-          color: const Color(0xFFFF9800), // Orange
+          color: AppTheme.warningColor, // Orange
           borderRadius: BorderRadius.circular(16.r),
         ),
         child: Row(
@@ -352,13 +353,13 @@ class GiveView extends GetView<GiveController> {
             Text(
               'Donate',
               style: TextStyle(
-                color: const Color(0xFF132488),
+                color: AppTheme.primaryColor,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(width: 8.w),
-            Icon(Icons.chevron_right, color: const Color(0xFF132488), size: 20.w),
+            Icon(Icons.chevron_right, color: AppTheme.primaryColor, size: 20.w),
           ],
         ),
       ),
@@ -381,99 +382,99 @@ class GiveView extends GetView<GiveController> {
             ),
           ),
         ),
-        Expanded(
-          child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0.h),
-            itemCount: controller.historyData.length,
-            separatorBuilder: (context, index) => SizedBox(height: 16.h),
-            itemBuilder: (context, index) {
-              final item = controller.historyData[index];
-              return Container(
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1E2336),
-                  borderRadius: BorderRadius.circular(16.r),
-                  border: Border.all(color: Colors.white.withOpacity(0.05)),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 48.w,
-                      height: 48.w,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF3B68E7).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                      child: Icon(
-                        Icons.receipt_long,
-                        color: const Color(0xFF3B68E7),
-                        size: 24.w,
-                      ),
+        ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0.h),
+          itemCount: controller.historyData.length,
+          separatorBuilder: (context, index) => SizedBox(height: 16.h),
+          itemBuilder: (context, index) {
+            final item = controller.historyData[index];
+            return Container(
+              padding: EdgeInsets.all(16.w),
+              decoration: BoxDecoration(
+                color: AppTheme.containerColor,
+                borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(color: AppTheme.secondaryColor),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 48.w,
+                    height: 48.w,
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    SizedBox(width: 16.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.title,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            item.date,
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.5),
-                              fontSize: 13.sp,
-                            ),
-                          ),
-                        ],
-                      ),
+                    child: Icon(
+                      Icons.receipt_long,
+                      color: AppTheme.primaryColor,
+                      size: 24.w,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                  ),
+                  SizedBox(width: 16.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          item.amount,
+                          item.title,
                           style: TextStyle(
-                            color: const Color(0xFFFFC107),
+                            color: Colors.white,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 4.h),
-                        Row(
-                          children: [
-                            Container(
-                              width: 6.w,
-                              height: 6.w,
-                              decoration: const BoxDecoration(
-                                color: Color(0xFF00E676),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            SizedBox(width: 4.w),
-                            Text(
-                              item.status,
-                              style: TextStyle(
-                                color: const Color(0xFF00E676),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          item.date,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.5),
+                            fontSize: 13.sp,
+                          ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        item.amount,
+                        style: TextStyle(
+                          color: AppTheme.warningColor,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Row(
+                        children: [
+                          Container(
+                            width: 6.w,
+                            height: 6.w,
+                            decoration: const BoxDecoration(
+                              color: AppTheme.successColor,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            item.status,
+                            style: TextStyle(
+                              color: AppTheme.successColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ],
     );
