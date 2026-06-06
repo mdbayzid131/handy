@@ -1,4 +1,4 @@
-
+// ignore: implementation_imports
 import 'package:dio/src/response.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -14,16 +14,10 @@ class UserRepository {
   }
 
   // Update user profile
-  Future<Response> updateProfile({
-    required String name,
-    String? phone,
-  }) async {
-    return await _apiClient.putData(
-      ApiConstants.updateProfile,
-      {
-        'name': name,
-        'phone': phone,
-      },
-    );
+  Future<Response> updateProfile({required String name, String? phone}) async {
+    return await _apiClient.putData(ApiConstants.updateProfile, {
+      'name': name,
+      'phone': phone,
+    });
   }
 }

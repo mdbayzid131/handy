@@ -32,7 +32,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
       return Scaffold(
         backgroundColor: const Color(0xFF0F172A),
         appBar: AppBar(
-        scrolledUnderElevation: 0,
+          scrolledUnderElevation: 0,
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
@@ -81,25 +81,30 @@ class EventDetailsView extends GetView<EventDetailsController> {
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                ),
+                decoration: BoxDecoration(color: primaryColor),
                 child: Column(
                   children: [
                     Container(
                       width: 80.w,
                       height: 80.w,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(Icons.calendar_today, color: Colors.white, size: 36.w),
+                      child: Icon(
+                        Icons.calendar_today,
+                        color: Colors.white,
+                        size: 36.w,
+                      ),
                     ),
                     SizedBox(height: 16.h),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 6.h,
+                      ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(
@@ -131,27 +136,61 @@ class EventDetailsView extends GetView<EventDetailsController> {
                       ),
                     ),
                     SizedBox(height: 20.h),
-                    
+
                     // Information Card
                     Container(
                       decoration: BoxDecoration(
                         color: const Color(0xFF1E2336),
                         borderRadius: BorderRadius.circular(16.r),
-                        border: Border.all(color: Colors.white.withOpacity(0.05)),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.05),
+                        ),
                       ),
                       child: Column(
                         children: [
-                          _buildDetailRow(Icons.calendar_today, 'DATE', event.date, primaryColor),
-                          Divider(color: Colors.white.withOpacity(0.05), height: 1, indent: 60.w),
-                          _buildDetailRow(Icons.access_time, 'TIME', event.time, primaryColor),
-                          Divider(color: Colors.white.withOpacity(0.05), height: 1, indent: 60.w),
-                          _buildDetailRow(Icons.location_on, 'LOCATION', event.location, primaryColor),
-                          Divider(color: Colors.white.withOpacity(0.05), height: 1, indent: 60.w),
-                          _buildDetailRow(Icons.people, 'ATTENDING', '${event.attendeeCount} people', primaryColor),
+                          _buildDetailRow(
+                            Icons.calendar_today,
+                            'DATE',
+                            event.date,
+                            primaryColor,
+                          ),
+                          Divider(
+                            color: Colors.white.withValues(alpha: 0.05),
+                            height: 1,
+                            indent: 60.w,
+                          ),
+                          _buildDetailRow(
+                            Icons.access_time,
+                            'TIME',
+                            event.time,
+                            primaryColor,
+                          ),
+                          Divider(
+                            color: Colors.white.withValues(alpha: 0.05),
+                            height: 1,
+                            indent: 60.w,
+                          ),
+                          _buildDetailRow(
+                            Icons.location_on,
+                            'LOCATION',
+                            event.location,
+                            primaryColor,
+                          ),
+                          Divider(
+                            color: Colors.white.withValues(alpha: 0.05),
+                            height: 1,
+                            indent: 60.w,
+                          ),
+                          _buildDetailRow(
+                            Icons.people,
+                            'ATTENDING',
+                            '${event.attendeeCount} people',
+                            primaryColor,
+                          ),
                         ],
                       ),
                     ),
-                    
+
                     SizedBox(height: 32.h),
                     Text(
                       'About This Event',
@@ -165,14 +204,14 @@ class EventDetailsView extends GetView<EventDetailsController> {
                     Text(
                       event.description,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.6),
+                        color: Colors.white.withValues(alpha: 0.6),
                         fontSize: 15.sp,
                         height: 1.6,
                       ),
                     ),
-                    
+
                     SizedBox(height: 40.h),
-                    
+
                     // Bottom Buttons
                     if (controller.isRSVPd.value)
                       Column(
@@ -181,7 +220,11 @@ class EventDetailsView extends GetView<EventDetailsController> {
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               onPressed: () => controller.toggleRSVP(),
-                              icon: Icon(Icons.check_circle, color: Colors.white, size: 24.w),
+                              icon: Icon(
+                                Icons.check_circle,
+                                color: Colors.white,
+                                size: 24.w,
+                              ),
                               label: Text(
                                 "You're Going!",
                                 style: TextStyle(
@@ -191,7 +234,9 @@ class EventDetailsView extends GetView<EventDetailsController> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF22C55E), // Green
+                                backgroundColor: const Color(
+                                  0xFF22C55E,
+                                ), // Green
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.r),
@@ -204,7 +249,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                           Text(
                             'We look forward to seeing you there! 🎉',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
+                              color: Colors.white.withValues(alpha: 0.7),
                               fontSize: 14.sp,
                             ),
                           ),
@@ -215,7 +260,11 @@ class EventDetailsView extends GetView<EventDetailsController> {
                         width: double.infinity,
                         child: ElevatedButton.icon(
                           onPressed: () => controller.toggleRSVP(),
-                          icon: Icon(Icons.calendar_today, color: Colors.white, size: 20.w),
+                          icon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.white,
+                            size: 20.w,
+                          ),
                           label: Text(
                             "RSVP for This Event",
                             style: TextStyle(
@@ -234,14 +283,18 @@ class EventDetailsView extends GetView<EventDetailsController> {
                           ),
                         ),
                       ),
-                    
+
                     SizedBox(height: 16.h),
-                    
+
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton.icon(
                         onPressed: () {},
-                        icon: Icon(Icons.calendar_today, color: primaryColor, size: 20.w),
+                        icon: Icon(
+                          Icons.calendar_today,
+                          color: primaryColor,
+                          size: 20.w,
+                        ),
                         label: Text(
                           "Add to Calendar",
                           style: TextStyle(
@@ -252,7 +305,9 @@ class EventDetailsView extends GetView<EventDetailsController> {
                         ),
                         style: OutlinedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16.h),
-                          side: BorderSide(color: Colors.white.withOpacity(0.1)),
+                          side: BorderSide(
+                            color: Colors.white.withValues(alpha: 0.1),
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.r),
                           ),
@@ -270,7 +325,12 @@ class EventDetailsView extends GetView<EventDetailsController> {
     });
   }
 
-  Widget _buildDetailRow(IconData icon, String label, String value, Color primaryColor) {
+  Widget _buildDetailRow(
+    IconData icon,
+    String label,
+    String value,
+    Color primaryColor,
+  ) {
     return Padding(
       padding: EdgeInsets.all(16.w),
       child: Row(
@@ -278,10 +338,14 @@ class EventDetailsView extends GetView<EventDetailsController> {
           Container(
             padding: EdgeInsets.all(10.w),
             decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.1),
+              color: primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Icon(icon, color: primaryColor.withOpacity(0.8), size: 20.w),
+            child: Icon(
+              icon,
+              color: primaryColor.withValues(alpha: 0.8),
+              size: 20.w,
+            ),
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -291,7 +355,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                 Text(
                   label,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                     fontSize: 11.sp,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,

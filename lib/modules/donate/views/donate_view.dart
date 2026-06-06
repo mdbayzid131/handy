@@ -33,7 +33,10 @@ class DonateView extends StatelessWidget {
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
-          child: Container(color: Colors.white.withOpacity(0.05), height: 1.h),
+          child: Container(
+            color: Colors.white.withValues(alpha: 0.05),
+            height: 1.h,
+          ),
         ),
       ),
       body: SafeArea(
@@ -71,7 +74,7 @@ class DonateView extends StatelessWidget {
                     _buildDetailRow('Reference', fund),
                     SizedBox(height: 24.h),
                     Divider(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       thickness: 1,
                       height: 1,
                     ),
@@ -79,7 +82,7 @@ class DonateView extends StatelessWidget {
                     Text(
                       'Please use your full name as the payment reference so we can acknowledge your gift.',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                         fontSize: 14.sp,
                         height: 1.5,
                       ),
@@ -129,7 +132,7 @@ class DonateView extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.white.withValues(alpha: 0.7),
             fontSize: 15.sp,
           ),
         ),

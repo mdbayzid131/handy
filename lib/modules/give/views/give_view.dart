@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
@@ -117,7 +116,7 @@ class GiveView extends GetView<GiveController> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Row(
@@ -126,7 +125,7 @@ class GiveView extends GetView<GiveController> {
                 Text(
                   'Your giving this year',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white.withValues(alpha: 0.8),
                     fontSize: 14.sp,
                   ),
                 ),
@@ -230,7 +229,7 @@ class GiveView extends GetView<GiveController> {
                   Text(
                     fund.desc,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.5),
+                      color: Colors.white.withValues(alpha: 0.5),
                       fontSize: 12.sp,
                     ),
                   ),
@@ -320,7 +319,7 @@ class GiveView extends GetView<GiveController> {
                   decoration: InputDecoration(
                     hintText: 'Enter amount',
                     hintStyle: TextStyle(
-                      color: Colors.white.withOpacity(0.5),
+                      color: Colors.white.withValues(alpha: 0.5),
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                     ),
@@ -409,7 +408,7 @@ class GiveView extends GetView<GiveController> {
                     width: 48.w,
                     height: 48.w,
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Icon(
@@ -435,7 +434,7 @@ class GiveView extends GetView<GiveController> {
                         Text(
                           item.date,
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.5),
+                            color: Colors.white.withValues(alpha: 0.5),
                             fontSize: 13.sp,
                           ),
                         ),

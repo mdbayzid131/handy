@@ -358,7 +358,7 @@ class SettingsView extends GetView<SettingsController> {
             () => Switch(
               value: value.value,
               onChanged: (val) => value.value = val,
-              activeColor: Colors.white,
+              activeThumbColor: Colors.white,
               activeTrackColor: const Color(0xFF3B68E7), // Royal Blue
               inactiveThumbColor: Colors.white,
               inactiveTrackColor: Colors.white.withValues(alpha: 0.1),

@@ -271,7 +271,7 @@ class MoreView extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Icon(icon, color: AppTheme.warningColor, size: 20.w),
@@ -284,7 +284,7 @@ class MoreView extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                   fontSize: 12.sp,
                 ),
               ),
@@ -328,7 +328,7 @@ class MoreView extends StatelessWidget {
           Text(
             '"To make heaven, to take as many people as possible with us, and to have a positive impact on society."',
             style: TextStyle(
-              color: const Color(0xFF091244).withOpacity(0.8),
+              color: const Color(0xFF091244).withValues(alpha: 0.8),
               fontSize: 16.sp,
               fontStyle: FontStyle.italic,
               height: 1.5,

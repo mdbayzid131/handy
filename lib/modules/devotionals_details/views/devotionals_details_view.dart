@@ -50,7 +50,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     Text(
                       'TUESDAY · MAY 6, 2025',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withValues(alpha: 0.7),
                         fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.0,
@@ -141,7 +141,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     Text(
                       'Jesus does not offer to supplement our lives — He offers to satisfy them. The crowd had just witnessed the miracle of loaves and fish, yet Jesus pointed beyond the physical to a deeper hunger. Every longing we carry — for meaning, for belonging, for peace — finds its answer in Him. Come to Him today, not just for what He can do, but for who He is.',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontSize: 15.sp,
                         height: 1.6,
                       ),

@@ -100,7 +100,7 @@ class SermonsView extends GetView<SermonsController> {
           children: [
             Icon(
               Icons.search,
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
               size: 24.w,
             ),
             SizedBox(width: 12.w),
@@ -111,7 +111,7 @@ class SermonsView extends GetView<SermonsController> {
                 decoration: InputDecoration(
                   hintText: 'Search sermons...',
                   hintStyle: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                     fontSize: 14.sp,
                   ),
                   border: InputBorder.none,
@@ -159,7 +159,7 @@ class SermonsView extends GetView<SermonsController> {
                     style: TextStyle(
                       color: isSelected
                           ? Colors.white
-                          : Colors.white.withOpacity(0.6),
+                          : Colors.white.withValues(alpha: 0.6),
                       fontSize: 14.sp,
                       fontWeight: isSelected
                           ? FontWeight.bold
@@ -231,7 +231,7 @@ class SermonsView extends GetView<SermonsController> {
                   Text(
                     sermon.pastor,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       fontSize: 13.sp,
                     ),
                   ),
@@ -242,7 +242,7 @@ class SermonsView extends GetView<SermonsController> {
                       Text(
                         sermon.date,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.5),
+                          color: Colors.white.withValues(alpha: 0.5),
                           fontSize: 12.sp,
                         ),
                       ),

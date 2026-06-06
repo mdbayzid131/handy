@@ -63,38 +63,71 @@ import '../../modules/settings/views/settings_view.dart';
 /// ===================== APP ROUTES =====================
 /// All named route constants. Use these instead of hardcoding route strings.
 abstract class AppRoutes {
+  // ignore: constant_identifier_names
   static const String SPLASH = '/splash';
+  // ignore: constant_identifier_names
   static const String LOGIN = '/login';
+  // ignore: constant_identifier_names
   static const String REGISTER = '/register';
+  // ignore: constant_identifier_names
   static const String FORGOT_PASSWORD = '/forgot-password';
+  // ignore: constant_identifier_names
   static const String OTP_VERIFICATION = '/otp-verification';
+  // ignore: constant_identifier_names
   static const String UPDATE_PASSWORD = '/update-password';
+  // ignore: constant_identifier_names
   static const String HOME = '/home';
+  // ignore: constant_identifier_names
   static const String PROFILE = '/profile';
+  // ignore: constant_identifier_names
   static const String BOTTOM_NAV_BAR = '/bottom-nav-bar';
+  // ignore: constant_identifier_names
   static const String SEARCH = '/search';
+  // ignore: constant_identifier_names
   static const String SETTINGS = '/settings';
+  // ignore: constant_identifier_names
   static const String NO_INTERNET = '/no-internet';
+  // ignore: constant_identifier_names
   static const String LOCK = '/lock';
+  // ignore: constant_identifier_names
   static const String SERMONS = '/sermons';
+  // ignore: constant_identifier_names
   static const String NEWS = '/news';
+  // ignore: constant_identifier_names
   static const String GIVE = '/give';
+  // ignore: constant_identifier_names
   static const String EVENTS = '/events';
+  // ignore: constant_identifier_names
   static const String MORE = '/more';
+  // ignore: constant_identifier_names
   static const String SERMON_DITAILS = '/sermon-ditails';
+  // ignore: constant_identifier_names
   static const String EVENT_DITAILS = '/event-ditails';
+  // ignore: constant_identifier_names
   static const String NOTIFICATION = '/notification';
+  // ignore: constant_identifier_names
   static const String BIBLE = '/bible';
+  // ignore: constant_identifier_names
   static const String BIBLE_CHAPTERS = '/bible-chapters';
+  // ignore: constant_identifier_names
   static const String BIBLE_VERSES = '/bible-verses';
+  // ignore: constant_identifier_names
   static const String COMMUNITY = '/community';
+  // ignore: constant_identifier_names
   static const String DEVOTIONALS = '/devotionals';
+  // ignore: constant_identifier_names
   static const String DEVOTIONALS_DETAILS = '/devotionals-details';
+  // ignore: constant_identifier_names
   static const String PRAYER_WALL = '/prayer-wall';
+  // ignore: constant_identifier_names
   static const String WATCH_LIVE = '/watch-live';
+  // ignore: constant_identifier_names
   static const String HISTORY_AND_CORE_VALUES = '/history-and-core-values';
+  // ignore: constant_identifier_names
   static const String DONATE = '/donate';
+  // ignore: constant_identifier_names
   static const String EVENTS_HISTORY = '/events-history';
+  // ignore: constant_identifier_names
   static const String EVENTS_HISTORY_DETAILS = '/events-history-details';
 }
 

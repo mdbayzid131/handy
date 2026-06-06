@@ -122,7 +122,7 @@ class WatchLiveView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
+                          color: Colors.black.withValues(alpha: 0.3),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -153,7 +153,7 @@ class WatchLiveView extends StatelessWidget {
                         Text(
                           "PIWC Stoneyburn",
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.white.withValues(alpha: 0.7),
                             fontSize: 14.sp,
                           ),
                         ),
@@ -255,7 +255,7 @@ class WatchLiveView extends StatelessWidget {
                         color: const Color(0xFF1A2340),
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.05),
+                          color: Colors.white.withValues(alpha: 0.05),
                         ),
                       ),
                       child: Row(
@@ -468,7 +468,7 @@ class WatchLiveView extends StatelessWidget {
                                 Text(
                                   'Subscribe to our YouTube\nchannel for live notifications',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha: 0.9),
                                     fontSize: 12.sp,
                                     height: 1.3,
                                   ),
@@ -482,7 +482,7 @@ class WatchLiveView extends StatelessWidget {
                               vertical: 8.h,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: Text(
@@ -534,7 +534,7 @@ class WatchLiveView extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF1A2340),
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
       child: Row(
         children: [
