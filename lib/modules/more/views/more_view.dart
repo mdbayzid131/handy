@@ -132,34 +132,29 @@ class MoreView extends StatelessWidget {
               [const Color(0xFF4DB6AC), const Color(0xFF00796B)],
               onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
             ),
-          ],
-        ),
-        SizedBox(height: 24.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
             _buildFeatureItem(Icons.book, 'Bible', [
               const Color(0xFF81C784),
               const Color(0xFF388E3C),
             ], onTap: () => Get.toNamed(AppRoutes.BIBLE)),
+          ],
+        ),
+        SizedBox(height: 24.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             _buildFeatureItem(Icons.person, 'My Profile', [
               const Color(0xFF64B5F6),
               const Color(0xFF1976D2),
             ], onTap: () => Get.toNamed(AppRoutes.PROFILE)),
+            SizedBox(width: 26.w),
             _buildFeatureItem(
               Icons.settings,
               'Settings',
               [const Color(0xFFB0BEC5), const Color(0xFF607D8B)],
               onTap: () => Get.toNamed(AppRoutes.SETTINGS),
             ),
-          ],
-        ),
-        SizedBox(height: 24.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+            SizedBox(width: 26.w),
             _buildFeatureItem(
               Icons.auto_stories,
               'History and\nCore Values',

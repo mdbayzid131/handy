@@ -147,7 +147,7 @@ class RegisterView extends GetView<RegisterController> {
                             // if (value != controller.passwordController.text) {
                             //   return 'Passwords do not match';
                             // }
-                            // return null;
+                            return null;
                           },
                         ),
                       ),

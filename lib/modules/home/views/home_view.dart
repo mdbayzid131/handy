@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
@@ -9,6 +8,7 @@ import '../../../config/routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 import '../../bottom_nab_bar/controllers/bottom_nab_bar.dart';
 
+// ignore: unused_element
 class _QuickAccessItem {
   final VoidCallback onTap;
   final IconData icon;
@@ -36,98 +36,94 @@ class HomeView extends GetView<HomeController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 70.h),
-              Container(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        // Logo
-                        Container(
-                          width: 50.w,
-                          height: 50.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.yellow,
-                          ),
-                          child: ClipOval(
-                            child: Image.asset(
-                              ImagePaths.appLogo,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Icon(
-                                    Icons.church,
-                                    size: 24.w,
-                                    color: Colors.white,
-                                  ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      // Logo
+                      Container(
+                        width: 50.w,
+                        height: 50.w,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.yellow,
+                        ),
+                        child: ClipOval(
+                          child: Image.asset(
+                            ImagePaths.appLogo,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => Icon(
+                              Icons.church,
+                              size: 24.w,
+                              color: Colors.white,
                             ),
                           ),
                         ),
-                        SizedBox(width: 12.w),
-                        // Titles
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'PIWC Stoneyburn',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      ),
+                      SizedBox(width: 12.w),
+                      // Titles
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'PIWC Stoneyburn',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Text(
-                                'The Church of Pentecost - UK',
-                                style: TextStyle(
-                                  color: const Color(0xFFFFC107), // Amber
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            ),
+                            Text(
+                              'The Church of Pentecost - UK',
+                              style: TextStyle(
+                                color: const Color(0xFFFFC107), // Amber
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        // Action Icons
-                        GestureDetector(
-                          onTap: () => Get.toNamed(AppRoutes.NOTIFICATION),
+                      ),
+                      // Action Icons
+                      GestureDetector(
+                        onTap: () => Get.toNamed(AppRoutes.NOTIFICATION),
+                        child: Icon(
+                          Icons.notifications,
+                          color: const Color(0xFFFFC107),
+                          size: 24.w,
+                        ),
+                      ),
+                      SizedBox(width: 16.w),
+                      GestureDetector(
+                        onTap: () => Get.toNamed(AppRoutes.LOGIN),
+                        child: Container(
+                          width: 40.w,
+                          height: 40.w,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFFFC107),
+                            shape: BoxShape.circle,
+                          ),
                           child: Icon(
-                            Icons.notifications,
-                            color: const Color(0xFFFFC107),
+                            Icons.person,
+                            color: const Color(0xFF091244),
                             size: 24.w,
                           ),
                         ),
-                        SizedBox(width: 16.w),
-                        GestureDetector(
-                          onTap: () => Get.toNamed(AppRoutes.LOGIN),
-                          child: Container(
-                            width: 40.w,
-                            height: 40.w,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFFFC107),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.person,
-                              color: const Color(0xFF091244),
-                              size: 24.w,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 18.h),
-                    Text(
-                      'Welcome, Beloved 🙏',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
                       ),
+                    ],
+                  ),
+                  SizedBox(height: 18.h),
+                  Text(
+                    ' Welcome, Beloved 🙏',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               SizedBox(height: 20.h),
               _buildTodaysVerseCard(controller.homeData.todaysVerse),
@@ -248,12 +244,12 @@ class HomeView extends GetView<HomeController> {
             width: 50.w,
             height: 50.w,
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: Icon(
               Icons.access_time_filled,
-              color: const Color(0xFF0B101E).withOpacity(0.7),
+              color: const Color(0xFF0B101E).withValues(alpha: 0.7),
               size: 26.w,
             ),
           ),
@@ -265,7 +261,7 @@ class HomeView extends GetView<HomeController> {
                 Text(
                   data.label,
                   style: TextStyle(
-                    color: const Color(0xFF0B101E).withOpacity(0.6),
+                    color: const Color(0xFF0B101E).withValues(alpha: 0.6),
                     fontSize: 10.sp,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -284,7 +280,7 @@ class HomeView extends GetView<HomeController> {
                 Text(
                   data.schedule,
                   style: TextStyle(
-                    color: const Color(0xFF0B101E).withOpacity(0.8),
+                    color: const Color(0xFF0B101E).withValues(alpha: 0.8),
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -331,7 +327,7 @@ class HomeView extends GetView<HomeController> {
               width: 50.w,
               height: 50.w,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
               child: Center(
@@ -362,7 +358,7 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     'Join Sunday service on YouTube or\nFacebook',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: 0.9),
                       fontSize: 12.sp,
                       height: 1.3,
                     ),
@@ -402,6 +398,12 @@ class HomeView extends GetView<HomeController> {
               [const Color(0xFFD088FF), const Color(0xFFA64DFF)],
               onTap: () => Get.toNamed(AppRoutes.PRAYER_WALL),
             ),
+            _buildQuickAccessItem(
+              Icons.groups,
+              'Community',
+              [const Color(0xFF4DB6AC), const Color(0xFF00897B)],
+              onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
+            ),
           ],
         ),
         SizedBox(height: 24.h),
@@ -421,32 +423,16 @@ class HomeView extends GetView<HomeController> {
               [const Color(0xFFFF9800), const Color(0xFFF57C00)],
               onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
             ),
-            _buildQuickAccessItem(
-              Icons.book,
-              'Bible',
-              [const Color(0xFF26A69A), const Color(0xFF00796B)],
-              onTap: () => Get.toNamed(AppRoutes.BIBLE),
-            ),
-          ],
-        ),
-        SizedBox(height: 24.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+            _buildQuickAccessItem(Icons.book, 'Bible', [
+              const Color(0xFF26A69A),
+              const Color(0xFF00796B),
+            ], onTap: () => Get.toNamed(AppRoutes.BIBLE)),
             _buildQuickAccessItem(
               Icons.videocam,
               'Watch Live',
               [const Color(0xFFFF7043), const Color(0xFFE64A19)],
               onTap: () => Get.toNamed(AppRoutes.WATCH_LIVE),
             ),
-            _buildQuickAccessItem(
-              Icons.groups,
-              'Community',
-              [const Color(0xFF4DB6AC), const Color(0xFF00897B)],
-              onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
-            ),
-            SizedBox(width: 65.w), // To keep the spaceBetween aligned
           ],
         ),
       ],
@@ -574,7 +560,7 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     '${data.preacher} · ${data.duration}',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       fontSize: 12.sp,
                     ),
                   ),
@@ -601,9 +587,6 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildAnnouncementCard(HomeAnnouncementModel data, bool isExpanded) {
-    final borderColor = data.isImportant
-        ? const Color(0xFFFF5252)
-        : const Color(0xFF3B68E7);
     final tagColor = data.isImportant
         ? const Color(0xFFFF5252)
         : const Color(0xFF3B68E7);
@@ -665,7 +648,7 @@ class HomeView extends GetView<HomeController> {
                               vertical: 4.h,
                             ),
                             decoration: BoxDecoration(
-                              color: tagColor.withOpacity(0.15),
+                              color: tagColor.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Text(
@@ -685,7 +668,7 @@ class HomeView extends GetView<HomeController> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withValues(alpha: 0.6),
                           fontSize: 14.sp,
                           height: 1.4,
                         ),
@@ -697,7 +680,7 @@ class HomeView extends GetView<HomeController> {
                           Text(
                             data.date,
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.5),
+                              color: Colors.white.withValues(alpha: 0.5),
                               fontSize: 12.sp,
                             ),
                           ),

@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/config/themes/app_theme.dart';
-import 'package:handy/modules/sermon_ditails/bindings/sermon_ditails_binding.dart';
-import 'package:handy/modules/sermon_ditails/views/sermon_ditails_view.dart';
 import '../controllers/sermons_controller.dart';
 import '../../../data/models/sermons_model.dart';
 

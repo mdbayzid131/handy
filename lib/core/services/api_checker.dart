@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' hide Response;
 import '../utils/helpers.dart';
 import '../utils/logger.dart';
 

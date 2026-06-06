@@ -5,10 +5,8 @@ class ImagePaths {
   ImagePaths._();
 
   // ─── Base Paths ───
-  static const String _icons = 'assets/icons';
   static const String _images = 'assets/images';
   static const String _logos = 'assets/logos';
-  static const String _dummy = 'assets/dummy_image';
 
   // ─── Icons ───
 
