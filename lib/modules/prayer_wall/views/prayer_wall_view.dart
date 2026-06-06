@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import '../../../data/models/prayer_wall_model.dart';
 import '../controllers/prayer_wall_controller.dart';
 
@@ -11,11 +12,10 @@ class PrayerWallView extends GetView<PrayerWallController> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: const Color(0xFF0F172A),
+            color: AppTheme.backgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.r),
               topRight: Radius.circular(20.r),
@@ -27,11 +27,10 @@ class PrayerWallView extends GetView<PrayerWallController> {
           child: SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -102,33 +101,12 @@ class PrayerWallView extends GetView<PrayerWallController> {
                       ),
                     ),
                   ),
-                  Obx(() {
-                    if (controller.isAnonymous.value) {
-                      return Padding(
-                        padding: EdgeInsets.only(top: 8.h),
-                        child: Row(
-                          children: [
-                            Icon(Icons.info_outline, color: const Color(0xFFFFC107), size: 14.sp),
-                            SizedBox(width: 6.w),
-                            Text(
-                              'Your name will be hidden from everyone.',
-                              style: TextStyle(
-                                color: const Color(0xFFFFC107),
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  }),
                   SizedBox(height: 12.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Pray as Anonymous',
+                        'Prayer as Anonymous',
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.8),
                           fontSize: 14.sp,
@@ -190,7 +168,6 @@ class PrayerWallView extends GetView<PrayerWallController> {
                   SizedBox(height: 16.h),
                 ],
               ),
-              ),
             ),
           ),
         );
@@ -201,9 +178,8 @@ class PrayerWallView extends GetView<PrayerWallController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       body: Column(
-          children: [
+        children: [
             // Header
             Container(
               padding: EdgeInsets.only(
@@ -225,50 +201,41 @@ class PrayerWallView extends GetView<PrayerWallController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                            size: 24.w,
-                          ),
-                          onPressed: () => Get.back(),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 24.w,
                         ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Prayer Wall',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 32.sp,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: -0.5,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                'PIWC Stoneyburn',
-                                style: TextStyle(
-                                  color: const Color(0xFFFFC107),
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
+                        onPressed: () => Get.back(),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Prayer Wall',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32.sp,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: -0.5,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            'PIWC Stoneyburn',
+                            style: TextStyle(
+                              color: const Color(0xFFFFC107),
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 8.w),
                   ElevatedButton(
                     onPressed: () => _showAddRequestBottomSheet(context),
                     style: ElevatedButton.styleFrom(
@@ -302,9 +269,10 @@ class PrayerWallView extends GetView<PrayerWallController> {
               ),
             ),
 
-            // Tabs
+            // Toggle Buttons
+            SizedBox(height: 16.h),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Obx(
                 () => Container(
                   height: 52.h,
@@ -312,7 +280,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                     color: const Color(0xFF1A2340),
                     borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.05),
+                      color: Colors.white.withValues(alpha: 0.05),
                     ),
                   ),
                   child: Row(
@@ -373,6 +341,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
               ),
             ),
 
+            SizedBox(height: 16.h),
             // Tab Views
             Expanded(
               child: Obx(
@@ -402,7 +371,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
           decoration: BoxDecoration(
             color: const Color(0xFF1A2340),
             borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(color: Colors.white.withOpacity(0.05)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -451,7 +420,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
               Text(
                 item.request,
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                   fontSize: 15.sp,
                   height: 1.5,
                 ),
@@ -460,7 +429,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05),
+                  color: Colors.white.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Row(
@@ -497,7 +466,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
         children: [
           Icon(
             Icons.volunteer_activism,
-            color: const Color(0xFF8E99AF).withOpacity(0.5),
+            color: const Color(0xFF8E99AF).withValues(alpha: 0.5),
             size: 64.w,
           ),
           SizedBox(height: 16.h),
