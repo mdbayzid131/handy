@@ -13,7 +13,6 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A), // Dark navy background
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,

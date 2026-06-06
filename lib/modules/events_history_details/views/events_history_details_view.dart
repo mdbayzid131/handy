@@ -30,7 +30,6 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
     final primaryColor = _getCategoryColor(event.category);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
@@ -124,7 +123,9 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                   Text(
                     event.title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
                       height: 1.2,
@@ -156,7 +157,9 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                   Text(
                     'About This Event',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -165,7 +168,9 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                   Text(
                     event.description,
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.6),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white.withValues(alpha: 0.6)
+                          : Colors.black.withValues(alpha: 0.6),
                       fontSize: 15.sp,
                       height: 1.6,
                     ),

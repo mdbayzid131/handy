@@ -14,7 +14,6 @@ class BibleVersesView extends GetView<BibleVersesController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
-        backgroundColor: const Color(0xFF0F172A),
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
@@ -57,7 +56,9 @@ class BibleVersesView extends GetView<BibleVersesController> {
                         child: Text(
                           '${controller.bookName.value} ${controller.chapter.value}',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : Colors.black,
                             fontSize: 28.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -89,7 +90,9 @@ class BibleVersesView extends GetView<BibleVersesController> {
                             child: Text(
                               verseText,
                               style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.9),
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white.withValues(alpha: 0.9)
+                                    : Colors.black.withValues(alpha: 0.9),
                                 fontSize: 17.sp,
                                 height: 1.5,
                               ),

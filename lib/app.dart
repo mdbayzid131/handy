@@ -18,12 +18,14 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            // appBarTheme: AppBarTheme(
-            //   backgroundColor: Color(0xffF9FAFB),
-            //   scrolledUnderElevation: 0,
-            // ),
+            brightness: Brightness.light,
+            scaffoldBackgroundColor: Colors.white,
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
             scaffoldBackgroundColor: AppTheme.backgroundColor,
           ),
+          themeMode: ThemeMode.dark,
           initialRoute: AppRoutes.SPLASH,
           getPages: pages,
           initialBinding: InitialBinding(),

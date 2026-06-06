@@ -10,7 +10,6 @@ class WatchLiveView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
@@ -173,7 +172,9 @@ class WatchLiveView extends StatelessWidget {
                     Text(
                       'Watch on',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -399,7 +400,9 @@ class WatchLiveView extends StatelessWidget {
                     Text(
                       'Recent Services',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),

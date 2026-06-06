@@ -77,18 +77,22 @@ class MoreView extends StatelessWidget {
                   Text(
                     'Features',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  _buildFeaturesGrid(),
+                  _buildFeaturesGrid(context),
                   SizedBox(height: 32.h),
                   Text(
                     'Connect With Us',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -107,7 +111,7 @@ class MoreView extends StatelessWidget {
     );
   }
 
-  Widget _buildFeaturesGrid() {
+  Widget _buildFeaturesGrid(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -115,24 +119,27 @@ class MoreView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildFeatureItem(
+              context,
               Icons.volunteer_activism,
               'Prayer Wall',
               [const Color(0xFFCE93D8), const Color(0xFF8E24AA)],
               onTap: () => Get.toNamed(AppRoutes.PRAYER_WALL),
             ),
             _buildFeatureItem(
+              context,
               Icons.menu_book,
               'Devotionals',
               [const Color(0xFFFFB74D), const Color(0xFFF57C00)],
               onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
             ),
             _buildFeatureItem(
+              context,
               Icons.groups,
               'Community',
               [const Color(0xFF4DB6AC), const Color(0xFF00796B)],
               onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
             ),
-            _buildFeatureItem(Icons.book, 'Bible', [
+            _buildFeatureItem(context, Icons.book, 'Bible', [
               const Color(0xFF81C784),
               const Color(0xFF388E3C),
             ], onTap: () => Get.toNamed(AppRoutes.BIBLE)),
@@ -143,12 +150,13 @@ class MoreView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildFeatureItem(Icons.person, 'My Profile', [
+            _buildFeatureItem(context, Icons.person, 'My Profile', [
               const Color(0xFF64B5F6),
               const Color(0xFF1976D2),
             ], onTap: () => Get.toNamed(AppRoutes.PROFILE)),
             SizedBox(width: 26.w),
             _buildFeatureItem(
+              context,
               Icons.settings,
               'Settings',
               [const Color(0xFFB0BEC5), const Color(0xFF607D8B)],
@@ -156,6 +164,7 @@ class MoreView extends StatelessWidget {
             ),
             SizedBox(width: 26.w),
             _buildFeatureItem(
+              context,
               Icons.auto_stories,
               'History and\nCore Values',
               [
@@ -171,6 +180,7 @@ class MoreView extends StatelessWidget {
   }
 
   Widget _buildFeatureItem(
+    BuildContext context,
     IconData icon,
     String title,
     List<Color> gradientColors, {
@@ -198,7 +208,9 @@ class MoreView extends StatelessWidget {
             title,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
               fontSize: 10.sp,
               fontWeight: FontWeight.w600,
             ),

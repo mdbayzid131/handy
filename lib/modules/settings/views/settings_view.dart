@@ -62,7 +62,9 @@ class SettingsView extends GetView<SettingsController> {
             Text(
               'Notifications',
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -71,9 +73,24 @@ class SettingsView extends GetView<SettingsController> {
             _buildNotificationsCard(),
             SizedBox(height: 32.h),
             Text(
+              'Appearance',
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 16.h),
+            _buildAppearanceCard(context),
+            SizedBox(height: 32.h),
+            Text(
               'Account',
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -84,7 +101,9 @@ class SettingsView extends GetView<SettingsController> {
             Text(
               'About',
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -99,7 +118,9 @@ class SettingsView extends GetView<SettingsController> {
                     TextSpan(
                       text: 'Made with ',
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.5),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white.withValues(alpha: 0.5)
+                            : Colors.black.withValues(alpha: 0.5),
                         fontSize: 13.sp,
                       ),
                     ),
@@ -110,7 +131,9 @@ class SettingsView extends GetView<SettingsController> {
                     TextSpan(
                       text: ' for the PIWC Stoneyburn family',
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.5),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white.withValues(alpha: 0.5)
+                            : Colors.black.withValues(alpha: 0.5),
                         fontSize: 13.sp,
                       ),
                     ),
@@ -183,6 +206,63 @@ class SettingsView extends GetView<SettingsController> {
             'Important church announcements',
             controller.announcements,
             isLast: true,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAppearanceCard(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.cardColor,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Dark Mode',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        'Toggle application theme',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.5),
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Switch(
+                  value: Theme.of(context).brightness == Brightness.dark,
+                  onChanged: (val) {
+                    Get.changeThemeMode(
+                      val ? ThemeMode.dark : ThemeMode.light,
+                    );
+                  },
+                  activeThumbColor: Colors.white,
+                  activeTrackColor: AppTheme.accentBlue,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
+                ),
+              ],
+            ),
           ),
         ],
       ),

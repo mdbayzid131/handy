@@ -13,24 +13,37 @@ class DevotionalsDetailsView extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
-        backgroundColor: const Color(0xFF0F172A),
         systemOverlayStyle: SystemUiOverlayStyle.light,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+            size: 24.w,
+          ),
           onPressed: () => Get.back(),
         ),
         centerTitle: true,
         title: Text(
           'Devotional',
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.star_border, color: Colors.white, size: 24.w),
+            icon: Icon(
+              Icons.star_border,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
+              size: 24.w,
+            ),
             onPressed: () {},
           ),
         ],
@@ -131,7 +144,9 @@ class DevotionalsDetailsView extends StatelessWidget {
                         Text(
                           'Reflection',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : Colors.black,
                             fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -142,7 +157,9 @@ class DevotionalsDetailsView extends StatelessWidget {
                     Text(
                       'Jesus does not offer to supplement our lives — He offers to satisfy them. The crowd had just witnessed the miracle of loaves and fish, yet Jesus pointed beyond the physical to a deeper hunger. Every longing we carry — for meaning, for belonging, for peace — finds its answer in Him. Come to Him today, not just for what He can do, but for who He is.',
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white.withValues(alpha: 0.9)
+                            : Colors.black.withValues(alpha: 0.9),
                         fontSize: 15.sp,
                         height: 1.6,
                       ),

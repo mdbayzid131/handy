@@ -79,7 +79,9 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: Colors.white.withValues(alpha: 0.7),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white.withValues(alpha: 0.7)
+                              : Colors.black.withValues(alpha: 0.7),
                           height: 1.5,
                         ),
                       ),

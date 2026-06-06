@@ -17,8 +17,8 @@ class GiveView extends GetView<GiveController> {
             _buildHeader(context),
             Obx(
               () => controller.showHistory.value
-                  ? _buildHistoryList()
-                  : _buildGiveForm(),
+                  ? _buildHistoryList(context)
+                  : _buildGiveForm(context),
             ),
           ],
         ),
@@ -145,16 +145,16 @@ class GiveView extends GetView<GiveController> {
     );
   }
 
-  Widget _buildGiveForm() {
+  Widget _buildGiveForm(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(20.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionTitle('Select Fund'),
+          _buildSectionTitle(context, 'Select Fund'),
           _buildFundGrid(),
           SizedBox(height: 24.h),
-          _buildSectionTitle('Amount (£)'),
+          _buildSectionTitle(context, 'Amount (£)'),
           _buildAmountSelection(),
           SizedBox(height: 32.h),
           _buildGiveNowButton(),
@@ -164,13 +164,15 @@ class GiveView extends GetView<GiveController> {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Padding(
       padding: EdgeInsets.only(bottom: 16.h),
       child: Text(
         title,
         style: TextStyle(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black,
           fontSize: 16.sp,
           fontWeight: FontWeight.bold,
         ),
@@ -372,7 +374,7 @@ class GiveView extends GetView<GiveController> {
   }
 
   // Giving History List
-  Widget _buildHistoryList() {
+  Widget _buildHistoryList(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -381,7 +383,9 @@ class GiveView extends GetView<GiveController> {
           child: Text(
             'Giving History',
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),

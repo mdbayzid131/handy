@@ -22,13 +22,21 @@ class DonateView extends StatelessWidget {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+            size: 24.w,
+          ),
           onPressed: () => Get.back(),
         ),
         title: Text(
           'Donate',
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -36,7 +44,9 @@ class DonateView extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
           child: Container(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.1),
             height: 1.h,
           ),
         ),

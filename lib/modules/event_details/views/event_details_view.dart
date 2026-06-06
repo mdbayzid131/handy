@@ -31,7 +31,6 @@ class EventDetailsView extends GetView<EventDetailsController> {
       final primaryColor = _getCategoryColor(event.category);
 
       return Scaffold(
-        backgroundColor: const Color(0xFF0F172A),
         appBar: AppBar(
           scrolledUnderElevation: 0,
           elevation: 0,
@@ -130,7 +129,9 @@ class EventDetailsView extends GetView<EventDetailsController> {
                     Text(
                       event.title,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
                         fontSize: 24.sp,
                         fontWeight: FontWeight.bold,
                         height: 1.2,
@@ -196,7 +197,9 @@ class EventDetailsView extends GetView<EventDetailsController> {
                     Text(
                       'About This Event',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -205,7 +208,9 @@ class EventDetailsView extends GetView<EventDetailsController> {
                     Text(
                       event.description,
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.6),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white.withValues(alpha: 0.6)
+                            : Colors.black.withValues(alpha: 0.6),
                         fontSize: 15.sp,
                         height: 1.6,
                       ),
@@ -250,7 +255,9 @@ class EventDetailsView extends GetView<EventDetailsController> {
                           Text(
                             'We look forward to seeing you there! 🎉',
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.7),
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white.withValues(alpha: 0.7)
+                                  : Colors.black.withValues(alpha: 0.7),
                               fontSize: 14.sp,
                             ),
                           ),

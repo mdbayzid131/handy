@@ -19,13 +19,21 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+            size: 24.w,
+          ),
           onPressed: () => Get.back(),
         ),
         title: Text(
           'History & Core Values',
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -33,7 +41,9 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
           child: Container(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.1),
             height: 1.h,
           ),
         ),
@@ -45,12 +55,14 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSection(
+                context,
                 title: 'Our History',
                 content:
                     'Founded with a vision to connect people globally, our journey began as a small community initiative. Over the years, we have grown into a platform that empowers individuals through technology and compassion. Our history is a testament to the dedication of our community and the relentless pursuit of our mission.',
               ),
               SizedBox(height: 32.h),
               _buildSection(
+                context,
                 title: 'Core Values',
                 content:
                     '• Integrity\nWe believe in doing the right thing, even when no one is watching.\n\n'
@@ -60,6 +72,7 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
               ),
               SizedBox(height: 32.h),
               _buildSection(
+                context,
                 title: 'Our Mission',
                 content:
                     'To foster a supportive and connected environment where everyone can grow, learn, and thrive together.',
@@ -71,14 +84,16 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
     );
   }
 
-  Widget _buildSection({required String title, required String content}) {
+  Widget _buildSection(BuildContext context, {required String title, required String content}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
             fontSize: 24.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -87,7 +102,9 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
         Text(
           content,
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.8),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.8)
+                : Colors.black.withValues(alpha: 0.8),
             fontSize: 16.sp,
             height: 1.6,
           ),

@@ -176,7 +176,9 @@ class RegisterView extends GetView<RegisterController> {
                           Text(
                             "Already have an account? ",
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.6),
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white.withValues(alpha: 0.6)
+                                  : Colors.black.withValues(alpha: 0.6),
                               fontSize: 14.sp,
                             ),
                           ),

@@ -75,7 +75,9 @@ class OtpView extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: Colors.white.withValues(alpha: 0.7),
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white.withValues(alpha: 0.7)
+                            : Colors.black.withValues(alpha: 0.7),
                         height: 1.5,
                       ),
                     ),
@@ -171,7 +173,9 @@ class OtpView extends StatelessWidget {
                         Text(
                           "Didn't receive code? ",
                           style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.6),
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white.withValues(alpha: 0.6)
+                                : Colors.black.withValues(alpha: 0.6),
                             fontSize: 14.sp,
                           ),
                         ),

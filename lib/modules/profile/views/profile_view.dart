@@ -111,7 +111,6 @@ class ProfileView extends GetView<ProfileController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
-        backgroundColor: const Color(0xFF0F172A),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
           onPressed: () => Get.back(),
@@ -249,7 +248,9 @@ class ProfileView extends GetView<ProfileController> {
                     Text(
                       'Giving Summary',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -297,7 +298,9 @@ class ProfileView extends GetView<ProfileController> {
                         Text(
                           'Saved Sermons',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : Colors.black,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -340,7 +343,9 @@ class ProfileView extends GetView<ProfileController> {
                     Text(
                       'Account',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),

@@ -293,8 +293,8 @@ class PrayerWallView extends GetView<PrayerWallController> {
             Expanded(
               child: Obx(
                 () => controller.isPrayerWall.value
-                    ? _buildPrayerList(controller.requests)
-                    : _buildEmptyState(),
+                    ? _buildPrayerList(context, controller.requests)
+                    : _buildEmptyState(context),
               ),
             ),
           ],
@@ -302,8 +302,8 @@ class PrayerWallView extends GetView<PrayerWallController> {
     );
   }
 
-  Widget _buildPrayerList(List<PrayerWallModel> list) {
-    if (list.isEmpty) return _buildEmptyState();
+  Widget _buildPrayerList(BuildContext context, List<PrayerWallModel> list) {
+    if (list.isEmpty) return _buildEmptyState(context);
 
     return ListView.builder(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -406,7 +406,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -420,7 +420,9 @@ class PrayerWallView extends GetView<PrayerWallController> {
           Text(
             'No requests yet',
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
             ),

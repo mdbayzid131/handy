@@ -70,7 +70,9 @@ class HomeView extends GetView<HomeController> {
                             Text(
                               'PIWC Stoneyburn',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black,
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -118,7 +120,9 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     ' Welcome, Beloved 🙏',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                     ),
@@ -135,15 +139,18 @@ class HomeView extends GetView<HomeController> {
               Text(
                 'Quick Access',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 16.h),
-              _buildQuickAccessGrid(),
+              _buildQuickAccessGrid(context),
               SizedBox(height: 32.h),
               _buildSectionHeader(
+                context,
                 'Latest Sermon',
                 onSeeAllTap: () =>
                     Get.find<BottomNavBarController>().changeTab(1),
@@ -152,6 +159,7 @@ class HomeView extends GetView<HomeController> {
               _buildLatestSermonCard(controller.homeData.latestSermon),
               SizedBox(height: 32.h),
               _buildSectionHeader(
+                context,
                 'Announcements',
                 onSeeAllTap: () =>
                     Get.find<BottomNavBarController>().changeTab(2),
@@ -373,7 +381,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildQuickAccessGrid() {
+  Widget _buildQuickAccessGrid(BuildContext context) {
     return Column(
       children: [
         Row(
@@ -381,24 +389,28 @@ class HomeView extends GetView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildQuickAccessItem(
+              context,
               Icons.video_library_rounded,
               'Sermons',
               [const Color(0xFF4A72FF), const Color(0xFF284EE6)],
               onTap: () => Get.find<BottomNavBarController>().changeTab(1),
             ),
             _buildQuickAccessItem(
+              context,
               Icons.favorite,
               'Give',
               [const Color(0xFFFF6B6B), const Color(0xFFFF4747)],
               onTap: () => Get.find<BottomNavBarController>().changeTab(3),
             ),
             _buildQuickAccessItem(
+              context,
               Icons.volunteer_activism,
               'Prayer',
               [const Color(0xFFD088FF), const Color(0xFFA64DFF)],
               onTap: () => Get.toNamed(AppRoutes.PRAYER_WALL),
             ),
             _buildQuickAccessItem(
+              context,
               Icons.groups,
               'Community',
               [const Color(0xFF4DB6AC), const Color(0xFF00897B)],
@@ -412,22 +424,25 @@ class HomeView extends GetView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildQuickAccessItem(
+              context,
               Icons.event,
               'Events',
               [const Color(0xFF66BB6A), const Color(0xFF388E3C)],
               onTap: () => Get.find<BottomNavBarController>().changeTab(4),
             ),
             _buildQuickAccessItem(
+              context,
               Icons.menu_book,
               'Devotionals',
               [const Color(0xFFFF9800), const Color(0xFFF57C00)],
               onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
             ),
-            _buildQuickAccessItem(Icons.book, 'Bible', [
+            _buildQuickAccessItem(context, Icons.book, 'Bible', [
               const Color(0xFF26A69A),
               const Color(0xFF00796B),
             ], onTap: () => Get.toNamed(AppRoutes.BIBLE)),
             _buildQuickAccessItem(
+              context,
               Icons.videocam,
               'Watch Live',
               [const Color(0xFFFF7043), const Color(0xFFE64A19)],
@@ -440,6 +455,7 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildQuickAccessItem(
+    BuildContext context,
     IconData icon,
     String title,
     List<Color> gradientColors, {
@@ -469,7 +485,9 @@ class HomeView extends GetView<HomeController> {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -480,14 +498,16 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildSectionHeader(String title, {VoidCallback? onSeeAllTap}) {
+  Widget _buildSectionHeader(BuildContext context, String title, {VoidCallback? onSeeAllTap}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),

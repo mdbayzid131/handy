@@ -14,7 +14,6 @@ class BibleChaptersView extends GetView<BibleChapterController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
-        backgroundColor: const Color(0xFF0F172A),
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
@@ -57,7 +56,9 @@ class BibleChaptersView extends GetView<BibleChapterController> {
                     Text(
                       controller.bookName.value,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
                         fontSize: 28.sp,
                         fontWeight: FontWeight.bold,
                       ),

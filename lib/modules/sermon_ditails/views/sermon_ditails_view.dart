@@ -11,9 +11,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
   Widget build(BuildContext context) {
     final sermon = controller.sermon;
 
-    return Container(
-      color: Colors.black,
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
         scrolledUnderElevation: 0,
           flexibleSpace: Container(
@@ -80,7 +78,9 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                       Text(
                         sermon.title,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
                           height: 1.2,
@@ -132,7 +132,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                       SizedBox(height: 20.h),
                       _buildKeyScripture(),
                       SizedBox(height: 24.h),
-                      _buildAboutSection(),
+                      _buildAboutSection(context),
                     ],
                   ),
                 ),
@@ -140,8 +140,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget _buildHeroImage(String category) {
@@ -336,14 +335,16 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
     );
   }
 
-  Widget _buildAboutSection() {
+  Widget _buildAboutSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'About This Message',
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -352,7 +353,9 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
         Text(
           "In uncertain times, our hope is not wishful thinking but a firm anchor rooted in God's promises. This message explores Hebrews 6 and what it means to hold fast to hope.",
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.6),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.6)
+                : Colors.black.withValues(alpha: 0.6),
             fontSize: 14.sp,
             height: 1.6,
           ),

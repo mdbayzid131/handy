@@ -20,13 +20,21 @@ class BibleView extends GetView<BibleController> {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
+            size: 24.w,
+          ),
           onPressed: () => Get.back(),
         ),
         title: Text(
           'Bible',
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white
+                : Colors.black,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -34,7 +42,9 @@ class BibleView extends GetView<BibleController> {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
           child: Container(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.black.withValues(alpha: 0.1),
             height: 1.h,
           ),
         ),
@@ -57,7 +67,12 @@ class BibleView extends GetView<BibleController> {
                     ),
                     child: TextField(
                       onChanged: controller.updateSearchQuery,
-                      style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
+                        fontSize: 16.sp,
+                      ),
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.search,
@@ -180,7 +195,7 @@ class BibleView extends GetView<BibleController> {
                     if (!hasSecond) {
                       return Padding(
                         padding: EdgeInsets.only(bottom: 16.h),
-                        child: _buildBookCard(books[firstIndex]),
+                        child: _buildBookCard(context, books[firstIndex]),
                       );
                     }
 
@@ -188,9 +203,9 @@ class BibleView extends GetView<BibleController> {
                       padding: EdgeInsets.only(bottom: 16.h),
                       child: Row(
                         children: [
-                          Expanded(child: _buildBookCard(books[firstIndex])),
+                          Expanded(child: _buildBookCard(context, books[firstIndex])),
                           SizedBox(width: 16.w),
-                          Expanded(child: _buildBookCard(books[secondIndex])),
+                          Expanded(child: _buildBookCard(context, books[secondIndex])),
                         ],
                       ),
                     );
@@ -204,7 +219,7 @@ class BibleView extends GetView<BibleController> {
     );
   }
 
-  Widget _buildBookCard(BibleBook book) {
+  Widget _buildBookCard(BuildContext context, BibleBook book) {
     return GestureDetector(
       onTap: () => Get.toNamed(
         AppRoutes.BIBLE_CHAPTERS,
@@ -223,7 +238,9 @@ class BibleView extends GetView<BibleController> {
             Text(
               book.name,
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),
