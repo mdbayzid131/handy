@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/data/models/community_model.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class CommunityView extends StatelessWidget {
   const CommunityView({super.key});
@@ -26,8 +27,8 @@ class CommunityView extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -51,7 +52,7 @@ class CommunityView extends StatelessWidget {
             Text(
               'PIWC Stoneyburn',
               style: TextStyle(
-                color: const Color(0xFFFFC107),
+                color: AppTheme.warningColor,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -69,7 +70,7 @@ class CommunityView extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 16.h),
             padding: EdgeInsets.all(20.w),
             decoration: BoxDecoration(
-              color: const Color(0xFF1A2340),
+              color: AppTheme.cardColor,
               borderRadius: BorderRadius.circular(16.r),
               border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
             ),
@@ -113,7 +114,7 @@ class CommunityView extends StatelessWidget {
                 Text(
                   item.description,
                   style: TextStyle(
-                    color: const Color(0xFF8E99AF),
+                    color: AppTheme.mutedTextColor,
                     fontSize: 14.sp,
                     height: 1.5,
                   ),

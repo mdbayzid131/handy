@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import '../controllers/events_history_controller.dart';
 import '../../../data/models/events_model.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class EventsHistoryView extends GetView<EventsHistoryController> {
   const EventsHistoryView({super.key});
@@ -27,8 +28,8 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -52,7 +53,7 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
             Text(
               'PIWC Stoneyburn',
               style: TextStyle(
-                color: const Color(0xFFFFC107),
+                color: AppTheme.warningColor,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -113,7 +114,7 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
                   borderRadius: BorderRadius.circular(20.r),
                   border: Border.all(
                     color: isSelected
-                        ? const Color(0xFF3B68E7)
+                        ? AppTheme.accentBlue
                         : Colors.white.withValues(alpha: 0.1),
                     width: 1,
                   ),
@@ -142,7 +143,7 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
       case 'Study':
         return const Color(0xFFFF8C00); // Orange
       case 'Worship':
-        return const Color(0xFF3B68E7); // Royal Blue
+        return AppTheme.accentBlue; // Royal Blue
       case 'Youth':
         return const Color(0xFFFF5252); // Coral/Red
       case 'Prayer':

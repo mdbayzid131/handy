@@ -21,8 +21,8 @@ class MoreView extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -52,7 +52,7 @@ class MoreView extends StatelessWidget {
                       Text(
                         'PIWC Stoneyburn',
                         style: TextStyle(
-                          color: const Color(0xFFFFC107),
+                          color: AppTheme.warningColor,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
                         ),

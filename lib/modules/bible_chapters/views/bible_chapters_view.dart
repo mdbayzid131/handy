@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/bible_chapter_controller.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class BibleChaptersView extends GetView<BibleChapterController> {
   const BibleChaptersView({super.key});
@@ -65,7 +66,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
                     Text(
                       '$chaptersCount chapters',
                       style: TextStyle(
-                        color: const Color(0xFF8E99AF),
+                        color: AppTheme.mutedTextColor,
                         fontSize: 14.sp,
                       ),
                     ),
@@ -118,7 +119,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
       onTap: () => controller.onChapterSelected(chapter),
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF3B68E7) : const Color(0xFF1A2340),
+          color: isSelected ? AppTheme.accentBlue : AppTheme.cardColor,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isSelected

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../../../data/models/prayer_wall_model.dart';
+import '../../../core/widgets/custom_gradient_header.dart';
 import '../controllers/prayer_wall_controller.dart';
 
 class PrayerWallView extends GetView<PrayerWallController> {
@@ -39,7 +40,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                         child: Text(
                           'Cancel',
                           style: TextStyle(
-                            color: const Color(0xFF8E99AF),
+                            color: AppTheme.mutedTextColor,
                             fontSize: 16.sp,
                           ),
                         ),
@@ -59,7 +60,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                         child: Text(
                           'Submit',
                           style: TextStyle(
-                            color: const Color(0xFF3B68E7),
+                            color: AppTheme.accentBlue,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -87,9 +88,9 @@ class PrayerWallView extends GetView<PrayerWallController> {
                       ),
                       decoration: InputDecoration(
                         hintText: 'Anonymous',
-                        hintStyle: const TextStyle(color: Color(0xFF8E99AF)),
+                        hintStyle: const TextStyle(color: AppTheme.mutedTextColor),
                         filled: true,
-                        fillColor: const Color(0xFF1A2340),
+                        fillColor: AppTheme.cardColor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide.none,
@@ -143,9 +144,9 @@ class PrayerWallView extends GetView<PrayerWallController> {
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: 'Share what\'s on your heart...',
-                      hintStyle: const TextStyle(color: Color(0xFF8E99AF)),
+                      hintStyle: const TextStyle(color: AppTheme.mutedTextColor),
                       filled: true,
-                      fillColor: const Color(0xFF1A2340),
+                      fillColor: AppTheme.cardColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.r),
                         borderSide: BorderSide.none,
@@ -160,7 +161,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                   Text(
                     'Your request will be shared with the church family. You can choose to remain anonymous.',
                     style: TextStyle(
-                      color: const Color(0xFF8E99AF),
+                      color: AppTheme.mutedTextColor,
                       fontSize: 12.sp,
                       height: 1.5,
                     ),
@@ -181,91 +182,37 @@ class PrayerWallView extends GetView<PrayerWallController> {
       body: Column(
         children: [
             // Header
-            Container(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + 16.h,
-                bottom: 16.h,
-                left: 10.w, // reduced to fit back button nicely
-                right: 20.w,
-              ),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xFF2844B4), // Lighter blue
-                    Color(0xFF0A123D), // Darker blue
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            CustomGradientHeader(
+              title: 'Prayer Wall',
+              showBackButton: true,
+              trailingWidget: ElevatedButton(
+                onPressed: () => _showAddRequestBottomSheet(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.warningColor,
+                  foregroundColor: const Color(0xFF0F172A),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 8.h,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24.r),
+                  ),
+                  elevation: 0,
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: 24.w,
-                        ),
-                        onPressed: () => Get.back(),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add, size: 18.w),
+                    SizedBox(width: 4.w),
+                    Text(
+                      'Add',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Prayer Wall',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 32.sp,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: -0.5,
-                            ),
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            'PIWC Stoneyburn',
-                            style: TextStyle(
-                              color: const Color(0xFFFFC107),
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  ElevatedButton(
-                    onPressed: () => _showAddRequestBottomSheet(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFFC107),
-                      foregroundColor: const Color(0xFF0F172A),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 8.h,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24.r),
-                      ),
-                      elevation: 0,
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.add, size: 18.w),
-                        SizedBox(width: 4.w),
-                        Text(
-                          'Add',
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
 
@@ -277,7 +224,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                 () => Container(
                   height: 52.h,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1A2340),
+                    color: AppTheme.cardColor,
                     borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.05),
@@ -292,7 +239,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                             margin: EdgeInsets.all(4.w),
                             decoration: BoxDecoration(
                               color: controller.isPrayerWall.value
-                                  ? const Color(0xFF3B68E7)
+                                  ? AppTheme.accentBlue
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(8.r),
                             ),
@@ -302,7 +249,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                               style: TextStyle(
                                 color: controller.isPrayerWall.value
                                     ? Colors.white
-                                    : const Color(0xFF8E99AF),
+                                    : AppTheme.mutedTextColor,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -317,7 +264,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                             margin: EdgeInsets.all(4.w),
                             decoration: BoxDecoration(
                               color: !controller.isPrayerWall.value
-                                  ? const Color(0xFF3B68E7)
+                                  ? AppTheme.accentBlue
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(8.r),
                             ),
@@ -327,7 +274,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                               style: TextStyle(
                                 color: !controller.isPrayerWall.value
                                     ? Colors.white
-                                    : const Color(0xFF8E99AF),
+                                    : AppTheme.mutedTextColor,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -369,7 +316,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
           margin: EdgeInsets.only(bottom: 16.h),
           padding: EdgeInsets.all(20.w),
           decoration: BoxDecoration(
-            color: const Color(0xFF1A2340),
+            color: AppTheme.cardColor,
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
           ),
@@ -379,7 +326,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundColor: const Color(0xFF2844B4),
+                    backgroundColor: AppTheme.primaryLighter,
                     radius: 20.r,
                     child: Text(
                       initial,
@@ -407,7 +354,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                         Text(
                           item.date,
                           style: TextStyle(
-                            color: const Color(0xFF8E99AF),
+                            color: AppTheme.mutedTextColor,
                             fontSize: 12.sp,
                           ),
                         ),
@@ -437,14 +384,14 @@ class PrayerWallView extends GetView<PrayerWallController> {
                   children: [
                     Icon(
                       Icons.volunteer_activism,
-                      color: const Color(0xFF8E99AF),
+                      color: AppTheme.mutedTextColor,
                       size: 16.w,
                     ),
                     SizedBox(width: 8.w),
                     Text(
                       'I Prayed · ${item.praysCount}',
                       style: TextStyle(
-                        color: const Color(0xFF8E99AF),
+                        color: AppTheme.mutedTextColor,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -466,7 +413,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
         children: [
           Icon(
             Icons.volunteer_activism,
-            color: const Color(0xFF8E99AF).withValues(alpha: 0.5),
+            color: AppTheme.mutedTextColor.withValues(alpha: 0.5),
             size: 64.w,
           ),
           SizedBox(height: 16.h),
@@ -481,7 +428,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
           SizedBox(height: 8.h),
           Text(
             'Be the first to share a prayer request',
-            style: TextStyle(color: const Color(0xFF8E99AF), fontSize: 14.sp),
+            style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 14.sp),
           ),
         ],
       ),

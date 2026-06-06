@@ -6,6 +6,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../controllers/register_controller.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class RegisterView extends GetView<RegisterController> {
   const RegisterView({super.key});
@@ -31,7 +32,7 @@ class RegisterView extends GetView<RegisterController> {
               Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xFF2844B4), Color(0xFF0A123D)],
+                    colors: [AppTheme.primaryLighter, AppTheme.primaryDarker],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -44,7 +45,7 @@ class RegisterView extends GetView<RegisterController> {
                         Icon(
                           Icons.person,
                           size: 60.w,
-                          color: const Color(0xFFFFC107),
+                          color: AppTheme.warningColor,
                         ),
                         SizedBox(height: 16.h),
                         Text(
@@ -157,7 +158,7 @@ class RegisterView extends GetView<RegisterController> {
                       Obx(
                         () => CustomButton(
                           text: 'Sign Up',
-                          backgroundColor: const Color(0xFF3B68E7),
+                          backgroundColor: AppTheme.accentBlue,
                           onPressed: () {
                             // if (controller.formKey.currentState!.validate()) {
                             //   controller.register();
@@ -184,7 +185,7 @@ class RegisterView extends GetView<RegisterController> {
                             child: Text(
                               'Login',
                               style: TextStyle(
-                                color: const Color(0xFFFFC107),
+                                color: AppTheme.warningColor,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.bold,
                               ),

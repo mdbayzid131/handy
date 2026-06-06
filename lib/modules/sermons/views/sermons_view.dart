@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/config/themes/app_theme.dart';
+import '../../../core/widgets/custom_gradient_header.dart';
 import '../controllers/sermons_controller.dart';
 import '../../../data/models/sermons_model.dart';
 
@@ -42,46 +43,9 @@ class SermonsView extends GetView<SermonsController> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 16.h,
-        left: 20.w,
-        right: 20.w,
-        bottom: 16.h,
-      ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color(0xFF2844B4), // Lighter blue
-            Color(0xFF0A123D), // Darker blue
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            'Sermons',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 28.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            'PIWC Stoneyburn',
-            style: TextStyle(
-              color: AppTheme.warningColor,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
+    return CustomGradientHeader(
+      title: 'Sermons',
+      showBackButton: false,
     );
   }
 

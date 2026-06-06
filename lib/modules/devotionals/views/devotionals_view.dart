@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../config/routes/app_pages.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class DevotionalItem {
   final String day;
@@ -86,8 +87,8 @@ class DevotionalsView extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -111,7 +112,7 @@ class DevotionalsView extends StatelessWidget {
             Text(
               'PIWC Stoneyburn',
               style: TextStyle(
-                color: const Color(0xFFFFC107),
+                color: AppTheme.warningColor,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -133,17 +134,17 @@ class DevotionalsView extends StatelessWidget {
               ),
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               decoration: BoxDecoration(
-                color: const Color(0xFF1A2340),
+                color: AppTheme.cardColor,
                 borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(
-                  color: const Color(0xFFFFC107).withValues(alpha: 0.3),
+                  color: AppTheme.warningColor.withValues(alpha: 0.3),
                 ),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.wb_sunny,
-                    color: const Color(0xFFFFC107),
+                    color: AppTheme.warningColor,
                     size: 24.w,
                   ),
                   SizedBox(width: 16.w),
@@ -151,7 +152,7 @@ class DevotionalsView extends StatelessWidget {
                     child: Text(
                       'Read today\'s devotional and start your day with God',
                       style: TextStyle(
-                        color: const Color(0xFF3B68E7),
+                        color: AppTheme.accentBlue,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -178,8 +179,8 @@ class DevotionalsView extends StatelessWidget {
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
                         color: isFirstCard
-                            ? const Color(0xFF3B68E7)
-                            : const Color(0xFF1A2340),
+                            ? AppTheme.accentBlue
+                            : AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: isFirstCard
                             ? null
@@ -203,8 +204,8 @@ class DevotionalsView extends StatelessWidget {
                                   item.day,
                                   style: TextStyle(
                                     color: isFirstCard
-                                        ? const Color(0xFFFFC107)
-                                        : const Color(0xFF8E99AF),
+                                        ? AppTheme.warningColor
+                                        : AppTheme.mutedTextColor,
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1.0,
@@ -217,7 +218,7 @@ class DevotionalsView extends StatelessWidget {
                                   style: TextStyle(
                                     color: isFirstCard
                                         ? Colors.white
-                                        : const Color(0xFF8E99AF),
+                                        : AppTheme.mutedTextColor,
                                     fontSize: 12.sp,
                                   ),
                                 ),
@@ -242,8 +243,8 @@ class DevotionalsView extends StatelessWidget {
                                   item.reference,
                                   style: TextStyle(
                                     color: isFirstCard
-                                        ? const Color(0xFFFFC107)
-                                        : const Color(0xFF3B68E7),
+                                        ? AppTheme.warningColor
+                                        : AppTheme.accentBlue,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -256,7 +257,7 @@ class DevotionalsView extends StatelessWidget {
                                   style: TextStyle(
                                     color: isFirstCard
                                         ? Colors.white.withValues(alpha: 0.8)
-                                        : const Color(0xFF8E99AF),
+                                        : AppTheme.mutedTextColor,
                                     fontSize: 13.sp,
                                     height: 1.5,
                                   ),
@@ -271,7 +272,7 @@ class DevotionalsView extends StatelessWidget {
                               Icons.chevron_right,
                               color: isFirstCard
                                   ? Colors.white.withValues(alpha: 0.8)
-                                  : const Color(0xFF8E99AF),
+                                  : AppTheme.mutedTextColor,
                               size: 20.w,
                             ),
                           ),

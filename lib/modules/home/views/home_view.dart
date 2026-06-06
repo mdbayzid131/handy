@@ -78,7 +78,7 @@ class HomeView extends GetView<HomeController> {
                             Text(
                               'The Church of Pentecost - UK',
                               style: TextStyle(
-                                color: const Color(0xFFFFC107), // Amber
+                                color: AppTheme.warningColor, // Amber
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -91,7 +91,7 @@ class HomeView extends GetView<HomeController> {
                         onTap: () => Get.toNamed(AppRoutes.NOTIFICATION),
                         child: Icon(
                           Icons.notifications,
-                          color: const Color(0xFFFFC107),
+                          color: AppTheme.warningColor,
                           size: 24.w,
                         ),
                       ),
@@ -102,7 +102,7 @@ class HomeView extends GetView<HomeController> {
                           width: 40.w,
                           height: 40.w,
                           decoration: const BoxDecoration(
-                            color: Color(0xFFFFC107),
+                            color: AppTheme.warningColor,
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -193,7 +193,7 @@ class HomeView extends GetView<HomeController> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFC107),
+              color: AppTheme.warningColor,
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
@@ -220,7 +220,7 @@ class HomeView extends GetView<HomeController> {
           Text(
             data.reference,
             style: TextStyle(
-              color: const Color(0xFFFFC107),
+              color: AppTheme.warningColor,
               fontSize: 14.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -497,7 +497,7 @@ class HomeView extends GetView<HomeController> {
           child: Text(
             'See all',
             style: TextStyle(
-              color: const Color(0xFF3B68E7), // Light blue text
+              color: AppTheme.accentBlue, // Light blue text
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
             ),
@@ -571,7 +571,7 @@ class HomeView extends GetView<HomeController> {
               width: 40.w,
               height: 40.w,
               decoration: const BoxDecoration(
-                color: Color(0xFFFFC107),
+                color: AppTheme.warningColor,
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -589,7 +589,7 @@ class HomeView extends GetView<HomeController> {
   Widget _buildAnnouncementCard(HomeAnnouncementModel data, bool isExpanded) {
     final tagColor = data.isImportant
         ? const Color(0xFFFF5252)
-        : const Color(0xFF3B68E7);
+        : AppTheme.accentBlue;
     final tag = data.isImportant ? 'IMPORTANT' : 'ANNOUNCEMENT';
 
     return Container(
@@ -622,7 +622,7 @@ class HomeView extends GetView<HomeController> {
                                 if (data.isImportant) ...[
                                   Icon(
                                     Icons.push_pin,
-                                    color: const Color(0xFFFFC107),
+                                    color: AppTheme.warningColor,
                                     size: 16.w,
                                   ),
                                   SizedBox(width: 8.w),
@@ -687,7 +687,7 @@ class HomeView extends GetView<HomeController> {
                           Text(
                             isExpanded ? 'Hide flier' : 'Tap for flier',
                             style: TextStyle(
-                              color: const Color(0xFF3B68E7),
+                              color: AppTheme.accentBlue,
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                             ),

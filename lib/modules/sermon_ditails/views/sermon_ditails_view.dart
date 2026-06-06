@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/sermon_ditails_contoller.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class SermonDitailsView extends GetView<SermonDitailsController> {
   const SermonDitailsView({super.key});
@@ -19,8 +20,8 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFF2844B4), // Lighter blue
-                  Color(0xFF0A123D), // Darker blue
+                  AppTheme.primaryLighter, // Lighter blue
+                  AppTheme.primaryDarker, // Darker blue
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -46,7 +47,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
               Text(
                 'PIWC Stoneyburn',
                 style: TextStyle(
-                  color: const Color(0xFFFFC107),
+                  color: AppTheme.warningColor,
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                 ),
@@ -89,7 +90,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                       Text(
                         sermon.pastor,
                         style: TextStyle(
-                          color: const Color(0xFF3B68E7),
+                          color: AppTheme.accentBlue,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
                         ),
@@ -315,7 +316,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           Text(
             'KEY SCRIPTURE',
             style: TextStyle(
-              color: const Color(0xFF3B68E7),
+              color: AppTheme.accentBlue,
               fontSize: 10.sp,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.0,
@@ -375,7 +376,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(color: const Color(0xFF2844B4), width: 1),
+            border: Border.all(color: AppTheme.primaryLighter, width: 1),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -23,8 +23,8 @@ class SettingsView extends GetView<SettingsController> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -45,7 +45,7 @@ class SettingsView extends GetView<SettingsController> {
             Text(
               'PIWC Stoneyburn',
               style: TextStyle(
-                color: const Color(0xFFFFC107),
+                color: AppTheme.warningColor,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -128,7 +128,7 @@ class SettingsView extends GetView<SettingsController> {
   Widget _buildNotificationsCard() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1A2340),
+        color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
@@ -192,7 +192,7 @@ class SettingsView extends GetView<SettingsController> {
   Widget _buildAccountCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1A2340),
+        color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
@@ -359,7 +359,7 @@ class SettingsView extends GetView<SettingsController> {
               value: value.value,
               onChanged: (val) => value.value = val,
               activeThumbColor: Colors.white,
-              activeTrackColor: const Color(0xFF3B68E7), // Royal Blue
+              activeTrackColor: AppTheme.accentBlue, // Royal Blue
               inactiveThumbColor: Colors.white,
               inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
             ),
@@ -372,7 +372,7 @@ class SettingsView extends GetView<SettingsController> {
   Widget _buildAboutCard() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1A2340),
+        color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
@@ -395,7 +395,7 @@ class SettingsView extends GetView<SettingsController> {
           _buildInfoRow(
             'Website',
             'gracecommunity.church',
-            valueColor: const Color(0xFF3B68E7),
+            valueColor: AppTheme.accentBlue,
           ),
         ],
       ),

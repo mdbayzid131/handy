@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/bible_verses_controller.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class BibleVersesView extends GetView<BibleVersesController> {
   const BibleVersesView({super.key});
@@ -78,7 +79,7 @@ class BibleVersesView extends GetView<BibleVersesController> {
                             child: Text(
                               '$verseNumber',
                               style: TextStyle(
-                                color: const Color(0xFF3B68E7),
+                                color: AppTheme.accentBlue,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -158,25 +159,25 @@ class BibleVersesView extends GetView<BibleVersesController> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
-          color: const Color(0xFF1A2340),
+          color: AppTheme.cardColor,
           borderRadius: BorderRadius.circular(24.r),
           border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (!isNext) Icon(icon, color: const Color(0xFF3B68E7), size: 20.w),
+            if (!isNext) Icon(icon, color: AppTheme.accentBlue, size: 20.w),
             if (!isNext) SizedBox(width: 4.w),
             Text(
               text,
               style: TextStyle(
-                color: const Color(0xFF3B68E7),
+                color: AppTheme.accentBlue,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
             if (isNext) SizedBox(width: 4.w),
-            if (isNext) Icon(icon, color: const Color(0xFF3B68E7), size: 20.w),
+            if (isNext) Icon(icon, color: AppTheme.accentBlue, size: 20.w),
           ],
         ),
       ),

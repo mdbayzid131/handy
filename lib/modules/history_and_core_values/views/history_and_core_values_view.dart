@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/config/themes/app_theme.dart';
 import '../controllers/history_and_core_values_controller.dart';
 
 class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
@@ -10,11 +11,11 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F172A),
+      backgroundColor: AppTheme.backgroundColor,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
-        backgroundColor: const Color(0xFF0F172A),
+        backgroundColor: AppTheme.backgroundColor,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(

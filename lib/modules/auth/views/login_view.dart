@@ -6,6 +6,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../controllers/login_controller.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
@@ -31,7 +32,7 @@ class LoginView extends GetView<LoginController> {
               Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xFF2844B4), Color(0xFF0A123D)],
+                    colors: [AppTheme.primaryLighter, AppTheme.primaryDarker],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -44,7 +45,7 @@ class LoginView extends GetView<LoginController> {
                         Icon(
                           Icons.lock_outline,
                           size: 70.w,
-                          color: const Color(0xFFFFC107),
+                          color: AppTheme.warningColor,
                         ),
                         SizedBox(height: 16.h),
                         Text(
@@ -123,7 +124,7 @@ class LoginView extends GetView<LoginController> {
                         child: TextButton(
                           onPressed: controller.goToForgotPassword,
                           style: TextButton.styleFrom(
-                            foregroundColor: const Color(0xFFFFC107),
+                            foregroundColor: AppTheme.warningColor,
                           ),
                           child: Text(
                             'Forgot Password?',
@@ -140,7 +141,7 @@ class LoginView extends GetView<LoginController> {
                       Obx(
                         () => CustomButton(
                           text: 'Login',
-                          backgroundColor: const Color(0xFF3B68E7),
+                          backgroundColor: AppTheme.accentBlue,
                           onPressed: () {
                             // if (controller.formKey.currentState!.validate()) {
                             //   Get.toNamed(AppRoutes.BOTTOM_NAV_BAR);
@@ -167,7 +168,7 @@ class LoginView extends GetView<LoginController> {
                             child: Text(
                               'Register',
                               style: TextStyle(
-                                color: const Color(0xFFFFC107),
+                                color: AppTheme.warningColor,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.bold,
                               ),

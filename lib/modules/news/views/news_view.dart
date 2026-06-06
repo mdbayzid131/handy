@@ -23,8 +23,8 @@ class NewsView extends GetView<NewsController> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -98,7 +98,7 @@ class NewsView extends GetView<NewsController> {
         'isPinned': true,
         'title': 'Sunday Service — This Week',
         'tag': 'Service',
-        'tagColor': const Color(0xFF3B68E7),
+        'tagColor': AppTheme.accentBlue,
         'borderColor': AppTheme.warningColor,
         'description':
             'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are ...',
@@ -182,7 +182,7 @@ class NewsView extends GetView<NewsController> {
             child: Text(
               text,
               style: TextStyle(
-                color: const Color(0xFF3B68E7), // Distinct blue text
+                color: AppTheme.accentBlue, // Distinct blue text
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
                 height: 1.4,
@@ -300,7 +300,7 @@ class NewsView extends GetView<NewsController> {
                           Text(
                             isExpanded ? 'Hide flier' : 'Tap for flier',
                             style: TextStyle(
-                              color: const Color(0xFF3B68E7),
+                              color: AppTheme.accentBlue,
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                             ),

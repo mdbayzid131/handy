@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class DevotionalsDetailsView extends StatelessWidget {
   const DevotionalsDetailsView({super.key});
@@ -74,7 +75,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                 margin: EdgeInsets.all(20.w),
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1A2340),
+                  color: AppTheme.cardColor,
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Container(
@@ -155,7 +156,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                 margin: EdgeInsets.all(20.w),
                 padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1A2340),
+                  color: AppTheme.cardColor,
                   borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Column(
@@ -183,7 +184,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     Text(
                       'Jesus, You are the bread of life. I confess that I often look for satisfaction in other places. Fill me today with the only thing that truly satisfies. Amen.',
                       style: TextStyle(
-                        color: const Color(0xFF8E99AF),
+                        color: AppTheme.mutedTextColor,
                         fontSize: 15.sp,
                         fontStyle: FontStyle.italic,
                         height: 1.5,
@@ -233,7 +234,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                       onPressed: () {},
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(
-                          color: Color(0xFF1A2340),
+                          color: AppTheme.cardColor,
                           width: 1.5,
                         ),
                         minimumSize: Size(double.infinity, 56.h),

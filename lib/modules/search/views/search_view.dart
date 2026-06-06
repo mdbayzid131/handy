@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class SearchView extends GetView<SearchController> {
   const SearchView({super.key});
@@ -18,8 +19,8 @@ class SearchView extends GetView<SearchController> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -40,7 +41,7 @@ class SearchView extends GetView<SearchController> {
             const Text(
               'PIWC Stoneyburn',
               style: TextStyle(
-                color: Color(0xFFFFC107),
+                color: AppTheme.warningColor,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

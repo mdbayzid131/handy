@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/event_details_controller.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class EventDetailsView extends GetView<EventDetailsController> {
   const EventDetailsView({super.key});
@@ -11,7 +12,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
       case 'Study':
         return const Color(0xFFFF8C00); // Orange
       case 'Worship':
-        return const Color(0xFF3B68E7); // Royal Blue
+        return AppTheme.accentBlue; // Royal Blue
       case 'Youth':
         return const Color(0xFFFF5252); // Coral/Red
       case 'Prayer':
@@ -42,8 +43,8 @@ class EventDetailsView extends GetView<EventDetailsController> {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFF2844B4), // Lighter blue
-                  Color(0xFF0A123D), // Darker blue
+                  AppTheme.primaryLighter, // Lighter blue
+                  AppTheme.primaryDarker, // Darker blue
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -64,7 +65,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
               Text(
                 'PIWC Stoneyburn',
                 style: TextStyle(
-                  color: const Color(0xFFFFC107),
+                  color: AppTheme.warningColor,
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                 ),

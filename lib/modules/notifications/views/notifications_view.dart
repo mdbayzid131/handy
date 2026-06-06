@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../controllers/notifications_controller.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class NotificationView extends GetView<NotificationController> {
   const NotificationView({super.key});
@@ -20,8 +21,8 @@ class NotificationView extends GetView<NotificationController> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -42,7 +43,7 @@ class NotificationView extends GetView<NotificationController> {
             Text(
               'PIWC Stoneyburn',
               style: TextStyle(
-                color: const Color(0xFFFFC107), // Amber yellow matching design
+                color: AppTheme.warningColor, // Amber yellow matching design
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
               ),

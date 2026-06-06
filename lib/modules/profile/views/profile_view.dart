@@ -257,7 +257,7 @@ class ProfileView extends GetView<ProfileController> {
                     SizedBox(height: 16.h),
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1A2340),
+                        color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.05),
@@ -310,7 +310,7 @@ class ProfileView extends GetView<ProfileController> {
                           child: Text(
                             'See all',
                             style: TextStyle(
-                              color: const Color(0xFF3B68E7),
+                              color: AppTheme.accentBlue,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w600,
                             ),
@@ -348,7 +348,7 @@ class ProfileView extends GetView<ProfileController> {
                     SizedBox(height: 16.h),
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1A2340),
+                        color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.05),
@@ -358,7 +358,7 @@ class ProfileView extends GetView<ProfileController> {
                         children: [
                           _buildAccountRow(
                             Icons.notifications,
-                            const Color(0xFF3B68E7),
+                            AppTheme.accentBlue,
                             'Notifications',
                             onTap: () {
                               Get.toNamed(AppRoutes.NOTIFICATION);
@@ -372,7 +372,7 @@ class ProfileView extends GetView<ProfileController> {
                           ),
                           _buildAccountRow(
                             Icons.settings,
-                            const Color(0xFF3B68E7),
+                            AppTheme.accentBlue,
                             'Settings',
                             onTap: () => Get.toNamed(AppRoutes.SETTINGS),
                           ),
@@ -384,7 +384,7 @@ class ProfileView extends GetView<ProfileController> {
                           ),
                           _buildAccountRow(
                             Icons.security,
-                            const Color(0xFF3B68E7),
+                            AppTheme.accentBlue,
                             'Privacy Policy',
                             onTap: () {},
                           ),
@@ -398,7 +398,7 @@ class ProfileView extends GetView<ProfileController> {
                       child: Text(
                         'PIWC Stoneyburn · v1.0.0',
                         style: TextStyle(
-                          color: const Color(0xFF8E99AF),
+                          color: AppTheme.mutedTextColor,
                           fontSize: 12.sp,
                         ),
                       ),
@@ -426,7 +426,7 @@ class ProfileView extends GetView<ProfileController> {
         children: [
           Text(
             label,
-            style: TextStyle(color: const Color(0xFF8E99AF), fontSize: 15.sp),
+            style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 15.sp),
           ),
           Text(
             value,
@@ -452,7 +452,7 @@ class ProfileView extends GetView<ProfileController> {
       child: Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: const Color(0xFF1A2340),
+          color: AppTheme.cardColor,
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
@@ -461,7 +461,7 @@ class ProfileView extends GetView<ProfileController> {
             Container(
               padding: EdgeInsets.all(12.w),
               decoration: BoxDecoration(
-                color: const Color(0xFF3B68E7).withValues(alpha: 0.2),
+                color: AppTheme.accentBlue.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Icon(
@@ -487,7 +487,7 @@ class ProfileView extends GetView<ProfileController> {
                   Text(
                     subtitle,
                     style: TextStyle(
-                      color: const Color(0xFF8E99AF),
+                      color: AppTheme.mutedTextColor,
                       fontSize: 13.sp,
                     ),
                   ),
@@ -496,7 +496,7 @@ class ProfileView extends GetView<ProfileController> {
             ),
             Icon(
               Icons.chevron_right,
-              color: const Color(0xFF8E99AF),
+              color: AppTheme.mutedTextColor,
               size: 20.w,
             ),
           ],
@@ -539,7 +539,7 @@ class ProfileView extends GetView<ProfileController> {
             ),
             Icon(
               Icons.chevron_right,
-              color: const Color(0xFF8E99AF),
+              color: AppTheme.mutedTextColor,
               size: 20.w,
             ),
           ],

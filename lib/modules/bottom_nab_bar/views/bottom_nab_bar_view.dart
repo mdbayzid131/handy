@@ -60,7 +60,7 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
                   type: BottomNavigationBarType.fixed,
                   backgroundColor: Colors.transparent,
                   selectedItemColor: AppTheme.warningColor,
-                  unselectedItemColor: const Color(0xFF8E99AF),
+                  unselectedItemColor: AppTheme.mutedTextColor,
                   elevation: 0,
                   selectedLabelStyle: TextStyle(
                     fontSize: 12.sp,

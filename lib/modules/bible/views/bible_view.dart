@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../config/routes/app_pages.dart';
 import '../../../data/models/bible_model.dart';
 import '../controllers/bible_controller.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class BibleView extends GetView<BibleController> {
   const BibleView({super.key});
@@ -48,7 +49,7 @@ class BibleView extends GetView<BibleController> {
                   // Search Bar
                   Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFF1A2340),
+                      color: AppTheme.cardColor,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
                         color: Colors.white.withValues(alpha: 0.05),
@@ -60,12 +61,12 @@ class BibleView extends GetView<BibleController> {
                       decoration: InputDecoration(
                         prefixIcon: Icon(
                           Icons.search,
-                          color: const Color(0xFF8E99AF),
+                          color: AppTheme.mutedTextColor,
                           size: 24.w,
                         ),
                         hintText: 'Search books...',
                         hintStyle: TextStyle(
-                          color: const Color(0xFF8E99AF),
+                          color: AppTheme.mutedTextColor,
                           fontSize: 16.sp,
                         ),
                         border: InputBorder.none,
@@ -81,7 +82,7 @@ class BibleView extends GetView<BibleController> {
                     () => Container(
                       height: 52.h,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1A2340),
+                        color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.05),
@@ -96,7 +97,7 @@ class BibleView extends GetView<BibleController> {
                                 margin: EdgeInsets.all(4.w),
                                 decoration: BoxDecoration(
                                   color: controller.isOldTestament.value
-                                      ? const Color(0xFF3B68E7)
+                                      ? AppTheme.accentBlue
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
@@ -106,7 +107,7 @@ class BibleView extends GetView<BibleController> {
                                   style: TextStyle(
                                     color: controller.isOldTestament.value
                                         ? Colors.white
-                                        : const Color(0xFF8E99AF),
+                                        : AppTheme.mutedTextColor,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -121,7 +122,7 @@ class BibleView extends GetView<BibleController> {
                                 margin: EdgeInsets.all(4.w),
                                 decoration: BoxDecoration(
                                   color: !controller.isOldTestament.value
-                                      ? const Color(0xFF3B68E7)
+                                      ? AppTheme.accentBlue
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
@@ -131,7 +132,7 @@ class BibleView extends GetView<BibleController> {
                                   style: TextStyle(
                                     color: !controller.isOldTestament.value
                                         ? Colors.white
-                                        : const Color(0xFF8E99AF),
+                                        : AppTheme.mutedTextColor,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -156,7 +157,7 @@ class BibleView extends GetView<BibleController> {
                     child: Text(
                       'No books found',
                       style: TextStyle(
-                        color: const Color(0xFF8E99AF),
+                        color: AppTheme.mutedTextColor,
                         fontSize: 16.sp,
                       ),
                     ),
@@ -212,7 +213,7 @@ class BibleView extends GetView<BibleController> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         decoration: BoxDecoration(
-          color: const Color(0xFF1A2340),
+          color: AppTheme.cardColor,
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
@@ -230,7 +231,7 @@ class BibleView extends GetView<BibleController> {
             SizedBox(height: 6.h),
             Text(
               '${book.chaptersCount} ch.',
-              style: TextStyle(color: const Color(0xFF8E99AF), fontSize: 13.sp),
+              style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 13.sp),
             ),
           ],
         ),

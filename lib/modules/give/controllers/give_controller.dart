@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/models/give_model.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class GiveController extends GetxController {
   final showHistory = false.obs;
@@ -18,7 +19,7 @@ class GiveController extends GetxController {
       title: 'Tithe',
       desc: 'Your regular 10% offering',
       icon: Icons.attach_money,
-      color: const Color(0xFF3B68E7),
+      color: AppTheme.accentBlue,
     ),
     GiveFundModel(
       title: 'Offering',

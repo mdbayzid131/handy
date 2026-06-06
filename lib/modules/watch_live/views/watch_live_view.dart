@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class WatchLiveView extends StatelessWidget {
   const WatchLiveView({super.key});
@@ -33,7 +34,7 @@ class WatchLiveView extends StatelessWidget {
             Text(
               'PIWC Stoneyburn',
               style: TextStyle(
-                color: const Color(0xFFFFC107),
+                color: AppTheme.warningColor,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -75,8 +76,8 @@ class WatchLiveView extends StatelessWidget {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFF2844B4), // Lighter blue
-                Color(0xFF0A123D), // Darker blue
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -95,8 +96,8 @@ class WatchLiveView extends StatelessWidget {
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Color(0xFF2844B4), // Lighter blue
-                      Color(0xFF0A123D), // Darker blue
+                      AppTheme.primaryLighter, // Lighter blue
+                      AppTheme.primaryDarker, // Darker blue
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -183,7 +184,7 @@ class WatchLiveView extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(16.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1A2340),
+                        color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
                           color: const Color(0xFFF44336),
@@ -222,7 +223,7 @@ class WatchLiveView extends StatelessWidget {
                                 Text(
                                   'Opens YouTube in browser',
                                   style: TextStyle(
-                                    color: const Color(0xFF8E99AF),
+                                    color: AppTheme.mutedTextColor,
                                     fontSize: 12.sp,
                                   ),
                                 ),
@@ -252,7 +253,7 @@ class WatchLiveView extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(16.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1A2340),
+                        color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.05),
@@ -290,7 +291,7 @@ class WatchLiveView extends StatelessWidget {
                                 Text(
                                   'Opens Facebook in browser',
                                   style: TextStyle(
-                                    color: const Color(0xFF8E99AF),
+                                    color: AppTheme.mutedTextColor,
                                     fontSize: 12.sp,
                                   ),
                                 ),
@@ -347,7 +348,7 @@ class WatchLiveView extends StatelessWidget {
                       child: Text(
                         'Opens in your browser · YouTube Live',
                         style: TextStyle(
-                          color: const Color(0xFF8E99AF),
+                          color: AppTheme.mutedTextColor,
                           fontSize: 12.sp,
                         ),
                       ),
@@ -360,7 +361,7 @@ class WatchLiveView extends StatelessWidget {
                       width: double.infinity,
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1A2340),
+                        color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Column(
@@ -409,7 +410,7 @@ class WatchLiveView extends StatelessWidget {
                       title: 'Sunday Service — 4 May 2026',
                       speaker: 'Pastor Emmanuel Asante',
                       time: '2h 15min · 4 May 2026',
-                      iconColor: const Color(0xFF2844B4), // Blue
+                      iconColor: AppTheme.primaryLighter, // Blue
                     ),
                     _buildRecentServiceCard(
                       title: 'Sunday Service — 27 Apr 2026',
@@ -512,7 +513,7 @@ class WatchLiveView extends StatelessWidget {
   Widget _buildServiceTimeRow(IconData icon, String text) {
     return Row(
       children: [
-        Icon(icon, color: const Color(0xFF3B68E7), size: 20.w),
+        Icon(icon, color: AppTheme.accentBlue, size: 20.w),
         SizedBox(width: 12.w),
         Text(
           text,
@@ -532,7 +533,7 @@ class WatchLiveView extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 12.h),
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1A2340),
+        color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
@@ -566,7 +567,7 @@ class WatchLiveView extends StatelessWidget {
                 Text(
                   speaker,
                   style: TextStyle(
-                    color: const Color(0xFF8E99AF),
+                    color: AppTheme.mutedTextColor,
                     fontSize: 13.sp,
                   ),
                 ),
@@ -575,14 +576,14 @@ class WatchLiveView extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.access_time,
-                      color: const Color(0xFF8E99AF),
+                      color: AppTheme.mutedTextColor,
                       size: 12.w,
                     ),
                     SizedBox(width: 4.w),
                     Text(
                       time,
                       style: TextStyle(
-                        color: const Color(0xFF8E99AF),
+                        color: AppTheme.mutedTextColor,
                         fontSize: 11.sp,
                       ),
                     ),
@@ -591,7 +592,7 @@ class WatchLiveView extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Icons.chevron_right, color: const Color(0xFF8E99AF), size: 24.w),
+          Icon(Icons.chevron_right, color: AppTheme.mutedTextColor, size: 24.w),
         ],
       ),
     );

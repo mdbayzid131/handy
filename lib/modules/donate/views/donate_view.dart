@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class DonateView extends StatelessWidget {
   const DonateView({super.key});
@@ -13,10 +14,11 @@ class DonateView extends StatelessWidget {
     final amount = args?['amount'] ?? 0;
 
     return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
-        backgroundColor: const Color(0xFF0F172A),
+        backgroundColor: AppTheme.backgroundColor,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
@@ -48,7 +50,7 @@ class DonateView extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF43A047), // Green card background
+                  color: AppTheme.successColor, // Green card background
                   borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Column(
@@ -96,7 +98,7 @@ class DonateView extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFF43A047),
+                    foregroundColor: AppTheme.successColor,
                     padding: EdgeInsets.symmetric(
                       horizontal: 20.w,
                       vertical: 12.h,

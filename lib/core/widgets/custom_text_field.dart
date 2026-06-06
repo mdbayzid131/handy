@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 /// ===================== CUSTOM TEXT FIELD =====================
 /// A styled text field with optional label, icons, and validation.
@@ -110,7 +111,7 @@ class CustomTextField extends StatelessWidget {
     );
     final focusBorder = OutlineInputBorder(
       borderRadius: borderRadius,
-      borderSide: const BorderSide(color: Color(0xFF3B68E7), width: 1.5),
+      borderSide: const BorderSide(color: AppTheme.accentBlue, width: 1.5),
     );
 
     return InputDecoration(

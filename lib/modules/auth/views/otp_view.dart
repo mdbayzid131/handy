@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../core/widgets/custom_button.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class OtpView extends StatelessWidget {
   const OtpView({super.key});
@@ -30,7 +31,7 @@ class OtpView extends StatelessWidget {
               Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xFF2844B4), Color(0xFF0A123D)],
+                    colors: [AppTheme.primaryLighter, AppTheme.primaryDarker],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -43,7 +44,7 @@ class OtpView extends StatelessWidget {
                         Icon(
                           Icons.security,
                           size: 70.w,
-                          color: const Color(0xFFFFC107),
+                          color: AppTheme.warningColor,
                         ),
                         SizedBox(height: 16.h),
                         Text(
@@ -113,7 +114,7 @@ class OtpView extends StatelessWidget {
                             color: const Color(0xFF1E2336),
                             borderRadius: BorderRadius.circular(16.r),
                             border: Border.all(
-                              color: const Color(0xFF3B68E7),
+                              color: AppTheme.accentBlue,
                               width: 1.5,
                             ),
                           ),
@@ -145,7 +146,7 @@ class OtpView extends StatelessWidget {
                               margin: EdgeInsets.only(bottom: 16.h),
                               width: 22.w,
                               height: 2,
-                              color: const Color(0xFF3B68E7),
+                              color: AppTheme.accentBlue,
                             ),
                           ],
                         ),
@@ -156,7 +157,7 @@ class OtpView extends StatelessWidget {
                     // Verify Button
                     CustomButton(
                       text: 'Verify Code',
-                      backgroundColor: const Color(0xFF3B68E7),
+                      backgroundColor: AppTheme.accentBlue,
                       onPressed: () {
                         Get.toNamed(AppRoutes.UPDATE_PASSWORD);
                       },
@@ -179,7 +180,7 @@ class OtpView extends StatelessWidget {
                           child: Text(
                             'Resend',
                             style: TextStyle(
-                              color: const Color(0xFFFFC107),
+                              color: AppTheme.warningColor,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.bold,
                             ),
