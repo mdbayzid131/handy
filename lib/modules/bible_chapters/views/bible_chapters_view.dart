@@ -17,14 +17,14 @@ class BibleChaptersView extends GetView<BibleChapterController> {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+          icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
         title: Obx(
           () => Text(
             controller.bookName.value,
             style: TextStyle(
-              color: Colors.white,
+              color: AppTheme.white,
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -33,7 +33,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
           child: Container(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: AppTheme.white.withValues(alpha: 0.05),
             height: 1.h,
           ),
         ),
@@ -57,8 +57,8 @@ class BibleChaptersView extends GetView<BibleChapterController> {
                       controller.bookName.value,
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppTheme.white
+                            : AppTheme.black,
                         fontSize: 28.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -125,14 +125,14 @@ class BibleChaptersView extends GetView<BibleChapterController> {
           border: Border.all(
             color: isSelected
                 ? Colors.transparent
-                : Colors.white.withValues(alpha: 0.05),
+                : AppTheme.white.withValues(alpha: 0.05),
           ),
         ),
         alignment: Alignment.center,
         child: Text(
           '$chapter',
           style: TextStyle(
-            color: Colors.white,
+            color: AppTheme.white,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),

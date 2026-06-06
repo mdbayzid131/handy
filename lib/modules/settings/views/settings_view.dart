@@ -5,66 +5,33 @@ import 'package:handy/config/themes/app_theme.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../controllers/settings_controller.dart';
-
+import 'package:handy/core/widgets/custom_gradient_header.dart';
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppTheme.primaryLighter, // Lighter blue
-                AppTheme.primaryDarker, // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+      backgroundColor: AppTheme.backgroundColor,
+      body: Column(
+        children: [
+          const CustomGradientHeader(
+            title: 'Settings',
+            subtitle: 'PIWC Stoneyburn',
+            showBackButton: true,
           ),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Settings',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'PIWC Stoneyburn',
-              style: TextStyle(
-                color: AppTheme.warningColor,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        titleSpacing: 0,
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Notifications',
               style: TextStyle(
                 color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+                    ? AppTheme.white
+                    : AppTheme.black,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -76,8 +43,8 @@ class SettingsView extends GetView<SettingsController> {
               'Appearance',
               style: TextStyle(
                 color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+                    ? AppTheme.white
+                    : AppTheme.black,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -89,8 +56,8 @@ class SettingsView extends GetView<SettingsController> {
               'Account',
               style: TextStyle(
                 color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+                    ? AppTheme.white
+                    : AppTheme.black,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -102,8 +69,8 @@ class SettingsView extends GetView<SettingsController> {
               'About',
               style: TextStyle(
                 color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+                    ? AppTheme.white
+                    : AppTheme.black,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -119,8 +86,8 @@ class SettingsView extends GetView<SettingsController> {
                       text: 'Made with ',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white.withValues(alpha: 0.5)
-                            : Colors.black.withValues(alpha: 0.5),
+                            ? AppTheme.white.withValues(alpha: 0.5)
+                            : AppTheme.black.withValues(alpha: 0.5),
                         fontSize: 13.sp,
                       ),
                     ),
@@ -132,8 +99,8 @@ class SettingsView extends GetView<SettingsController> {
                       text: ' for the PIWC Stoneyburn family',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white.withValues(alpha: 0.5)
-                            : Colors.black.withValues(alpha: 0.5),
+                            ? AppTheme.white.withValues(alpha: 0.5)
+                            : AppTheme.black.withValues(alpha: 0.5),
                         fontSize: 13.sp,
                       ),
                     ),
@@ -145,6 +112,9 @@ class SettingsView extends GetView<SettingsController> {
           ],
         ),
       ),
+            ),
+          ],
+        ),
     );
   }
 
@@ -153,7 +123,7 @@ class SettingsView extends GetView<SettingsController> {
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
       ),
       child: Column(
         children: [
@@ -163,7 +133,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.newSermons,
           ),
           Divider(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: AppTheme.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -174,7 +144,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.events,
           ),
           Divider(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: AppTheme.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -185,7 +155,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.prayerUpdates,
           ),
           Divider(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: AppTheme.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -196,7 +166,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.dailyDevotionals,
           ),
           Divider(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: AppTheme.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -217,7 +187,7 @@ class SettingsView extends GetView<SettingsController> {
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
       ),
       child: Column(
         children: [
@@ -233,7 +203,7 @@ class SettingsView extends GetView<SettingsController> {
                       Text(
                         'Dark Mode',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppTheme.white,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
                         ),
@@ -242,7 +212,7 @@ class SettingsView extends GetView<SettingsController> {
                       Text(
                         'Toggle application theme',
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.5),
+                          color: AppTheme.white.withValues(alpha: 0.5),
                           fontSize: 12.sp,
                         ),
                       ),
@@ -256,10 +226,10 @@ class SettingsView extends GetView<SettingsController> {
                       val ? ThemeMode.dark : ThemeMode.light,
                     );
                   },
-                  activeThumbColor: Colors.white,
+                  activeThumbColor: AppTheme.white,
                   activeTrackColor: AppTheme.accentBlue,
-                  inactiveThumbColor: Colors.white,
-                  inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
+                  inactiveThumbColor: AppTheme.white,
+                  inactiveTrackColor: AppTheme.white.withValues(alpha: 0.1),
                 ),
               ],
             ),
@@ -274,7 +244,7 @@ class SettingsView extends GetView<SettingsController> {
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
       ),
       child: Column(
         children: [
@@ -286,14 +256,14 @@ class SettingsView extends GetView<SettingsController> {
             title: Text(
               'Change Password',
               style: TextStyle(
-                color: Colors.white,
+                color: AppTheme.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
             trailing: Icon(
               Icons.chevron_right,
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppTheme.white.withValues(alpha: 0.5),
               size: 24.w,
             ),
             onTap: () {
@@ -324,7 +294,7 @@ class SettingsView extends GetView<SettingsController> {
                   onTap: () => Get.back(),
                   child: Icon(
                     Icons.arrow_back_ios_new,
-                    color: Colors.white,
+                    color: AppTheme.white,
                     size: 20.w,
                   ),
                 ),
@@ -333,7 +303,7 @@ class SettingsView extends GetView<SettingsController> {
                     child: Text(
                       'Change Password',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppTheme.white,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -352,7 +322,7 @@ class SettingsView extends GetView<SettingsController> {
                     Text(
                       'Change Password',
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.7),
+                        color: AppTheme.white.withValues(alpha: 0.7),
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -382,14 +352,14 @@ class SettingsView extends GetView<SettingsController> {
             // Save Button
             CustomButton(
               text: 'Save',
-              backgroundColor: const Color(0xFFF97316),
+              backgroundColor: AppTheme.orange500,
               onPressed: () {
                 Get.back();
                 Get.snackbar(
                   'Success',
                   'Password changed successfully',
                   backgroundColor: Colors.green,
-                  colorText: Colors.white,
+                  colorText: AppTheme.white,
                 );
               },
             ),
@@ -418,7 +388,7 @@ class SettingsView extends GetView<SettingsController> {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -427,7 +397,7 @@ class SettingsView extends GetView<SettingsController> {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.5),
+                    color: AppTheme.white.withValues(alpha: 0.5),
                     fontSize: 12.sp,
                   ),
                 ),
@@ -438,10 +408,10 @@ class SettingsView extends GetView<SettingsController> {
             () => Switch(
               value: value.value,
               onChanged: (val) => value.value = val,
-              activeThumbColor: Colors.white,
+              activeThumbColor: AppTheme.white,
               activeTrackColor: AppTheme.accentBlue, // Royal Blue
-              inactiveThumbColor: Colors.white,
-              inactiveTrackColor: Colors.white.withValues(alpha: 0.1),
+              inactiveThumbColor: AppTheme.white,
+              inactiveTrackColor: AppTheme.white.withValues(alpha: 0.1),
             ),
           ),
         ],
@@ -454,20 +424,20 @@ class SettingsView extends GetView<SettingsController> {
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
       ),
       child: Column(
         children: [
           _buildInfoRow('App Version', '1.0.0'),
           Divider(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: AppTheme.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
           ),
           _buildInfoRow('Church', 'PIWC Stoneyburn', isValueBold: true),
           Divider(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: AppTheme.white.withValues(alpha: 0.05),
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -496,14 +466,14 @@ class SettingsView extends GetView<SettingsController> {
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppTheme.white.withValues(alpha: 0.5),
               fontSize: 15.sp,
             ),
           ),
           Text(
             value,
             style: TextStyle(
-              color: valueColor ?? Colors.white,
+              color: valueColor ?? AppTheme.white,
               fontSize: 15.sp,
               fontWeight: isValueBold ? FontWeight.bold : FontWeight.normal,
             ),

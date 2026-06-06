@@ -25,14 +25,14 @@ class ProfileView extends GetView<ProfileController> {
               children: [
                 Icon(
                   Icons.logout_rounded,
-                  color: const Color(0xFFFF5252),
+                  color: AppTheme.accentRed,
                   size: 48.w,
                 ),
                 SizedBox(height: 16.h),
                 Text(
                   'Logout',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -42,7 +42,7 @@ class ProfileView extends GetView<ProfileController> {
                   'Are you sure you want to log out of your account?',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.7),
+                    color: AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 14.sp,
                   ),
                 ),
@@ -54,7 +54,7 @@ class ProfileView extends GetView<ProfileController> {
                         onPressed: () => Get.back(),
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
-                            color: Colors.white.withValues(alpha: 0.2),
+                            color: AppTheme.white.withValues(alpha: 0.2),
                           ),
                           padding: EdgeInsets.symmetric(vertical: 12.h),
                           shape: RoundedRectangleBorder(
@@ -64,7 +64,7 @@ class ProfileView extends GetView<ProfileController> {
                         child: Text(
                           'Cancel',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -79,7 +79,7 @@ class ProfileView extends GetView<ProfileController> {
                           //Get.offAllNamed(AppRoutes.LOGIN);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFF5252),
+                          backgroundColor: AppTheme.accentRed,
                           padding: EdgeInsets.symmetric(vertical: 12.h),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.r),
@@ -88,7 +88,7 @@ class ProfileView extends GetView<ProfileController> {
                         child: Text(
                           'Logout',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -112,21 +112,21 @@ class ProfileView extends GetView<ProfileController> {
         scrolledUnderElevation: 0,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+          icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
         centerTitle: true,
         title: Text(
           'My Profile',
           style: TextStyle(
-            color: Colors.white,
+            color: AppTheme.white,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings, color: Colors.white, size: 24.w),
+            icon: Icon(Icons.settings, color: AppTheme.white, size: 24.w),
             onPressed: () => Get.toNamed(AppRoutes.SETTINGS),
           ),
         ],
@@ -140,7 +140,7 @@ class ProfileView extends GetView<ProfileController> {
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(bottom: 40.h),
-                color: const Color(0xFF476BFF), // Royal Blue
+                color: AppTheme.royalBlue, // Royal Blue
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
@@ -152,14 +152,14 @@ class ProfileView extends GetView<ProfileController> {
                             width: 80.w,
                             height: 80.w,
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
+                              color: AppTheme.white.withValues(alpha: 0.2),
                               shape: BoxShape.circle,
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               'JD',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppTheme.white,
                                 fontSize: 32.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -169,7 +169,7 @@ class ProfileView extends GetView<ProfileController> {
                           Text(
                             'John Doe',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppTheme.white,
                               fontSize: 24.sp,
                               fontWeight: FontWeight.bold,
                             ),
@@ -178,7 +178,7 @@ class ProfileView extends GetView<ProfileController> {
                           Text(
                             'Member since January 2023',
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.7),
+                              color: AppTheme.white.withValues(alpha: 0.7),
                               fontSize: 14.sp,
                             ),
                           ),
@@ -189,13 +189,13 @@ class ProfileView extends GetView<ProfileController> {
                               vertical: 8.h,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
+                              color: AppTheme.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: Text(
                               'ACTIVE MEMBER',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppTheme.white,
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.2,
@@ -228,7 +228,7 @@ class ProfileView extends GetView<ProfileController> {
                         child: Text(
                           'Logout',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -249,8 +249,8 @@ class ProfileView extends GetView<ProfileController> {
                       'Giving Summary',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppTheme.white
+                            : AppTheme.black,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -261,21 +261,21 @@ class ProfileView extends GetView<ProfileController> {
                         color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: AppTheme.white.withValues(alpha: 0.05),
                         ),
                       ),
                       child: Column(
                         children: [
                           _buildGivingRow('Total Given (2025)', '\$475.00'),
                           Divider(
-                            color: Colors.white.withValues(alpha: 0.05),
+                            color: AppTheme.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 20.w,
                             endIndent: 20.w,
                           ),
                           _buildGivingRow('Last Gift', '\$250.00 · Apr 27'),
                           Divider(
-                            color: Colors.white.withValues(alpha: 0.05),
+                            color: AppTheme.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 20.w,
                             endIndent: 20.w,
@@ -299,8 +299,8 @@ class ProfileView extends GetView<ProfileController> {
                           'Saved Sermons',
                           style: TextStyle(
                             color: Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white
-                                : Colors.black,
+                                ? AppTheme.white
+                                : AppTheme.black,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -344,8 +344,8 @@ class ProfileView extends GetView<ProfileController> {
                       'Account',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppTheme.white
+                            : AppTheme.black,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -356,7 +356,7 @@ class ProfileView extends GetView<ProfileController> {
                         color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: AppTheme.white.withValues(alpha: 0.05),
                         ),
                       ),
                       child: Column(
@@ -370,7 +370,7 @@ class ProfileView extends GetView<ProfileController> {
                             },
                           ),
                           Divider(
-                            color: Colors.white.withValues(alpha: 0.05),
+                            color: AppTheme.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 60.w,
                             endIndent: 20.w,
@@ -382,7 +382,7 @@ class ProfileView extends GetView<ProfileController> {
                             onTap: () => Get.toNamed(AppRoutes.SETTINGS),
                           ),
                           Divider(
-                            color: Colors.white.withValues(alpha: 0.05),
+                            color: AppTheme.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 60.w,
                             endIndent: 20.w,
@@ -436,7 +436,7 @@ class ProfileView extends GetView<ProfileController> {
           Text(
             value,
             style: TextStyle(
-              color: Colors.white,
+              color: AppTheme.white,
               fontSize: 15.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -459,7 +459,7 @@ class ProfileView extends GetView<ProfileController> {
         decoration: BoxDecoration(
           color: AppTheme.cardColor,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+          border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
         ),
         child: Row(
           children: [
@@ -471,7 +471,7 @@ class ProfileView extends GetView<ProfileController> {
               ),
               child: Icon(
                 Icons.play_arrow,
-                color: const Color(0xFF476BFF), // A bit brighter
+                color: AppTheme.royalBlue, // A bit brighter
                 size: 24.w,
               ),
             ),
@@ -483,7 +483,7 @@ class ProfileView extends GetView<ProfileController> {
                   Text(
                     title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.white,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -536,7 +536,7 @@ class ProfileView extends GetView<ProfileController> {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppTheme.white,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),

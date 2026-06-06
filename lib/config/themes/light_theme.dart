@@ -7,7 +7,7 @@ class LightTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       primaryColor: AppTheme.primaryColor,
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: AppTheme.white,
       colorScheme: const ColorScheme.light(
         primary: AppTheme.primaryColor,
         secondary: AppTheme.secondaryColor,
@@ -17,13 +17,13 @@ class LightTheme {
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.white,
         foregroundColor: Colors.black87,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
-          foregroundColor: Colors.white,
+          foregroundColor: AppTheme.white,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

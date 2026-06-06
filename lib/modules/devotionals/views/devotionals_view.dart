@@ -80,7 +80,7 @@ class DevotionalsView extends StatelessWidget {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         toolbarHeight: 110.h,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+          icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
@@ -102,7 +102,7 @@ class DevotionalsView extends StatelessWidget {
             Text(
               'Devotionals',
               style: TextStyle(
-                color: Colors.white,
+                color: AppTheme.white,
                 fontSize: 32.sp,
                 fontWeight: FontWeight.bold,
                 letterSpacing: -0.5,
@@ -185,7 +185,7 @@ class DevotionalsView extends StatelessWidget {
                         border: isFirstCard
                             ? null
                             : Border.all(
-                                color: Colors.white.withValues(alpha: 0.05),
+                                color: AppTheme.white.withValues(alpha: 0.05),
                               ),
                       ),
                       child: Row(
@@ -217,7 +217,7 @@ class DevotionalsView extends StatelessWidget {
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     color: isFirstCard
-                                        ? Colors.white
+                                        ? AppTheme.white
                                         : AppTheme.mutedTextColor,
                                     fontSize: 12.sp,
                                   ),
@@ -233,7 +233,7 @@ class DevotionalsView extends StatelessWidget {
                                 Text(
                                   item.title,
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: AppTheme.white,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -256,7 +256,7 @@ class DevotionalsView extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: isFirstCard
-                                        ? Colors.white.withValues(alpha: 0.8)
+                                        ? AppTheme.white.withValues(alpha: 0.8)
                                         : AppTheme.mutedTextColor,
                                     fontSize: 13.sp,
                                     height: 1.5,
@@ -271,7 +271,7 @@ class DevotionalsView extends StatelessWidget {
                             child: Icon(
                               Icons.chevron_right,
                               color: isFirstCard
-                                  ? Colors.white.withValues(alpha: 0.8)
+                                  ? AppTheme.white.withValues(alpha: 0.8)
                                   : AppTheme.mutedTextColor,
                               size: 20.w,
                             ),

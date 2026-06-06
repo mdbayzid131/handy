@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/events_history_details_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
+import 'package:handy/core/widgets/custom_gradient_header.dart';
 
 class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
   const EventsHistoryDetailsView({super.key});
@@ -14,11 +15,11 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
       case 'Worship':
         return AppTheme.accentBlue; // Royal Blue
       case 'Youth':
-        return const Color(0xFFFF5252); // Coral/Red
+        return AppTheme.accentRed; // Coral/Red
       case 'Prayer':
         return const Color(0xFFB388FF); // Purple
       case 'Community':
-        return const Color(0xFF26A69A); // Teal
+        return AppTheme.teal400; // Teal
       default:
         return const Color(0xFF132488); // Default Blue
     }
@@ -30,53 +31,20 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
     final primaryColor = _getCategoryColor(event.category);
 
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppTheme.primaryLighter, // Lighter blue
-                AppTheme.primaryDarker, // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+      backgroundColor: AppTheme.backgroundColor,
+      body: Column(
+        children: [
+          const CustomGradientHeader(
+            title: 'Event History Details',
+            subtitle: 'PIWC Stoneyburn',
+            showBackButton: true,
           ),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Event History Details',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'PIWC Stoneyburn',
-              style: TextStyle(
-                color: AppTheme.warningColor,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        titleSpacing: 0,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Hero Section / Colored Block
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Hero Section / Colored Block
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
@@ -89,22 +57,22 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                     width: 80.w,
                     height: 80.w,
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: AppTheme.white.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.calendar_today, color: Colors.white, size: 36.w),
+                    child: Icon(Icons.calendar_today, color: AppTheme.white, size: 36.w),
                   ),
                   SizedBox(height: 16.h),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: AppTheme.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
                       event.category.toUpperCase(),
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppTheme.white,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.2,
@@ -124,8 +92,8 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                     event.title,
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
+                          ? AppTheme.white
+                          : AppTheme.black,
                       fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
                       height: 1.2,
@@ -138,16 +106,16 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF1E2336),
                       borderRadius: BorderRadius.circular(16.r),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+                      border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
                     ),
                     child: Column(
                       children: [
                         _buildDetailRow(Icons.calendar_today, 'DATE', event.date, primaryColor),
-                        Divider(color: Colors.white.withValues(alpha: 0.05), height: 1, indent: 60.w),
+                        Divider(color: AppTheme.white.withValues(alpha: 0.05), height: 1, indent: 60.w),
                         _buildDetailRow(Icons.access_time, 'TIME', event.time, primaryColor),
-                        Divider(color: Colors.white.withValues(alpha: 0.05), height: 1, indent: 60.w),
+                        Divider(color: AppTheme.white.withValues(alpha: 0.05), height: 1, indent: 60.w),
                         _buildDetailRow(Icons.location_on, 'LOCATION', event.location, primaryColor),
-                        Divider(color: Colors.white.withValues(alpha: 0.05), height: 1, indent: 60.w),
+                        Divider(color: AppTheme.white.withValues(alpha: 0.05), height: 1, indent: 60.w),
                         _buildDetailRow(Icons.people, 'ATTENDED', '${event.attendeeCount} people', primaryColor),
                       ],
                     ),
@@ -158,8 +126,8 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                     'About This Event',
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
+                          ? AppTheme.white
+                          : AppTheme.black,
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -169,8 +137,8 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                     event.description,
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white.withValues(alpha: 0.6)
-                          : Colors.black.withValues(alpha: 0.6),
+                          ? AppTheme.white.withValues(alpha: 0.6)
+                          : AppTheme.black.withValues(alpha: 0.6),
                       fontSize: 15.sp,
                       height: 1.6,
                     ),
@@ -183,11 +151,11 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                     width: double.infinity,
                     child: ElevatedButton.icon(
                       onPressed: () {},
-                      icon: Icon(Icons.check_circle, color: Colors.white, size: 24.w),
+                      icon: Icon(Icons.check_circle, color: AppTheme.white, size: 24.w),
                       label: Text(
                         "Event Completed",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppTheme.white,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -209,6 +177,9 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
             ),
           ],
         ),
+      ),
+          ),
+        ],
       ),
     );
   }
@@ -234,7 +205,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                 Text(
                   label,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.5),
+                    color: AppTheme.white.withValues(alpha: 0.5),
                     fontSize: 11.sp,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -244,7 +215,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                 Text(
                   value,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w600,
                   ),

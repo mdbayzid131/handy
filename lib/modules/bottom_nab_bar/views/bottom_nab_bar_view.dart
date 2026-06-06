@@ -16,7 +16,7 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black,
+      color: AppTheme.black,
       child: Scaffold(
         body: Obx(
           () => IndexedStack(
@@ -43,13 +43,16 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
                 color: AppTheme.primaryColor,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withAlpha(2),
+                    color: AppTheme.black.withAlpha(2),
                     blurRadius: 10.r,
                     offset: Offset(0, -2.h),
                   ),
                 ],
                 border: Border(
-                  top: BorderSide(color: Colors.white.withAlpha(5), width: 1.r),
+                  top: BorderSide(
+                    color: AppTheme.white.withAlpha(5),
+                    width: 1.r,
+                  ),
                 ),
               ),
               child: Padding(
@@ -60,7 +63,7 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
                   type: BottomNavigationBarType.fixed,
                   backgroundColor: Colors.transparent,
                   selectedItemColor: AppTheme.warningColor,
-                  unselectedItemColor: AppTheme.mutedTextColor,
+                  unselectedItemColor: AppTheme.white,
                   elevation: 0,
                   selectedLabelStyle: TextStyle(
                     fontSize: 12.sp,

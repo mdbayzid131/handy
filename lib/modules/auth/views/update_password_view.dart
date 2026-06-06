@@ -20,7 +20,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: AppTheme.white),
       ),
       extendBodyBehindAppBar: true,
       body: SafeArea(
@@ -52,7 +52,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                         Text(
                           'Update Password',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 28.sp,
                             fontWeight: FontWeight.bold,
                             letterSpacing: -0.5,
@@ -88,7 +88,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                               controller.isCurrentPasswordVisible.value
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: AppTheme.white.withValues(alpha: 0.5),
                             ),
                             onPressed:
                                 controller.toggleCurrentPasswordVisibility,
@@ -113,7 +113,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                               controller.isNewPasswordVisible.value
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: AppTheme.white.withValues(alpha: 0.5),
                             ),
                             onPressed: controller.toggleNewPasswordVisibility,
                           ),
@@ -135,7 +135,7 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                               controller.isConfirmPasswordVisible.value
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: AppTheme.white.withValues(alpha: 0.5),
                             ),
                             onPressed:
                                 controller.toggleConfirmPasswordVisibility,

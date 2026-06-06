@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/config/constants/image_paths.dart';
 import '../controllers/news_controller.dart';
+import 'package:handy/core/widgets/custom_gradient_header.dart';
 
 class NewsView extends GetView<NewsController> {
   const NewsView({super.key});
@@ -13,75 +13,30 @@ class NewsView extends GetView<NewsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        toolbarHeight: 120.h,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppTheme.primaryLighter, // Lighter blue
-                AppTheme.primaryDarker, // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+      backgroundColor: AppTheme.backgroundColor,
+      body: Column(
+        children: [
+          CustomGradientHeader(
+            title: 'Announcements',
+            trailingWidget: GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.NOTIFICATION);
+              },
+              child: Padding(
+                padding: EdgeInsets.all(8.w),
+                child: Icon(
+                  Icons.notifications,
+                  color: AppTheme.warningColor,
+                  size: 24.w,
+                ),
+              ),
             ),
           ),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Announcements',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28.sp,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      'PIWC Stoneyburn',
-                      style: TextStyle(
-                        color: AppTheme.warningColor, // Yellow
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.NOTIFICATION);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.notifications,
-                      color: AppTheme.warningColor,
-                      size: 24.w,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        titleSpacing: 20.w,
+          Expanded(
+            child: SafeArea(top: false, child: _buildAnnouncementsList()),
+          ),
+        ],
       ),
-      body: SafeArea(top: false, child: _buildAnnouncementsList()),
     );
   }
 
@@ -110,8 +65,8 @@ class NewsView extends GetView<NewsController> {
         'isPinned': false,
         'title': 'Baptism Sunday — Register Now',
         'tag': 'Milestone',
-        'tagColor': const Color(0xFF00BFA5),
-        'borderColor': const Color(0xFF00BFA5),
+        'tagColor': AppTheme.tealAccent,
+        'borderColor': AppTheme.tealAccent,
         'description':
             'If you\'re ready to take the step of water baptism, please speak with any of our elders or pastors. Ba...',
         'date': 'May 4, 2026',
@@ -244,7 +199,7 @@ class NewsView extends GetView<NewsController> {
                                   child: Text(
                                     title,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppTheme.white,
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.bold,
                                       height: 1.2,
@@ -281,7 +236,7 @@ class NewsView extends GetView<NewsController> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.6),
+                          color: AppTheme.white.withValues(alpha: 0.6),
                           fontSize: 14.sp,
                           height: 1.4,
                         ),
@@ -293,7 +248,7 @@ class NewsView extends GetView<NewsController> {
                           Text(
                             date,
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: AppTheme.white.withValues(alpha: 0.5),
                               fontSize: 12.sp,
                             ),
                           ),

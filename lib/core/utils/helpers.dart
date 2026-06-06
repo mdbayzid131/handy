@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 enum SnackBarType { success, error, info, warning, secondary }
 
@@ -50,7 +51,7 @@ class Helpers {
                   color: Colors.transparent,
                   child: Text(
                     message,
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                    style: TextStyle(color: AppTheme.white, fontSize: 14.sp),
                   ),
                 ),
               ],
@@ -94,7 +95,7 @@ class Helpers {
               ), // Transparent BG
               borderRadius: BorderRadius.circular(16.r),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppTheme.white.withValues(alpha: 0.2),
                 width: 1,
               ),
             ),
@@ -111,7 +112,7 @@ class Helpers {
                       bottomLeft: Radius.circular(16.r),
                     ),
                   ),
-                  child: Icon(config['icon'], color: Colors.white, size: 28.sp),
+                  child: Icon(config['icon'], color: AppTheme.white, size: 28.sp),
                 ),
                 SizedBox(width: 16.w),
                 // Text Content
@@ -125,7 +126,7 @@ class Helpers {
                         style: TextStyle(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white,
+                          color: AppTheme.white,
                         ),
                       ),
                       Text(
@@ -135,7 +136,7 @@ class Helpers {
                         style: TextStyle(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white.withValues(alpha: 0.9),
+                          color: AppTheme.white.withValues(alpha: 0.9),
                         ),
                       ),
                     ],
@@ -146,7 +147,7 @@ class Helpers {
                   onPressed: () => Get.back(),
                   icon: Icon(
                     Icons.close_rounded,
-                    color: Colors.white.withValues(alpha: 0.5),
+                    color: AppTheme.white.withValues(alpha: 0.5),
                     size: 20.sp,
                   ),
                 ),

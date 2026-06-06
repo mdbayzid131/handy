@@ -3,57 +3,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../controllers/notifications_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
-
+import 'package:handy/core/widgets/custom_gradient_header.dart';
 class NotificationView extends GetView<NotificationController> {
   const NotificationView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Get.back(),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppTheme.primaryLighter, // Lighter blue
-                AppTheme.primaryDarker, // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+      backgroundColor: AppTheme.backgroundColor,
+      body: Column(
+        children: [
+          const CustomGradientHeader(
+            title: 'Notifications',
+            subtitle: 'PIWC Stoneyburn',
+            showBackButton: true,
           ),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Notifications',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'PIWC Stoneyburn',
-              style: TextStyle(
-                color: AppTheme.warningColor, // Amber yellow matching design
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        titleSpacing: 0,
-      ),
-      body: Obx(() {
-        return SingleChildScrollView(
+          Expanded(
+            child: Obx(() {
+              return SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: SafeArea(
             child: Column(
@@ -65,7 +32,7 @@ class NotificationView extends GetView<NotificationController> {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [Color(0xFFFF5252), Color(0xFFFF416C)],
+                        colors: [AppTheme.accentRed, AppTheme.pinkRed],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
@@ -75,7 +42,7 @@ class NotificationView extends GetView<NotificationController> {
                       children: [
                         const Icon(
                           Icons.notifications_off,
-                          color: Colors.white,
+                          color: AppTheme.white,
                         ),
                         SizedBox(width: 12.w),
                         Expanded(
@@ -85,7 +52,7 @@ class NotificationView extends GetView<NotificationController> {
                               Text(
                                 'Notifications are off',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppTheme.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.sp,
                                 ),
@@ -94,7 +61,7 @@ class NotificationView extends GetView<NotificationController> {
                               Text(
                                 'Tap to enable and stay connected with PIWC Stoneyburn',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppTheme.white,
                                   fontSize: 13.sp,
                                 ),
                               ),
@@ -102,7 +69,7 @@ class NotificationView extends GetView<NotificationController> {
                           ),
                         ),
                         SizedBox(width: 8.w),
-                        const Icon(Icons.chevron_right, color: Colors.white),
+                        const Icon(Icons.chevron_right, color: AppTheme.white),
                       ],
                     ),
                   ),
@@ -110,7 +77,7 @@ class NotificationView extends GetView<NotificationController> {
                 Text(
                   'Notification Preferences',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -119,10 +86,10 @@ class NotificationView extends GetView<NotificationController> {
 
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1A223E),
+                    color: AppTheme.darkCardVariant,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: const Color(0xFF2A3355),
+                      color: AppTheme.darkSlate,
                       width: 1,
                     ),
                   ),
@@ -130,7 +97,7 @@ class NotificationView extends GetView<NotificationController> {
                     children: [
                       _buildPreferenceItem(
                         icon: Icons.notifications,
-                        iconBgColor: const Color(0xFF2F45D1),
+                        iconBgColor: AppTheme.indigo,
                         title: 'Sunday Service Reminder',
                         subtitle:
                             'Reminder every Saturday at 6:00 PM before Sunday service',
@@ -141,7 +108,7 @@ class NotificationView extends GetView<NotificationController> {
                       _buildDivider(),
                       _buildPreferenceItem(
                         icon: Icons.calendar_month,
-                        iconBgColor: const Color(0xFF0F8A74),
+                        iconBgColor: AppTheme.deepTeal,
                         title: 'Event Reminders',
                         subtitle: "1-hour reminder before events you've saved",
                         value: controller.eventReminders.value,
@@ -151,7 +118,7 @@ class NotificationView extends GetView<NotificationController> {
                       _buildDivider(),
                       _buildPreferenceItem(
                         icon: Icons.campaign,
-                        iconBgColor: const Color(0xFFE54148),
+                        iconBgColor: AppTheme.coralRed,
                         title: 'New Announcements',
                         subtitle:
                             'Notified when the church posts new announcements',
@@ -162,7 +129,7 @@ class NotificationView extends GetView<NotificationController> {
                       _buildDivider(),
                       _buildPreferenceItem(
                         icon: Icons.play_circle_fill,
-                        iconBgColor: const Color(0xFF7524AA),
+                        iconBgColor: AppTheme.deepPurple,
                         title: 'New Sermons',
                         subtitle: 'Notified when a new sermon is uploaded',
                         value: controller.newSermons.value,
@@ -171,7 +138,7 @@ class NotificationView extends GetView<NotificationController> {
                       _buildDivider(),
                       _buildPreferenceItem(
                         icon: Icons.volunteer_activism,
-                        iconBgColor: const Color(0xFFDD6120),
+                        iconBgColor: AppTheme.burntOrange,
                         title: 'Prayer Updates',
                         subtitle:
                             'Notified when someone prays for your request',
@@ -188,12 +155,15 @@ class NotificationView extends GetView<NotificationController> {
           ),
         );
       }),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildDivider() {
     return const Divider(
-      color: Color(0xFF2A3355),
+      color: AppTheme.darkSlate,
       height: 1,
       thickness: 1,
       indent: 64, // To align with text
@@ -219,7 +189,7 @@ class NotificationView extends GetView<NotificationController> {
               color: iconBgColor,
               borderRadius: BorderRadius.circular(10.r),
             ),
-            child: Icon(icon, color: Colors.white, size: 24.sp),
+            child: Icon(icon, color: AppTheme.white, size: 24.sp),
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -229,7 +199,7 @@ class NotificationView extends GetView<NotificationController> {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -238,7 +208,7 @@ class NotificationView extends GetView<NotificationController> {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    color: Color(0xFF8C93A8),
+                    color: AppTheme.mutedTextVariant,
                     fontSize: 10.sp,
                     height: 1.3,
                   ),
@@ -252,10 +222,10 @@ class NotificationView extends GetView<NotificationController> {
             child: Switch(
               value: value,
               onChanged: onChanged,
-              activeThumbColor: const Color(0xFFFFB800),
-              activeTrackColor: const Color(0xFF384370),
-              inactiveThumbColor: Colors.white,
-              inactiveTrackColor: const Color(0xFF384370),
+              activeThumbColor: AppTheme.yellowAccentVariant,
+              activeTrackColor: AppTheme.slateBlue,
+              inactiveThumbColor: AppTheme.white,
+              inactiveTrackColor: AppTheme.slateBlue,
             ),
           ),
         ],

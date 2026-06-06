@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/event_details_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
-
+import 'package:handy/core/widgets/custom_gradient_header.dart';
 class EventDetailsView extends GetView<EventDetailsController> {
   const EventDetailsView({super.key});
 
@@ -14,11 +14,11 @@ class EventDetailsView extends GetView<EventDetailsController> {
       case 'Worship':
         return AppTheme.accentBlue; // Royal Blue
       case 'Youth':
-        return const Color(0xFFFF5252); // Coral/Red
+        return AppTheme.accentRed; // Coral/Red
       case 'Prayer':
         return const Color(0xFFB388FF); // Purple
       case 'Community':
-        return const Color(0xFF26A69A); // Teal
+        return AppTheme.teal400; // Teal
       default:
         return const Color(0xFF132488); // Default Blue
     }
@@ -31,53 +31,20 @@ class EventDetailsView extends GetView<EventDetailsController> {
       final primaryColor = _getCategoryColor(event.category);
 
       return Scaffold(
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
-            onPressed: () => Get.back(),
-          ),
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppTheme.primaryLighter, // Lighter blue
-                  AppTheme.primaryDarker, // Darker blue
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+        backgroundColor: AppTheme.backgroundColor,
+        body: Column(
+          children: [
+            const CustomGradientHeader(
+              title: 'Event Details',
+              subtitle: 'PIWC Stoneyburn',
+              showBackButton: true,
             ),
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Event Details',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'PIWC Stoneyburn',
-                style: TextStyle(
-                  color: AppTheme.warningColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          titleSpacing: 0,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Hero Section / Colored Block
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Hero Section / Colored Block
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
@@ -88,12 +55,12 @@ class EventDetailsView extends GetView<EventDetailsController> {
                       width: 80.w,
                       height: 80.w,
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: AppTheme.white.withValues(alpha: 0.2),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.calendar_today,
-                        color: Colors.white,
+                        color: AppTheme.white,
                         size: 36.w,
                       ),
                     ),
@@ -104,13 +71,13 @@ class EventDetailsView extends GetView<EventDetailsController> {
                         vertical: 6.h,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: AppTheme.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(
                         event.category.toUpperCase(),
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppTheme.white,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.2,
@@ -130,8 +97,8 @@ class EventDetailsView extends GetView<EventDetailsController> {
                       event.title,
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppTheme.white
+                            : AppTheme.black,
                         fontSize: 24.sp,
                         fontWeight: FontWeight.bold,
                         height: 1.2,
@@ -145,7 +112,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                         color: const Color(0xFF1E2336),
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: AppTheme.white.withValues(alpha: 0.05),
                         ),
                       ),
                       child: Column(
@@ -157,7 +124,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                             primaryColor,
                           ),
                           Divider(
-                            color: Colors.white.withValues(alpha: 0.05),
+                            color: AppTheme.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 60.w,
                           ),
@@ -168,7 +135,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                             primaryColor,
                           ),
                           Divider(
-                            color: Colors.white.withValues(alpha: 0.05),
+                            color: AppTheme.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 60.w,
                           ),
@@ -179,7 +146,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                             primaryColor,
                           ),
                           Divider(
-                            color: Colors.white.withValues(alpha: 0.05),
+                            color: AppTheme.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 60.w,
                           ),
@@ -198,8 +165,8 @@ class EventDetailsView extends GetView<EventDetailsController> {
                       'About This Event',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppTheme.white
+                            : AppTheme.black,
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -209,8 +176,8 @@ class EventDetailsView extends GetView<EventDetailsController> {
                       event.description,
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white.withValues(alpha: 0.6)
-                            : Colors.black.withValues(alpha: 0.6),
+                            ? AppTheme.white.withValues(alpha: 0.6)
+                            : AppTheme.black.withValues(alpha: 0.6),
                         fontSize: 15.sp,
                         height: 1.6,
                       ),
@@ -228,13 +195,13 @@ class EventDetailsView extends GetView<EventDetailsController> {
                               onPressed: () => controller.toggleRSVP(),
                               icon: Icon(
                                 Icons.check_circle,
-                                color: Colors.white,
+                                color: AppTheme.white,
                                 size: 24.w,
                               ),
                               label: Text(
                                 "You're Going!",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppTheme.white,
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -256,8 +223,8 @@ class EventDetailsView extends GetView<EventDetailsController> {
                             'We look forward to seeing you there! 🎉',
                             style: TextStyle(
                               color: Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.white.withValues(alpha: 0.7)
-                                  : Colors.black.withValues(alpha: 0.7),
+                                  ? AppTheme.white.withValues(alpha: 0.7)
+                                  : AppTheme.black.withValues(alpha: 0.7),
                               fontSize: 14.sp,
                             ),
                           ),
@@ -270,13 +237,13 @@ class EventDetailsView extends GetView<EventDetailsController> {
                           onPressed: () => controller.toggleRSVP(),
                           icon: Icon(
                             Icons.calendar_today,
-                            color: Colors.white,
+                            color: AppTheme.white,
                             size: 20.w,
                           ),
                           label: Text(
                             "RSVP for This Event",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppTheme.white,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                             ),
@@ -314,7 +281,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                         style: OutlinedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16.h),
                           side: BorderSide(
-                            color: Colors.white.withValues(alpha: 0.1),
+                            color: AppTheme.white.withValues(alpha: 0.1),
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.r),
@@ -328,6 +295,9 @@ class EventDetailsView extends GetView<EventDetailsController> {
               ),
             ],
           ),
+        ),
+            ),
+          ],
         ),
       );
     });
@@ -363,7 +333,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                 Text(
                   label,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.5),
+                    color: AppTheme.white.withValues(alpha: 0.5),
                     fontSize: 11.sp,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -373,7 +343,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                 Text(
                   value,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w600,
                   ),

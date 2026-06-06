@@ -58,7 +58,7 @@ class CustomButton extends StatelessWidget {
               onPressed: isLoading ? null : onPressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: bgColor,
-                foregroundColor: textColor ?? Colors.white,
+                foregroundColor: textColor ?? AppTheme.white,
                 minimumSize: Size(double.infinity, 50.h),
                 shape: RoundedRectangleBorder(borderRadius: radius),
                 elevation: 4,
@@ -78,7 +78,7 @@ class CustomButton extends StatelessWidget {
         child: CircularProgressIndicator(
           strokeWidth: 2.5,
           valueColor: AlwaysStoppedAnimation<Color>(
-            outlineColor ?? Colors.white,
+            outlineColor ?? AppTheme.white,
           ),
         ),
       );
@@ -89,7 +89,7 @@ class CustomButton extends StatelessWidget {
       style: GoogleFonts.manrope(
         fontSize: (fontSize ?? 16).sp,
         fontWeight: FontWeight.w600,
-        color: outlineColor ?? textColor ?? Colors.white,
+        color: outlineColor ?? textColor ?? AppTheme.white,
       ),
     );
 

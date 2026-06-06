@@ -16,7 +16,7 @@ class WatchLiveView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white, size: 20.w),
+          icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 20.w),
           onPressed: () => Get.back(),
         ),
         title: Column(
@@ -25,7 +25,7 @@ class WatchLiveView extends StatelessWidget {
             Text(
               'Watch Live',
               style: TextStyle(
-                color: Colors.white,
+                color: AppTheme.white,
                 fontSize: 28.sp,
                 fontWeight: FontWeight.bold,
               ),
@@ -45,7 +45,7 @@ class WatchLiveView extends StatelessWidget {
             margin: EdgeInsets.only(right: 20.w),
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
-              color: const Color(0xFFE53935),
+              color: AppTheme.red600,
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Row(
@@ -54,7 +54,7 @@ class WatchLiveView extends StatelessWidget {
                   width: 8.w,
                   height: 8.w,
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -62,7 +62,7 @@ class WatchLiveView extends StatelessWidget {
                 Text(
                   'LIVE',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -113,8 +113,8 @@ class WatchLiveView extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [
-                          Color(0xFFD32F2F), // Red
-                          Color(0xFF5D0000), // Dark Red
+                          AppTheme.red700, // Red
+                          AppTheme.deepRed, // Dark Red
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -122,7 +122,7 @@ class WatchLiveView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(24.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.3),
+                          color: AppTheme.black.withValues(alpha: 0.3),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -130,12 +130,12 @@ class WatchLiveView extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Icon(Icons.videocam, color: Colors.white, size: 56.w),
+                        Icon(Icons.videocam, color: AppTheme.white, size: 56.w),
                         SizedBox(height: 16.h),
                         Text(
                           "We're Live Now!",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 28.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -144,7 +144,7 @@ class WatchLiveView extends StatelessWidget {
                         Text(
                           "Sunday Worship Service",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -153,7 +153,7 @@ class WatchLiveView extends StatelessWidget {
                         Text(
                           "PIWC Stoneyburn",
                           style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.7),
+                            color: AppTheme.white.withValues(alpha: 0.7),
                             fontSize: 14.sp,
                           ),
                         ),
@@ -173,8 +173,8 @@ class WatchLiveView extends StatelessWidget {
                       'Watch on',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppTheme.white
+                            : AppTheme.black,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -188,7 +188,7 @@ class WatchLiveView extends StatelessWidget {
                         color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
-                          color: const Color(0xFFF44336),
+                          color: AppTheme.red500,
                           width: 1.5,
                         ),
                       ),
@@ -198,12 +198,12 @@ class WatchLiveView extends StatelessWidget {
                             width: 48.w,
                             height: 48.w,
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF44336),
+                              color: AppTheme.red500,
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Icon(
                               Icons.ondemand_video,
-                              color: Colors.white,
+                              color: AppTheme.white,
                               size: 24.w,
                             ),
                           ),
@@ -215,7 +215,7 @@ class WatchLiveView extends StatelessWidget {
                                 Text(
                                   'YouTube Live',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: AppTheme.white,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -235,12 +235,12 @@ class WatchLiveView extends StatelessWidget {
                             width: 24.w,
                             height: 24.w,
                             decoration: const BoxDecoration(
-                              color: Color(0xFFF44336),
+                              color: AppTheme.red500,
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               Icons.check,
-                              color: Colors.white,
+                              color: AppTheme.white,
                               size: 16.w,
                             ),
                           ),
@@ -257,7 +257,7 @@ class WatchLiveView extends StatelessWidget {
                         color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: AppTheme.white.withValues(alpha: 0.05),
                         ),
                       ),
                       child: Row(
@@ -266,12 +266,12 @@ class WatchLiveView extends StatelessWidget {
                             width: 48.w,
                             height: 48.w,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1976D2), // Facebook Blue
+                              color: AppTheme.standardBlue, // Facebook Blue
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Icon(
                               Icons.facebook,
-                              color: Colors.white,
+                              color: AppTheme.white,
                               size: 28.w,
                             ),
                           ),
@@ -283,7 +283,7 @@ class WatchLiveView extends StatelessWidget {
                                 Text(
                                   'Facebook Live',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: AppTheme.white,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -312,7 +312,7 @@ class WatchLiveView extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [
-                            Color(0xFFE53935),
+                            AppTheme.red600,
                             Color(0xFFFF5722),
                           ], // Red to Orange gradient
                           begin: Alignment.centerLeft,
@@ -323,12 +323,12 @@ class WatchLiveView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.videocam, color: Colors.white, size: 24.w),
+                          Icon(Icons.videocam, color: AppTheme.white, size: 24.w),
                           SizedBox(width: 8.w),
                           Text(
                             'Watch Live on YouTube Live',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppTheme.white,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
@@ -336,7 +336,7 @@ class WatchLiveView extends StatelessWidget {
                           SizedBox(width: 8.w),
                           Icon(
                             Icons.chevron_right,
-                            color: Colors.white,
+                            color: AppTheme.white,
                             size: 20.w,
                           ),
                         ],
@@ -371,7 +371,7 @@ class WatchLiveView extends StatelessWidget {
                           Text(
                             'Service Times',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppTheme.white,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                             ),
@@ -401,8 +401,8 @@ class WatchLiveView extends StatelessWidget {
                       'Recent Services',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppTheme.white
+                            : AppTheme.black,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -419,19 +419,19 @@ class WatchLiveView extends StatelessWidget {
                       title: 'Sunday Service — 27 Apr 2026',
                       speaker: 'Elder Grace Mensah',
                       time: '2h 08min · 27 Apr 2026',
-                      iconColor: const Color(0xFFC62828), // Dark Red
+                      iconColor: AppTheme.red800, // Dark Red
                     ),
                     _buildRecentServiceCard(
                       title: 'Prayer Night — 25 Apr 2026',
                       speaker: 'PIWC Stoneyburn',
                       time: '1h 45min · 25 Apr 2026',
-                      iconColor: const Color(0xFF6A1B9A), // Purple
+                      iconColor: AppTheme.purple900, // Purple
                     ),
                     _buildRecentServiceCard(
                       title: 'Sunday Service — 20 Apr 2026',
                       speaker: 'Deacon David Boateng',
                       time: '2h 02min · 20 Apr 2026',
-                      iconColor: const Color(0xFF00695C), // Dark Green
+                      iconColor: AppTheme.teal800, // Dark Green
                     ),
 
                     SizedBox(height: 24.h),
@@ -442,7 +442,7 @@ class WatchLiveView extends StatelessWidget {
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
-                          colors: [Color(0xFFE53935), Color(0xFFFF5722)],
+                          colors: [AppTheme.red600, Color(0xFFFF5722)],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                         ),
@@ -452,7 +452,7 @@ class WatchLiveView extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.notifications,
-                            color: Colors.white,
+                            color: AppTheme.white,
                             size: 28.w,
                           ),
                           SizedBox(width: 16.w),
@@ -463,7 +463,7 @@ class WatchLiveView extends StatelessWidget {
                                 Text(
                                   'Never miss a service',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: AppTheme.white,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -472,7 +472,7 @@ class WatchLiveView extends StatelessWidget {
                                 Text(
                                   'Subscribe to our YouTube\nchannel for live notifications',
                                   style: TextStyle(
-                                    color: Colors.white.withValues(alpha: 0.9),
+                                    color: AppTheme.white.withValues(alpha: 0.9),
                                     fontSize: 12.sp,
                                     height: 1.3,
                                   ),
@@ -486,13 +486,13 @@ class WatchLiveView extends StatelessWidget {
                               vertical: 8.h,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
+                              color: AppTheme.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: Text(
                               'Subscribe',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppTheme.white,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -520,7 +520,7 @@ class WatchLiveView extends StatelessWidget {
         SizedBox(width: 12.w),
         Text(
           text,
-          style: TextStyle(color: Colors.white, fontSize: 15.sp),
+          style: TextStyle(color: AppTheme.white, fontSize: 15.sp),
         ),
       ],
     );
@@ -538,7 +538,7 @@ class WatchLiveView extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
       ),
       child: Row(
         children: [
@@ -550,7 +550,7 @@ class WatchLiveView extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Center(
-              child: Icon(Icons.play_arrow, color: Colors.white, size: 28.w),
+              child: Icon(Icons.play_arrow, color: AppTheme.white, size: 28.w),
             ),
           ),
           SizedBox(width: 16.w),
@@ -561,7 +561,7 @@ class WatchLiveView extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     fontSize: 15.sp,
                     fontWeight: FontWeight.bold,
                   ),

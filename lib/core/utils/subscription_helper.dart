@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class SubscriptionHelper {
   static void showSubscriptionDialog() {
@@ -43,7 +44,7 @@ class SubscriptionHelper {
                 style: GoogleFonts.arimo(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: AppTheme.white,
                 ),
               ),
             ),

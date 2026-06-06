@@ -71,8 +71,8 @@ class CustomTextField extends StatelessWidget {
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white.withValues(alpha: 0.9)
-                    : Colors.black.withValues(alpha: 0.9),
+                    ? AppTheme.white.withValues(alpha: 0.9)
+                    : AppTheme.black.withValues(alpha: 0.9),
               ),
             ),
           ),
@@ -97,7 +97,7 @@ class CustomTextField extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 15.sp,
             fontWeight: FontWeight.w400,
-            color: Colors.white,
+            color: AppTheme.white,
           ),
           decoration: _buildDecoration(),
         ),
@@ -109,7 +109,7 @@ class CustomTextField extends StatelessWidget {
     final borderRadius = BorderRadius.circular(16.r);
     final border = OutlineInputBorder(
       borderRadius: borderRadius,
-      borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05), width: 1),
+      borderSide: BorderSide(color: AppTheme.white.withValues(alpha: 0.05), width: 1),
     );
     final focusBorder = OutlineInputBorder(
       borderRadius: borderRadius,
@@ -121,7 +121,7 @@ class CustomTextField extends StatelessWidget {
       hintStyle: GoogleFonts.arimo(
         fontSize: 15.sp,
         fontWeight: FontWeight.w400,
-        color: Colors.white.withValues(alpha: 0.4),
+        color: AppTheme.white.withValues(alpha: 0.4),
       ),
       contentPadding: EdgeInsets.symmetric(
         vertical: 16.h,

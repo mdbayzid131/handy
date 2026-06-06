@@ -18,7 +18,7 @@ class OtpView extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: AppTheme.white),
       ),
       extendBodyBehindAppBar: true,
       body: SafeArea(
@@ -50,7 +50,7 @@ class OtpView extends StatelessWidget {
                         Text(
                           'Enter OTP',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 28.sp,
                             fontWeight: FontWeight.bold,
                             letterSpacing: -0.5,
@@ -76,8 +76,8 @@ class OtpView extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white.withValues(alpha: 0.7)
-                            : Colors.black.withValues(alpha: 0.7),
+                            ? AppTheme.white.withValues(alpha: 0.7)
+                            : AppTheme.black.withValues(alpha: 0.7),
                         height: 1.5,
                       ),
                     ),
@@ -92,14 +92,14 @@ class OtpView extends StatelessWidget {
                           height: 68.h,
                           textStyle: TextStyle(
                             fontSize: 24.sp,
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontWeight: FontWeight.w600,
                           ),
                           decoration: BoxDecoration(
                             color: const Color(0xFF1E2336),
                             borderRadius: BorderRadius.circular(16.r),
                             border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.05),
+                              color: AppTheme.white.withValues(alpha: 0.05),
                               width: 1,
                             ),
                           ),
@@ -109,7 +109,7 @@ class OtpView extends StatelessWidget {
                           height: 68.h,
                           textStyle: TextStyle(
                             fontSize: 24.sp,
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontWeight: FontWeight.w600,
                           ),
                           decoration: BoxDecoration(
@@ -126,7 +126,7 @@ class OtpView extends StatelessWidget {
                           height: 68.h,
                           textStyle: TextStyle(
                             fontSize: 24.sp,
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontWeight: FontWeight.w600,
                           ),
                           decoration: BoxDecoration(
@@ -173,9 +173,10 @@ class OtpView extends StatelessWidget {
                         Text(
                           "Didn't receive code? ",
                           style: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white.withValues(alpha: 0.6)
-                                : Colors.black.withValues(alpha: 0.6),
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.white.withValues(alpha: 0.6)
+                                : AppTheme.black.withValues(alpha: 0.6),
                             fontSize: 14.sp,
                           ),
                         ),

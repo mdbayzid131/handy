@@ -23,8 +23,8 @@ class BibleView extends GetView<BibleController> {
           icon: Icon(
             Icons.arrow_back,
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+                ? AppTheme.white
+                : AppTheme.black,
             size: 24.w,
           ),
           onPressed: () => Get.back(),
@@ -33,8 +33,8 @@ class BibleView extends GetView<BibleController> {
           'Bible',
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+                ? AppTheme.white
+                : AppTheme.black,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -43,8 +43,8 @@ class BibleView extends GetView<BibleController> {
           preferredSize: Size.fromHeight(1.h),
           child: Container(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white.withValues(alpha: 0.05)
-                : Colors.black.withValues(alpha: 0.1),
+                ? AppTheme.white.withValues(alpha: 0.05)
+                : AppTheme.black.withValues(alpha: 0.1),
             height: 1.h,
           ),
         ),
@@ -62,15 +62,15 @@ class BibleView extends GetView<BibleController> {
                       color: AppTheme.cardColor,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.05),
+                        color: AppTheme.white.withValues(alpha: 0.05),
                       ),
                     ),
                     child: TextField(
                       onChanged: controller.updateSearchQuery,
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
+                            ? AppTheme.white
+                            : AppTheme.black,
                         fontSize: 16.sp,
                       ),
                       decoration: InputDecoration(
@@ -100,7 +100,7 @@ class BibleView extends GetView<BibleController> {
                         color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: AppTheme.white.withValues(alpha: 0.05),
                         ),
                       ),
                       child: Row(
@@ -121,7 +121,7 @@ class BibleView extends GetView<BibleController> {
                                   'Old Testament',
                                   style: TextStyle(
                                     color: controller.isOldTestament.value
-                                        ? Colors.white
+                                        ? AppTheme.white
                                         : AppTheme.mutedTextColor,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
@@ -146,7 +146,7 @@ class BibleView extends GetView<BibleController> {
                                   'New Testament',
                                   style: TextStyle(
                                     color: !controller.isOldTestament.value
-                                        ? Colors.white
+                                        ? AppTheme.white
                                         : AppTheme.mutedTextColor,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
@@ -230,7 +230,7 @@ class BibleView extends GetView<BibleController> {
         decoration: BoxDecoration(
           color: AppTheme.cardColor,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+          border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,8 +239,8 @@ class BibleView extends GetView<BibleController> {
               book.name,
               style: TextStyle(
                 color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+                    ? AppTheme.white
+                    : AppTheme.black,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),

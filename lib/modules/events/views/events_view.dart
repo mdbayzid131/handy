@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import '../controllers/events_controller.dart';
 import '../../../data/models/events_model.dart';
+import 'package:handy/core/widgets/custom_gradient_header.dart';
 
 class EventsView extends GetView<EventsController> {
   const EventsView({super.key});
@@ -16,84 +16,30 @@ class EventsView extends GetView<EventsController> {
     Get.put(EventsController());
 
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        toolbarHeight: 90.h,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppTheme.primaryLighter, // Lighter blue
-                AppTheme.primaryDarker, // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Events',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        'PIWC Stoneyburn',
-                        style: TextStyle(
-                          color: AppTheme.warningColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => Get.toNamed(AppRoutes.EVENTS_HISTORY),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 8.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.warningColor,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Text(
-                      'History',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        titleSpacing: 20.w,
-      ),
+      backgroundColor: AppTheme.backgroundColor,
       body: Column(
         children: [
+          CustomGradientHeader(
+            title: 'Events',
+            trailingWidget: GestureDetector(
+              onTap: () => Get.toNamed(AppRoutes.EVENTS_HISTORY),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                decoration: BoxDecoration(
+                  color: AppTheme.warningColor,
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Text(
+                  'History',
+                  style: TextStyle(
+                    color: AppTheme.black,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
           _buildCategoryFilters(),
           Expanded(
             child: SafeArea(
@@ -154,8 +100,8 @@ class EventsView extends GetView<EventsController> {
                   category,
                   style: TextStyle(
                     color: isSelected
-                        ? Colors.white
-                        : Colors.white.withValues(alpha: 0.7),
+                        ? AppTheme.white
+                        : AppTheme.white.withValues(alpha: 0.7),
                     fontSize: 14.sp,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   ),
@@ -211,12 +157,12 @@ class EventsView extends GetView<EventsController> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.calendar_today, color: Colors.white, size: 16.w),
+                  Icon(Icons.calendar_today, color: AppTheme.white, size: 16.w),
                   SizedBox(width: 8.w),
                   Text(
                     event.category.toUpperCase(),
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.white,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.2,
@@ -234,7 +180,7 @@ class EventsView extends GetView<EventsController> {
                   Text(
                     event.title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.white,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -244,14 +190,14 @@ class EventsView extends GetView<EventsController> {
                     children: [
                       Icon(
                         Icons.access_time,
-                        color: Colors.white.withValues(alpha: 0.5),
+                        color: AppTheme.white.withValues(alpha: 0.5),
                         size: 14.w,
                       ),
                       SizedBox(width: 8.w),
                       Text(
                         '${event.date} · ${event.time}',
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.6),
+                          color: AppTheme.white.withValues(alpha: 0.6),
                           fontSize: 13.sp,
                         ),
                       ),
@@ -262,14 +208,14 @@ class EventsView extends GetView<EventsController> {
                     children: [
                       Icon(
                         Icons.location_on,
-                        color: Colors.white.withValues(alpha: 0.5),
+                        color: AppTheme.white.withValues(alpha: 0.5),
                         size: 14.w,
                       ),
                       SizedBox(width: 8.w),
                       Text(
                         event.location,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.6),
+                          color: AppTheme.white.withValues(alpha: 0.6),
                           fontSize: 13.sp,
                         ),
                       ),
@@ -309,7 +255,7 @@ class EventsView extends GetView<EventsController> {
                         child: Text(
                           'View',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,
                           ),

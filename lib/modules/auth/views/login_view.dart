@@ -19,7 +19,7 @@ class LoginView extends GetView<LoginController> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: AppTheme.white),
       ),
       extendBodyBehindAppBar: true,
       body: SafeArea(
@@ -51,7 +51,7 @@ class LoginView extends GetView<LoginController> {
                         Text(
                           'Welcome Back',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 28.sp,
                             fontWeight: FontWeight.bold,
                             letterSpacing: -0.5,
@@ -61,7 +61,7 @@ class LoginView extends GetView<LoginController> {
                         Text(
                           'Sign in to continue',
                           style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.7),
+                            color: AppTheme.white.withValues(alpha: 0.7),
                             fontSize: 16.sp,
                           ),
                         ),
@@ -88,7 +88,7 @@ class LoginView extends GetView<LoginController> {
                         keyboardType: TextInputType.emailAddress,
                         prefixIcon: Icon(
                           Icons.email_outlined,
-                          color: Colors.white.withValues(alpha: 0.5),
+                          color: AppTheme.white.withValues(alpha: 0.5),
                         ),
                         validator: Validators.email,
                       ),
@@ -102,14 +102,14 @@ class LoginView extends GetView<LoginController> {
                           obscureText: !controller.isPasswordVisible.value,
                           prefixIcon: Icon(
                             Icons.lock_outline,
-                            color: Colors.white.withValues(alpha: 0.5),
+                            color: AppTheme.white.withValues(alpha: 0.5),
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
                               controller.isPasswordVisible.value
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: AppTheme.white.withValues(alpha: 0.5),
                             ),
                             onPressed: controller.togglePasswordVisibility,
                           ),
@@ -159,9 +159,11 @@ class LoginView extends GetView<LoginController> {
                           Text(
                             "Don't have an account? ",
                             style: TextStyle(
-                              color: Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.white.withValues(alpha: 0.6)
-                                  : Colors.black.withValues(alpha: 0.6),
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? AppTheme.white.withValues(alpha: 0.6)
+                                  : AppTheme.black.withValues(alpha: 0.6),
                               fontSize: 14.sp,
                             ),
                           ),

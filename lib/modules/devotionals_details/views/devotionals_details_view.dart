@@ -18,8 +18,8 @@ class DevotionalsDetailsView extends StatelessWidget {
           icon: Icon(
             Icons.arrow_back,
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+                ? AppTheme.white
+                : AppTheme.black,
             size: 24.w,
           ),
           onPressed: () => Get.back(),
@@ -29,8 +29,8 @@ class DevotionalsDetailsView extends StatelessWidget {
           'Devotional',
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+                ? AppTheme.white
+                : AppTheme.black,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -40,8 +40,8 @@ class DevotionalsDetailsView extends StatelessWidget {
             icon: Icon(
               Icons.star_border,
               color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
-                  : Colors.black,
+                  ? AppTheme.white
+                  : AppTheme.black,
               size: 24.w,
             ),
             onPressed: () {},
@@ -56,7 +56,7 @@ class DevotionalsDetailsView extends StatelessWidget {
               // Top Blue Header
               Container(
                 width: double.infinity,
-                color: const Color(0xFF476BFF), // Royal Blue
+                color: AppTheme.royalBlue, // Royal Blue
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     Text(
                       'TUESDAY · MAY 6, 2025',
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.7),
+                        color: AppTheme.white.withValues(alpha: 0.7),
                         fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.0,
@@ -74,7 +74,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     Text(
                       'More Than Enough',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppTheme.white,
                         fontSize: 28.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -96,7 +96,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       left: BorderSide(
-                        color: const Color(0xFF476BFF),
+                        color: AppTheme.royalBlue,
                         width: 4.w,
                       ),
                     ),
@@ -107,7 +107,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                       Text(
                         'JOHN 6:35',
                         style: TextStyle(
-                          color: const Color(0xFF476BFF),
+                          color: AppTheme.royalBlue,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -116,7 +116,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                       Text(
                         '"Jesus said to them, \'I am the bread of life; whoever comes to me shall not hunger, and whoever believes in me shall never thirst.\'"',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppTheme.white,
                           fontSize: 16.sp,
                           fontStyle: FontStyle.italic,
                           height: 1.5,
@@ -137,7 +137,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.menu_book,
-                          color: const Color(0xFF476BFF),
+                          color: AppTheme.royalBlue,
                           size: 24.w,
                         ),
                         SizedBox(width: 12.w),
@@ -145,8 +145,8 @@ class DevotionalsDetailsView extends StatelessWidget {
                           'Reflection',
                           style: TextStyle(
                             color: Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white
-                                : Colors.black,
+                                ? AppTheme.white
+                                : AppTheme.black,
                             fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -158,8 +158,8 @@ class DevotionalsDetailsView extends StatelessWidget {
                       'Jesus does not offer to supplement our lives — He offers to satisfy them. The crowd had just witnessed the miracle of loaves and fish, yet Jesus pointed beyond the physical to a deeper hunger. Every longing we carry — for meaning, for belonging, for peace — finds its answer in Him. Come to Him today, not just for what He can do, but for who He is.',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white.withValues(alpha: 0.9)
-                            : Colors.black.withValues(alpha: 0.9),
+                            ? AppTheme.white.withValues(alpha: 0.9)
+                            : AppTheme.black.withValues(alpha: 0.9),
                         fontSize: 15.sp,
                         height: 1.6,
                       ),
@@ -190,7 +190,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                         Text(
                           'Prayer',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -219,7 +219,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF476BFF),
+                        backgroundColor: AppTheme.royalBlue,
                         minimumSize: Size(double.infinity, 56.h),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.r),
@@ -231,14 +231,14 @@ class DevotionalsDetailsView extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.check_circle,
-                            color: Colors.white,
+                            color: AppTheme.white,
                             size: 20.w,
                           ),
                           SizedBox(width: 12.w),
                           Text(
                             'Mark as Read',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppTheme.white,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
@@ -264,14 +264,14 @@ class DevotionalsDetailsView extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.share,
-                            color: const Color(0xFF476BFF),
+                            color: AppTheme.royalBlue,
                             size: 20.w,
                           ),
                           SizedBox(width: 12.w),
                           Text(
                             'Share This Devotional',
                             style: TextStyle(
-                              color: const Color(0xFF476BFF),
+                              color: AppTheme.royalBlue,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),

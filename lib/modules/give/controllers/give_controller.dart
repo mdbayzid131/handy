@@ -25,19 +25,19 @@ class GiveController extends GetxController {
       title: 'Offering',
       desc: 'Freewill offering to the Lord',
       icon: Icons.favorite,
-      color: const Color(0xFFFF5252),
+      color: AppTheme.accentRed,
     ),
     GiveFundModel(
       title: 'Missions',
       desc: 'Support global outreach',
       icon: Icons.language,
-      color: const Color(0xFF00E676),
+      color: AppTheme.greenAccent,
     ),
     GiveFundModel(
       title: 'Building Fund',
       desc: 'Help us build for the future',
       icon: Icons.star,
-      color: const Color(0xFFFF9800),
+      color: AppTheme.standardOrange,
     ),
   ];
 

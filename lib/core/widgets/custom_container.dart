@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 /// ===================== CUSTOM CONTAINER =====================
 /// A styled card-like container with consistent padding, border, radius, and shadow.
@@ -32,13 +33,13 @@ class CustomContainer extends StatelessWidget {
       padding: padding ?? EdgeInsets.all(16.w),
       margin: margin,
       decoration: BoxDecoration(
-        color: color ?? Colors.white,
+        color: color ?? AppTheme.white,
         border: border ?? Border.all(color: const Color(0xFFE5E7EB), width: 1),
         borderRadius: BorderRadius.circular((borderRadius ?? 20).r),
         boxShadow: boxShadow ??
             [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.04),
+                color: AppTheme.black.withValues(alpha: 0.04),
                 blurRadius: 8.r,
                 offset: Offset(0, 2.h),
               ),

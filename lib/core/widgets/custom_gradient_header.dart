@@ -10,6 +10,7 @@ class CustomGradientHeader extends StatelessWidget {
   final Widget? trailingWidget;
   final double? titleFontSize;
   final double? subtitleFontSize;
+  final Widget? bottomWidget;
 
   const CustomGradientHeader({
     super.key,
@@ -19,6 +20,7 @@ class CustomGradientHeader extends StatelessWidget {
     this.trailingWidget,
     this.titleFontSize,
     this.subtitleFontSize,
+    this.bottomWidget,
   });
 
   @override
@@ -27,63 +29,73 @@ class CustomGradientHeader extends StatelessWidget {
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).padding.top + 16.h,
         bottom: 16.h,
-        left: showBackButton ? 10.w : 20.w,
+        left: showBackButton ? 20.w : 20.w,
         right: 20.w,
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppTheme.primaryLighter,
-            AppTheme.primaryDarker,
-          ],
+          colors: [AppTheme.primaryLighter, AppTheme.primaryDarker],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (showBackButton)
-                IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 24.w,
-                  ),
-                  onPressed: () => Get.back(),
-                ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: titleFontSize ?? (showBackButton ? 32.sp : 28.sp),
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: showBackButton ? -0.5 : 0,
+                  if (showBackButton)
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: AppTheme.white,
+                        size: 24.w,
+                      ),
+                      onPressed: () => Get.back(),
                     ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      color: AppTheme.warningColor,
-                      fontSize: subtitleFontSize ?? (showBackButton ? 14.sp : 12.sp),
-                      fontWeight: showBackButton ? FontWeight.w600 : FontWeight.w500,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: AppTheme.white,
+                          fontSize:
+                              titleFontSize ?? (showBackButton ? 28.sp : 28.sp),
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: showBackButton ? -0.5 : 0,
+                        ),
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          color: AppTheme.warningColor,
+                          fontSize:
+                              subtitleFontSize ?? (showBackButton ? 12.sp : 12.sp),
+                          fontWeight: showBackButton
+                              ? FontWeight.w600
+                              : FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
+              if (trailingWidget != null) trailingWidget!,
             ],
           ),
-          if (trailingWidget != null) trailingWidget!,
+          if (bottomWidget != null) ...[
+            SizedBox(height: 24.h),
+            bottomWidget!,
+          ],
         ],
       ),
     );

@@ -56,7 +56,7 @@ class HomeView extends GetView<HomeController> {
                             errorBuilder: (context, error, stackTrace) => Icon(
                               Icons.church,
                               size: 24.w,
-                              color: Colors.white,
+                              color: AppTheme.white,
                             ),
                           ),
                         ),
@@ -71,8 +71,8 @@ class HomeView extends GetView<HomeController> {
                               'PIWC Stoneyburn',
                               style: TextStyle(
                                 color: Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
+                                    ? AppTheme.white
+                                    : AppTheme.black,
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -109,7 +109,7 @@ class HomeView extends GetView<HomeController> {
                           ),
                           child: Icon(
                             Icons.person,
-                            color: const Color(0xFF091244),
+                            color: AppTheme.darkNavy,
                             size: 24.w,
                           ),
                         ),
@@ -121,8 +121,8 @@ class HomeView extends GetView<HomeController> {
                     ' Welcome, Beloved 🙏',
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
+                          ? AppTheme.white
+                          : AppTheme.black,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                     ),
@@ -140,8 +140,8 @@ class HomeView extends GetView<HomeController> {
                 'Quick Access',
                 style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black,
+                      ? AppTheme.white
+                      : AppTheme.black,
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -207,7 +207,7 @@ class HomeView extends GetView<HomeController> {
             child: Text(
               'TODAY\'S VERSE',
               style: TextStyle(
-                color: const Color(0xFF142470),
+                color: AppTheme.navyBlue,
                 fontSize: 10.sp,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
@@ -218,7 +218,7 @@ class HomeView extends GetView<HomeController> {
           Text(
             data.verse,
             style: TextStyle(
-              color: Colors.white,
+              color: AppTheme.white,
               fontSize: 16.sp,
               fontStyle: FontStyle.italic,
               height: 1.5,
@@ -252,12 +252,12 @@ class HomeView extends GetView<HomeController> {
             width: 50.w,
             height: 50.w,
             decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.1),
+              color: AppTheme.black.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: Icon(
               Icons.access_time_filled,
-              color: const Color(0xFF0B101E).withValues(alpha: 0.7),
+              color: AppTheme.deepBlackBlue.withValues(alpha: 0.7),
               size: 26.w,
             ),
           ),
@@ -269,7 +269,7 @@ class HomeView extends GetView<HomeController> {
                 Text(
                   data.label,
                   style: TextStyle(
-                    color: const Color(0xFF0B101E).withValues(alpha: 0.6),
+                    color: AppTheme.deepBlackBlue.withValues(alpha: 0.6),
                     fontSize: 10.sp,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -279,7 +279,7 @@ class HomeView extends GetView<HomeController> {
                 Text(
                   data.title,
                   style: TextStyle(
-                    color: const Color(0xFF0B101E),
+                    color: AppTheme.deepBlackBlue,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -288,7 +288,7 @@ class HomeView extends GetView<HomeController> {
                 Text(
                   data.schedule,
                   style: TextStyle(
-                    color: const Color(0xFF0B101E).withValues(alpha: 0.8),
+                    color: AppTheme.deepBlackBlue.withValues(alpha: 0.8),
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -307,7 +307,7 @@ class HomeView extends GetView<HomeController> {
               child: Text(
                 'Details',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppTheme.white,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -335,7 +335,7 @@ class HomeView extends GetView<HomeController> {
               width: 50.w,
               height: 50.w,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppTheme.white.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
               child: Center(
@@ -343,7 +343,7 @@ class HomeView extends GetView<HomeController> {
                   width: 16.w,
                   height: 16.w,
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -357,7 +357,7 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     'Watch Live',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.white,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -366,7 +366,7 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     'Join Sunday service on YouTube or\nFacebook',
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.9),
+                      color: AppTheme.white.withValues(alpha: 0.9),
                       fontSize: 12.sp,
                       height: 1.3,
                     ),
@@ -374,7 +374,7 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
             ),
-            Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16.w),
+            Icon(Icons.arrow_forward_ios, color: AppTheme.white, size: 16.w),
           ],
         ),
       ),
@@ -392,28 +392,28 @@ class HomeView extends GetView<HomeController> {
               context,
               Icons.video_library_rounded,
               'Sermons',
-              [const Color(0xFF4A72FF), const Color(0xFF284EE6)],
+              [AppTheme.brightBlue, AppTheme.brightBlueDark],
               onTap: () => Get.find<BottomNavBarController>().changeTab(1),
             ),
             _buildQuickAccessItem(
               context,
               Icons.favorite,
               'Give',
-              [const Color(0xFFFF6B6B), const Color(0xFFFF4747)],
+              [AppTheme.lightRed, AppTheme.standardRed],
               onTap: () => Get.find<BottomNavBarController>().changeTab(3),
             ),
             _buildQuickAccessItem(
               context,
               Icons.volunteer_activism,
               'Prayer',
-              [const Color(0xFFD088FF), const Color(0xFFA64DFF)],
+              [AppTheme.lightPurple, AppTheme.standardPurple],
               onTap: () => Get.toNamed(AppRoutes.PRAYER_WALL),
             ),
             _buildQuickAccessItem(
               context,
               Icons.groups,
               'Community',
-              [const Color(0xFF4DB6AC), const Color(0xFF00897B)],
+              [AppTheme.lightTeal, AppTheme.standardTeal],
               onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
             ),
           ],
@@ -427,25 +427,25 @@ class HomeView extends GetView<HomeController> {
               context,
               Icons.event,
               'Events',
-              [const Color(0xFF66BB6A), const Color(0xFF388E3C)],
+              [AppTheme.lightGreen, AppTheme.standardGreen],
               onTap: () => Get.find<BottomNavBarController>().changeTab(4),
             ),
             _buildQuickAccessItem(
               context,
               Icons.menu_book,
               'Devotionals',
-              [const Color(0xFFFF9800), const Color(0xFFF57C00)],
+              [AppTheme.standardOrange, AppTheme.darkOrange],
               onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
             ),
             _buildQuickAccessItem(context, Icons.book, 'Bible', [
-              const Color(0xFF26A69A),
-              const Color(0xFF00796B),
+              AppTheme.teal400,
+              AppTheme.darkTeal,
             ], onTap: () => Get.toNamed(AppRoutes.BIBLE)),
             _buildQuickAccessItem(
               context,
               Icons.videocam,
               'Watch Live',
-              [const Color(0xFFFF7043), const Color(0xFFE64A19)],
+              [AppTheme.lightDeepOrange, AppTheme.darkDeepOrange],
               onTap: () => Get.toNamed(AppRoutes.WATCH_LIVE),
             ),
           ],
@@ -478,7 +478,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 borderRadius: BorderRadius.circular(24.r),
               ),
-              child: Icon(icon, color: Colors.white, size: 30.w),
+              child: Icon(icon, color: AppTheme.white, size: 30.w),
             ),
             SizedBox(height: 12.h),
             Text(
@@ -486,8 +486,8 @@ class HomeView extends GetView<HomeController> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+                    ? AppTheme.white
+                    : AppTheme.black,
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -506,8 +506,8 @@ class HomeView extends GetView<HomeController> {
           title,
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+                ? AppTheme.white
+                : AppTheme.black,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -571,7 +571,7 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     data.title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.white,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -580,7 +580,7 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     '${data.preacher} · ${data.duration}',
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.6),
+                      color: AppTheme.white.withValues(alpha: 0.6),
                       fontSize: 12.sp,
                     ),
                   ),
@@ -596,7 +596,7 @@ class HomeView extends GetView<HomeController> {
               ),
               child: Icon(
                 Icons.play_arrow_rounded,
-                color: const Color(0xFF0B101E),
+                color: AppTheme.deepBlackBlue,
                 size: 24.w,
               ),
             ),
@@ -608,7 +608,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildAnnouncementCard(HomeAnnouncementModel data, bool isExpanded) {
     final tagColor = data.isImportant
-        ? const Color(0xFFFF5252)
+        ? AppTheme.accentRed
         : AppTheme.accentBlue;
     final tag = data.isImportant ? 'IMPORTANT' : 'ANNOUNCEMENT';
 
@@ -651,7 +651,7 @@ class HomeView extends GetView<HomeController> {
                                   child: Text(
                                     data.title,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppTheme.white,
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.bold,
                                       height: 1.2,
@@ -688,7 +688,7 @@ class HomeView extends GetView<HomeController> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.6),
+                          color: AppTheme.white.withValues(alpha: 0.6),
                           fontSize: 14.sp,
                           height: 1.4,
                         ),
@@ -700,7 +700,7 @@ class HomeView extends GetView<HomeController> {
                           Text(
                             data.date,
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: AppTheme.white.withValues(alpha: 0.5),
                               fontSize: 12.sp,
                             ),
                           ),

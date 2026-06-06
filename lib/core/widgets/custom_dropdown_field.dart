@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 class CustomDropdownField<T> extends StatelessWidget {
   final String hintText;
@@ -60,7 +61,7 @@ class CustomDropdownField<T> extends StatelessWidget {
             color: const Color(0xff8E8E93),
             size: 24.sp,
           ),
-          dropdownColor: Colors.white,
+          dropdownColor: AppTheme.white,
           elevation: 8,
           borderRadius: BorderRadius.circular(16.r),
           style: GoogleFonts.arimo(

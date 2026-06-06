@@ -28,7 +28,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           ),
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
+            icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
             onPressed: () => Get.back(),
           ),
           title: Column(
@@ -37,7 +37,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
               Text(
                 'Sermon',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppTheme.white,
                   fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -57,7 +57,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
             IconButton(
               icon: Icon(
                 Icons.bookmark_border,
-                color: Colors.white,
+                color: AppTheme.white,
                 size: 24.w,
               ),
               onPressed: () {},
@@ -79,8 +79,8 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                         sermon.title,
                         style: TextStyle(
                           color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black,
+                              ? AppTheme.white
+                              : AppTheme.black,
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
                           height: 1.2,
@@ -100,28 +100,28 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                         children: [
                           Icon(
                             Icons.calendar_today,
-                            color: Colors.white.withValues(alpha: 0.5),
+                            color: AppTheme.white.withValues(alpha: 0.5),
                             size: 14.w,
                           ),
                           SizedBox(width: 6.w),
                           Text(
                             sermon.date,
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: AppTheme.white.withValues(alpha: 0.5),
                               fontSize: 13.sp,
                             ),
                           ),
                           SizedBox(width: 20.w),
                           Icon(
                             Icons.access_time,
-                            color: Colors.white.withValues(alpha: 0.5),
+                            color: AppTheme.white.withValues(alpha: 0.5),
                             size: 14.w,
                           ),
                           SizedBox(width: 6.w),
                           Text(
                             sermon.duration,
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: AppTheme.white.withValues(alpha: 0.5),
                               fontSize: 13.sp,
                             ),
                           ),
@@ -147,7 +147,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
     return Container(
       width: double.infinity,
       height: 240.h,
-      color: const Color(0xFF4A72FF), // Bright blue hero background
+      color: AppTheme.brightBlue, // Bright blue hero background
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -155,7 +155,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
             width: 100.w,
             height: 100.w,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.15),
+              color: AppTheme.white.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
             child: Center(
@@ -163,12 +163,12 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                 width: 64.w,
                 height: 64.w,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppTheme.white.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.mic,
-                  color: Colors.white.withValues(alpha: 0.8),
+                  color: AppTheme.white.withValues(alpha: 0.8),
                   size: 40.w,
                 ),
               ),
@@ -178,13 +178,13 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: AppTheme.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
               category,
               style: TextStyle(
-                color: Colors.white,
+                color: AppTheme.white,
                 fontSize: 10.sp,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
@@ -200,10 +200,10 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
     return Container(
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1B233D),
+        color: AppTheme.cardVariantLight,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.05),
+          color: AppTheme.white.withValues(alpha: 0.05),
           width: 1,
         ),
       ),
@@ -217,7 +217,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                 width: double.infinity,
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppTheme.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
@@ -225,7 +225,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                 width: 100.w, // Simulated progress
                 height: 4.h,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF4A72FF),
+                  color: AppTheme.brightBlue,
                   borderRadius: BorderRadius.circular(2.r),
                 ),
               ),
@@ -235,7 +235,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                   width: 10.w,
                   height: 10.w,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF4A72FF),
+                    color: AppTheme.brightBlue,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -249,14 +249,14 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
               Text(
                 '12:36',
                 style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.5),
+                  color: AppTheme.white.withValues(alpha: 0.5),
                   fontSize: 12.sp,
                 ),
               ),
               Text(
                 duration,
                 style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.5),
+                  color: AppTheme.white.withValues(alpha: 0.5),
                   fontSize: 12.sp,
                 ),
               ),
@@ -268,7 +268,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Icon(Icons.fast_rewind, color: Colors.white, size: 32.w),
+                icon: Icon(Icons.fast_rewind, color: AppTheme.white, size: 32.w),
                 onPressed: () {},
               ),
               SizedBox(width: 24.w),
@@ -276,18 +276,18 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                 width: 64.w,
                 height: 64.w,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF4A72FF),
+                  color: AppTheme.brightBlue,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.play_arrow_rounded,
-                  color: Colors.white,
+                  color: AppTheme.white,
                   size: 40.w,
                 ),
               ),
               SizedBox(width: 24.w),
               IconButton(
-                icon: Icon(Icons.fast_forward, color: Colors.white, size: 32.w),
+                icon: Icon(Icons.fast_forward, color: AppTheme.white, size: 32.w),
                 onPressed: () {},
               ),
             ],
@@ -302,10 +302,10 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1B233D),
+        color: AppTheme.cardVariantLight,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.05),
+          color: AppTheme.white.withValues(alpha: 0.05),
           width: 1,
         ),
       ),
@@ -325,7 +325,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           Text(
             'Hebrews 6:19',
             style: TextStyle(
-              color: Colors.white,
+              color: AppTheme.white,
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -343,8 +343,8 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           'About This Message',
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+                ? AppTheme.white
+                : AppTheme.black,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -354,8 +354,8 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           "In uncertain times, our hope is not wishful thinking but a firm anchor rooted in God's promises. This message explores Hebrews 6 and what it means to hold fast to hope.",
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white.withValues(alpha: 0.6)
-                : Colors.black.withValues(alpha: 0.6),
+                ? AppTheme.white.withValues(alpha: 0.6)
+                : AppTheme.black.withValues(alpha: 0.6),
             fontSize: 14.sp,
             height: 1.6,
           ),
@@ -384,12 +384,12 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.share, color: const Color(0xFF4A72FF), size: 20.w),
+              Icon(Icons.share, color: AppTheme.brightBlue, size: 20.w),
               SizedBox(width: 12.w),
               Text(
                 'Share This Sermon',
                 style: TextStyle(
-                  color: const Color(0xFF4A72FF),
+                  color: AppTheme.brightBlue,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
@@ -406,13 +406,13 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E2846),
+        color: AppTheme.cardVariantLighter,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.white.withValues(alpha: 0.7),
+          color: AppTheme.white.withValues(alpha: 0.7),
           fontSize: 12.sp,
         ),
       ),

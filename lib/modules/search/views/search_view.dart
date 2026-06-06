@@ -12,7 +12,7 @@ class SearchView extends GetView<SearchController> {
         scrolledUnderElevation: 0,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.white),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
@@ -33,7 +33,7 @@ class SearchView extends GetView<SearchController> {
             const Text(
               'Search',
               style: TextStyle(
-                color: Colors.white,
+                color: AppTheme.white,
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),

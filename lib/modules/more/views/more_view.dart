@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../../../config/routes/app_pages.dart';
+import 'package:handy/core/widgets/custom_gradient_header.dart';
 
 class MoreView extends StatelessWidget {
   const MoreView({super.key});
@@ -11,63 +11,10 @@ class MoreView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        toolbarHeight: 90.h,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppTheme.primaryLighter, // Lighter blue
-                AppTheme.primaryDarker, // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'More',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        'PIWC Stoneyburn',
-                        style: TextStyle(
-                          color: AppTheme.warningColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        titleSpacing: 20.w,
-      ),
+      backgroundColor: AppTheme.backgroundColor,
       body: Column(
         children: [
+          const CustomGradientHeader(title: 'More'),
           Expanded(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -78,8 +25,8 @@ class MoreView extends StatelessWidget {
                     'Features',
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
+                          ? AppTheme.white
+                          : AppTheme.black,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -91,8 +38,8 @@ class MoreView extends StatelessWidget {
                     'Connect With Us',
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
+                          ? AppTheme.white
+                          : AppTheme.black,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -122,26 +69,26 @@ class MoreView extends StatelessWidget {
               context,
               Icons.volunteer_activism,
               'Prayer Wall',
-              [const Color(0xFFCE93D8), const Color(0xFF8E24AA)],
+              [AppTheme.purple300, AppTheme.purple800],
               onTap: () => Get.toNamed(AppRoutes.PRAYER_WALL),
             ),
             _buildFeatureItem(
               context,
               Icons.menu_book,
               'Devotionals',
-              [const Color(0xFFFFB74D), const Color(0xFFF57C00)],
+              [AppTheme.lightOrange, AppTheme.darkOrange],
               onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
             ),
             _buildFeatureItem(
               context,
               Icons.groups,
               'Community',
-              [const Color(0xFF4DB6AC), const Color(0xFF00796B)],
+              [AppTheme.lightTeal, AppTheme.darkTeal],
               onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
             ),
             _buildFeatureItem(context, Icons.book, 'Bible', [
-              const Color(0xFF81C784),
-              const Color(0xFF388E3C),
+              AppTheme.green300,
+              AppTheme.standardGreen,
             ], onTap: () => Get.toNamed(AppRoutes.BIBLE)),
           ],
         ),
@@ -150,16 +97,19 @@ class MoreView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildFeatureItem(context, Icons.person, 'My Profile', [
-              const Color(0xFF64B5F6),
-              const Color(0xFF1976D2),
-            ], onTap: () => Get.toNamed(AppRoutes.PROFILE)),
+            _buildFeatureItem(
+              context,
+              Icons.person,
+              'My Profile',
+              [AppTheme.lightBlue, AppTheme.standardBlue],
+              onTap: () => Get.toNamed(AppRoutes.PROFILE),
+            ),
             SizedBox(width: 26.w),
             _buildFeatureItem(
               context,
               Icons.settings,
               'Settings',
-              [const Color(0xFFB0BEC5), const Color(0xFF607D8B)],
+              [AppTheme.blueGreyLight, AppTheme.blueGreyDark],
               onTap: () => Get.toNamed(AppRoutes.SETTINGS),
             ),
             SizedBox(width: 26.w),
@@ -201,7 +151,7 @@ class MoreView extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(24.r),
             ),
-            child: Icon(icon, color: Colors.white, size: 30.w),
+            child: Icon(icon, color: AppTheme.white, size: 30.w),
           ),
           SizedBox(height: 12.h),
           Text(
@@ -209,8 +159,8 @@ class MoreView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
-                  : Colors.black,
+                  ? AppTheme.white
+                  : AppTheme.black,
               fontSize: 10.sp,
               fontWeight: FontWeight.w600,
             ),
@@ -239,7 +189,7 @@ class MoreView extends StatelessWidget {
             child: Text(
               'THE CHURCH OF PENTECOST · UK',
               style: TextStyle(
-                color: const Color(0xFF091244),
+                color: AppTheme.darkNavy,
                 fontSize: 11.sp,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 0.5,
@@ -250,7 +200,7 @@ class MoreView extends StatelessWidget {
           Text(
             'PIWC Stoneyburn',
             style: TextStyle(
-              color: Colors.white,
+              color: AppTheme.white,
               fontSize: 22.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -283,7 +233,7 @@ class MoreView extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.15),
+            color: AppTheme.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Icon(icon, color: AppTheme.warningColor, size: 20.w),
@@ -296,7 +246,7 @@ class MoreView extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.6),
+                  color: AppTheme.white.withValues(alpha: 0.6),
                   fontSize: 12.sp,
                 ),
               ),
@@ -304,7 +254,7 @@ class MoreView extends StatelessWidget {
               Text(
                 value,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppTheme.white,
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w600,
                   height: 1.4,
@@ -330,7 +280,7 @@ class MoreView extends StatelessWidget {
           Text(
             'OUR MISSION',
             style: TextStyle(
-              color: const Color(0xFF091244),
+              color: AppTheme.darkNavy,
               fontSize: 16.sp,
               fontWeight: FontWeight.w900,
               letterSpacing: 1.2,
@@ -340,7 +290,7 @@ class MoreView extends StatelessWidget {
           Text(
             '"To make heaven, to take as many people as possible with us, and to have a positive impact on society."',
             style: TextStyle(
-              color: const Color(0xFF091244).withValues(alpha: 0.8),
+              color: AppTheme.darkNavy.withValues(alpha: 0.8),
               fontSize: 16.sp,
               fontStyle: FontStyle.italic,
               height: 1.5,

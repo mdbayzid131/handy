@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:handy/config/themes/app_theme.dart';
 
 /// ===================== CUSTOM APP BAR =====================
 /// Factory for creating a consistent AppBar across the app.
@@ -19,7 +20,7 @@ class CustomAppBar {
   }) {
     return AppBar(
       centerTitle: centerTitle,
-      backgroundColor: backgroundColor ?? Colors.white,
+      backgroundColor: backgroundColor ?? AppTheme.white,
       elevation: elevation ?? 0,
       scrolledUnderElevation: 0, // Prevents color change on scroll
       surfaceTintColor: Colors.transparent, // Fixes Material 3 tint

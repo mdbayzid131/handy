@@ -22,8 +22,8 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
           icon: Icon(
             Icons.arrow_back,
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+                ? AppTheme.white
+                : AppTheme.black,
             size: 24.w,
           ),
           onPressed: () => Get.back(),
@@ -32,8 +32,8 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
           'History & Core Values',
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+                ? AppTheme.white
+                : AppTheme.black,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -42,8 +42,8 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
           preferredSize: Size.fromHeight(1.h),
           child: Container(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white.withValues(alpha: 0.05)
-                : Colors.black.withValues(alpha: 0.1),
+                ? AppTheme.white.withValues(alpha: 0.05)
+                : AppTheme.black.withValues(alpha: 0.1),
             height: 1.h,
           ),
         ),
@@ -92,8 +92,8 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
           title,
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+                ? AppTheme.white
+                : AppTheme.black,
             fontSize: 24.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -103,8 +103,8 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
           content,
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white.withValues(alpha: 0.8)
-                : Colors.black.withValues(alpha: 0.8),
+                ? AppTheme.white.withValues(alpha: 0.8)
+                : AppTheme.black.withValues(alpha: 0.8),
             fontSize: 16.sp,
             height: 1.6,
           ),

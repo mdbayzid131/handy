@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../controllers/give_controller.dart';
 import '../../../config/routes/app_pages.dart';
+import 'package:handy/core/widgets/custom_gradient_header.dart';
 
 class GiveView extends GetView<GiveController> {
   const GiveView({super.key});
@@ -27,120 +28,69 @@ class GiveView extends GetView<GiveController> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 20.h,
-        left: 20.w,
-        right: 20.w,
-        bottom: 20.h,
-      ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppTheme.primaryLighter, // Lighter blue
-            AppTheme.primaryDarker, // Darker blue
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Give',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32.sp,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    'PIWC Stoneyburn',
-                    style: TextStyle(
-                      color: AppTheme.warningColor,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-              Obx(
-                () => GestureDetector(
-                  onTap: () => controller.toggleHistory(),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 8.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.warningColor,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          controller.showHistory.value
-                              ? Icons.arrow_back_rounded
-                              : Icons.history_rounded,
-                          color: Colors.black,
-                          size: 16.w,
-                        ),
-                        SizedBox(width: 6.w),
-                        Text(
-                          controller.showHistory.value ? 'Back' : 'History',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 24.h),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+    return CustomGradientHeader(
+      title: 'Give',
+      trailingWidget: Obx(
+        () => GestureDetector(
+          onTap: () => controller.toggleHistory(),
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 8.h,
+            ),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12.r),
+              color: AppTheme.warningColor,
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Your giving this year',
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.8),
-                    fontSize: 14.sp,
-                  ),
+                Icon(
+                  controller.showHistory.value
+                      ? Icons.arrow_back_rounded
+                      : Icons.history_rounded,
+                  color: AppTheme.black,
+                  size: 16.w,
                 ),
+                SizedBox(width: 6.w),
                 Text(
-                  '£475.00',
+                  controller.showHistory.value ? 'Back' : 'History',
                   style: TextStyle(
-                    color: AppTheme.warningColor,
-                    fontSize: 20.sp,
+                    color: AppTheme.black,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
+      ),
+      bottomWidget: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        decoration: BoxDecoration(
+          color: AppTheme.white.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Your giving this year',
+              style: TextStyle(
+                color: AppTheme.white.withValues(alpha: 0.8),
+                fontSize: 14.sp,
+              ),
+            ),
+            Text(
+              '£475.00',
+              style: TextStyle(
+                color: AppTheme.warningColor,
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -171,8 +121,8 @@ class GiveView extends GetView<GiveController> {
         title,
         style: TextStyle(
           color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white
-              : Colors.black,
+              ? AppTheme.white
+              : AppTheme.black,
           fontSize: 16.sp,
           fontWeight: FontWeight.bold,
         ),
@@ -215,14 +165,14 @@ class GiveView extends GetView<GiveController> {
                 children: [
                   Icon(
                     fund.icon,
-                    color: isSelected ? Colors.white : fund.color,
+                    color: isSelected ? AppTheme.white : fund.color,
                     size: 24.w,
                   ),
                   SizedBox(height: 12.h),
                   Text(
                     fund.title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.white,
                       fontSize: 15.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -231,7 +181,7 @@ class GiveView extends GetView<GiveController> {
                   Text(
                     fund.desc,
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.5),
+                      color: AppTheme.white.withValues(alpha: 0.5),
                       fontSize: 12.sp,
                     ),
                   ),
@@ -277,7 +227,7 @@ class GiveView extends GetView<GiveController> {
                         child: Text(
                           '£$amount',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -314,14 +264,14 @@ class GiveView extends GetView<GiveController> {
                   controller: controller.amountController,
                   keyboardType: TextInputType.number,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppTheme.white,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
                   decoration: InputDecoration(
                     hintText: 'Enter amount',
                     hintStyle: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.5),
+                      color: AppTheme.white.withValues(alpha: 0.5),
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                     ),
@@ -384,8 +334,8 @@ class GiveView extends GetView<GiveController> {
             'Giving History',
             style: TextStyle(
               color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
-                  : Colors.black,
+                  ? AppTheme.white
+                  : AppTheme.black,
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -429,7 +379,7 @@ class GiveView extends GetView<GiveController> {
                         Text(
                           item.title,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -438,7 +388,7 @@ class GiveView extends GetView<GiveController> {
                         Text(
                           item.date,
                           style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.5),
+                            color: AppTheme.white.withValues(alpha: 0.5),
                             fontSize: 13.sp,
                           ),
                         ),

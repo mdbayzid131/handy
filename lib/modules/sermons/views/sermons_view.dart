@@ -64,18 +64,18 @@ class SermonsView extends GetView<SermonsController> {
           children: [
             Icon(
               Icons.search,
-              color: Colors.white.withValues(alpha: 0.5),
+              color: AppTheme.white.withValues(alpha: 0.5),
               size: 24.w,
             ),
             SizedBox(width: 12.w),
             Expanded(
               child: TextField(
                 onChanged: controller.updateSearchQuery,
-                style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                style: TextStyle(color: AppTheme.white, fontSize: 14.sp),
                 decoration: InputDecoration(
                   hintText: 'Search sermons...',
                   hintStyle: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.5),
+                    color: AppTheme.white.withValues(alpha: 0.5),
                     fontSize: 14.sp,
                   ),
                   border: InputBorder.none,
@@ -122,8 +122,8 @@ class SermonsView extends GetView<SermonsController> {
                     category,
                     style: TextStyle(
                       color: isSelected
-                          ? Colors.white
-                          : Colors.white.withValues(alpha: 0.6),
+                          ? AppTheme.white
+                          : AppTheme.white.withValues(alpha: 0.6),
                       fontSize: 14.sp,
                       fontWeight: isSelected
                           ? FontWeight.bold
@@ -185,7 +185,7 @@ class SermonsView extends GetView<SermonsController> {
                   Text(
                     sermon.title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.white,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                       height: 1.2,
@@ -195,7 +195,7 @@ class SermonsView extends GetView<SermonsController> {
                   Text(
                     sermon.pastor,
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.6),
+                      color: AppTheme.white.withValues(alpha: 0.6),
                       fontSize: 13.sp,
                     ),
                   ),
@@ -206,7 +206,7 @@ class SermonsView extends GetView<SermonsController> {
                       Text(
                         sermon.date,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.5),
+                          color: AppTheme.white.withValues(alpha: 0.5),
                           fontSize: 12.sp,
                         ),
                       ),

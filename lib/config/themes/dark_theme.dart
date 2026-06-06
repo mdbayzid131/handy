@@ -18,12 +18,12 @@ class DarkTheme {
         scrolledUnderElevation: 0,
         centerTitle: true,
         backgroundColor: Color(0xFF1E1E1E),
-        foregroundColor: Colors.white,
+        foregroundColor: AppTheme.white,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
-          foregroundColor: Colors.white,
+          foregroundColor: AppTheme.white,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

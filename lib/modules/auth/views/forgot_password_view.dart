@@ -20,7 +20,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: AppTheme.white),
       ),
       extendBodyBehindAppBar: true,
       body: SafeArea(
@@ -52,7 +52,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                         Text(
                           'Reset Password',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppTheme.white,
                             fontSize: 28.sp,
                             fontWeight: FontWeight.bold,
                             letterSpacing: -0.5,
@@ -80,8 +80,8 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white.withValues(alpha: 0.7)
-                              : Colors.black.withValues(alpha: 0.7),
+                              ? AppTheme.white.withValues(alpha: 0.7)
+                              : AppTheme.black.withValues(alpha: 0.7),
                           height: 1.5,
                         ),
                       ),
@@ -94,7 +94,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                         keyboardType: TextInputType.emailAddress,
                         prefixIcon: Icon(
                           Icons.email_outlined,
-                          color: Colors.white.withValues(alpha: 0.5),
+                          color: AppTheme.white.withValues(alpha: 0.5),
                         ),
                         validator: Validators.email,
                       ),
