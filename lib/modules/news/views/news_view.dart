@@ -261,7 +261,7 @@ class NewsView extends GetView<NewsController> {
                               vertical: 4.h,
                             ),
                             decoration: BoxDecoration(
-                              color: tagColor.withOpacity(0.15),
+                              color: tagColor.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Text(
@@ -281,7 +281,7 @@ class NewsView extends GetView<NewsController> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withValues(alpha: 0.6),
                           fontSize: 14.sp,
                           height: 1.4,
                         ),
@@ -293,7 +293,7 @@ class NewsView extends GetView<NewsController> {
                           Text(
                             date,
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.5),
+                              color: Colors.white.withValues(alpha: 0.5),
                               fontSize: 12.sp,
                             ),
                           ),

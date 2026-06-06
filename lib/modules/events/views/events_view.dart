@@ -155,7 +155,7 @@ class EventsView extends GetView<EventsController> {
                   style: TextStyle(
                     color: isSelected
                         ? Colors.white
-                        : Colors.white.withOpacity(0.7),
+                        : Colors.white.withValues(alpha: 0.7),
                     fontSize: 14.sp,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   ),
@@ -244,14 +244,14 @@ class EventsView extends GetView<EventsController> {
                     children: [
                       Icon(
                         Icons.access_time,
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                         size: 14.w,
                       ),
                       SizedBox(width: 8.w),
                       Text(
                         '${event.date} · ${event.time}',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withValues(alpha: 0.6),
                           fontSize: 13.sp,
                         ),
                       ),
@@ -262,14 +262,14 @@ class EventsView extends GetView<EventsController> {
                     children: [
                       Icon(
                         Icons.location_on,
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                         size: 14.w,
                       ),
                       SizedBox(width: 8.w),
                       Text(
                         event.location,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withValues(alpha: 0.6),
                           fontSize: 13.sp,
                         ),
                       ),
@@ -291,7 +291,7 @@ class EventsView extends GetView<EventsController> {
                         child: Text(
                           '${event.attendeeCount} attending',
                           style: TextStyle(
-                            color: headerColor.withOpacity(0.9),
+                            color: headerColor.withValues(alpha: 0.9),
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
                           ),

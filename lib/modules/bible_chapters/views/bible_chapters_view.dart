@@ -32,7 +32,10 @@ class BibleChaptersView extends GetView<BibleChapterController> {
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
-          child: Container(color: Colors.white.withOpacity(0.05), height: 1.h),
+          child: Container(
+            color: Colors.white.withValues(alpha: 0.05),
+            height: 1.h,
+          ),
         ),
       ),
       body: SafeArea(
@@ -120,7 +123,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
           border: Border.all(
             color: isSelected
                 ? Colors.transparent
-                : Colors.white.withOpacity(0.05),
+                : Colors.white.withValues(alpha: 0.05),
           ),
         ),
         alignment: Alignment.center,

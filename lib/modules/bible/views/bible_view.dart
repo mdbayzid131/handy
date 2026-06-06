@@ -32,7 +32,10 @@ class BibleView extends GetView<BibleController> {
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
-          child: Container(color: Colors.white.withOpacity(0.05), height: 1.h),
+          child: Container(
+            color: Colors.white.withValues(alpha: 0.05),
+            height: 1.h,
+          ),
         ),
       ),
       body: SafeArea(
@@ -47,7 +50,9 @@ class BibleView extends GetView<BibleController> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF1A2340),
                       borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(color: Colors.white.withOpacity(0.05)),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.05),
+                      ),
                     ),
                     child: TextField(
                       onChanged: controller.updateSearchQuery,
@@ -79,7 +84,7 @@ class BibleView extends GetView<BibleController> {
                         color: const Color(0xFF1A2340),
                         borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.05),
+                          color: Colors.white.withValues(alpha: 0.05),
                         ),
                       ),
                       child: Row(
@@ -209,7 +214,7 @@ class BibleView extends GetView<BibleController> {
         decoration: BoxDecoration(
           color: const Color(0xFF1A2340),
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: Colors.white.withOpacity(0.05)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -31,7 +31,10 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
-          child: Container(color: Colors.white.withOpacity(0.05), height: 1.h),
+          child: Container(
+            color: Colors.white.withValues(alpha: 0.05),
+            height: 1.h,
+          ),
         ),
       ),
       body: SafeArea(
@@ -42,12 +45,14 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
             children: [
               _buildSection(
                 title: 'Our History',
-                content: 'Founded with a vision to connect people globally, our journey began as a small community initiative. Over the years, we have grown into a platform that empowers individuals through technology and compassion. Our history is a testament to the dedication of our community and the relentless pursuit of our mission.',
+                content:
+                    'Founded with a vision to connect people globally, our journey began as a small community initiative. Over the years, we have grown into a platform that empowers individuals through technology and compassion. Our history is a testament to the dedication of our community and the relentless pursuit of our mission.',
               ),
               SizedBox(height: 32.h),
               _buildSection(
                 title: 'Core Values',
-                content: '• Integrity\nWe believe in doing the right thing, even when no one is watching.\n\n'
+                content:
+                    '• Integrity\nWe believe in doing the right thing, even when no one is watching.\n\n'
                     '• Compassion\nWe care about the well-being of our community and strive to make a positive impact.\n\n'
                     '• Innovation\nWe continuously seek new ways to improve and provide the best experience.\n\n'
                     '• Excellence\nWe set high standards for ourselves and are committed to achieving them.',
@@ -55,7 +60,8 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
               SizedBox(height: 32.h),
               _buildSection(
                 title: 'Our Mission',
-                content: 'To foster a supportive and connected environment where everyone can grow, learn, and thrive together.',
+                content:
+                    'To foster a supportive and connected environment where everyone can grow, learn, and thrive together.',
               ),
             ],
           ),
@@ -80,7 +86,7 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
         Text(
           content,
           style: TextStyle(
-            color: Colors.white.withOpacity(0.8),
+            color: Colors.white.withValues(alpha: 0.8),
             fontSize: 16.sp,
             height: 1.6,
           ),

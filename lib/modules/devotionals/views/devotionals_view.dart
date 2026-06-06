@@ -136,7 +136,7 @@ class DevotionalsView extends StatelessWidget {
                 color: const Color(0xFF1A2340),
                 borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(
-                  color: const Color(0xFFFFC107).withOpacity(0.3),
+                  color: const Color(0xFFFFC107).withValues(alpha: 0.3),
                 ),
               ),
               child: Row(
@@ -183,7 +183,9 @@ class DevotionalsView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16.r),
                         border: isFirstCard
                             ? null
-                            : Border.all(color: Colors.white.withOpacity(0.05)),
+                            : Border.all(
+                                color: Colors.white.withValues(alpha: 0.05),
+                              ),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,7 +255,7 @@ class DevotionalsView extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: isFirstCard
-                                        ? Colors.white.withOpacity(0.8)
+                                        ? Colors.white.withValues(alpha: 0.8)
                                         : const Color(0xFF8E99AF),
                                     fontSize: 13.sp,
                                     height: 1.5,
@@ -268,7 +270,7 @@ class DevotionalsView extends StatelessWidget {
                             child: Icon(
                               Icons.chevron_right,
                               color: isFirstCard
-                                  ? Colors.white.withOpacity(0.8)
+                                  ? Colors.white.withValues(alpha: 0.8)
                                   : const Color(0xFF8E99AF),
                               size: 20.w,
                             ),

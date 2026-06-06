@@ -175,9 +175,7 @@ class OtpView extends StatelessWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            // TODO: Implement Resend Logic
-                          },
+                          onTap: () {},
                           child: Text(
                             'Resend',
                             style: TextStyle(

@@ -260,21 +260,21 @@ class ProfileView extends GetView<ProfileController> {
                         color: const Color(0xFF1A2340),
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.05),
+                          color: Colors.white.withValues(alpha: 0.05),
                         ),
                       ),
                       child: Column(
                         children: [
                           _buildGivingRow('Total Given (2025)', '\$475.00'),
                           Divider(
-                            color: Colors.white.withOpacity(0.05),
+                            color: Colors.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 20.w,
                             endIndent: 20.w,
                           ),
                           _buildGivingRow('Last Gift', '\$250.00 · Apr 27'),
                           Divider(
-                            color: Colors.white.withOpacity(0.05),
+                            color: Colors.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 20.w,
                             endIndent: 20.w,
@@ -351,7 +351,7 @@ class ProfileView extends GetView<ProfileController> {
                         color: const Color(0xFF1A2340),
                         borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.05),
+                          color: Colors.white.withValues(alpha: 0.05),
                         ),
                       ),
                       child: Column(
@@ -365,7 +365,7 @@ class ProfileView extends GetView<ProfileController> {
                             },
                           ),
                           Divider(
-                            color: Colors.white.withOpacity(0.05),
+                            color: Colors.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 60.w,
                             endIndent: 20.w,
@@ -377,7 +377,7 @@ class ProfileView extends GetView<ProfileController> {
                             onTap: () => Get.toNamed(AppRoutes.SETTINGS),
                           ),
                           Divider(
-                            color: Colors.white.withOpacity(0.05),
+                            color: Colors.white.withValues(alpha: 0.05),
                             height: 1,
                             indent: 60.w,
                             endIndent: 20.w,
@@ -454,14 +454,14 @@ class ProfileView extends GetView<ProfileController> {
         decoration: BoxDecoration(
           color: const Color(0xFF1A2340),
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: Colors.white.withOpacity(0.05)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Row(
           children: [
             Container(
               padding: EdgeInsets.all(12.w),
               decoration: BoxDecoration(
-                color: const Color(0xFF3B68E7).withOpacity(0.2),
+                color: const Color(0xFF3B68E7).withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Icon(
@@ -521,7 +521,7 @@ class ProfileView extends GetView<ProfileController> {
             Container(
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
-                color: iconColor.withOpacity(0.2),
+                color: iconColor.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Icon(icon, color: iconColor, size: 20.w),

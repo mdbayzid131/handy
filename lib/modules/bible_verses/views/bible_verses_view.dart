@@ -32,7 +32,10 @@ class BibleVersesView extends GetView<BibleVersesController> {
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
-          child: Container(color: Colors.white.withOpacity(0.05), height: 1.h),
+          child: Container(
+            color: Colors.white.withValues(alpha: 0.05),
+            height: 1.h,
+          ),
         ),
       ),
       body: SafeArea(
@@ -85,7 +88,7 @@ class BibleVersesView extends GetView<BibleVersesController> {
                             child: Text(
                               verseText,
                               style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withValues(alpha: 0.9),
                                 fontSize: 17.sp,
                                 height: 1.5,
                               ),
@@ -107,7 +110,9 @@ class BibleVersesView extends GetView<BibleVersesController> {
                 decoration: BoxDecoration(
                   color: const Color(0xFF0F172A),
                   border: Border(
-                    top: BorderSide(color: Colors.white.withOpacity(0.05)),
+                    top: BorderSide(
+                      color: Colors.white.withValues(alpha: 0.05),
+                    ),
                   ),
                 ),
                 child: Row(
@@ -155,7 +160,7 @@ class BibleVersesView extends GetView<BibleVersesController> {
         decoration: BoxDecoration(
           color: const Color(0xFF1A2340),
           borderRadius: BorderRadius.circular(24.r),
-          border: Border.all(color: Colors.white.withOpacity(0.05)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
