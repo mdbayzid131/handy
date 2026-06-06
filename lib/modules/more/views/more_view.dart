@@ -186,8 +186,8 @@ class MoreView extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            width: 75.w,
-            height: 75.w,
+            width: 65.w,
+            height: 65.w,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -196,7 +196,7 @@ class MoreView extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(24.r),
             ),
-            child: Icon(icon, color: Colors.white, size: 32.w),
+            child: Icon(icon, color: Colors.white, size: 30.w),
           ),
           SizedBox(height: 12.h),
           Text(
@@ -204,7 +204,7 @@ class MoreView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 12.sp,
+              fontSize: 10.sp,
               fontWeight: FontWeight.w600,
             ),
           ),

@@ -378,135 +378,119 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildQuickAccessGrid() {
-    final items = [
-      _QuickAccessItem(
-        onTap: () =>
-            Get.find<BottomNavBarController>().changeTab(1), // Sermons tab
-        icon: Icons.video_library_rounded,
-        title: 'Sermons',
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF4A72FF), Color(0xFF284EE6)],
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildQuickAccessItem(
+              Icons.video_library_rounded,
+              'Sermons',
+              [const Color(0xFF4A72FF), const Color(0xFF284EE6)],
+              onTap: () => Get.find<BottomNavBarController>().changeTab(1),
+            ),
+            _buildQuickAccessItem(
+              Icons.favorite,
+              'Give',
+              [const Color(0xFFFF6B6B), const Color(0xFFFF4747)],
+              onTap: () => Get.find<BottomNavBarController>().changeTab(3),
+            ),
+            _buildQuickAccessItem(
+              Icons.volunteer_activism,
+              'Prayer',
+              [const Color(0xFFD088FF), const Color(0xFFA64DFF)],
+              onTap: () => Get.toNamed(AppRoutes.PRAYER_WALL),
+            ),
+          ],
         ),
-      ),
-      _QuickAccessItem(
-        onTap: () =>
-            Get.find<BottomNavBarController>().changeTab(3), // Give tab
-        icon: Icons.favorite,
-        title: 'Give',
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFFFF6B6B), Color(0xFFFF4747)],
+        SizedBox(height: 24.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildQuickAccessItem(
+              Icons.event,
+              'Events',
+              [const Color(0xFF66BB6A), const Color(0xFF388E3C)],
+              onTap: () => Get.find<BottomNavBarController>().changeTab(4),
+            ),
+            _buildQuickAccessItem(
+              Icons.menu_book,
+              'Devotionals',
+              [const Color(0xFFFF9800), const Color(0xFFF57C00)],
+              onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
+            ),
+            _buildQuickAccessItem(
+              Icons.book,
+              'Bible',
+              [const Color(0xFF26A69A), const Color(0xFF00796B)],
+              onTap: () => Get.toNamed(AppRoutes.BIBLE),
+            ),
+          ],
         ),
-      ),
-      _QuickAccessItem(
-        onTap: () => Get.toNamed(AppRoutes.PRAYER_WALL),
-        icon: Icons.volunteer_activism,
-        title: 'Prayer',
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFFD088FF), Color(0xFFA64DFF)],
+        SizedBox(height: 24.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildQuickAccessItem(
+              Icons.videocam,
+              'Watch Live',
+              [const Color(0xFFFF7043), const Color(0xFFE64A19)],
+              onTap: () => Get.toNamed(AppRoutes.WATCH_LIVE),
+            ),
+            _buildQuickAccessItem(
+              Icons.groups,
+              'Community',
+              [const Color(0xFF4DB6AC), const Color(0xFF00897B)],
+              onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
+            ),
+            SizedBox(width: 65.w), // To keep the spaceBetween aligned
+          ],
         ),
-      ),
-      _QuickAccessItem(
-        onTap: () =>
-            Get.find<BottomNavBarController>().changeTab(4), // Events tab
-        icon: Icons.event,
-        title: 'Events',
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF66BB6A), Color(0xFF388E3C)],
-        ),
-      ),
-      _QuickAccessItem(
-        onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
-        icon: Icons.menu_book,
-        title: 'Devotionals',
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFFFF9800), Color(0xFFF57C00)],
-        ),
-      ),
-      _QuickAccessItem(
-        onTap: () => Get.toNamed(AppRoutes.BIBLE),
-        icon: Icons.book,
-        title: 'Bible',
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF26A69A), Color(0xFF00796B)],
-        ),
-      ),
-      _QuickAccessItem(
-        onTap: () => Get.toNamed(AppRoutes.WATCH_LIVE),
-        icon: Icons.videocam,
-        title: 'Watch Live',
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFFFF7043), Color(0xFFE64A19)],
-        ),
-      ),
-      _QuickAccessItem(
-        onTap: () => Get.toNamed(AppRoutes.COMMUNITY),
-        icon: Icons.groups,
-        title: 'Community',
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF4DB6AC), Color(0xFF00897B)],
-        ),
-      ),
-    ];
+      ],
+    );
+  }
 
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      padding: EdgeInsets.zero,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 16.w,
-        mainAxisSpacing: 24.h,
-        childAspectRatio: 0.85,
+  Widget _buildQuickAccessItem(
+    IconData icon,
+    String title,
+    List<Color> gradientColors, {
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        width: 85.w, // Match more_view width wrapper
+        child: Column(
+          children: [
+            Container(
+              width: 65.w,
+              height: 65.w,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: gradientColors,
+                ),
+                borderRadius: BorderRadius.circular(24.r),
+              ),
+              child: Icon(icon, color: Colors.white, size: 30.w),
+            ),
+            SizedBox(height: 12.h),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: item.onTap,
-          child: Column(
-            children: [
-              Container(
-                width: 76.w,
-                height: 76.w,
-                decoration: BoxDecoration(
-                  gradient: item.gradient,
-                  borderRadius: BorderRadius.circular(24.r),
-                ),
-                child: Icon(item.icon, color: Colors.white, size: 32.w),
-              ),
-              SizedBox(height: 10.h),
-              Text(
-                item.title,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 

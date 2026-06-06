@@ -339,7 +339,13 @@ class GiveView extends GetView<GiveController> {
 
   Widget _buildGiveNowButton() {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.DONATE),
+      onTap: () => Get.toNamed(
+        AppRoutes.DONATE,
+        arguments: {
+          'fund': controller.selectedFund.value,
+          'amount': controller.selectedAmount.value,
+        },
+      ),
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 16.h),

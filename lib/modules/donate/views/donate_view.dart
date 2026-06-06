@@ -8,6 +8,10 @@ class DonateView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments as Map<String, dynamic>?;
+    final fund = args?['fund'] ?? 'PIWC-GIFT';
+    final amount = args?['amount'] ?? 0;
+
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -62,7 +66,9 @@ class DonateView extends StatelessWidget {
                     SizedBox(height: 16.h),
                     _buildDetailRow('Account No.', '00000000'),
                     SizedBox(height: 16.h),
-                    _buildDetailRow('Reference', 'PIWC-GIFT'),
+                    _buildDetailRow('Amount', '£$amount'),
+                    SizedBox(height: 16.h),
+                    _buildDetailRow('Reference', fund),
                     SizedBox(height: 24.h),
                     Divider(
                       color: Colors.white.withOpacity(0.2),
