@@ -28,15 +28,15 @@ class NotificationView extends GetView<NotificationController> {
                     children: [
                       if (!controller.isSystemNotificationsEnabled.value)
                         Container(
-                          margin: const EdgeInsets.only(bottom: 24),
-                          padding: const EdgeInsets.all(16),
+                          margin: EdgeInsets.only(bottom: 24.h),
+                          padding: EdgeInsets.all(16.w),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
                               colors: [AppTheme.accentRed, AppTheme.pinkRed],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                             ),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Row(
                             children: [
@@ -90,7 +90,7 @@ class NotificationView extends GetView<NotificationController> {
                       Container(
                         decoration: BoxDecoration(
                           color: AppTheme.containerColor,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           border: Border.all(
                             color: AppTheme.secondaryColor,
                             width: 1,
@@ -168,11 +168,11 @@ class NotificationView extends GetView<NotificationController> {
   }
 
   Widget _buildDivider() {
-    return const Divider(
+    return Divider(
       color: AppTheme.secondaryColor,
       height: 1,
       thickness: 1,
-      indent: 64, // To align with text
+      indent: 64.w, // To align with text
     );
   }
 

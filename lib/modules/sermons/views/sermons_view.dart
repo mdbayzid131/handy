@@ -13,12 +13,9 @@ class SermonsView extends GetView<SermonsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.h),
-        child: _buildHeader(context),
-      ),
       body: Column(
         children: [
+          _buildHeader(context),
           SizedBox(height: 20.h),
           _buildSearchBar(),
           SizedBox(height: 20.h),

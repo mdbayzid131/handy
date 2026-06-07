@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:handy/config/themes/app_theme.dart';
 
@@ -12,7 +13,7 @@ class SearchView extends GetView<SearchController> {
         scrolledUnderElevation: 0,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.white),
+          icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
         flexibleSpace: Container(
@@ -30,19 +31,19 @@ class SearchView extends GetView<SearchController> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Search',
               style: TextStyle(
                 color: AppTheme.white,
-                fontSize: 22,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const Text(
+            Text(
               'PIWC Stoneyburn',
               style: TextStyle(
                 color: AppTheme.warningColor,
-                fontSize: 14,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -54,15 +55,15 @@ class SearchView extends GetView<SearchController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.search,
-              size: 100,
+              size: 100.w,
               color: Colors.blue,
             ),
-            const SizedBox(height: 20),
-            const Text(
+            SizedBox(height: 20.h),
+            Text(
               'Search View',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20.sp),
             ),
           ],
         ),
