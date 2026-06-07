@@ -293,7 +293,11 @@ class EventDetailsView extends GetView<EventDetailsController> {
                               style: OutlinedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16.h),
                                 side: BorderSide(
-                                  color: AppTheme.white.withValues(alpha: 0.1),
+                                  color:
+                                      Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? AppTheme.white
+                                      : AppTheme.containerColor,
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.r),

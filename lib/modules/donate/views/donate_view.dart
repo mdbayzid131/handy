@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
@@ -17,14 +16,16 @@ class DonateView extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
-        systemOverlayStyle: SystemUiOverlayStyle.light,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Colors.transparent
+            : AppTheme.containerColor,
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
             color: Theme.of(context).brightness == Brightness.dark
                 ? AppTheme.white
-                : AppTheme.black,
+                : AppTheme.white,
             size: 24.w,
           ),
           onPressed: () => Get.back(),
@@ -34,7 +35,7 @@ class DonateView extends StatelessWidget {
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
                 ? AppTheme.white
-                : AppTheme.black,
+                : AppTheme.white,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
@@ -105,7 +106,10 @@ class DonateView extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.white,
+                    backgroundColor:
+                        Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.white
+                        : AppTheme.containerColor,
                     foregroundColor: AppTheme.successColor,
                     padding: EdgeInsets.symmetric(
                       horizontal: 20.w,
@@ -121,7 +125,7 @@ class DonateView extends StatelessWidget {
                   child: Text(
                     'Finish',
                     style: TextStyle(
-                      color: AppTheme.black,
+                      color: AppTheme.white,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                     ),
