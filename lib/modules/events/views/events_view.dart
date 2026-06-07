@@ -16,7 +16,6 @@ class EventsView extends GetView<EventsController> {
     Get.put(EventsController());
 
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
       body: Column(
         children: [
           CustomGradientHeader(

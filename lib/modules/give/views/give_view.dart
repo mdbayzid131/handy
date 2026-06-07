@@ -34,10 +34,7 @@ class GiveView extends GetView<GiveController> {
         () => GestureDetector(
           onTap: () => controller.toggleHistory(),
           child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 8.h,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
               color: AppTheme.warningColor,
               borderRadius: BorderRadius.circular(20.r),
@@ -116,7 +113,7 @@ class GiveView extends GetView<GiveController> {
 
   Widget _buildSectionTitle(BuildContext context, String title) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.only(bottom: 10.h),
       child: Text(
         title,
         style: TextStyle(
@@ -132,6 +129,7 @@ class GiveView extends GetView<GiveController> {
 
   Widget _buildFundGrid() {
     return GridView.builder(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: controller.funds.length,

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/event_details_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
+
 class EventDetailsView extends GetView<EventDetailsController> {
   const EventDetailsView({super.key});
 
@@ -31,7 +32,6 @@ class EventDetailsView extends GetView<EventDetailsController> {
       final primaryColor = _getCategoryColor(event.category);
 
       return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
         body: Column(
           children: [
             const CustomGradientHeader(
@@ -45,257 +45,269 @@ class EventDetailsView extends GetView<EventDetailsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Hero Section / Colored Block
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
-                decoration: BoxDecoration(color: primaryColor),
-                child: Column(
-                  children: [
                     Container(
-                      width: 80.w,
-                      height: 80.w,
-                      decoration: BoxDecoration(
-                        color: AppTheme.white.withValues(alpha: 0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.calendar_today,
-                        color: AppTheme.white,
-                        size: 36.w,
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 6.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Text(
-                        event.category.toUpperCase(),
-                        style: TextStyle(
-                          color: AppTheme.white,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // Content Details Section
-              Padding(
-                padding: EdgeInsets.all(20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      event.title,
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.white
-                            : AppTheme.black,
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.bold,
-                        height: 1.2,
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-
-                    // Information Card
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1E2336),
-                        borderRadius: BorderRadius.circular(16.r),
-                        border: Border.all(
-                          color: AppTheme.white.withValues(alpha: 0.05),
-                        ),
-                      ),
+                      width: double.infinity,
+                      padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
+                      decoration: BoxDecoration(color: primaryColor),
                       child: Column(
                         children: [
-                          _buildDetailRow(
-                            Icons.calendar_today,
-                            'DATE',
-                            event.date,
-                            primaryColor,
-                          ),
-                          Divider(
-                            color: AppTheme.white.withValues(alpha: 0.05),
-                            height: 1,
-                            indent: 60.w,
-                          ),
-                          _buildDetailRow(
-                            Icons.access_time,
-                            'TIME',
-                            event.time,
-                            primaryColor,
-                          ),
-                          Divider(
-                            color: AppTheme.white.withValues(alpha: 0.05),
-                            height: 1,
-                            indent: 60.w,
-                          ),
-                          _buildDetailRow(
-                            Icons.location_on,
-                            'LOCATION',
-                            event.location,
-                            primaryColor,
-                          ),
-                          Divider(
-                            color: AppTheme.white.withValues(alpha: 0.05),
-                            height: 1,
-                            indent: 60.w,
-                          ),
-                          _buildDetailRow(
-                            Icons.people,
-                            'ATTENDING',
-                            '${event.attendeeCount} people',
-                            primaryColor,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    SizedBox(height: 32.h),
-                    Text(
-                      'About This Event',
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.white
-                            : AppTheme.black,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 12.h),
-                    Text(
-                      event.description,
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.white.withValues(alpha: 0.6)
-                            : AppTheme.black.withValues(alpha: 0.6),
-                        fontSize: 15.sp,
-                        height: 1.6,
-                      ),
-                    ),
-
-                    SizedBox(height: 40.h),
-
-                    // Bottom Buttons
-                    if (controller.isRSVPd.value)
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: () => controller.toggleRSVP(),
-                              icon: Icon(
-                                Icons.check_circle,
-                                color: AppTheme.white,
-                                size: 24.w,
-                              ),
-                              label: Text(
-                                "You're Going!",
-                                style: TextStyle(
-                                  color: AppTheme.white,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(
-                                  0xFF22C55E,
-                                ), // Green
-                                padding: EdgeInsets.symmetric(vertical: 16.h),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                                elevation: 0,
-                              ),
+                          Container(
+                            width: 80.w,
+                            height: 80.w,
+                            decoration: BoxDecoration(
+                              color: AppTheme.white.withValues(alpha: 0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.calendar_today,
+                              color: AppTheme.white,
+                              size: 36.w,
                             ),
                           ),
                           SizedBox(height: 16.h),
-                          Text(
-                            'We look forward to seeing you there! 🎉',
-                            style: TextStyle(
-                              color: Theme.of(context).brightness == Brightness.dark
-                                  ? AppTheme.white.withValues(alpha: 0.7)
-                                  : AppTheme.black.withValues(alpha: 0.7),
-                              fontSize: 14.sp,
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 6.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.white.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              event.category.toUpperCase(),
+                              style: TextStyle(
+                                color: AppTheme.white,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2,
+                              ),
                             ),
                           ),
                         ],
-                      )
-                    else
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: () => controller.toggleRSVP(),
-                          icon: Icon(
-                            Icons.calendar_today,
-                            color: AppTheme.white,
-                            size: 20.w,
-                          ),
-                          label: Text(
-                            "RSVP for This Event",
+                      ),
+                    ),
+                    // Content Details Section
+                    Padding(
+                      padding: EdgeInsets.all(20.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            event.title,
                             style: TextStyle(
-                              color: AppTheme.white,
-                              fontSize: 18.sp,
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? AppTheme.white
+                                  : AppTheme.black,
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                              height: 1.2,
+                            ),
+                          ),
+                          SizedBox(height: 20.h),
+
+                          // Information Card
+                          Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1E2336),
+                              borderRadius: BorderRadius.circular(16.r),
+                              border: Border.all(
+                                color: AppTheme.white.withValues(alpha: 0.05),
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                _buildDetailRow(
+                                  Icons.calendar_today,
+                                  'DATE',
+                                  event.date,
+                                  primaryColor,
+                                ),
+                                Divider(
+                                  color: AppTheme.white.withValues(alpha: 0.05),
+                                  height: 1,
+                                  indent: 60.w,
+                                ),
+                                _buildDetailRow(
+                                  Icons.access_time,
+                                  'TIME',
+                                  event.time,
+                                  primaryColor,
+                                ),
+                                Divider(
+                                  color: AppTheme.white.withValues(alpha: 0.05),
+                                  height: 1,
+                                  indent: 60.w,
+                                ),
+                                _buildDetailRow(
+                                  Icons.location_on,
+                                  'LOCATION',
+                                  event.location,
+                                  primaryColor,
+                                ),
+                                Divider(
+                                  color: AppTheme.white.withValues(alpha: 0.05),
+                                  height: 1,
+                                  indent: 60.w,
+                                ),
+                                _buildDetailRow(
+                                  Icons.people,
+                                  'ATTENDING',
+                                  '${event.attendeeCount} people',
+                                  primaryColor,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          SizedBox(height: 32.h),
+                          Text(
+                            'About This Event',
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? AppTheme.white
+                                  : AppTheme.black,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            padding: EdgeInsets.symmetric(vertical: 16.h),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.r),
+                          SizedBox(height: 12.h),
+                          Text(
+                            event.description,
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? AppTheme.white.withValues(alpha: 0.6)
+                                  : AppTheme.black.withValues(alpha: 0.6),
+                              fontSize: 15.sp,
+                              height: 1.6,
                             ),
-                            elevation: 0,
                           ),
-                        ),
-                      ),
 
-                    SizedBox(height: 16.h),
+                          SizedBox(height: 40.h),
 
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.calendar_today,
-                          color: primaryColor,
-                          size: 20.w,
-                        ),
-                        label: Text(
-                          "Add to Calendar",
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
+                          // Bottom Buttons
+                          if (controller.isRSVPd.value)
+                            Column(
+                              children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () => controller.toggleRSVP(),
+                                    icon: Icon(
+                                      Icons.check_circle,
+                                      color: AppTheme.white,
+                                      size: 24.w,
+                                    ),
+                                    label: Text(
+                                      "You're Going!",
+                                      style: TextStyle(
+                                        color: AppTheme.white,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(
+                                        0xFF22C55E,
+                                      ), // Green
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 16.h,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          12.r,
+                                        ),
+                                      ),
+                                      elevation: 0,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 16.h),
+                                Text(
+                                  'We look forward to seeing you there! 🎉',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? AppTheme.white.withValues(alpha: 0.7)
+                                        : AppTheme.black.withValues(alpha: 0.7),
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                              ],
+                            )
+                          else
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton.icon(
+                                onPressed: () => controller.toggleRSVP(),
+                                icon: Icon(
+                                  Icons.calendar_today,
+                                  color: AppTheme.white,
+                                  size: 20.w,
+                                ),
+                                label: Text(
+                                  "RSVP for This Event",
+                                  style: TextStyle(
+                                    color: AppTheme.white,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: primaryColor,
+                                  padding: EdgeInsets.symmetric(vertical: 16.h),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  elevation: 0,
+                                ),
+                              ),
+                            ),
+
+                          SizedBox(height: 16.h),
+
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton.icon(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.calendar_today,
+                                color: primaryColor,
+                                size: 20.w,
+                              ),
+                              label: Text(
+                                "Add to Calendar",
+                                style: TextStyle(
+                                  color: primaryColor,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 16.h),
+                                side: BorderSide(
+                                  color: AppTheme.white.withValues(alpha: 0.1),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(vertical: 16.h),
-                          side: BorderSide(
-                            color: AppTheme.white.withValues(alpha: 0.1),
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                        ),
+                          SizedBox(height: 40.h),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 40.h),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
             ),
           ],
         ),

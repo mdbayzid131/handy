@@ -12,7 +12,6 @@ class CommunityView extends StatelessWidget {
     final communityItems = CommunityModel.dummyData;
 
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
       body: Column(
         children: [
           const CustomGradientHeader(

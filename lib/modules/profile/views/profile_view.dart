@@ -112,21 +112,35 @@ class ProfileView extends GetView<ProfileController> {
         scrolledUnderElevation: 0,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppTheme.white
+                : AppTheme.black,
+            size: 24.w,
+          ),
           onPressed: () => Get.back(),
         ),
         centerTitle: true,
         title: Text(
           'My Profile',
           style: TextStyle(
-            color: AppTheme.white,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppTheme.white
+                : AppTheme.black,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings, color: AppTheme.white, size: 24.w),
+            icon: Icon(
+              Icons.settings,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppTheme.white
+                  : AppTheme.black,
+              size: 24.w,
+            ),
             onPressed: () => Get.toNamed(AppRoutes.SETTINGS),
           ),
         ],
@@ -298,7 +312,8 @@ class ProfileView extends GetView<ProfileController> {
                         Text(
                           'Saved Sermons',
                           style: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
                                 ? AppTheme.white
                                 : AppTheme.black,
                             fontSize: 18.sp,

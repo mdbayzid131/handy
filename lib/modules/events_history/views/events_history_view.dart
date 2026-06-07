@@ -13,7 +13,6 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
       body: Column(
         children: [
           const CustomGradientHeader(

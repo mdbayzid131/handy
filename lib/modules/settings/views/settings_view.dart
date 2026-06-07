@@ -6,13 +6,13 @@ import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
 import '../controllers/settings_controller.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
+
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
       body: Column(
         children: [
           const CustomGradientHeader(
@@ -25,96 +25,100 @@ class SettingsView extends GetView<SettingsController> {
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Notifications',
-              style: TextStyle(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? AppTheme.white
-                    : AppTheme.black,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            _buildNotificationsCard(),
-            SizedBox(height: 32.h),
-            Text(
-              'Appearance',
-              style: TextStyle(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? AppTheme.white
-                    : AppTheme.black,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            _buildAppearanceCard(context),
-            SizedBox(height: 32.h),
-            Text(
-              'Account',
-              style: TextStyle(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? AppTheme.white
-                    : AppTheme.black,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            _buildAccountCard(context),
-            SizedBox(height: 32.h),
-            Text(
-              'About',
-              style: TextStyle(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? AppTheme.white
-                    : AppTheme.black,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            _buildAboutCard(),
-            SizedBox(height: 40.h),
-            Center(
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Made with ',
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.white.withValues(alpha: 0.5)
-                            : AppTheme.black.withValues(alpha: 0.5),
-                        fontSize: 13.sp,
+                children: [
+                  Text(
+                    'Notifications',
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppTheme.white
+                          : AppTheme.black,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  _buildNotificationsCard(),
+                  SizedBox(height: 32.h),
+                  Text(
+                    'Appearance',
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppTheme.white
+                          : AppTheme.black,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  _buildAppearanceCard(context),
+                  SizedBox(height: 32.h),
+                  Text(
+                    'Account',
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppTheme.white
+                          : AppTheme.black,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  _buildAccountCard(context),
+                  SizedBox(height: 32.h),
+                  Text(
+                    'About',
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppTheme.white
+                          : AppTheme.black,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  _buildAboutCard(),
+                  SizedBox(height: 40.h),
+                  Center(
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Made with ',
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? AppTheme.white.withValues(alpha: 0.5)
+                                  : AppTheme.black.withValues(alpha: 0.5),
+                              fontSize: 13.sp,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '❤️',
+                            style: TextStyle(fontSize: 13.sp),
+                          ),
+                          TextSpan(
+                            text: ' for the PIWC Stoneyburn family',
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? AppTheme.white.withValues(alpha: 0.5)
+                                  : AppTheme.black.withValues(alpha: 0.5),
+                              fontSize: 13.sp,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    TextSpan(
-                      text: '❤️',
-                      style: TextStyle(fontSize: 13.sp),
-                    ),
-                    TextSpan(
-                      text: ' for the PIWC Stoneyburn family',
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.white.withValues(alpha: 0.5)
-                            : AppTheme.black.withValues(alpha: 0.5),
-                        fontSize: 13.sp,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 40.h),
+                ],
               ),
             ),
-            SizedBox(height: 40.h),
-          ],
-        ),
+          ),
+        ],
       ),
-            ),
-          ],
-        ),
     );
   }
 
@@ -222,9 +226,7 @@ class SettingsView extends GetView<SettingsController> {
                 Switch(
                   value: Theme.of(context).brightness == Brightness.dark,
                   onChanged: (val) {
-                    Get.changeThemeMode(
-                      val ? ThemeMode.dark : ThemeMode.light,
-                    );
+                    Get.changeThemeMode(val ? ThemeMode.dark : ThemeMode.light);
                   },
                   activeThumbColor: AppTheme.white,
                   activeTrackColor: AppTheme.accentBlue,
