@@ -14,6 +14,9 @@ class BibleChaptersView extends GetView<BibleChapterController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.backgroundColor
+            : AppTheme.containerColor,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
@@ -32,10 +35,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
-          child: Container(
-            color: AppTheme.secondaryColor,
-            height: 1.h,
-          ),
+          child: Container(color: AppTheme.secondaryColor, height: 1.h),
         ),
       ),
       body: SafeArea(
@@ -123,9 +123,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
           color: isSelected ? AppTheme.accentBlue : AppTheme.containerColor,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: isSelected
-                ? Colors.transparent
-                : AppTheme.secondaryColor,
+            color: isSelected ? Colors.transparent : AppTheme.secondaryColor,
           ),
         ),
         alignment: Alignment.center,

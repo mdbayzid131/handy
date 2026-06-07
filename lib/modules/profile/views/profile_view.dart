@@ -111,6 +111,9 @@ class ProfileView extends GetView<ProfileController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.backgroundColor
+            : AppTheme.containerColor,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -274,9 +277,7 @@ class ProfileView extends GetView<ProfileController> {
                       decoration: BoxDecoration(
                         color: AppTheme.containerColor,
                         borderRadius: BorderRadius.circular(16.r),
-                        border: Border.all(
-                          color: AppTheme.secondaryColor,
-                        ),
+                        border: Border.all(color: AppTheme.secondaryColor),
                       ),
                       child: Column(
                         children: [
@@ -370,9 +371,7 @@ class ProfileView extends GetView<ProfileController> {
                       decoration: BoxDecoration(
                         color: AppTheme.containerColor,
                         borderRadius: BorderRadius.circular(16.r),
-                        border: Border.all(
-                          color: AppTheme.secondaryColor,
-                        ),
+                        border: Border.all(color: AppTheme.secondaryColor),
                       ),
                       child: Column(
                         children: [

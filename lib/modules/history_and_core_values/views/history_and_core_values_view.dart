@@ -14,6 +14,9 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.backgroundColor
+            : AppTheme.containerColor,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(

@@ -14,6 +14,9 @@ class BibleVersesView extends GetView<BibleVersesController> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.backgroundColor
+            : AppTheme.containerColor,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
@@ -32,10 +35,7 @@ class BibleVersesView extends GetView<BibleVersesController> {
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
-          child: Container(
-            color: AppTheme.secondaryColor,
-            height: 1.h,
-          ),
+          child: Container(color: AppTheme.secondaryColor, height: 1.h),
         ),
       ),
       body: SafeArea(
@@ -56,7 +56,8 @@ class BibleVersesView extends GetView<BibleVersesController> {
                         child: Text(
                           '${controller.bookName.value} ${controller.chapter.value}',
                           style: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
                                 ? AppTheme.white
                                 : AppTheme.black,
                             fontSize: 28.sp,
@@ -90,7 +91,9 @@ class BibleVersesView extends GetView<BibleVersesController> {
                             child: Text(
                               verseText,
                               style: TextStyle(
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? AppTheme.white.withValues(alpha: 0.9)
                                     : AppTheme.black.withValues(alpha: 0.9),
                                 fontSize: 17.sp,
@@ -114,9 +117,7 @@ class BibleVersesView extends GetView<BibleVersesController> {
                 decoration: BoxDecoration(
                   color: AppTheme.slate900,
                   border: Border(
-                    top: BorderSide(
-                      color: AppTheme.secondaryColor,
-                    ),
+                    top: BorderSide(color: AppTheme.secondaryColor),
                   ),
                 ),
                 child: Row(
