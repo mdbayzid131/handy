@@ -13,6 +13,9 @@ class DevotionalsDetailsView extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         elevation: 0,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? AppTheme.backgroundColor
+            : AppTheme.containerColor,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         leading: IconButton(
           icon: Icon(
@@ -95,10 +98,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                   padding: EdgeInsets.all(20.w),
                   decoration: BoxDecoration(
                     border: Border(
-                      left: BorderSide(
-                        color: AppTheme.royalBlue,
-                        width: 4.w,
-                      ),
+                      left: BorderSide(color: AppTheme.royalBlue, width: 4.w),
                     ),
                   ),
                   child: Column(
@@ -144,7 +144,8 @@ class DevotionalsDetailsView extends StatelessWidget {
                         Text(
                           'Reflection',
                           style: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
                                 ? AppTheme.white
                                 : AppTheme.black,
                             fontSize: 20.sp,
