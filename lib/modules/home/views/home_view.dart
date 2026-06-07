@@ -47,7 +47,9 @@ class HomeView extends GetView<HomeController> {
                         height: 50.w,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.yellow,
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.backgroundColor
+                                : AppTheme.white,
                         ),
                         child: ClipOval(
                           child: Image.asset(

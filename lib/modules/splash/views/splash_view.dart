@@ -18,7 +18,7 @@ class SplashView extends GetView<SplashController> {
             // App Logo
             CircleAvatar(
               radius: 50.r,
-              backgroundColor: AppTheme.warningColor,
+              backgroundColor: AppTheme.backgroundColor,
               child: ClipOval(
                 child: Image.asset(
                   ImagePaths.appLogo,

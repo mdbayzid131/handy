@@ -14,7 +14,7 @@ class ImagePaths {
   static const String service1 = '$_images/image.png';
 
   // ─── Logos ───
-  static const String appLogo = '$_logos/app_logo_two.jpeg';
+  static const String appLogo = '$_logos/church_app_logo.png';
 
   // ─── Dummy / Placeholders ───
 }
