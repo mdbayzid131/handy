@@ -200,10 +200,10 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
     return Container(
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: AppTheme.cardVariantLight,
+        color: AppTheme.containerColor,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: AppTheme.white.withValues(alpha: 0.05),
+          color: AppTheme.secondaryColor,
           width: 1,
         ),
       ),
@@ -302,10 +302,10 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
       width: double.infinity,
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
-        color: AppTheme.cardVariantLight,
+        color: AppTheme.containerColor,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: AppTheme.white.withValues(alpha: 0.05),
+          color: AppTheme.secondaryColor,
           width: 1,
         ),
       ),
@@ -406,7 +406,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: AppTheme.cardVariantLighter,
+        color: AppTheme.containerColor,
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Text(

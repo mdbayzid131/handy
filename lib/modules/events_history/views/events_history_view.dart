@@ -66,7 +66,7 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
                 decoration: BoxDecoration(
                   color: isSelected
                       ? const Color(0xFF132488)
-                      : const Color(0xFF1E2336),
+                      : AppTheme.containerColor,
                   borderRadius: BorderRadius.circular(20.r),
                   border: Border.all(
                     color: isSelected
@@ -119,9 +119,9 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
           Get.toNamed(AppRoutes.EVENTS_HISTORY_DETAILS, arguments: event),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF1E2336),
+          color: AppTheme.containerColor,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
+          border: Border.all(color: AppTheme.secondaryColor),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +212,7 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
                           vertical: 6.h,
                         ),
                         decoration: BoxDecoration(
-                          color: AppTheme.white.withValues(alpha: 0.05),
+                          color: AppTheme.secondaryColor,
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(

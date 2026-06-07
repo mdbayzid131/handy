@@ -43,7 +43,7 @@ class DonateView extends StatelessWidget {
           preferredSize: Size.fromHeight(1.h),
           child: Container(
             color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white.withValues(alpha: 0.05)
+                ? AppTheme.secondaryColor
                 : AppTheme.black.withValues(alpha: 0.1),
             height: 1.h,
           ),

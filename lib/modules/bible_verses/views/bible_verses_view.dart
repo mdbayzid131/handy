@@ -33,7 +33,7 @@ class BibleVersesView extends GetView<BibleVersesController> {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
           child: Container(
-            color: AppTheme.white.withValues(alpha: 0.05),
+            color: AppTheme.secondaryColor,
             height: 1.h,
           ),
         ),
@@ -115,7 +115,7 @@ class BibleVersesView extends GetView<BibleVersesController> {
                   color: AppTheme.slate900,
                   border: Border(
                     top: BorderSide(
-                      color: AppTheme.white.withValues(alpha: 0.05),
+                      color: AppTheme.secondaryColor,
                     ),
                   ),
                 ),
@@ -162,9 +162,9 @@ class BibleVersesView extends GetView<BibleVersesController> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
-          color: AppTheme.cardColor,
+          color: AppTheme.containerColor,
           borderRadius: BorderRadius.circular(24.r),
-          border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
+          border: Border.all(color: AppTheme.secondaryColor),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

@@ -43,7 +43,7 @@ class BibleView extends GetView<BibleController> {
           preferredSize: Size.fromHeight(1.h),
           child: Container(
             color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white.withValues(alpha: 0.05)
+                ? AppTheme.secondaryColor
                 : AppTheme.black.withValues(alpha: 0.1),
             height: 1.h,
           ),
@@ -59,10 +59,10 @@ class BibleView extends GetView<BibleController> {
                   // Search Bar
                   Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.cardColor,
+                      color: AppTheme.containerColor,
                       borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
-                        color: AppTheme.white.withValues(alpha: 0.05),
+                        color: AppTheme.secondaryColor,
                       ),
                     ),
                     child: TextField(
@@ -97,10 +97,10 @@ class BibleView extends GetView<BibleController> {
                     () => Container(
                       height: 52.h,
                       decoration: BoxDecoration(
-                        color: AppTheme.cardColor,
+                        color: AppTheme.containerColor,
                         borderRadius: BorderRadius.circular(12.r),
                         border: Border.all(
-                          color: AppTheme.white.withValues(alpha: 0.05),
+                          color: AppTheme.secondaryColor,
                         ),
                       ),
                       child: Row(
@@ -228,9 +228,9 @@ class BibleView extends GetView<BibleController> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         decoration: BoxDecoration(
-          color: AppTheme.cardColor,
+          color: AppTheme.containerColor,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
+          border: Border.all(color: AppTheme.secondaryColor),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

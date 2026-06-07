@@ -134,7 +134,7 @@ class DevotionalsView extends StatelessWidget {
               ),
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               decoration: BoxDecoration(
-                color: AppTheme.cardColor,
+                color: AppTheme.containerColor,
                 borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(
                   color: AppTheme.warningColor.withValues(alpha: 0.3),
@@ -180,12 +180,12 @@ class DevotionalsView extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isFirstCard
                             ? AppTheme.accentBlue
-                            : AppTheme.cardColor,
+                            : AppTheme.containerColor,
                         borderRadius: BorderRadius.circular(16.r),
                         border: isFirstCard
                             ? null
                             : Border.all(
-                                color: AppTheme.white.withValues(alpha: 0.05),
+                                color: AppTheme.secondaryColor,
                               ),
                       ),
                       child: Row(

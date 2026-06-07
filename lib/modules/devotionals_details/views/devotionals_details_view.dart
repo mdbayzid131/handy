@@ -88,7 +88,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                 margin: EdgeInsets.all(20.w),
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
-                  color: AppTheme.cardColor,
+                  color: AppTheme.containerColor,
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Container(
@@ -173,7 +173,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                 margin: EdgeInsets.all(20.w),
                 padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  color: AppTheme.cardColor,
+                  color: AppTheme.containerColor,
                   borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Column(
@@ -251,7 +251,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                       onPressed: () {},
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(
-                          color: AppTheme.cardColor,
+                          color: AppTheme.containerColor,
                           width: 1.5,
                         ),
                         minimumSize: Size(double.infinity, 56.h),

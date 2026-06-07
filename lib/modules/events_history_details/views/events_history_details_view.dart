@@ -109,10 +109,10 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                         // Information Card
                         Container(
                           decoration: BoxDecoration(
-                            color: const Color(0xFF1E2336),
+                            color: AppTheme.containerColor,
                             borderRadius: BorderRadius.circular(16.r),
                             border: Border.all(
-                              color: AppTheme.white.withValues(alpha: 0.05),
+                              color: AppTheme.secondaryColor,
                             ),
                           ),
                           child: Column(
@@ -124,7 +124,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                                 primaryColor,
                               ),
                               Divider(
-                                color: AppTheme.white.withValues(alpha: 0.05),
+                                color: AppTheme.secondaryColor,
                                 height: 1,
                                 indent: 60.w,
                               ),
@@ -135,7 +135,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                                 primaryColor,
                               ),
                               Divider(
-                                color: AppTheme.white.withValues(alpha: 0.05),
+                                color: AppTheme.secondaryColor,
                                 height: 1,
                                 indent: 60.w,
                               ),
@@ -146,7 +146,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                                 primaryColor,
                               ),
                               Divider(
-                                color: AppTheme.white.withValues(alpha: 0.05),
+                                color: AppTheme.secondaryColor,
                                 height: 1,
                                 indent: 60.w,
                               ),

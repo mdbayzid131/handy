@@ -125,9 +125,9 @@ class SettingsView extends GetView<SettingsController> {
   Widget _buildNotificationsCard() {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
+        color: AppTheme.containerColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppTheme.secondaryColor),
       ),
       child: Column(
         children: [
@@ -137,7 +137,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.newSermons,
           ),
           Divider(
-            color: AppTheme.white.withValues(alpha: 0.05),
+            color: AppTheme.secondaryColor,
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -148,7 +148,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.events,
           ),
           Divider(
-            color: AppTheme.white.withValues(alpha: 0.05),
+            color: AppTheme.secondaryColor,
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -159,7 +159,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.prayerUpdates,
           ),
           Divider(
-            color: AppTheme.white.withValues(alpha: 0.05),
+            color: AppTheme.secondaryColor,
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -170,7 +170,7 @@ class SettingsView extends GetView<SettingsController> {
             controller.dailyDevotionals,
           ),
           Divider(
-            color: AppTheme.white.withValues(alpha: 0.05),
+            color: AppTheme.secondaryColor,
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
@@ -189,9 +189,9 @@ class SettingsView extends GetView<SettingsController> {
   Widget _buildAppearanceCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
+        color: AppTheme.containerColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppTheme.secondaryColor),
       ),
       child: Column(
         children: [
@@ -244,9 +244,9 @@ class SettingsView extends GetView<SettingsController> {
   Widget _buildAccountCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
+        color: AppTheme.containerColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppTheme.secondaryColor),
       ),
       child: Column(
         children: [
@@ -424,22 +424,22 @@ class SettingsView extends GetView<SettingsController> {
   Widget _buildAboutCard() {
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.cardColor,
+        color: AppTheme.containerColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
+        border: Border.all(color: AppTheme.secondaryColor),
       ),
       child: Column(
         children: [
           _buildInfoRow('App Version', '1.0.0'),
           Divider(
-            color: AppTheme.white.withValues(alpha: 0.05),
+            color: AppTheme.secondaryColor,
             height: 1,
             indent: 20.w,
             endIndent: 20.w,
           ),
           _buildInfoRow('Church', 'PIWC Stoneyburn', isValueBold: true),
           Divider(
-            color: AppTheme.white.withValues(alpha: 0.05),
+            color: AppTheme.secondaryColor,
             height: 1,
             indent: 20.w,
             endIndent: 20.w,

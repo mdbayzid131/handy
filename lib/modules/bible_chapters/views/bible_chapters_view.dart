@@ -33,7 +33,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1.h),
           child: Container(
-            color: AppTheme.white.withValues(alpha: 0.05),
+            color: AppTheme.secondaryColor,
             height: 1.h,
           ),
         ),
@@ -120,12 +120,12 @@ class BibleChaptersView extends GetView<BibleChapterController> {
       onTap: () => controller.onChapterSelected(chapter),
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.accentBlue : AppTheme.cardColor,
+          color: isSelected ? AppTheme.accentBlue : AppTheme.containerColor,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isSelected
                 ? Colors.transparent
-                : AppTheme.white.withValues(alpha: 0.05),
+                : AppTheme.secondaryColor,
           ),
         ),
         alignment: Alignment.center,

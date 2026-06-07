@@ -89,10 +89,10 @@ class NotificationView extends GetView<NotificationController> {
 
                       Container(
                         decoration: BoxDecoration(
-                          color: AppTheme.darkCardVariant,
+                          color: AppTheme.containerColor,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: AppTheme.darkSlate,
+                            color: AppTheme.secondaryColor,
                             width: 1,
                           ),
                         ),
@@ -169,7 +169,7 @@ class NotificationView extends GetView<NotificationController> {
 
   Widget _buildDivider() {
     return const Divider(
-      color: AppTheme.darkSlate,
+      color: AppTheme.secondaryColor,
       height: 1,
       thickness: 1,
       indent: 64, // To align with text

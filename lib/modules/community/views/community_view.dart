@@ -29,10 +29,10 @@ class CommunityView extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: 16.h),
                   padding: EdgeInsets.all(20.w),
                   decoration: BoxDecoration(
-                    color: AppTheme.cardColor,
+                    color: AppTheme.containerColor,
                     borderRadius: BorderRadius.circular(16.r),
                     border: Border.all(
-                      color: AppTheme.white.withValues(alpha: 0.05),
+                      color: AppTheme.secondaryColor,
                     ),
                   ),
                   child: Column(

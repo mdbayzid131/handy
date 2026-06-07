@@ -90,7 +90,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                         hintText: 'Anonymous',
                         hintStyle: const TextStyle(color: AppTheme.mutedTextColor),
                         filled: true,
-                        fillColor: AppTheme.cardColor,
+                        fillColor: AppTheme.containerColor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.r),
                           borderSide: BorderSide.none,
@@ -146,7 +146,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                       hintText: 'Share what\'s on your heart...',
                       hintStyle: const TextStyle(color: AppTheme.mutedTextColor),
                       filled: true,
-                      fillColor: AppTheme.cardColor,
+                      fillColor: AppTheme.containerColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.r),
                         borderSide: BorderSide.none,
@@ -224,10 +224,10 @@ class PrayerWallView extends GetView<PrayerWallController> {
                 () => Container(
                   height: 52.h,
                   decoration: BoxDecoration(
-                    color: AppTheme.cardColor,
+                    color: AppTheme.containerColor,
                     borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(
-                      color: AppTheme.white.withValues(alpha: 0.05),
+                      color: AppTheme.secondaryColor,
                     ),
                   ),
                   child: Row(
@@ -316,9 +316,9 @@ class PrayerWallView extends GetView<PrayerWallController> {
           margin: EdgeInsets.only(bottom: 16.h),
           padding: EdgeInsets.all(20.w),
           decoration: BoxDecoration(
-            color: AppTheme.cardColor,
+            color: AppTheme.containerColor,
             borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
+            border: Border.all(color: AppTheme.secondaryColor),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,7 +376,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 decoration: BoxDecoration(
-                  color: AppTheme.white.withValues(alpha: 0.05),
+                  color: AppTheme.secondaryColor,
                   borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Row(

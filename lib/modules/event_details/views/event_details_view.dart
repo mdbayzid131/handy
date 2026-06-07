@@ -111,10 +111,10 @@ class EventDetailsView extends GetView<EventDetailsController> {
                           // Information Card
                           Container(
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1E2336),
+                              color: AppTheme.containerColor,
                               borderRadius: BorderRadius.circular(16.r),
                               border: Border.all(
-                                color: AppTheme.white.withValues(alpha: 0.05),
+                                color: AppTheme.secondaryColor,
                               ),
                             ),
                             child: Column(
@@ -126,7 +126,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                                   primaryColor,
                                 ),
                                 Divider(
-                                  color: AppTheme.white.withValues(alpha: 0.05),
+                                  color: AppTheme.secondaryColor,
                                   height: 1,
                                   indent: 60.w,
                                 ),
@@ -137,7 +137,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                                   primaryColor,
                                 ),
                                 Divider(
-                                  color: AppTheme.white.withValues(alpha: 0.05),
+                                  color: AppTheme.secondaryColor,
                                   height: 1,
                                   indent: 60.w,
                                 ),
@@ -148,7 +148,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                                   primaryColor,
                                 ),
                                 Divider(
-                                  color: AppTheme.white.withValues(alpha: 0.05),
+                                  color: AppTheme.secondaryColor,
                                   height: 1,
                                   indent: 60.w,
                                 ),
