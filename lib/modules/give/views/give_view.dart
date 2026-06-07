@@ -45,14 +45,14 @@ class GiveView extends GetView<GiveController> {
                   controller.showHistory.value
                       ? Icons.arrow_back_rounded
                       : Icons.history_rounded,
-                  color: AppTheme.black,
+                  color: AppTheme.white,
                   size: 16.w,
                 ),
                 SizedBox(width: 6.w),
                 Text(
                   controller.showHistory.value ? 'Back' : 'History',
                   style: TextStyle(
-                    color: AppTheme.black,
+                    color: AppTheme.white,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -99,10 +99,10 @@ class GiveView extends GetView<GiveController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionTitle(context, 'Select Fund'),
-          _buildFundGrid(),
+          _buildFundGrid(context),
           SizedBox(height: 24.h),
           _buildSectionTitle(context, 'Amount (£)'),
-          _buildAmountSelection(),
+          _buildAmountSelection(context),
           SizedBox(height: 32.h),
           _buildGiveNowButton(),
           SizedBox(height: 20.h),
@@ -119,7 +119,7 @@ class GiveView extends GetView<GiveController> {
         style: TextStyle(
           color: Theme.of(context).brightness == Brightness.dark
               ? AppTheme.white
-              : AppTheme.black,
+              : AppTheme.white,
           fontSize: 16.sp,
           fontWeight: FontWeight.bold,
         ),
@@ -127,7 +127,7 @@ class GiveView extends GetView<GiveController> {
     );
   }
 
-  Widget _buildFundGrid() {
+  Widget _buildFundGrid(BuildContext context) {
     return GridView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
@@ -192,7 +192,7 @@ class GiveView extends GetView<GiveController> {
     );
   }
 
-  Widget _buildAmountSelection() {
+  Widget _buildAmountSelection(BuildContext context) {
     return Column(
       children: [
         SingleChildScrollView(
@@ -333,7 +333,7 @@ class GiveView extends GetView<GiveController> {
             style: TextStyle(
               color: Theme.of(context).brightness == Brightness.dark
                   ? AppTheme.white
-                  : AppTheme.black,
+                  : AppTheme.white,
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),

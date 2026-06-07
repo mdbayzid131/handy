@@ -11,8 +11,8 @@ class AppTheme {
   static const Color black = Colors.black;
   static const Color backgroundColor = Color(0xFF0D1535);
   static const Color primaryColor = Color(0xFF0B2CB3); //bluecontainerColor
-  static const Color containerColor = Color(0xFF1E2336); //gracontainerColor
-  static const Color secondaryColor = Color(0x0DFFFFFF); //BorderColor
+  static const Color containerColor = Color(0xFF1A2D6E); // Soft, elegant blue container
+  static const Color secondaryColor = Color(0xFF3B56AD); // Lighter blue border for contrast
   static const Color warningColor = Color(0xFFFBBF24); //yellowColor
   static const Color successColor = Color(0xFF4CAF50);
   static const Color watchLiveColor = Color(0xFFFF5722);
@@ -82,7 +82,7 @@ class AppTheme {
   static const Color tealAccent = Color(0xFF00BFA5);
   static const Color deepTeal = Color(0xFF0F8A74);
   static const Color teal800 = Color(0xFF00695C);
-  
+
   static const Color lightGreen = Color(0xFF66BB6A);
   static const Color standardGreen = Color(0xFF388E3C);
   static const Color green300 = Color(0xFF81C784);
