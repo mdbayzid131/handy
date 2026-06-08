@@ -32,8 +32,6 @@ import 'package:handy/modules/history_and_core_values/bindings/history_and_core_
 import 'package:handy/modules/history_and_core_values/views/history_and_core_values_view.dart';
 import 'package:handy/modules/more/bindings/more_binding.dart';
 import 'package:handy/modules/more/views/more_view.dart';
-import 'package:handy/modules/news/bindings/news_binding.dart';
-import 'package:handy/modules/news/views/news_view.dart';
 import 'package:handy/modules/notifications/bindings/notifications_binding.dart';
 import 'package:handy/modules/notifications/views/notifications_view.dart';
 import 'package:handy/modules/prayer_wall/bindings/prayer_wall_binding.dart';
@@ -91,8 +89,6 @@ abstract class AppRoutes {
   static const String LOCK = '/lock';
   // ignore: constant_identifier_names
   static const String SERMONS = '/sermons';
-  // ignore: constant_identifier_names
-  static const String NEWS = '/news';
   // ignore: constant_identifier_names
   static const String GIVE = '/give';
   // ignore: constant_identifier_names
@@ -196,12 +192,6 @@ final List<GetPage> pages = [
     middlewares: [AuthMiddleware()],
   ),
   GetPage(
-    name: AppRoutes.NEWS,
-    page: () => const NewsView(),
-    binding: NewsBinding(),
-    middlewares: [AuthMiddleware()],
-  ),
-  GetPage(
     name: AppRoutes.GIVE,
     page: () => const GiveView(),
     binding: GiveBinding(),
@@ -269,7 +259,7 @@ final List<GetPage> pages = [
   ),
   GetPage(
     name: AppRoutes.DEVOTIONALS_DETAILS,
-    page: () => const DevotionalsDetailsView(),
+    page: () => DevotionalsDetailsView(),
     binding: DevotionalsDetailsBinding(),
     middlewares: [AuthMiddleware()],
   ),

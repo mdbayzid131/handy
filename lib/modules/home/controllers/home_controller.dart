@@ -5,12 +5,19 @@ import 'package:handy/config/constants/image_paths.dart';
 
 class HomeController extends GetxController {
   final expandedIndex = (-1).obs;
+  final devotionalProgress = 0.obs;
 
   void toggleExpanded(int index) {
     if (expandedIndex.value == index) {
       expandedIndex.value = -1;
     } else {
       expandedIndex.value = index;
+    }
+  }
+
+  void incrementDevotionalProgress() {
+    if (devotionalProgress.value < 7) {
+      devotionalProgress.value++;
     }
   }
 

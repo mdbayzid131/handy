@@ -5,7 +5,6 @@ import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/events/views/events_view.dart';
 import 'package:handy/modules/give/views/give_view.dart';
 import 'package:handy/modules/more/views/more_view.dart';
-import 'package:handy/modules/news/views/news_view.dart';
 import 'package:handy/modules/sermons/views/sermons_view.dart';
 import '../controllers/bottom_nab_bar.dart';
 import '../../home/views/home_view.dart';
@@ -24,7 +23,6 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
             children: const [
               HomeView(),
               SermonsView(),
-              NewsView(),
               GiveView(),
               EventsView(),
               MoreView(),
@@ -78,7 +76,6 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
                   items: [
                     _buildNavItem(Icons.home_rounded, 'Home'),
                     _buildNavItem(Icons.video_library_rounded, 'Sermons'),
-                    _buildNavItem(Icons.campaign_rounded, 'News'),
                     _buildNavItem(Icons.favorite_rounded, 'Give'),
                     _buildNavItem(Icons.calendar_month_rounded, 'Events'),
                     _buildNavItem(Icons.more_horiz_rounded, 'More'),

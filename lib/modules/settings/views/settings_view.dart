@@ -132,8 +132,30 @@ class SettingsView extends GetView<SettingsController> {
       child: Column(
         children: [
           _buildSwitchRow(
+            'Sunday Service Reminder',
+            'Reminder every Saturday at 6:00 PM before Sunday service',
+            controller.sundayServiceReminder,
+          ),
+          Divider(
+            color: AppTheme.secondaryColor,
+            height: 1,
+            indent: 20.w,
+            endIndent: 20.w,
+          ),
+          _buildSwitchRow(
+            'Event Reminders',
+            "1-hour reminder before events you've saved",
+            controller.eventReminders,
+          ),
+          Divider(
+            color: AppTheme.secondaryColor,
+            height: 1,
+            indent: 20.w,
+            endIndent: 20.w,
+          ),
+          _buildSwitchRow(
             'New Sermons',
-            'When a new sermon is posted',
+            'Notified when a new sermon is uploaded',
             controller.newSermons,
           ),
           Divider(
@@ -143,42 +165,9 @@ class SettingsView extends GetView<SettingsController> {
             endIndent: 20.w,
           ),
           _buildSwitchRow(
-            'Events',
-            'Upcoming event reminders',
-            controller.events,
-          ),
-          Divider(
-            color: AppTheme.secondaryColor,
-            height: 1,
-            indent: 20.w,
-            endIndent: 20.w,
-          ),
-          _buildSwitchRow(
             'Prayer Updates',
-            'When someone prays for your request',
+            'Notified when someone prays for your request',
             controller.prayerUpdates,
-          ),
-          Divider(
-            color: AppTheme.secondaryColor,
-            height: 1,
-            indent: 20.w,
-            endIndent: 20.w,
-          ),
-          _buildSwitchRow(
-            'Daily Devotionals',
-            'Morning devotional reminder',
-            controller.dailyDevotionals,
-          ),
-          Divider(
-            color: AppTheme.secondaryColor,
-            height: 1,
-            indent: 20.w,
-            endIndent: 20.w,
-          ),
-          _buildSwitchRow(
-            'Announcements',
-            'Important church announcements',
-            controller.announcements,
             isLast: true,
           ),
         ],

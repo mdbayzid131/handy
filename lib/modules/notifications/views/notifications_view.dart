@@ -121,17 +121,6 @@ class NotificationView extends GetView<NotificationController> {
                             ),
                             _buildDivider(),
                             _buildPreferenceItem(
-                              icon: Icons.campaign,
-                              iconBgColor: AppTheme.coralRed,
-                              title: 'New Announcements',
-                              subtitle:
-                                  'Notified when the church posts new announcements',
-                              value: controller.newAnnouncements.value,
-                              onChanged: (val) =>
-                                  controller.newAnnouncements.value = val,
-                            ),
-                            _buildDivider(),
-                            _buildPreferenceItem(
                               icon: Icons.play_circle_fill,
                               iconBgColor: AppTheme.deepPurple,
                               title: 'New Sermons',

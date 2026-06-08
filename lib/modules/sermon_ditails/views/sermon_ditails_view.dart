@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/sermon_ditails_contoller.dart';
 import 'package:handy/config/themes/app_theme.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SermonDitailsView extends GetView<SermonDitailsController> {
   const SermonDitailsView({super.key});
@@ -12,325 +13,97 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
     final sermon = controller.sermon;
 
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
         scrolledUnderElevation: 0,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppTheme.primaryLighter, // Lighter blue
-                  AppTheme.primaryDarker, // Darker blue
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppTheme.primaryLighter, // Lighter blue
+                AppTheme.primaryDarker, // Darker blue
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
-            onPressed: () => Get.back(),
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Sermon',
-                style: TextStyle(
-                  color: AppTheme.white,
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'PIWC Stoneyburn',
-                style: TextStyle(
-                  color: AppTheme.warningColor,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          titleSpacing: 0,
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.bookmark_border,
+        ),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
+          onPressed: () => Get.back(),
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Sermon',
+              style: TextStyle(
                 color: AppTheme.white,
-                size: 24.w,
+                fontSize: 22.sp,
+                fontWeight: FontWeight.bold,
               ),
-              onPressed: () {},
+            ),
+            Text(
+              'PIWC Stoneyburn',
+              style: TextStyle(
+                color: AppTheme.warningColor,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeroImage(sermon.category),
-                Padding(
-                  padding: EdgeInsets.all(20.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        sermon.title,
-                        style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppTheme.white
-                              : AppTheme.black,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
-                          height: 1.2,
-                        ),
-                      ),
-                      SizedBox(height: 8.h),
-                      Text(
-                        sermon.pastor,
-                        style: TextStyle(
-                          color: AppTheme.accentBlue,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 16.h),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.calendar_today,
-                            color: AppTheme.white.withValues(alpha: 0.5),
-                            size: 14.w,
-                          ),
-                          SizedBox(width: 6.w),
-                          Text(
-                            sermon.date,
-                            style: TextStyle(
-                              color: AppTheme.white.withValues(alpha: 0.5),
-                              fontSize: 13.sp,
-                            ),
-                          ),
-                          SizedBox(width: 20.w),
-                          Icon(
-                            Icons.access_time,
-                            color: AppTheme.white.withValues(alpha: 0.5),
-                            size: 14.w,
-                          ),
-                          SizedBox(width: 6.w),
-                          Text(
-                            sermon.duration,
-                            style: TextStyle(
-                              color: AppTheme.white.withValues(alpha: 0.5),
-                              fontSize: 13.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 24.h),
-                      _buildMediaPlayer(sermon.duration),
-                      SizedBox(height: 20.h),
-                      _buildKeyScripture(),
-                      SizedBox(height: 24.h),
-                      _buildAboutSection(context),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-  }
-
-  Widget _buildHeroImage(String category) {
-    return Container(
-      width: double.infinity,
-      height: 240.h,
-      color: AppTheme.brightBlue, // Bright blue hero background
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 100.w,
-            height: 100.w,
-            decoration: BoxDecoration(
-              color: AppTheme.white.withValues(alpha: 0.15),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Container(
-                width: 64.w,
-                height: 64.w,
-                decoration: BoxDecoration(
-                  color: AppTheme.white.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.mic,
-                  color: AppTheme.white.withValues(alpha: 0.8),
-                  size: 40.w,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-            decoration: BoxDecoration(
-              color: AppTheme.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20.r),
-            ),
-            child: Text(
-              category,
-              style: TextStyle(
-                color: AppTheme.white,
-                fontSize: 10.sp,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMediaPlayer(String duration) {
-    return Container(
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        color: AppTheme.containerColor,
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(
-          color: AppTheme.secondaryColor,
-          width: 1,
-        ),
-      ),
-      child: Column(
-        children: [
-          // Progress Bar
-          Stack(
-            alignment: Alignment.centerLeft,
-            children: [
-              Container(
-                width: double.infinity,
-                height: 4.h,
-                decoration: BoxDecoration(
-                  color: AppTheme.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(2.r),
-                ),
-              ),
-              Container(
-                width: 100.w, // Simulated progress
-                height: 4.h,
-                decoration: BoxDecoration(
-                  color: AppTheme.brightBlue,
-                  borderRadius: BorderRadius.circular(2.r),
-                ),
-              ),
-              Positioned(
-                left: 96.w, // Position the thumb at the end of progress
-                child: Container(
-                  width: 10.w,
-                  height: 10.w,
-                  decoration: const BoxDecoration(
-                    color: AppTheme.brightBlue,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '12:36',
-                style: TextStyle(
-                  color: AppTheme.white.withValues(alpha: 0.5),
-                  fontSize: 12.sp,
-                ),
-              ),
-              Text(
-                duration,
-                style: TextStyle(
-                  color: AppTheme.white.withValues(alpha: 0.5),
-                  fontSize: 12.sp,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16.h),
-          // Controls
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.fast_rewind, color: AppTheme.white, size: 32.w),
-                onPressed: () {},
-              ),
-              SizedBox(width: 24.w),
-              Container(
-                width: 64.w,
-                height: 64.w,
-                decoration: const BoxDecoration(
-                  color: AppTheme.brightBlue,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.play_arrow_rounded,
-                  color: AppTheme.white,
-                  size: 40.w,
-                ),
-              ),
-              SizedBox(width: 24.w),
-              IconButton(
-                icon: Icon(Icons.fast_forward, color: AppTheme.white, size: 32.w),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildKeyScripture() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        color: AppTheme.containerColor,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: AppTheme.secondaryColor,
-          width: 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'KEY SCRIPTURE',
-            style: TextStyle(
-              color: AppTheme.accentBlue,
-              fontSize: 10.sp,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.0,
-            ),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            'Hebrews 6:19',
-            style: TextStyle(
+        titleSpacing: 0,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.bookmark_border,
               color: AppTheme.white,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
+              size: 24.w,
             ),
+            onPressed: () {},
           ),
         ],
+      ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SermonVideoPlayer(),
+              Padding(
+                padding: EdgeInsets.all(20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      sermon.title,
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.white
+                            : AppTheme.black,
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.bold,
+                        height: 1.2,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      sermon.pastor,
+                      style: TextStyle(
+                        color: AppTheme.accentBlue,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    _buildAboutSection(context),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -414,6 +187,51 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
         style: TextStyle(
           color: AppTheme.white.withValues(alpha: 0.7),
           fontSize: 12.sp,
+        ),
+      ),
+    );
+  }
+}
+
+class SermonVideoPlayer extends StatefulWidget {
+  const SermonVideoPlayer({super.key});
+
+  @override
+  State<SermonVideoPlayer> createState() => _SermonVideoPlayerState();
+}
+
+class _SermonVideoPlayerState extends State<SermonVideoPlayer> {
+  late YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    // Demo YouTube Video ID
+    _controller = YoutubePlayerController.fromVideoId(
+      videoId: 'aqz-KE-bpKQ', 
+      autoPlay: false,
+      params: const YoutubePlayerParams(
+        showFullscreenButton: true,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: AppTheme.black,
+      child: AspectRatio(
+        aspectRatio: 16 / 9,
+        child: YoutubePlayer(
+          controller: _controller,
+          aspectRatio: 16 / 9,
         ),
       ),
     );

@@ -40,10 +40,7 @@ class SermonsView extends GetView<SermonsController> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return CustomGradientHeader(
-      title: 'Sermons',
-      showBackButton: false,
-    );
+    return CustomGradientHeader(title: 'Sermons', showBackButton: false);
   }
 
   Widget _buildSearchBar() {
@@ -157,11 +154,26 @@ class SermonsView extends GetView<SermonsController> {
               decoration: BoxDecoration(
                 color: AppTheme.primaryColor,
                 borderRadius: BorderRadius.circular(16.r),
+                image: const DecorationImage(
+                  image: NetworkImage(
+                    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
-              child: Icon(
-                Icons.play_arrow_rounded,
-                color: AppTheme.warningColor,
-                size: 40.w,
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(4.w),
+                  decoration: BoxDecoration(
+                    color: AppTheme.black.withValues(alpha: 0.4),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.play_arrow_rounded,
+                    color: AppTheme.white,
+                    size: 20.w,
+                  ),
+                ),
               ),
             ),
             SizedBox(width: 16.w),
@@ -187,6 +199,8 @@ class SermonsView extends GetView<SermonsController> {
                       fontWeight: FontWeight.bold,
                       height: 1.2,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 6.h),
                   Text(
@@ -195,6 +209,8 @@ class SermonsView extends GetView<SermonsController> {
                       color: AppTheme.white.withValues(alpha: 0.6),
                       fontSize: 13.sp,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 12.h),
                   Row(

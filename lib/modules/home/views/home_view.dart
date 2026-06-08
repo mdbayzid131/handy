@@ -7,6 +7,8 @@ import '../../../config/constants/image_paths.dart';
 import '../../../config/routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 import '../../bottom_nab_bar/controllers/bottom_nab_bar.dart';
+import 'package:handy/core/widgets/cards/event_card.dart';
+import 'package:handy/data/models/events_model.dart';
 
 // ignore: unused_element
 class _QuickAccessItem {
@@ -47,9 +49,9 @@ class HomeView extends GetView<HomeController> {
                         height: 50.w,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                            color: Theme.of(context).brightness == Brightness.dark
-                                ? AppTheme.backgroundColor
-                                : AppTheme.white,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.backgroundColor
+                              : AppTheme.white,
                         ),
                         child: ClipOval(
                           child: Image.asset(
@@ -72,7 +74,9 @@ class HomeView extends GetView<HomeController> {
                             Text(
                               'PIWC Stoneyburn',
                               style: TextStyle(
-                                color: Theme.of(context).brightness == Brightness.dark
+                                color:
+                                    Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? AppTheme.white
                                     : AppTheme.black,
                                 fontSize: 18.sp,
@@ -132,7 +136,7 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
               SizedBox(height: 20.h),
-              _buildTodaysVerseCard(controller.homeData.todaysVerse),
+              _buildDailyDevotionalCard(),
               SizedBox(height: 16.h),
               _buildNextServiceCard(controller.homeData.nextService),
               SizedBox(height: 16.h),
@@ -162,25 +166,41 @@ class HomeView extends GetView<HomeController> {
               SizedBox(height: 32.h),
               _buildSectionHeader(
                 context,
-                'Announcements',
+                'Events',
                 onSeeAllTap: () =>
-                    Get.find<BottomNavBarController>().changeTab(2),
+                    Get.find<BottomNavBarController>().changeTab(3),
               ),
               SizedBox(height: 16.h),
-              ...controller.homeData.announcements.asMap().entries.map((entry) {
-                final index = entry.key;
-                final announcement = entry.value;
-                return Obx(() {
-                  final isExpanded = controller.expandedIndex.value == index;
-                  return GestureDetector(
-                    onTap: () => controller.toggleExpanded(index),
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 12.h),
-                      child: _buildAnnouncementCard(announcement, isExpanded),
-                    ),
-                  );
-                });
-              }),
+              Padding(
+                padding: EdgeInsets.only(bottom: 16.h),
+                child: EventCard(
+                  event: EventModel(
+                    id: '1',
+                    category: 'Worship',
+                    title: 'Sunday Service — This Week',
+                    date: 'May 5, 2026',
+                    time: '10:00 AM',
+                    location: '71 Stoneyburn Street',
+                    attendeeCount: 150,
+                    description: 'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are welcome.',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 12.h),
+                child: EventCard(
+                  event: EventModel(
+                    id: '2',
+                    category: 'Community',
+                    title: 'Baptism Sunday',
+                    date: 'May 4, 2026',
+                    time: '09:00 AM',
+                    location: 'Main Church Sanctuary',
+                    attendeeCount: 45,
+                    description: 'If you\'re ready to take the step of water baptism, please speak with any of our elders or pastors.',
+                  ),
+                ),
+              ),
               SizedBox(height: 28.h),
             ],
           ),
@@ -189,53 +209,101 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildTodaysVerseCard(TodaysVerseModel data) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        color: AppTheme.primaryColor,
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-            decoration: BoxDecoration(
-              color: AppTheme.warningColor,
-              borderRadius: BorderRadius.circular(20.r),
+  Widget _buildDailyDevotionalCard() {
+    return GestureDetector(
+      onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(20.w),
+        decoration: BoxDecoration(
+          color: AppTheme.primaryColor,
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 30.w,
+                      height: 30.w,
+                      decoration: BoxDecoration(
+                        color: AppTheme.white.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Icon(
+                        Icons.bolt,
+                        color: AppTheme.warningColor,
+                        size: 16.sp,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      'Daily Devotionals',
+                      style: TextStyle(
+                        color: AppTheme.white.withValues(alpha: 0.8),
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.h),
+                Text(
+                  'Your Weekly\nProgress',
+                  style: TextStyle(
+                    color: AppTheme.white,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    height: 1.2,
+                  ),
+                ),
+              ],
             ),
-            child: Text(
-              'TODAY\'S VERSE',
-              style: TextStyle(
-                color: AppTheme.navyBlue,
-                fontSize: 10.sp,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
-              ),
-            ),
-          ),
-          SizedBox(height: 16.h),
-          Text(
-            data.verse,
-            style: TextStyle(
-              color: AppTheme.white,
-              fontSize: 16.sp,
-              fontStyle: FontStyle.italic,
-              height: 1.5,
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Text(
-            data.reference,
-            style: TextStyle(
-              color: AppTheme.warningColor,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+            Obx(() {
+              final progress = controller.devotionalProgress.value;
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: 80.w,
+                    height: 80.w,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppTheme.white.withValues(alpha: 0.2),
+                        width: 8.w,
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '$progress/7',
+                        style: TextStyle(
+                          color: AppTheme.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'day',
+                        style: TextStyle(
+                          color: AppTheme.white.withValues(alpha: 0.8),
+                          fontSize: 10.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            }),
+          ],
+        ),
       ),
     );
   }
@@ -500,7 +568,11 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title, {VoidCallback? onSeeAllTap}) {
+  Widget _buildSectionHeader(
+    BuildContext context,
+    String title, {
+    VoidCallback? onSeeAllTap,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../../../config/routes/app_pages.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
@@ -93,7 +94,7 @@ class MoreView extends StatelessWidget {
         ),
         SizedBox(height: 24.h),
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildFeatureItem(
@@ -103,7 +104,6 @@ class MoreView extends StatelessWidget {
               [AppTheme.lightBlue, AppTheme.standardBlue],
               onTap: () => Get.toNamed(AppRoutes.PROFILE),
             ),
-            SizedBox(width: 26.w),
             _buildFeatureItem(
               context,
               Icons.settings,
@@ -111,7 +111,6 @@ class MoreView extends StatelessWidget {
               [AppTheme.blueGreyLight, AppTheme.blueGreyDark],
               onTap: () => Get.toNamed(AppRoutes.SETTINGS),
             ),
-            SizedBox(width: 26.w),
             _buildFeatureItem(
               context,
               Icons.auto_stories,
@@ -121,6 +120,23 @@ class MoreView extends StatelessWidget {
                 const Color.fromARGB(255, 62, 35, 171),
               ],
               onTap: () => Get.toNamed(AppRoutes.HISTORY_AND_CORE_VALUES),
+            ),
+            _buildFeatureItem(
+              context,
+              Icons.people,
+              'Attendance',
+              [const Color(0xFF00C9FF), const Color(0xFF92FE9D)],
+              onTap: () async {
+                final Uri url = Uri.parse(
+                  'https://app.copscotland.org/index.php?assembly_id=8',
+                );
+                if (!await launchUrl(
+                  url,
+                  mode: LaunchMode.externalApplication,
+                )) {
+                  Get.snackbar('Error', 'Could not launch website');
+                }
+              },
             ),
           ],
         ),
