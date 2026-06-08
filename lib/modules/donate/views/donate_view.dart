@@ -125,7 +125,9 @@ class DonateView extends StatelessWidget {
                   child: Text(
                     'Finish',
                     style: TextStyle(
-                      color: AppTheme.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppTheme.black
+                          : AppTheme.white,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                     ),
