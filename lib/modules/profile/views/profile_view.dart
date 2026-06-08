@@ -105,6 +105,102 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
+  void _showDeleteAccountDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: AppTheme.backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(24.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.delete_outline,
+                  color: AppTheme.accentRed,
+                  size: 48.w,
+                ),
+                SizedBox(height: 16.h),
+                Text(
+                  'Delete Account',
+                  style: TextStyle(
+                    color: AppTheme.white,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Text(
+                  'Are you sure you want to delete your account? This action cannot be undone.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppTheme.white.withValues(alpha: 0.7),
+                    fontSize: 14.sp,
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Get.back(),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: AppTheme.white.withValues(alpha: 0.2),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: AppTheme.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                          // Add your account deletion logic here
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.accentRed,
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        child: Text(
+                          'Delete',
+                          style: TextStyle(
+                            color: AppTheme.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -411,6 +507,23 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
 
+                    SizedBox(height: 16.h),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppTheme.containerColor,
+                        borderRadius: BorderRadius.circular(16.r),
+                        border: Border.all(color: AppTheme.secondaryColor),
+                      ),
+                      child: _buildAccountRow(
+                        Icons.delete_outline,
+                        AppTheme.accentRed,
+                        'Delete Account',
+                        textColor: AppTheme.accentRed,
+                        onTap: () => _showDeleteAccountDialog(context),
+                      ),
+                    ),
+
                     SizedBox(height: 40.h),
 
                     Center(
@@ -529,6 +642,7 @@ class ProfileView extends GetView<ProfileController> {
     Color iconColor,
     String title, {
     VoidCallback? onTap,
+    Color? textColor,
   }) {
     return InkWell(
       onTap: onTap,
@@ -550,7 +664,7 @@ class ProfileView extends GetView<ProfileController> {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: AppTheme.white,
+                  color: textColor ?? AppTheme.white,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
