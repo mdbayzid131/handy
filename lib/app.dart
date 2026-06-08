@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
             brightness: Brightness.dark,
             scaffoldBackgroundColor: AppTheme.backgroundColor,
           ),
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.system,
           initialRoute: AppRoutes.SPLASH,
           getPages: pages,
           initialBinding: InitialBinding(),
