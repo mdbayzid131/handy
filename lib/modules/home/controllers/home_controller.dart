@@ -1,11 +1,22 @@
 import 'package:get/get.dart';
 import 'package:handy/data/models/home_model.dart';
-
 import 'package:handy/config/constants/image_paths.dart';
+import 'package:handy/core/services/storage_service.dart';
 
 class HomeController extends GetxController {
   final expandedIndex = (-1).obs;
   final devotionalProgress = 0.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadProgress();
+  }
+
+  Future<void> _loadProgress() async {
+    int value = await StorageService.getInt('devotionalProgress');
+    devotionalProgress.value = value == -1 ? 0 : value;
+  }
 
   void toggleExpanded(int index) {
     if (expandedIndex.value == index) {
@@ -18,6 +29,7 @@ class HomeController extends GetxController {
   void incrementDevotionalProgress() {
     if (devotionalProgress.value < 7) {
       devotionalProgress.value++;
+      StorageService.setInt('devotionalProgress', devotionalProgress.value);
     }
   }
 

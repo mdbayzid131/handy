@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../config/routes/app_pages.dart';
 import 'package:handy/config/themes/app_theme.dart';
+import '../controllers/devotionals_controller.dart';
 
 class DevotionalItem {
   final String day;
@@ -15,7 +16,7 @@ class DevotionalItem {
   DevotionalItem(this.day, this.date, this.title, this.reference, this.preview);
 }
 
-class DevotionalsView extends StatelessWidget {
+class DevotionalsView extends GetView<DevotionalsController> {
   const DevotionalsView({super.key});
 
   @override
@@ -170,19 +171,24 @@ class DevotionalsView extends StatelessWidget {
                 itemCount: devotionalsList.length,
                 itemBuilder: (context, index) {
                   final item = devotionalsList[index];
-                  final isFirstCard = index == 0;
 
-                  return GestureDetector(
-                    onTap: () => Get.toNamed(AppRoutes.DEVOTIONALS_DETAILS),
-                    child: Container(
+                  return Obx(() {
+                    final isSelected = controller.clickedIndices.contains(index);
+
+                    return GestureDetector(
+                      onTap: () {
+                        controller.clickedIndices.add(index);
+                        Get.toNamed(AppRoutes.DEVOTIONALS_DETAILS);
+                      },
+                      child: Container(
                       margin: EdgeInsets.only(bottom: 16.h),
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
-                        color: isFirstCard
+                        color: isSelected
                             ? AppTheme.accentBlue
                             : AppTheme.containerColor,
                         borderRadius: BorderRadius.circular(16.r),
-                        border: isFirstCard
+                        border: isSelected
                             ? null
                             : Border.all(
                                 color: AppTheme.secondaryColor,
@@ -203,7 +209,7 @@ class DevotionalsView extends StatelessWidget {
                                 Text(
                                   item.day,
                                   style: TextStyle(
-                                    color: isFirstCard
+                                    color: isSelected
                                         ? AppTheme.warningColor
                                         : AppTheme.mutedTextColor,
                                     fontSize: 10.sp,
@@ -216,7 +222,7 @@ class DevotionalsView extends StatelessWidget {
                                   item.date,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                    color: isFirstCard
+                                    color: isSelected
                                         ? AppTheme.white
                                         : AppTheme.mutedTextColor,
                                     fontSize: 12.sp,
@@ -242,7 +248,7 @@ class DevotionalsView extends StatelessWidget {
                                 Text(
                                   item.reference,
                                   style: TextStyle(
-                                    color: isFirstCard
+                                    color: isSelected
                                         ? AppTheme.warningColor
                                         : AppTheme.accentBlue,
                                     fontSize: 14.sp,
@@ -255,7 +261,7 @@ class DevotionalsView extends StatelessWidget {
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    color: isFirstCard
+                                    color: isSelected
                                         ? AppTheme.white.withValues(alpha: 0.8)
                                         : AppTheme.mutedTextColor,
                                     fontSize: 13.sp,
@@ -270,7 +276,7 @@ class DevotionalsView extends StatelessWidget {
                             padding: EdgeInsets.only(top: 24.h),
                             child: Icon(
                               Icons.chevron_right,
-                              color: isFirstCard
+                              color: isSelected
                                   ? AppTheme.white.withValues(alpha: 0.8)
                                   : AppTheme.mutedTextColor,
                               size: 20.w,
@@ -280,7 +286,8 @@ class DevotionalsView extends StatelessWidget {
                       ),
                     ),
                   );
-                },
+                });
+              },
               ),
             ),
           ],

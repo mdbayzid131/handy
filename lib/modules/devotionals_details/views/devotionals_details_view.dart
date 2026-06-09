@@ -7,7 +7,7 @@ import 'package:handy/modules/home/controllers/home_controller.dart';
 
 class DevotionalsDetailsView extends StatelessWidget {
   DevotionalsDetailsView({super.key});
-  
+
   final RxBool isRead = false.obs;
 
   @override
@@ -21,35 +21,21 @@ class DevotionalsDetailsView extends StatelessWidget {
             : AppTheme.containerColor,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white
-                : AppTheme.black,
-            size: 24.w,
-          ),
+          icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
         centerTitle: true,
         title: Text(
           'Devotional',
           style: TextStyle(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white
-                : AppTheme.black,
+            color: AppTheme.white,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.star_border,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? AppTheme.white
-                  : AppTheme.black,
-              size: 24.w,
-            ),
+            icon: Icon(Icons.star_border, color: AppTheme.white, size: 24.w),
             onPressed: () {},
           ),
         ],
@@ -220,68 +206,71 @@ class DevotionalsDetailsView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   children: [
-                    Obx(() => isRead.value
-                        ? ElevatedButton(
-                            onPressed: () {}, // Already read, do nothing
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.royalBlue,
-                              minimumSize: Size(double.infinity, 56.h),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.r),
-                              ),
-                              elevation: 0,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.check_circle,
-                                  color: AppTheme.white,
-                                  size: 20.w,
+                    Obx(
+                      () => isRead.value
+                          ? ElevatedButton(
+                              onPressed: () {}, // Already read, do nothing
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.royalBlue,
+                                minimumSize: Size(double.infinity, 56.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
-                                SizedBox(width: 12.w),
-                                Text(
-                                  'Mark as Read',
-                                  style: TextStyle(
+                                elevation: 0,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.check_circle,
                                     color: AppTheme.white,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
+                                    size: 20.w,
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : OutlinedButton(
-                            onPressed: () {
-                              isRead.value = true;
-                              if (Get.isRegistered<HomeController>()) {
-                                Get.find<HomeController>().incrementDevotionalProgress();
-                              }
-                            },
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                color: AppTheme.royalBlue,
-                                width: 1.5,
-                              ),
-                              minimumSize: Size(double.infinity, 56.h),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.r),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Mark as Read',
-                                  style: TextStyle(
-                                    color: AppTheme.royalBlue,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
+                                  SizedBox(width: 12.w),
+                                  Text(
+                                    'Mark as Read',
+                                    style: TextStyle(
+                                      color: AppTheme.white,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
+                                ],
+                              ),
+                            )
+                          : OutlinedButton(
+                              onPressed: () {
+                                isRead.value = true;
+                                if (Get.isRegistered<HomeController>()) {
+                                  Get.find<HomeController>()
+                                      .incrementDevotionalProgress();
+                                }
+                              },
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(
+                                  color: AppTheme.royalBlue,
+                                  width: 1.5,
                                 ),
-                              ],
+                                minimumSize: Size(double.infinity, 56.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Mark as Read',
+                                    style: TextStyle(
+                                      color: AppTheme.royalBlue,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          )),
+                    ),
                     SizedBox(height: 16.h),
                     OutlinedButton(
                       onPressed: () {},

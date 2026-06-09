@@ -26,6 +26,11 @@ class StorageService extends GetxService {
     return preferences.getDouble(key);
   }
 
+  static Future<List<String>?> getStringList(String key) async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getStringList(key);
+  }
+
   //=============================> Save Data <========================
   static Future<bool> setString(String key, String value) async {
     final preferences = await SharedPreferences.getInstance();
@@ -45,6 +50,11 @@ class StorageService extends GetxService {
   static Future<bool> setDouble(String key, double value) async {
     final preferences = await SharedPreferences.getInstance();
     return preferences.setDouble(key, value);
+  }
+
+  static Future<bool> setStringList(String key, List<String> value) async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.setStringList(key, value);
   }
 
   //===============================> Remove Value <==================================
