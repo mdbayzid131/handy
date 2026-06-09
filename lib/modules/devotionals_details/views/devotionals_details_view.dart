@@ -33,12 +33,6 @@ class DevotionalsDetailsView extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.star_border, color: AppTheme.white, size: 24.w),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -85,11 +79,6 @@ class DevotionalsDetailsView extends StatelessWidget {
                 ),
                 child: Container(
                   padding: EdgeInsets.all(20.w),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      left: BorderSide(color: AppTheme.royalBlue, width: 4.w),
-                    ),
-                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
