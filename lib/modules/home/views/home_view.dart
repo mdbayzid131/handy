@@ -472,7 +472,7 @@ class HomeView extends GetView<HomeController> {
               Icons.favorite,
               'Give',
               [AppTheme.lightRed, AppTheme.standardRed],
-              onTap: () => Get.find<BottomNavBarController>().changeTab(3),
+              onTap: () => Get.find<BottomNavBarController>().changeTab(2),
             ),
             _buildQuickAccessItem(
               context,
