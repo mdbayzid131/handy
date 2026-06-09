@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/bottom_nab_bar/controllers/bottom_nab_bar.dart';
 import '../../../config/routes/app_pages.dart';
+import '../../../core/widgets/cards/sermon_card_widget.dart';
+import '../../../data/models/sermons_model.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -256,17 +258,29 @@ class ProfileView extends GetView<ProfileController> {
           ],
         ),
         SizedBox(height: 8.h),
-        _buildSermonCard(
-          'The Anchor of Hope',
-          'Pastor James Okafor · May 4, 2025',
+        SermonCardWidget(
+          sermon: Sermon(
+            id: '1',
+            category: 'FAITH',
+            title: 'The Anchor of Hope',
+            pastor: 'Pastor James Okafor',
+            date: 'May 4, 2025',
+            duration: '45 min',
+          ),
           onTap: () {
             Get.toNamed(AppRoutes.SERMON_DITAILS);
           },
         ),
         SizedBox(height: 12.h),
-        _buildSermonCard(
-          'Sing a New Song',
-          'Deacon Michael Eze · Apr 13, 2025',
+        SermonCardWidget(
+          sermon: Sermon(
+            id: '2',
+            category: 'WORSHIP',
+            title: 'Sing a New Song',
+            pastor: 'Deacon Michael Eze',
+            date: 'Apr 13, 2025',
+            duration: '38 min',
+          ),
           onTap: () {
             Get.toNamed(AppRoutes.SERMON_DITAILS);
           },
@@ -393,69 +407,7 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
-  Widget _buildSermonCard(
-    String title,
-    String subtitle, {
-    GestureTapCallback? onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16.r),
-      child: Container(
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: AppTheme.containerColor,
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: AppTheme.secondaryColor),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(12.w),
-              decoration: BoxDecoration(
-                color: AppTheme.accentBlue.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Icon(
-                Icons.play_arrow,
-                color: AppTheme.royalBlue, // A bit brighter
-                size: 24.w,
-              ),
-            ),
-            SizedBox(width: 16.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: AppTheme.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      color: AppTheme.mutedTextColor,
-                      fontSize: 13.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(
-              Icons.chevron_right,
-              color: AppTheme.mutedTextColor,
-              size: 20.w,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildAccountRow(
     IconData icon,
