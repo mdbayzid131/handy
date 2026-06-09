@@ -2,23 +2,30 @@ import 'package:get/get.dart';
 import '../../../data/models/bible_model.dart';
 
 class BibleController extends GetxController {
-  final isOldTestament = false.obs;
   final searchQuery = ''.obs;
+  final selectedVersionKey = 'KJV'.obs;
 
-  void toggleTestament(bool isOld) {
-    isOldTestament.value = isOld;
-  }
+  final Map<String, String> bibleVersions = {
+    'KJV': 'King James Version',
+    'NIV': 'New International Version',
+    'NLT': 'New Living Translation',
+    'AMP': 'Amplified Bible',
+    'MSG': 'The Message',
+  };
 
   void updateSearchQuery(String query) {
     searchQuery.value = query;
   }
 
+  void updateVersion(String versionKey) {
+    selectedVersionKey.value = versionKey;
+  }
+
   List<BibleBook> get filteredBooks {
-    final books = allBooks.where((book) => book.isOldTestament == isOldTestament.value).toList();
     if (searchQuery.value.isEmpty) {
-      return books;
+      return allBooks;
     }
-    return books.where((book) => book.name.toLowerCase().contains(searchQuery.value.toLowerCase())).toList();
+    return allBooks.where((book) => book.name.toLowerCase().contains(searchQuery.value.toLowerCase())).toList();
   }
 
   final List<BibleBook> allBooks = [

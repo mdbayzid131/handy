@@ -182,7 +182,8 @@ class HomeView extends GetView<HomeController> {
                     time: '10:00 AM',
                     location: '71 Stoneyburn Street',
                     attendeeCount: 150,
-                    description: 'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are welcome.',
+                    description:
+                        'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are welcome.',
                   ),
                 ),
               ),
@@ -197,7 +198,8 @@ class HomeView extends GetView<HomeController> {
                     time: '09:00 AM',
                     location: 'Main Church Sanctuary',
                     attendeeCount: 45,
-                    description: 'If you\'re ready to take the step of water baptism, please speak with any of our elders or pastors.',
+                    description:
+                        'If you\'re ready to take the step of water baptism, please speak with any of our elders or pastors.',
                   ),
                 ),
               ),
@@ -256,7 +258,7 @@ class HomeView extends GetView<HomeController> {
                   'Your Weekly\nProgress',
                   style: TextStyle(
                     color: AppTheme.white,
-                    fontSize: 20.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     height: 1.2,
                   ),
@@ -675,139 +677,6 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAnnouncementCard(HomeAnnouncementModel data, bool isExpanded) {
-    final tagColor = data.isImportant
-        ? AppTheme.accentRed
-        : AppTheme.accentBlue;
-    final tag = data.isImportant ? 'IMPORTANT' : 'ANNOUNCEMENT';
-
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.containerColor,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppTheme.secondaryColor, width: 1),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.r),
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Content
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (data.isImportant) ...[
-                                  Icon(
-                                    Icons.push_pin,
-                                    color: AppTheme.warningColor,
-                                    size: 16.w,
-                                  ),
-                                  SizedBox(width: 8.w),
-                                ],
-                                Expanded(
-                                  child: Text(
-                                    data.title,
-                                    style: TextStyle(
-                                      color: AppTheme.white,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                      height: 1.2,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: tagColor.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            child: Text(
-                              tag,
-                              style: TextStyle(
-                                color: tagColor,
-                                fontSize: 11.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 12.h),
-                      Text(
-                        data.description,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: AppTheme.white.withValues(alpha: 0.6),
-                          fontSize: 14.sp,
-                          height: 1.4,
-                        ),
-                      ),
-                      SizedBox(height: 16.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            data.date,
-                            style: TextStyle(
-                              color: AppTheme.white.withValues(alpha: 0.5),
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                          Text(
-                            isExpanded ? 'Hide flier' : 'Tap for flier',
-                            style: TextStyle(
-                              color: AppTheme.accentBlue,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      if (isExpanded && data.imageUrl != null) ...[
-                        SizedBox(height: 16.h),
-                        Container(
-                          height: 350.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.r),
-                            image: DecorationImage(
-                              image: AssetImage(data.imageUrl!),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

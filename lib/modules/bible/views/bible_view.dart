@@ -89,77 +89,73 @@ class BibleView extends GetView<BibleController> {
                       ),
                     ),
                   ),
-
                   SizedBox(height: 16.h),
 
-                  // Toggle Buttons
-                  Obx(
-                    () => Container(
-                      height: 52.h,
-                      decoration: BoxDecoration(
-                        color: AppTheme.containerColor,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(
-                          color: AppTheme.secondaryColor,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => controller.toggleTestament(true),
-                              child: Container(
-                                margin: EdgeInsets.all(4.w),
-                                decoration: BoxDecoration(
-                                  color: controller.isOldTestament.value
-                                      ? AppTheme.accentBlue
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Old Testament',
-                                  style: TextStyle(
-                                    color: controller.isOldTestament.value
-                                        ? AppTheme.white
-                                        : AppTheme.mutedTextColor,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => controller.toggleTestament(false),
-                              child: Container(
-                                margin: EdgeInsets.all(4.w),
-                                decoration: BoxDecoration(
-                                  color: !controller.isOldTestament.value
-                                      ? AppTheme.accentBlue
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'New Testament',
-                                  style: TextStyle(
-                                    color: !controller.isOldTestament.value
-                                        ? AppTheme.white
-                                        : AppTheme.mutedTextColor,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                  // Bible Version Dropdown
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppTheme.containerColor,
+                      borderRadius: BorderRadius.circular(16.r),
+                      border: Border.all(
+                        color: AppTheme.secondaryColor,
                       ),
                     ),
-                  ),
-                ],
+                    child: Obx(
+                      () => PopupMenuButton<String>(
+                        onSelected: (String result) {
+                          controller.updateVersion(result);
+                        },
+                        color: AppTheme.containerColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.r),
+                          side: BorderSide(color: AppTheme.secondaryColor),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: MediaQuery.of(context).size.width - 40.w,
+                          maxWidth: MediaQuery.of(context).size.width - 40.w,
+                        ),
+                        offset: Offset(0, 60.h),
+                        itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                          for (var entry in controller.bibleVersions.entries)
+                            PopupMenuItem<String>(
+                              value: entry.key,
+                              child: Center(
+                                child: Text(
+                                  entry.value, // Dropdown shows full name
+                                  style: TextStyle(
+                                    color: AppTheme.white,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                controller.bibleVersions[controller.selectedVersionKey.value] ?? '',
+                                style: TextStyle(
+                                  color: AppTheme.white,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color: AppTheme.mutedTextColor,
+                                size: 24.w,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),                ],
               ),
             ),
 
