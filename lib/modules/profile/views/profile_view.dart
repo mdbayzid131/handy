@@ -211,35 +211,21 @@ class ProfileView extends GetView<ProfileController> {
             ? AppTheme.backgroundColor
             : AppTheme.containerColor,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white
-                : AppTheme.black,
-            size: 24.w,
-          ),
+          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
         centerTitle: true,
         title: Text(
           'My Profile',
           style: TextStyle(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white
-                : AppTheme.black,
+            color: Colors.white,
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? AppTheme.white
-                  : AppTheme.black,
-              size: 24.w,
-            ),
+            icon: Icon(Icons.settings, color: Colors.white, size: 24.w),
             onPressed: () => Get.toNamed(AppRoutes.SETTINGS),
           ),
         ],

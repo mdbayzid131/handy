@@ -233,7 +233,7 @@ class HomeView extends GetView<HomeController> {
                       width: 30.w,
                       height: 30.w,
                       decoration: BoxDecoration(
-                        color: AppTheme.white.withValues(alpha: 0.1),
+                        color: AppTheme.white.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Icon(
@@ -276,7 +276,7 @@ class HomeView extends GetView<HomeController> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: AppTheme.white.withValues(alpha: 0.2),
+                        color: AppTheme.white.withValues(alpha: 0.5),
                         width: 8.w,
                       ),
                     ),

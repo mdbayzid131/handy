@@ -20,21 +20,13 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white
-                : AppTheme.black,
-            size: 24.w,
-          ),
+          icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.w),
           onPressed: () => Get.back(),
         ),
         title: Text(
           'History & Core Values',
           style: TextStyle(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white
-                : AppTheme.black,
+            color: Colors.white,
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
