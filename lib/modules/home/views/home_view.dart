@@ -500,7 +500,7 @@ class HomeView extends GetView<HomeController> {
               Icons.event,
               'Events',
               [AppTheme.lightGreen, AppTheme.standardGreen],
-              onTap: () => Get.find<BottomNavBarController>().changeTab(4),
+              onTap: () => Get.find<BottomNavBarController>().changeTab(3),
             ),
             _buildQuickAccessItem(
               context,
