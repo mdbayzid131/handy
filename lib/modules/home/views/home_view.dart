@@ -612,27 +612,44 @@ class HomeView extends GetView<HomeController> {
         decoration: BoxDecoration(
           color: AppTheme.containerColor,
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: AppTheme.secondaryColor),
+          border: Border.all(color: AppTheme.secondaryColor, width: 1),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 70.w,
-              height: 70.w,
+              width: 80.w,
+              height: 80.w,
               decoration: BoxDecoration(
                 color: AppTheme.primaryColor,
                 borderRadius: BorderRadius.circular(16.r),
+                image: const DecorationImage(
+                  image: NetworkImage(
+                    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
-              child: Icon(
-                Icons.play_arrow_rounded,
-                color: AppTheme.warningColor,
-                size: 36.w,
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(4.w),
+                  decoration: BoxDecoration(
+                    color: AppTheme.black.withValues(alpha: 0.4),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.play_arrow_rounded,
+                    color: AppTheme.white,
+                    size: 20.w,
+                  ),
+                ),
               ),
             ),
             SizedBox(width: 16.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     data.series,
@@ -650,19 +667,46 @@ class HomeView extends GetView<HomeController> {
                       color: AppTheme.white,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
+                      height: 1.2,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    '${data.preacher} · ${data.duration}',
+                    data.preacher,
                     style: TextStyle(
                       color: AppTheme.white.withValues(alpha: 0.6),
-                      fontSize: 12.sp,
+                      fontSize: 13.sp,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 12.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Recent',
+                        style: TextStyle(
+                          color: AppTheme.white.withValues(alpha: 0.5),
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                      Text(
+                        data.duration,
+                        style: TextStyle(
+                          color: AppTheme.primaryColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
+            SizedBox(width: 16.w),
             Container(
               width: 40.w,
               height: 40.w,
