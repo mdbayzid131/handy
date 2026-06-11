@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
+import '../controllers/donate_controller.dart';
 
-class DonateView extends StatelessWidget {
+class DonateView extends GetView<DonateController> {
   const DonateView({super.key});
 
   @override
@@ -56,51 +57,74 @@ class DonateView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: EdgeInsets.all(20.w),
-                decoration: BoxDecoration(
-                  color: AppTheme.successColor, // Green card background
-                  borderRadius: BorderRadius.circular(16.r),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Bank Transfer Details',
-                      style: TextStyle(
-                        color: AppTheme.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return Container(
+                    height: 200.h,
+                    alignment: Alignment.center,
+                    child: const CircularProgressIndicator(color: AppTheme.primaryColor),
+                  );
+                }
+
+                final details = controller.bankDetails.value;
+                if (details == null) {
+                  return Container(
+                    padding: EdgeInsets.all(20.w),
+                    decoration: BoxDecoration(
+                      color: AppTheme.containerColor,
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    alignment: Alignment.center,
+                    child: const Text('Failed to load bank details', style: TextStyle(color: Colors.white)),
+                  );
+                }
+
+                return Container(
+                  padding: EdgeInsets.all(20.w),
+                  decoration: BoxDecoration(
+                    color: AppTheme.successColor, // Green card background
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Bank Transfer Details',
+                        style: TextStyle(
+                          color: AppTheme.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 24.h),
-                    _buildDetailRow('Account Name', 'PIWC Stoneyburn'),
-                    SizedBox(height: 16.h),
-                    _buildDetailRow('Sort Code', '80-22-60'),
-                    SizedBox(height: 16.h),
-                    _buildDetailRow('Account No.', '00000000'),
-                    SizedBox(height: 16.h),
-                    _buildDetailRow('Amount', '£$amount'),
-                    SizedBox(height: 16.h),
-                    _buildDetailRow('Reference', fund),
-                    SizedBox(height: 24.h),
-                    Divider(
-                      color: AppTheme.white.withValues(alpha: 0.2),
-                      thickness: 1,
-                      height: 1,
-                    ),
-                    SizedBox(height: 24.h),
-                    Text(
-                      'Please use your full name as the payment reference so we can acknowledge your gift.',
-                      style: TextStyle(
-                        color: AppTheme.white.withValues(alpha: 0.85),
-                        fontSize: 14.sp,
-                        height: 1.5,
+                      SizedBox(height: 24.h),
+                      _buildDetailRow('Account Name', details.accountName),
+                      SizedBox(height: 16.h),
+                      _buildDetailRow('Sort Code', details.sortCode),
+                      SizedBox(height: 16.h),
+                      _buildDetailRow('Account No.', details.accountNumber),
+                      SizedBox(height: 16.h),
+                      _buildDetailRow('Amount', '£$amount'),
+                      SizedBox(height: 16.h),
+                      _buildDetailRow('Reference', details.reference.isNotEmpty ? details.reference : fund),
+                      SizedBox(height: 24.h),
+                      Divider(
+                        color: AppTheme.white.withValues(alpha: 0.2),
+                        thickness: 1,
+                        height: 1,
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                      SizedBox(height: 24.h),
+                      Text(
+                        details.note.isNotEmpty ? details.note : 'Please use your full name as the payment reference so we can acknowledge your gift.',
+                        style: TextStyle(
+                          color: AppTheme.white.withValues(alpha: 0.85),
+                          fontSize: 14.sp,
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
               SizedBox(height: 48.h),
               SizedBox(
                 width: double.infinity,

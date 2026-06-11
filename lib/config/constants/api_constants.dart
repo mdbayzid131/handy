@@ -23,4 +23,19 @@ class ApiConstants {
 
   //products
   static const String products = '/product';
+
+  // Sermons
+  static const String sermons = '/sermons';
+  static const String sermonCategories = '/sermon-category';
+
+  // Additional Profile Endpoints
+  static const String favoriteSermons = '/user/profile/favorite-sermons';
+
+  // Giving
+  static const String givingProfileSummary = '/giving/profile-summary';
+  static const String givingTotalThisYear = '/giving/total-this-year';
+  static const String givingFunds = '/giving/funds';
+  static const String givingRecord = '/giving/record';
+  static const String givingBankDetails = '/giving/bank-details';
+  static const String givingHistory = '/giving/history';
 }

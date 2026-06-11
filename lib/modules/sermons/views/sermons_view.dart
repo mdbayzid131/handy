@@ -12,26 +12,54 @@ class SermonsView extends GetView<SermonsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
       body: Column(
         children: [
           _buildHeader(context),
-          SizedBox(height: 20.h),
+          SizedBox(height: 16.h),
           _buildSearchBar(),
-          SizedBox(height: 20.h),
+          SizedBox(height: 16.h),
           _buildCategories(),
           SizedBox(height: 16.h),
           Expanded(
-            child: Obx(
-              () => ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                itemCount: controller.filteredSermons.length,
-                separatorBuilder: (context, index) => SizedBox(height: 16.h),
-                itemBuilder: (context, index) {
-                  final sermon = controller.filteredSermons[index];
-                  return SermonCardWidget(sermon: sermon);
-                },
-              ),
-            ),
+            child: Obx(() {
+              if (controller.isFirstLoad.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (controller.filteredSermons.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No sermons found.',
+                    style: TextStyle(color: AppTheme.white, fontSize: 16.sp),
+                  ),
+                );
+              }
+
+              return RefreshIndicator(
+                onRefresh: controller.refreshData,
+                color: AppTheme.primaryColor,
+                backgroundColor: AppTheme.containerColor,
+                child: ListView.separated(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  controller: controller.scrollController,
+                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                  itemCount: controller.filteredSermons.length + (controller.isLoadMore.value ? 1 : 0),
+                  separatorBuilder: (context, index) => SizedBox(height: 16.h),
+                  itemBuilder: (context, index) {
+                    if (index == controller.filteredSermons.length) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.h),
+                        child: const Center(child: CircularProgressIndicator()),
+                      );
+                    }
+
+                    final sermon = controller.filteredSermons[index];
+                    return SermonCardWidget(sermon: sermon);
+                  },
+                ),
+              );
+            }),
           ),
         ],
       ),
@@ -45,90 +73,96 @@ class SermonsView extends GetView<SermonsController> {
   Widget _buildSearchBar() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        height: 50.h,
-        decoration: BoxDecoration(
-          color: AppTheme.containerColor,
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: AppTheme.secondaryColor, width: 1),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              Icons.search,
-              color: AppTheme.white.withValues(alpha: 0.5),
-              size: 24.w,
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: TextField(
-                onChanged: controller.updateSearchQuery,
-                style: TextStyle(color: AppTheme.white, fontSize: 14.sp),
-                decoration: InputDecoration(
-                  hintText: 'Search sermons...',
-                  hintStyle: TextStyle(
-                    color: AppTheme.white.withValues(alpha: 0.5),
-                    fontSize: 14.sp,
-                  ),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
-                ),
-              ),
-            ),
-          ],
+      child: TextField(
+        onChanged: controller.updateSearchQuery,
+        style: TextStyle(color: AppTheme.white, fontSize: 14.sp),
+        decoration: InputDecoration(
+          hintText: 'Search sermons...',
+          hintStyle: TextStyle(
+            color: AppTheme.white.withValues(alpha: 0.5),
+            fontSize: 14.sp,
+          ),
+          prefixIcon: Icon(
+            Icons.search,
+            color: AppTheme.white.withValues(alpha: 0.5),
+            size: 20.w,
+          ),
+          filled: true,
+          fillColor: AppTheme.containerColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: AppTheme.secondaryColor, width: 1),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: AppTheme.secondaryColor, width: 1),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: AppTheme.primaryColor, width: 1),
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
         ),
       ),
     );
   }
 
   Widget _buildCategories() {
-    return SizedBox(
-      height: 36.h,
-      child: ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        scrollDirection: Axis.horizontal,
-        itemCount: controller.categories.length,
-        separatorBuilder: (context, index) => SizedBox(width: 12.w),
-        itemBuilder: (context, index) {
-          final category = controller.categories[index];
-          return Obx(() {
-            final isSelected = controller.selectedCategory.value == category;
-            return GestureDetector(
-              onTap: () => controller.selectCategory(category),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? AppTheme.primaryColor
-                      : AppTheme.containerColor,
-                  borderRadius: BorderRadius.circular(20.r),
-                  border: Border.all(
+    return Obx(() {
+      if (controller.isCategoriesLoading.value && controller.categories.isEmpty) {
+        return SizedBox(
+          height: 36.h,
+          child: const Center(child: CircularProgressIndicator()),
+        );
+      }
+      
+      return SizedBox(
+        height: 36.h,
+        child: ListView.separated(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          scrollDirection: Axis.horizontal,
+          itemCount: controller.categories.length,
+          separatorBuilder: (context, index) => SizedBox(width: 12.w),
+          itemBuilder: (context, index) {
+            final category = controller.categories[index];
+            return Obx(() {
+              final isSelected = controller.selectedCategoryId.value == category.id;
+              return GestureDetector(
+                onTap: () => controller.selectCategory(category.id ?? 'All'),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                  decoration: BoxDecoration(
                     color: isSelected
-                        ? Colors.transparent
-                        : AppTheme.secondaryColor,
-                    width: 1,
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    category,
-                    style: TextStyle(
+                        ? AppTheme.primaryColor
+                        : AppTheme.containerColor,
+                    borderRadius: BorderRadius.circular(20.r),
+                    border: Border.all(
                       color: isSelected
-                          ? AppTheme.white
-                          : AppTheme.white.withValues(alpha: 0.6),
-                      fontSize: 14.sp,
-                      fontWeight: isSelected
-                          ? FontWeight.bold
-                          : FontWeight.w500,
+                          ? Colors.transparent
+                          : AppTheme.secondaryColor,
+                      width: 1,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      category.name ?? 'Unknown',
+                      style: TextStyle(
+                        color: isSelected
+                            ? AppTheme.white
+                            : AppTheme.white.withValues(alpha: 0.6),
+                        fontSize: 14.sp,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          });
-        },
-      ),
-    );
+              );
+            });
+          },
+        ),
+      );
+    });
   }
 }

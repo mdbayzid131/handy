@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/config/themes/app_theme.dart';
-import 'package:handy/data/models/sermons_model.dart';
+import 'package:handy/config/constants/api_constants.dart';
+import 'package:handy/data/models/sermon_response_model.dart';
+import 'package:handy/core/utils/helpers.dart';
 
 class SermonCardWidget extends StatelessWidget {
-  final Sermon sermon;
+  final SermonModel sermon;
   final VoidCallback? onTap;
 
-  const SermonCardWidget({
-    super.key,
-    required this.sermon,
-    this.onTap,
-  });
+  const SermonCardWidget({super.key, required this.sermon, this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    // Extract base URL correctly (e.g. remove /api/v1)
+    final hostUrl = ApiConstants.baseUrl.replaceAll('/api/v1', '');
+
     return GestureDetector(
-      onTap: onTap ?? () {
-        Get.toNamed(AppRoutes.SERMON_DITAILS, arguments: sermon);
-      },
+      onTap:
+          onTap ??
+          () {
+            Get.toNamed(AppRoutes.SERMON_DITAILS, arguments: sermon);
+          },
       child: Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
@@ -31,31 +36,44 @@ class SermonCardWidget extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 80.w,
-              height: 80.w,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
-                borderRadius: BorderRadius.circular(16.r),
-                image: const DecorationImage(
-                  image: NetworkImage(
-                    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Center(
-                child: Container(
-                  padding: EdgeInsets.all(4.w),
-                  decoration: BoxDecoration(
-                    color: AppTheme.black.withValues(alpha: 0.4),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.play_arrow_rounded,
-                    color: AppTheme.white,
-                    size: 20.w,
-                  ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16.r),
+              child: SizedBox(
+                width: 80.w,
+                height: 80.w,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl:
+                          (sermon.thumbnailUrl != null &&
+                              sermon.thumbnailUrl!.isNotEmpty)
+                          ? '$hostUrl${sermon.thumbnailUrl}'
+                          : 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Container(color: AppTheme.primaryColor),
+                      errorWidget: (context, url, error) => CachedNetworkImage(
+                        imageUrl:
+                            'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.all(4.w),
+                        decoration: BoxDecoration(
+                          color: AppTheme.black.withValues(alpha: 0.4),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          color: AppTheme.white,
+                          size: 20.w,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -64,18 +82,20 @@ class SermonCardWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    sermon.category,
-                    style: TextStyle(
-                      color: AppTheme.primaryColor,
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
+                  if (sermon.category?.name != null && sermon.category!.name != 'Unknown Category') ...[
+                    Text(
+                      sermon.category!.name!,
+                      style: TextStyle(
+                        color: AppTheme.primaryColor,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.0,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 6.h),
+                    SizedBox(height: 6.h),
+                  ],
                   Text(
-                    sermon.title,
+                    sermon.title ?? 'No Title',
                     style: TextStyle(
                       color: AppTheme.white,
                       fontSize: 16.sp,
@@ -87,7 +107,7 @@ class SermonCardWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    sermon.pastor,
+                    sermon.speaker ?? 'Unknown Speaker',
                     style: TextStyle(
                       color: AppTheme.white.withValues(alpha: 0.6),
                       fontSize: 13.sp,
@@ -100,14 +120,14 @@ class SermonCardWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        sermon.date,
+                        _formatDate(sermon.date),
                         style: TextStyle(
                           color: AppTheme.white.withValues(alpha: 0.5),
                           fontSize: 12.sp,
                         ),
                       ),
                       Text(
-                        sermon.duration,
+                        Helpers.formatTime(sermon.durationSeconds ?? 0),
                         style: TextStyle(
                           color: AppTheme.primaryColor,
                           fontSize: 12.sp,
@@ -123,5 +143,15 @@ class SermonCardWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty) return 'Unknown Date';
+    try {
+      final date = DateTime.parse(dateStr);
+      return DateFormat('MMM d, yyyy').format(date);
+    } catch (e) {
+      return 'Invalid Date';
+    }
   }
 }

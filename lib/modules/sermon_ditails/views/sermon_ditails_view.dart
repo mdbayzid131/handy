@@ -2,17 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/sermon_ditails_contoller.dart';
+import '../../profile/controllers/profile_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../../../data/models/sermon_response_model.dart';
 
 class SermonDitailsView extends GetView<SermonDitailsController> {
   const SermonDitailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final sermon = controller.sermon;
+    return Obx(() {
+      // Get the sermon from arguments or controller
+      final sermon = controller.sermonDetail.value;
 
-    return Scaffold(
+      if (sermon == null) {
+        return const Scaffold(
+          backgroundColor: AppTheme.backgroundColor,
+          body: Center(child: Text("Sermon not found", style: TextStyle(color: Colors.white))),
+        );
+      }
+
+      return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
         flexibleSpace: Container(
@@ -55,29 +66,45 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
         ),
         titleSpacing: 0,
         actions: [
-          IconButton(
-            icon: Icon(
-              Icons.bookmark_border,
-              color: AppTheme.white,
-              size: 24.w,
-            ),
-            onPressed: () {},
-          ),
+          if (Get.parameters['hideSaveIcon'] != 'true')
+            Obx(() {
+              final profileController = Get.find<ProfileController>();
+              final sermonId = sermon.sId ?? sermon.id;
+              final isFav = sermonId != null ? profileController.isSermonFavorite(sermonId) : false;
+              
+              return IconButton(
+                icon: Icon(
+                  isFav ? Icons.bookmark : Icons.bookmark_border,
+                  color: AppTheme.white,
+                  size: 24.w,
+                ),
+                onPressed: () {
+                  if (sermonId != null) {
+                    profileController.toggleFavoriteSermon(sermonId);
+                  }
+                },
+              );
+            }),
         ],
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SermonVideoPlayer(),
-              Padding(
-                padding: EdgeInsets.all(20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      sermon.title,
+      body: RefreshIndicator(
+        onRefresh: controller.refreshData,
+        color: AppTheme.primaryColor,
+        backgroundColor: AppTheme.containerColor,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SermonVideoPlayer(),
+                Padding(
+                  padding: EdgeInsets.all(20.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                      sermon.title ?? 'No Title',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
                             ? AppTheme.white
@@ -89,7 +116,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                     ),
                     SizedBox(height: 8.h),
                     Text(
-                      sermon.pastor,
+                      sermon.speaker ?? 'Unknown Speaker',
                       style: TextStyle(
                         color: AppTheme.accentBlue,
                         fontSize: 16.sp,
@@ -97,7 +124,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                       ),
                     ),
                     SizedBox(height: 20.h),
-                    _buildAboutSection(context),
+                    _buildAboutSection(context, sermon),
                   ],
                 ),
               ),
@@ -105,13 +132,37 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
           ),
         ),
       ),
+      ),
     );
-  }
+  });
+}
 
-  Widget _buildAboutSection(BuildContext context) {
+  Widget _buildAboutSection(BuildContext context, SermonModel sermon) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (sermon.keyScripture != null && sermon.keyScripture!.isNotEmpty) ...[
+          Container(
+            padding: EdgeInsets.all(16.w),
+            decoration: BoxDecoration(
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.3)),
+            ),
+            child: Text(
+              sermon.keyScripture!,
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppTheme.white.withValues(alpha: 0.9)
+                    : AppTheme.black.withValues(alpha: 0.9),
+                fontSize: 16.sp,
+                fontStyle: FontStyle.italic,
+                height: 1.5,
+              ),
+            ),
+          ),
+          SizedBox(height: 24.h),
+        ],
         Text(
           'About This Message',
           style: TextStyle(
@@ -124,7 +175,7 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
         ),
         SizedBox(height: 12.h),
         Text(
-          "In uncertain times, our hope is not wishful thinking but a firm anchor rooted in God's promises. This message explores Hebrews 6 and what it means to hold fast to hope.",
+          sermon.description ?? "No description available.",
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.dark
                 ? AppTheme.white.withValues(alpha: 0.6)
@@ -135,15 +186,21 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
         ),
         SizedBox(height: 20.h),
         // Tags
-        Row(
-          children: [
-            _buildTag('#hope'),
-            SizedBox(width: 12.w),
-            _buildTag('#faith'),
-            SizedBox(width: 12.w),
-            _buildTag('#promises'),
-          ],
-        ),
+        if (sermon.tags != null && sermon.tags!.isNotEmpty) ...[
+          Wrap(
+            spacing: 12.w,
+            runSpacing: 12.h,
+            children: sermon.tags!.map((tag) => _buildTag('#$tag')).toList(),
+          ),
+        ] else ...[
+          Row(
+            children: [
+              _buildTag('#hope'),
+              SizedBox(width: 12.w),
+              _buildTag('#faith'),
+            ],
+          ),
+        ],
         SizedBox(height: 24.h),
         // Share Button
         Container(

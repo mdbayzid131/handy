@@ -5,7 +5,6 @@ import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/bottom_nab_bar/controllers/bottom_nab_bar.dart';
 import '../../../config/routes/app_pages.dart';
 import '../../../core/widgets/cards/sermon_card_widget.dart';
-import '../../../data/models/sermons_model.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -15,34 +14,45 @@ class ProfileView extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTopHeader(context),
-              Padding(
-                padding: EdgeInsets.all(20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildGivingSummary(context),
-                    SizedBox(height: 32.h),
-                    _buildSavedSermons(context),
-                    SizedBox(height: 32.h),
-                    _buildAccountSection(context),
-                    SizedBox(height: 16.h),
-                    _buildDeleteAccountSection(context),
-                    SizedBox(height: 40.h),
-                    _buildVersionInfo(),
-                    SizedBox(height: 20.h),
-                  ],
-                ),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return RefreshIndicator(
+          onRefresh: controller.fetchAllData,
+          color: AppTheme.primaryColor,
+          backgroundColor: AppTheme.containerColor,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildTopHeader(context),
+                  Padding(
+                    padding: EdgeInsets.all(20.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildGivingSummary(context),
+                        SizedBox(height: 32.h),
+                        _buildSavedSermons(context),
+                        SizedBox(height: 32.h),
+                        _buildAccountSection(context),
+                        SizedBox(height: 16.h),
+                        _buildDeleteAccountSection(context),
+                        SizedBox(height: 40.h),
+                        _buildVersionInfo(),
+                        SizedBox(height: 20.h),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
@@ -85,64 +95,68 @@ class ProfileView extends GetView<ProfileController> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 40.h),
-            child: Column(
-              children: [
-                Container(
-                  width: 80.w,
-                  height: 80.w,
-                  decoration: BoxDecoration(
-                    color: AppTheme.white.withValues(alpha: 0.2),
-                    shape: BoxShape.circle,
+            child: Obx(() {
+              final user = controller.user.value;
+              return Column(
+                children: [
+                  Container(
+                    width: 80.w,
+                    height: 80.w,
+                    decoration: BoxDecoration(
+                      color: AppTheme.white.withValues(alpha: 0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      user?.initials ?? '??',
+                      style: TextStyle(
+                        color: AppTheme.white,
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'JD',
+                  SizedBox(height: 16.h),
+                  Text(
+                    user?.name ?? 'Unknown User',
                     style: TextStyle(
                       color: AppTheme.white,
-                      fontSize: 32.sp,
+                      fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                SizedBox(height: 16.h),
-                Text(
-                  'John Doe',
-                  style: TextStyle(
-                    color: AppTheme.white,
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Text(
-                  'Member since January 2023',
-                  style: TextStyle(
-                    color: AppTheme.white.withValues(alpha: 0.7),
-                    fontSize: 14.sp,
-                  ),
-                ),
-                SizedBox(height: 16.h),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppTheme.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Text(
-                    'ACTIVE MEMBER',
+                  SizedBox(height: 8.h),
+                  Text(
+                    'Member since ${user?.memberSince ?? 'Unknown'}',
                     style: TextStyle(
-                      color: AppTheme.white,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
+                      color: AppTheme.white.withValues(alpha: 0.7),
+                      fontSize: 14.sp,
                     ),
                   ),
-                ),
-              ],
-            ),
+                  SizedBox(height: 16.h),
+                  if (user?.status != null)
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 8.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Text(
+                        user!.status!.toUpperCase(),
+                        style: TextStyle(
+                          color: AppTheme.white,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            }),
           ),
           Positioned(
             top: 16.h,
@@ -151,10 +165,7 @@ class ProfileView extends GetView<ProfileController> {
               onPressed: () => _showLogoutDialog(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFFF5252),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 6.w,
-                  vertical: 2.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50.r),
                 ),
@@ -176,52 +187,65 @@ class ProfileView extends GetView<ProfileController> {
   }
 
   Widget _buildGivingSummary(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Giving Summary',
-          style: TextStyle(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white
-                : AppTheme.black,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
+    return Obx(() {
+      final summary = controller.givingSummary.value;
+
+      final currency = summary?.currency == 'GBP' ? '£' : '\$';
+      final totalThisYear = controller.totalThisYear.value;
+      final year = summary?.year ?? DateTime.now().year;
+      final lastGiftStr = summary?.lastGift ?? 'None';
+      final streak = summary?.givingStreakWeeks ?? 0;
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Giving Summary',
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppTheme.white
+                  : AppTheme.black,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        SizedBox(height: 16.h),
-        Container(
-          decoration: BoxDecoration(
-            color: AppTheme.containerColor,
-            borderRadius: BorderRadius.circular(16.r),
-            border: Border.all(color: AppTheme.secondaryColor),
+          SizedBox(height: 16.h),
+          Container(
+            decoration: BoxDecoration(
+              color: AppTheme.containerColor,
+              borderRadius: BorderRadius.circular(16.r),
+              border: Border.all(color: AppTheme.secondaryColor),
+            ),
+            child: Column(
+              children: [
+                _buildGivingRow(
+                  'Total Given ($year)',
+                  '$currency$totalThisYear',
+                ),
+                Divider(
+                  color: AppTheme.secondaryColor,
+                  height: 1,
+                  indent: 20.w,
+                  endIndent: 20.w,
+                ),
+                _buildGivingRow('Last Gift', lastGiftStr),
+                Divider(
+                  color: AppTheme.secondaryColor,
+                  height: 1,
+                  indent: 20.w,
+                  endIndent: 20.w,
+                ),
+                _buildGivingRow(
+                  'Giving Streak',
+                  '$streak weeks',
+                  isLastBold: true,
+                ),
+              ],
+            ),
           ),
-          child: Column(
-            children: [
-              _buildGivingRow('Total Given (2025)', '\$475.00'),
-              Divider(
-                color: AppTheme.secondaryColor,
-                height: 1,
-                indent: 20.w,
-                endIndent: 20.w,
-              ),
-              _buildGivingRow('Last Gift', '\$250.00 · Apr 27'),
-              Divider(
-                color: AppTheme.secondaryColor,
-                height: 1,
-                indent: 20.w,
-                endIndent: 20.w,
-              ),
-              _buildGivingRow(
-                'Giving Streak',
-                '4 weeks',
-                isLastBold: true,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   Widget _buildSavedSermons(BuildContext context) {
@@ -258,33 +282,41 @@ class ProfileView extends GetView<ProfileController> {
           ],
         ),
         SizedBox(height: 8.h),
-        SermonCardWidget(
-          sermon: Sermon(
-            id: '1',
-            category: 'FAITH',
-            title: 'The Anchor of Hope',
-            pastor: 'Pastor James Okafor',
-            date: 'May 4, 2025',
-            duration: '45 min',
-          ),
-          onTap: () {
-            Get.toNamed(AppRoutes.SERMON_DITAILS);
-          },
-        ),
-        SizedBox(height: 12.h),
-        SermonCardWidget(
-          sermon: Sermon(
-            id: '2',
-            category: 'WORSHIP',
-            title: 'Sing a New Song',
-            pastor: 'Deacon Michael Eze',
-            date: 'Apr 13, 2025',
-            duration: '38 min',
-          ),
-          onTap: () {
-            Get.toNamed(AppRoutes.SERMON_DITAILS);
-          },
-        ),
+        Obx(() {
+          if (controller.favoriteSermons.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                child: Text(
+                  'No saved sermons yet.',
+                  style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.white.withValues(alpha: 0.5)
+                        : AppTheme.black.withValues(alpha: 0.5),
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+            );
+          }
+          return Column(
+            children: controller.favoriteSermons.map((sermon) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: 12.h),
+                child: SermonCardWidget(
+                  sermon: sermon,
+                  onTap: () {
+                    Get.toNamed(
+                      AppRoutes.SERMON_DITAILS,
+                      arguments: sermon,
+                      parameters: {'hideSaveIcon': 'true'},
+                    );
+                  },
+                ),
+              );
+            }).toList(),
+          );
+        }),
       ],
     );
   }
@@ -372,10 +404,7 @@ class ProfileView extends GetView<ProfileController> {
     return Center(
       child: Text(
         'PIWC Stoneyburn · v1.0.0',
-        style: TextStyle(
-          color: AppTheme.mutedTextColor,
-          fontSize: 12.sp,
-        ),
+        style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 12.sp),
       ),
     );
   }
@@ -406,8 +435,6 @@ class ProfileView extends GetView<ProfileController> {
       ),
     );
   }
-
-
 
   Widget _buildAccountRow(
     IconData icon,

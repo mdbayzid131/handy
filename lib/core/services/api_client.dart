@@ -112,7 +112,8 @@ class ApiClient extends GetxService {
 
     // 2️⃣ Token expired → refresh & retry
     if (e.response?.statusCode == 401 &&
-        !e.requestOptions.path.contains(ApiConstants.refreshToken)) {
+        !e.requestOptions.path.contains(ApiConstants.refreshToken) &&
+        !e.requestOptions.path.contains(ApiConstants.logout)) {
       final refreshed = await _refreshToken();
 
       if (refreshed) {
@@ -380,7 +381,7 @@ class ApiClient extends GetxService {
   /// Force logout when refresh fails
   void _forceLogout() {
     try {
-      Get.find<AuthService>().logout();
+      Get.find<AuthService>().logout(localOnly: true);
     } catch (_) {
       // Fallback if AuthService is not found
       StorageService.clearAll();

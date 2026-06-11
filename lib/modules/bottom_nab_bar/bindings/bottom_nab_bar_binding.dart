@@ -5,6 +5,7 @@ import '../../sermons/controllers/sermons_controller.dart';
 import '../../give/controllers/give_controller.dart';
 import '../../events/controllers/events_controller.dart';
 import '../../more/controllers/more_controller.dart';
+import '../../profile/controllers/profile_controller.dart';
 
 class BottomNavBarBinding extends Bindings {
   @override
@@ -15,5 +16,6 @@ class BottomNavBarBinding extends Bindings {
     Get.lazyPut(() => GiveController());
     Get.lazyPut(() => EventsController());
     Get.lazyPut(() => MoreController());
+    Get.put(ProfileController(), permanent: true); // Make it globally accessible
   }
 }

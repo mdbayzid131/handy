@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/core/services/storage_service.dart';
+import 'package:handy/core/utils/logger.dart';
 import '../../config/constants/storage_constants.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../data/models/user_model.dart';
@@ -14,7 +16,7 @@ class AuthService extends GetxService {
 
   /// Observable login state — use this in UI bindings
   final isLoggedIn = false.obs;
-  
+
   /// Observable current user data
   final currentUser = Rx<UserModel?>(null);
 
@@ -92,11 +94,17 @@ class AuthService extends GetxService {
 
   // ──────────────────── LOGOUT ────────────────────
 
-  Future<void> logout() async {
+  Future<void> logout({bool localOnly = false}) async {
     try {
-      await _authRepo.logout();
+      if (!localOnly) {
+        await _authRepo.logout();
+      }
+    } catch (e) {
+      // Just catch and ignore errors on logout API
+      AppLogger.debug('Logout API failed: $e');
     } finally {
       await _clearLocalAuth();
+      Get.offAllNamed(AppRoutes.LOGIN);
     }
   }
 
@@ -140,7 +148,6 @@ class AuthService extends GetxService {
       confirmPassword: confirmPassword,
     );
   }
-
 
   // ──────────────────── TOKEN HELPERS ────────────────────
 

@@ -1,45 +1,199 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../data/models/sermons_model.dart';
+import 'package:handy/config/constants/api_constants.dart';
+import '../../../core/services/api_client.dart';
+import '../../../core/services/api_checker.dart';
+import '../../../core/utils/helpers.dart';
+import '../../../data/models/sermon_response_model.dart';
+import '../../../data/models/sermon_categorys_response_model.dart';
 
 class SermonsController extends GetxController {
+  final ApiClient apiClient = Get.find<ApiClient>();
+  final scrollController = ScrollController();
+
   final searchQuery = ''.obs;
-  final selectedCategory = 'All'.obs;
+  final selectedCategoryId = 'All'.obs;
 
-  final categories = [
-    'All',
-    'Walking in Faith',
-    'The Beatitudes',
-    'Acts of the Apostles',
-    'Psalms of Praise',
-    'Advent'
-  ];
+  final categories = <SermonCategory>[].obs;
+  final isCategoriesLoading = true.obs;
 
-  final allSermons = <Sermon>[
-    Sermon(id: '1', category: 'WALKING IN FAITH', title: 'The Anchor of Hope', pastor: 'Pastor Emmanuel Asante', date: 'May 4, 2025', duration: '42 min'),
-    Sermon(id: '2', category: 'THE BEATITUDES', title: 'Blessed Are the Poor in Spirit', pastor: 'Pastor Emmanuel Asante', date: 'Apr 27, 2025', duration: '38 min'),
-    Sermon(id: '3', category: 'ACTS OF THE APOSTLES', title: 'The Holy Spirit Comes', pastor: 'Elder Grace Mensah', date: 'Apr 20, 2025', duration: '45 min'),
-    Sermon(id: '4', category: 'PSALMS OF PRAISE', title: 'Sing a New Song', pastor: 'Deacon David Boateng', date: 'Apr 13, 2025', duration: '35 min'),
-    Sermon(id: '5', category: 'PSALMS OF PRAISE', title: 'Mourning into Dancing', pastor: 'Pastor Emmanuel Asante', date: 'Apr 6, 2025', duration: '40 min'),
-    Sermon(id: '6', category: 'THE BEATITUDES', title: 'Blessed Are the Meek', pastor: 'Elder Grace Mensah', date: 'Mar 30, 2025', duration: '37 min'),
-    Sermon(id: '7', category: 'WALKING IN FAITH', title: 'Walking by Faith, Not by Sight', pastor: 'Pastor Emmanuel Asante', date: 'Mar 23, 2025', duration: '44 min'),
-    Sermon(id: '8', category: 'ADVENT', title: 'Come, Emmanuel', pastor: 'Pastor Emmanuel Asante', date: 'Dec 22, 2024', duration: '50 min'),
-  ].obs;
+  final allSermons = <SermonModel>[].obs;
+  final isFirstLoad = true.obs;
+  final isLoadMore = false.obs;
 
-  List<Sermon> get filteredSermons {
+  int currentPage = 1;
+  final int limit = 10;
+  bool hasNextPage = true;
+
+  @override
+  void onInit() {
+    super.onInit();
+    scrollController.addListener(_scrollListener);
+    
+    // Server-side search with debounce
+    debounce(searchQuery, (_) {
+      fetchSermons();
+    }, time: const Duration(milliseconds: 500));
+
+    fetchCategories();
+    fetchSermons();
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+
+  Future<void> refreshData() async {
+    fetchCategories();
+    await fetchSermons();
+  }
+
+  void _scrollListener() {
+    if (scrollController.position.pixels >=
+        scrollController.position.maxScrollExtent - 50) {
+      loadMoreSermons();
+    }
+  }
+
+  List<SermonModel> get filteredSermons {
+    // Client-side fallback filter
     return allSermons.where((sermon) {
-      final matchesSearch = sermon.title.toLowerCase().contains(searchQuery.value.toLowerCase()) || 
-                            sermon.pastor.toLowerCase().contains(searchQuery.value.toLowerCase());
-      final matchesCategory = selectedCategory.value == 'All' || 
-                              sermon.category.toLowerCase() == selectedCategory.value.toLowerCase();
+      final titleMatches =
+          sermon.title?.toLowerCase().contains(
+            searchQuery.value.toLowerCase(),
+          ) ??
+          false;
+      final speakerMatches =
+          sermon.speaker?.toLowerCase().contains(
+            searchQuery.value.toLowerCase(),
+          ) ??
+          false;
+      final matchesSearch = titleMatches || speakerMatches;
+
+      final matchesCategory =
+          selectedCategoryId.value == 'All' ||
+          (sermon.category?.id == selectedCategoryId.value);
+          
       return matchesSearch && matchesCategory;
     }).toList();
   }
 
-  void selectCategory(String category) {
-    selectedCategory.value = category;
+  void selectCategory(String categoryId) {
+    selectedCategoryId.value = categoryId;
+    fetchSermons();
   }
 
   void updateSearchQuery(String query) {
     searchQuery.value = query;
+  }
+
+  Future<void> fetchCategories() async {
+    isCategoriesLoading.value = true;
+    try {
+      final response = await apiClient.getData(ApiConstants.sermonCategories);
+      ApiChecker.checkGetApi(response);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final res = SermonCategoryResponse.fromJson(response.data);
+        if (res.success == true && res.data != null) {
+          final List<SermonCategory> catList = [
+            SermonCategory(name: 'All', id: 'All'), // Insert All
+            ...res.data!
+          ];
+          categories.assignAll(catList);
+        }
+      }
+    } catch (e, s) {
+      Helpers.showDebugLog('Error fetching categories: $e\n$s');
+      categories.assignAll([SermonCategory(name: 'All', id: 'All')]);
+    } finally {
+      isCategoriesLoading.value = false;
+    }
+  }
+
+  Future<void> fetchSermons() async {
+    isFirstLoad.value = true;
+    currentPage = 1;
+    hasNextPage = true;
+    allSermons.clear();
+
+    try {
+      final Map<String, dynamic> query = {
+        'page': currentPage,
+        'limit': limit,
+      };
+
+      if (searchQuery.value.isNotEmpty) {
+        query['searchTerm'] = searchQuery.value;
+      }
+      
+      if (selectedCategoryId.value != 'All') {
+        query['category'] = selectedCategoryId.value;
+      }
+
+      final response = await apiClient.getData(
+        ApiConstants.sermons,
+        query: query,
+      );
+
+      ApiChecker.checkGetApi(response);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final responseModel = SermonListResponseModel.fromJson(response.data);
+        if (responseModel.success == true && responseModel.data != null) {
+          allSermons.assignAll(responseModel.data!.data ?? []);
+          hasNextPage = responseModel.data!.pagination?.hasNextPage ?? false;
+        }
+      }
+    } catch (e, s) {
+      Helpers.showDebugLog('Error fetching sermons: $e\n$s');
+    } finally {
+      isFirstLoad.value = false;
+    }
+  }
+
+  Future<void> loadMoreSermons() async {
+    if (isLoadMore.value || !hasNextPage) return;
+
+    isLoadMore.value = true;
+    currentPage++;
+
+    try {
+      final Map<String, dynamic> query = {
+        'page': currentPage,
+        'limit': limit,
+      };
+
+      if (searchQuery.value.isNotEmpty) {
+        query['searchTerm'] = searchQuery.value;
+      }
+      
+      if (selectedCategoryId.value != 'All') {
+        query['category'] = selectedCategoryId.value;
+      }
+
+      final response = await apiClient.getData(
+        ApiConstants.sermons,
+        query: query,
+      );
+
+      ApiChecker.checkGetApi(response);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final responseModel = SermonListResponseModel.fromJson(response.data);
+        if (responseModel.success == true && responseModel.data != null) {
+          allSermons.addAll(responseModel.data!.data ?? []);
+          hasNextPage = responseModel.data!.pagination?.hasNextPage ?? false;
+        }
+      } else {
+        currentPage--;
+      }
+    } catch (e, s) {
+      Helpers.showDebugLog('Error fetching more sermons: $e\n$s');
+      currentPage--;
+    } finally {
+      isLoadMore.value = false;
+    }
   }
 }

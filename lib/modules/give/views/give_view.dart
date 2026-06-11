@@ -5,6 +5,7 @@ import 'package:handy/config/themes/app_theme.dart';
 import '../controllers/give_controller.dart';
 import '../../../config/routes/app_pages.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
+import 'package:handy/core/utils/helpers.dart';
 
 class GiveView extends GetView<GiveController> {
   const GiveView({super.key});
@@ -12,16 +13,22 @@ class GiveView extends GetView<GiveController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeader(context),
-            Obx(
-              () => controller.showHistory.value
-                  ? _buildHistoryList(context)
-                  : _buildGiveForm(context),
-            ),
-          ],
+      body: RefreshIndicator(
+        onRefresh: controller.fetchFunds,
+        color: AppTheme.primaryColor,
+        backgroundColor: AppTheme.containerColor,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              _buildHeader(context),
+              Obx(
+                () => controller.showHistory.value
+                    ? _buildHistoryList(context)
+                    : _buildGiveForm(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -78,14 +85,14 @@ class GiveView extends GetView<GiveController> {
                 fontSize: 14.sp,
               ),
             ),
-            Text(
-              '£475.00',
+            Obx(() => Text(
+              '£${controller.totalThisYear.value.toStringAsFixed(2)}',
               style: TextStyle(
                 color: AppTheme.warningColor,
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
               ),
-            ),
+            )),
           ],
         ),
       ),
@@ -128,20 +135,23 @@ class GiveView extends GetView<GiveController> {
   }
 
   Widget _buildFundGrid(BuildContext context) {
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: controller.funds.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12.w,
-        mainAxisSpacing: 12.h,
-        childAspectRatio: 1.1,
-      ),
-      itemBuilder: (context, index) {
-        final fund = controller.funds[index];
-        return Obx(() {
+    return Obx(() {
+      if (controller.isLoading.value && controller.funds.isEmpty) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      return GridView.builder(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: controller.funds.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12.w,
+          mainAxisSpacing: 12.h,
+          childAspectRatio: 1.1,
+        ),
+        itemBuilder: (context, index) {
+          final fund = controller.funds[index];
           final isSelected = controller.selectedFund.value == fund.title;
           return GestureDetector(
             onTap: () => controller.selectedFund.value = fund.title,
@@ -187,9 +197,9 @@ class GiveView extends GetView<GiveController> {
               ),
             ),
           );
-        });
-      },
-    );
+        },
+      );
+    });
   }
 
   Widget _buildAmountSelection(BuildContext context) {
@@ -288,18 +298,24 @@ class GiveView extends GetView<GiveController> {
 
   Widget _buildGiveNowButton() {
     return GestureDetector(
-      onTap: () => Get.toNamed(
-        AppRoutes.DONATE,
-        arguments: {
-          'fund': controller.selectedFund.value,
-          'amount': controller.selectedAmount.value,
-        },
-      ),
+      onTap: () {
+        if (controller.selectedAmount.value <= 0) {
+          Helpers.showError('Please select or enter an amount to donate');
+          return;
+        }
+        Get.toNamed(
+          AppRoutes.DONATE,
+          arguments: {
+            'fund': controller.selectedFund.value,
+            'amount': controller.selectedAmount.value,
+          },
+        );
+      },
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 16.h),
         decoration: BoxDecoration(
-          color: AppTheme.warningColor, // Orange
+          color: AppTheme.primaryColor,
           borderRadius: BorderRadius.circular(16.r),
         ),
         child: Row(
@@ -308,13 +324,13 @@ class GiveView extends GetView<GiveController> {
             Text(
               'Donate',
               style: TextStyle(
-                color: AppTheme.primaryColor,
+                color: AppTheme.white,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(width: 8.w),
-            Icon(Icons.chevron_right, color: AppTheme.primaryColor, size: 20.w),
+            Icon(Icons.chevron_right, color: AppTheme.white, size: 20.w),
           ],
         ),
       ),
@@ -339,13 +355,35 @@ class GiveView extends GetView<GiveController> {
             ),
           ),
         ),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0.h),
-          itemCount: controller.historyData.length,
-          separatorBuilder: (context, index) => SizedBox(height: 16.h),
-          itemBuilder: (context, index) {
+        Obx(() {
+          if (controller.isHistoryLoading.value) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 40.h),
+                child: const CircularProgressIndicator(color: AppTheme.primaryColor),
+              ),
+            );
+          }
+
+          if (controller.historyData.isEmpty) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 40.h),
+                child: Text(
+                  'No giving history found.',
+                  style: TextStyle(color: AppTheme.white.withValues(alpha: 0.5)),
+                ),
+              ),
+            );
+          }
+
+          return ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0.h),
+            itemCount: controller.historyData.length,
+            separatorBuilder: (context, index) => SizedBox(height: 16.h),
+            itemBuilder: (context, index) {
             final item = controller.historyData[index];
             return Container(
               padding: EdgeInsets.all(16.w),
@@ -432,7 +470,8 @@ class GiveView extends GetView<GiveController> {
               ),
             );
           },
-        ),
+        );
+        }),
       ],
     );
   }
