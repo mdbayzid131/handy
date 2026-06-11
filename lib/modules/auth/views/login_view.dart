@@ -143,9 +143,9 @@ class LoginView extends GetView<LoginController> {
                           text: 'Login',
                           backgroundColor: AppTheme.accentBlue,
                           onPressed: () {
-                            // if (controller.formKey.currentState!.validate()) {
-                            //   Get.toNamed(AppRoutes.BOTTOM_NAV_BAR);
-                            // }
+                            if (controller.formKey.currentState!.validate()) {
+                              controller.login();
+                            }
                           },
                           isLoading: controller.isLoading.value,
                         ),

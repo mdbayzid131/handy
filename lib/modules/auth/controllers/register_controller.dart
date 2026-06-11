@@ -1,8 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../config/routes/app_pages.dart';
+import '../../../core/services/api_checker.dart';
 import '../../../core/services/auth_service.dart';
 import '../../../core/utils/helpers.dart';
+import '../../../core/utils/logger.dart';
+import '../../../data/models/user_model.dart';
 
 class RegisterController extends GetxController {
   final AuthService _authService = Get.find();
@@ -11,8 +15,6 @@ class RegisterController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  final phoneController = TextEditingController();
-  final countryController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   final isLoading = false.obs;
@@ -38,22 +40,42 @@ class RegisterController extends GetxController {
 
   Future<void> register() async {
     if (!formKey.currentState!.validate()) return;
+    
+    if (passwordController.text != confirmPasswordController.text) {
+      Helpers.showCustomSnackBar('Passwords do not match');
+      return;
+    }
 
     try {
       isLoading.value = true;
 
-      await _authService.signup(
+      final response = await _authService.register(
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,
-        phone: phoneController.text,
-        country: countryController.text,
       );
 
-      Helpers.showCustomSnackBar('Registration successful');
-      Get.offAllNamed(AppRoutes.LOGIN);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data != null && response.data['data'] != null) {
+          final user = UserModel.fromJson(response.data['data']);
+          AppLogger.info('User created successfully: ${user.name}');
+        }
+        final message = response.data?['message'] ?? 'Registration successful';
+        Helpers.showCustomSnackBar(message);
+        Get.offAllNamed(AppRoutes.LOGIN);
+      } else {
+        ApiChecker.checkWriteApi(response);
+      }
+    } on DioException catch (e) {
+      AppLogger.error(e);
+      if (e.response != null) {
+        ApiChecker.checkWriteApi(e.response!);
+      } else {
+        Helpers.showError(e.message ?? 'Unknown error occurred');
+      }
     } catch (e) {
-      Helpers.showCustomSnackBar(e.toString());
+      AppLogger.warning('Registration Error: $e');
+      Helpers.showError(e.toString());
     } finally {
       isLoading.value = false;
     }

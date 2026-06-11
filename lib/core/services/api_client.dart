@@ -12,6 +12,8 @@ import '../../config/constants/storage_constants.dart';
 import '../../config/routes/app_pages.dart';
 import '../controllers/internet_controller.dart';
 import '../utils/logger.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'auth_service.dart';
 
 /// ===================== API CLIENT =====================
 /// Centralized HTTP client built on Dio with:
@@ -49,12 +51,21 @@ class ApiClient extends GetxService {
       ),
     );
     _dio.interceptors.add(_buildInterceptor());
+    _dio.interceptors.add(PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true,
+      responseHeader: false,
+      error: true,
+      compact: true,
+      maxWidth: 90,
+    ));
   }
 
   // ──────────────────────── INTERCEPTOR ────────────────────────
 
-  InterceptorsWrapper _buildInterceptor() {
-    return InterceptorsWrapper(
+  QueuedInterceptorsWrapper _buildInterceptor() {
+    return QueuedInterceptorsWrapper(
       onRequest: _onRequest,
       onResponse: _onResponse,
       onError: _onError,
@@ -315,8 +326,12 @@ class ApiClient extends GetxService {
 
       final response = await _dio.post(
         ApiConstants.refreshToken,
-        data: {'refreshToken': refreshTokenValue},
-        options: Options(headers: {'Content-Type': 'application/json'}),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $refreshTokenValue',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -364,8 +379,14 @@ class ApiClient extends GetxService {
 
   /// Force logout when refresh fails
   void _forceLogout() {
-    StorageService.clearAll();
-    Get.offAllNamed(AppRoutes.LOGIN);
+    try {
+      Get.find<AuthService>().logout();
+    } catch (_) {
+      // Fallback if AuthService is not found
+      StorageService.clearAll();
+      Get.offAllNamed(AppRoutes.LOGIN);
+    }
+    
     Get.snackbar(
       'Session Expired',
       'Please login again.',

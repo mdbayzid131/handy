@@ -98,7 +98,7 @@ class AppLogger {
     bool showAll = false,
   }) {
     if (text == null) return 'null';
-    if (showAll) {
+    if (showAll || text.length <= maxLength) {
       return text;
     }
     return '${text.substring(0, maxLength)}... [truncated]';

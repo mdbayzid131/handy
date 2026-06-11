@@ -13,7 +13,11 @@ class BottomNavBarController extends GetxController {
   }
 
   void goToProfile() {
-    Get.toNamed(AppRoutes.PROFILE);
+    if (_authService.isLoggedIn.value) {
+      Get.toNamed(AppRoutes.PROFILE);
+    } else {
+      Get.toNamed(AppRoutes.LOGIN);
+    }
   }
 
   Future<void> logout() async {

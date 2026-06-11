@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../controllers/change_password_controller.dart';
+import 'package:get/get.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_text_field.dart';
@@ -267,94 +269,139 @@ class SettingsView extends GetView<SettingsController> {
   }
 
   void _showChangePasswordBottomSheet(BuildContext context) {
+    final pwdCtrl = Get.put(ChangePasswordController());
+
     Get.bottomSheet(
       Container(
-        height: Get.height * 0.85,
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+        padding: EdgeInsets.only(
+          left: 24.w,
+          right: 24.w,
+          top: 24.h,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 24.h,
+        ),
         decoration: BoxDecoration(
           color: AppTheme.backgroundColor,
           borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Top Header
-            Row(
+        child: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            child: Form(
+            key: pwdCtrl.formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Icon(
-                    Icons.arrow_back_ios_new,
-                    color: AppTheme.white,
-                    size: 20.w,
-                  ),
-                ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      'Change Password',
-                      style: TextStyle(
-                        color: AppTheme.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 20.w), // Balance for centering
-              ],
-            ),
-            SizedBox(height: 32.h),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                // Top Header
+                Row(
                   children: [
-                    Text(
-                      'Change Password',
-                      style: TextStyle(
-                        color: AppTheme.white.withValues(alpha: 0.7),
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
+                    GestureDetector(
+                      onTap: () => Get.back(),
+                      child: Icon(
+                        Icons.arrow_back_ios_new,
+                        color: AppTheme.white,
+                        size: 20.w,
                       ),
                     ),
-                    SizedBox(height: 24.h),
-                    const CustomTextField(
-                      label: 'Old Password',
-                      hintText: 'Enter Old Password',
-                      obscureText: true,
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          'Change Password',
+                          style: TextStyle(
+                            color: AppTheme.white,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 20.h),
-                    const CustomTextField(
-                      label: 'New Password',
-                      hintText: 'Enter New Password',
-                      obscureText: true,
-                    ),
-                    SizedBox(height: 20.h),
-                    const CustomTextField(
-                      label: 'Confirm Password',
-                      hintText: 'Enter Confirm Password',
-                      obscureText: true,
-                    ),
+                    SizedBox(width: 20.w), // Balance for centering
                   ],
                 ),
-              ),
+                SizedBox(height: 32.h),
+                Text(
+                  'Change Password',
+                  style: TextStyle(
+                    color: AppTheme.white.withValues(alpha: 0.7),
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                Obx(
+                  () => CustomTextField(
+                    controller: pwdCtrl.oldPasswordController,
+                    label: 'Old Password',
+                    hintText: 'Enter Old Password',
+                    obscureText: !pwdCtrl.isOldPasswordVisible.value,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        pwdCtrl.isOldPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppTheme.white.withValues(alpha: 0.5),
+                      ),
+                      onPressed: pwdCtrl.toggleOldPasswordVisibility,
+                    ),
+                    validator: (val) => val == null || val.isEmpty
+                        ? 'Old password is required'
+                        : null,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Obx(
+                  () => CustomTextField(
+                    controller: pwdCtrl.newPasswordController,
+                    label: 'New Password',
+                    hintText: 'Enter New Password',
+                    obscureText: !pwdCtrl.isNewPasswordVisible.value,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        pwdCtrl.isNewPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppTheme.white.withValues(alpha: 0.5),
+                      ),
+                      onPressed: pwdCtrl.toggleNewPasswordVisibility,
+                    ),
+                    validator: pwdCtrl.validateNewPassword,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Obx(
+                  () => CustomTextField(
+                    controller: pwdCtrl.confirmPasswordController,
+                    label: 'Confirm Password',
+                    hintText: 'Enter Confirm Password',
+                    obscureText: !pwdCtrl.isConfirmPasswordVisible.value,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        pwdCtrl.isConfirmPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppTheme.white.withValues(alpha: 0.5),
+                      ),
+                      onPressed: pwdCtrl.toggleConfirmPasswordVisibility,
+                    ),
+                    validator: pwdCtrl.validateConfirmPassword,
+                  ),
+                ),
+                SizedBox(height: 32.h),
+                // Save Button
+                Obx(
+                  () => CustomButton(
+                    text: 'Save',
+                    backgroundColor: AppTheme.orange500,
+                    isLoading: pwdCtrl.isLoading.value,
+                    onPressed: () {
+                      pwdCtrl.changePassword();
+                    },
+                  ),
+                ),
+              ],
             ),
-            // Save Button
-            CustomButton(
-              text: 'Save',
-              backgroundColor: AppTheme.orange500,
-              onPressed: () {
-                Get.back();
-                Get.snackbar(
-                  'Success',
-                  'Password changed successfully',
-                  backgroundColor: Colors.green,
-                  colorText: AppTheme.white,
-                );
-              },
-            ),
-          ],
+          ),
+        ),
         ),
       ),
       isScrollControlled: true,

@@ -160,9 +160,9 @@ class RegisterView extends GetView<RegisterController> {
                           text: 'Sign Up',
                           backgroundColor: AppTheme.accentBlue,
                           onPressed: () {
-                            // if (controller.formKey.currentState!.validate()) {
-                            //   controller.register();
-                            // }
+                            if (controller.formKey.currentState!.validate()) {
+                              controller.register();
+                            }
                           },
                           isLoading: controller.isLoading.value,
                         ),

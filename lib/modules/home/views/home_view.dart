@@ -105,7 +105,7 @@ class HomeView extends GetView<HomeController> {
                       ),
                       SizedBox(width: 16.w),
                       GestureDetector(
-                        onTap: () => Get.toNamed(AppRoutes.LOGIN),
+                        onTap: () => Get.find<BottomNavBarController>().goToProfile(),
                         child: Container(
                           width: 40.w,
                           height: 40.w,

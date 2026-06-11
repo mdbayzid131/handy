@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../config/constants/api_constants.dart';
 import '../../core/services/api_client.dart';
+import '../models/user_model.dart';
 
 class AuthRepo {
   final ApiClient apiClient;
@@ -20,6 +21,19 @@ class AuthRepo {
   //     return "unsupported";
   //   }
   // }
+
+  /// ===================== REGISTER =====================
+  Future<Response> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    return await apiClient.postData(ApiConstants.register, {
+      "name": name,
+      "email": email,
+      "password": password,
+    });
+  }
 
   /// ===================== SIGNUP =====================
   Future<Response> signup({
@@ -105,7 +119,7 @@ class AuthRepo {
     required String newPassword,
     required String confirmPassword,
   }) async {
-    return await apiClient.postData(ApiConstants.resetPassword, {
+    return await apiClient.postData(ApiConstants.changePassword, {
       "currentPassword": currentPassword,
       "newPassword": newPassword,
       "confirmPassword": confirmPassword,

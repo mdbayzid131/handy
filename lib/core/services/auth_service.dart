@@ -3,6 +3,7 @@ import 'package:get/get.dart' hide Response;
 import 'package:handy/core/services/storage_service.dart';
 import '../../config/constants/storage_constants.dart';
 import '../../data/repositories/auth_repository.dart';
+import '../../data/models/user_model.dart';
 import 'api_client.dart';
 
 /// ===================== AUTH SERVICE =====================
@@ -13,6 +14,9 @@ class AuthService extends GetxService {
 
   /// Observable login state — use this in UI bindings
   final isLoggedIn = false.obs;
+  
+  /// Observable current user data
+  final currentUser = Rx<UserModel?>(null);
 
   @override
   void onInit() {
@@ -30,6 +34,20 @@ class AuthService extends GetxService {
 
   /// Check if user is authenticated
   bool get isAuthenticated => isLoggedIn.value;
+
+  // ──────────────────── REGISTER ────────────────────
+
+  Future<Response> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    return await _authRepo.register(
+      name: name,
+      email: email,
+      password: password,
+    );
+  }
 
   // ──────────────────── SIGNUP ────────────────────
 
@@ -55,9 +73,21 @@ class AuthService extends GetxService {
     required String email,
     required String password,
   }) async {
-    final response = await _authRepo.login(email: email, password: password);
-    await _saveAuthTokens(response);
-    return response;
+    return await _authRepo.login(email: email, password: password);
+  }
+
+  // ──────────────────── CHANGE PASSWORD ────────────────────
+
+  Future<Response> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    return await _authRepo.changePassword(
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    );
   }
 
   // ──────────────────── LOGOUT ────────────────────
@@ -111,19 +141,6 @@ class AuthService extends GetxService {
     );
   }
 
-  // ──────────────────── CHANGE PASSWORD ────────────────────
-
-  Future<Response> changePassword({
-    required String currentPassword,
-    required String newPassword,
-    required String confirmPassword,
-  }) async {
-    return await _authRepo.changePassword(
-      currentPassword: currentPassword,
-      newPassword: newPassword,
-      confirmPassword: confirmPassword,
-    );
-  }
 
   // ──────────────────── TOKEN HELPERS ────────────────────
 
@@ -165,5 +182,6 @@ class AuthService extends GetxService {
     await StorageService.remove(StorageConstants.refreshToken);
     await StorageService.remove(StorageConstants.userData);
     isLoggedIn.value = false;
+    currentUser.value = null;
   }
 }
