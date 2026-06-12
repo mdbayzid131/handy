@@ -43,68 +43,84 @@ class BibleVersesView extends GetView<BibleVersesController> {
           children: [
             Expanded(
               child: Obx(() {
-                return ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 24.h,
-                  ),
-                  itemCount: controller.verses.length + 1, // +1 for the header
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
+                if (controller.isLoading.value && controller.verses.isEmpty) {
+                  return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+                }
+
+                if (controller.verses.isEmpty && !controller.isLoading.value) {
+                  return Center(
+                    child: Text(
+                      'No verses found',
+                      style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 16.sp),
+                    ),
+                  );
+                }
+
+                return RefreshIndicator(
+                  onRefresh: controller.refreshData,
+                  color: AppTheme.primaryColor,
+                  child: ListView.builder(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 24.h,
+                    ),
+                    itemCount: controller.verses.length + 1, // +1 for the header
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 24.h),
+                          child: Text(
+                            '${controller.bookName.value} ${controller.chapter.value}',
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).brightness == Brightness.dark
+                                  ? AppTheme.white
+                                  : AppTheme.black,
+                              fontSize: 28.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      }
+
+                      final verseIndex = index - 1;
+                      final verse = controller.verses[verseIndex];
+
                       return Padding(
                         padding: EdgeInsets.only(bottom: 24.h),
-                        child: Text(
-                          '${controller.bookName.value} ${controller.chapter.value}',
-                          style: TextStyle(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
-                                ? AppTheme.white
-                                : AppTheme.black,
-                            fontSize: 28.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 32.w,
+                              child: Text(
+                                verse.verseNumber ?? '${verseIndex + 1}',
+                                style: TextStyle(
+                                  color: AppTheme.accentBlue,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                verse.text ?? '',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? AppTheme.white.withValues(alpha: 0.9)
+                                      : AppTheme.black.withValues(alpha: 0.9),
+                                  fontSize: 17.sp,
+                                  height: 1.5,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       );
-                    }
-
-                    final verseIndex = index - 1;
-                    final verseNumber = verseIndex + 1;
-                    final verseText = controller.verses[verseIndex];
-
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 24.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 32.w,
-                            child: Text(
-                              '$verseNumber',
-                              style: TextStyle(
-                                color: AppTheme.accentBlue,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              verseText,
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? AppTheme.white.withValues(alpha: 0.9)
-                                    : AppTheme.black.withValues(alpha: 0.9),
-                                fontSize: 17.sp,
-                                height: 1.5,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                    },
+                  ),
                 );
               }),
             ),

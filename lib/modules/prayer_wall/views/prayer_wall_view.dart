@@ -26,12 +26,13 @@ class PrayerWallView extends GetView<PrayerWallController> {
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
           child: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -53,19 +54,19 @@ class PrayerWallView extends GetView<PrayerWallController> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(
-                            color: AppTheme.accentBlue,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                      Obx(() => TextButton(
+                        onPressed: controller.isSubmitting.value ? null : controller.submitRequest,
+                        child: controller.isSubmitting.value
+                            ? SizedBox(width: 16.w, height: 16.w, child: const CircularProgressIndicator(strokeWidth: 2, color: AppTheme.accentBlue))
+                            : Text(
+                                'Submit',
+                                style: TextStyle(
+                                  color: controller.isSubmitting.value ? AppTheme.mutedTextColor : AppTheme.accentBlue,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                      )),
                     ],
                   ),
                   SizedBox(height: 24.h),
@@ -80,6 +81,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                   SizedBox(height: 8.h),
                   Obx(
                     () => TextField(
+                      controller: controller.nameController,
                       enabled: !controller.isAnonymous.value,
                       style: TextStyle(
                         color: controller.isAnonymous.value
@@ -140,6 +142,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                   ),
                   SizedBox(height: 8.h),
                   TextField(
+                    controller: controller.requestController,
                     maxLines: 5,
                     style: const TextStyle(color: AppTheme.white),
                     decoration: InputDecoration(
@@ -169,6 +172,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                   SizedBox(height: 16.h),
                 ],
               ),
+            ),
             ),
           ),
         );
@@ -294,7 +298,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
               child: Obx(
                 () => controller.isPrayerWall.value
                     ? _buildPrayerList(context, controller.requests)
-                    : _buildEmptyState(context),
+                    : _buildPrayerList(context, controller.myRequests),
               ),
             ),
           ],
@@ -303,13 +307,19 @@ class PrayerWallView extends GetView<PrayerWallController> {
   }
 
   Widget _buildPrayerList(BuildContext context, List<PrayerWallModel> list) {
+    if (controller.isLoading.value && list.isEmpty) {
+      return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+    }
     if (list.isEmpty) return _buildEmptyState(context);
 
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-      itemCount: list.length,
-      itemBuilder: (context, index) {
-        final item = list[index];
+    return RefreshIndicator(
+      onRefresh: controller.refreshData,
+      color: AppTheme.primaryColor,
+      child: ListView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          final item = list[index];
         final initial = item.name.isNotEmpty ? item.name[0].toUpperCase() : '?';
 
         return Container(
@@ -373,66 +383,85 @@ class PrayerWallView extends GetView<PrayerWallController> {
                 ),
               ),
               SizedBox(height: 16.h),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: AppTheme.secondaryColor,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.volunteer_activism,
-                      color: AppTheme.mutedTextColor,
-                      size: 16.w,
-                    ),
-                    SizedBox(width: 8.w),
-                    Text(
-                      'I Prayed · ${item.praysCount}',
-                      style: TextStyle(
+              GestureDetector(
+                onTap: () => controller.prayForRequest(item.id),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  decoration: BoxDecoration(
+                    color: AppTheme.secondaryColor,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.volunteer_activism,
                         color: AppTheme.mutedTextColor,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
+                        size: 16.w,
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 8.w),
+                      Text(
+                        'I Prayed · ${item.praysCount}',
+                        style: TextStyle(
+                          color: AppTheme.mutedTextColor,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
         );
       },
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildEmptyState(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.volunteer_activism,
-            color: AppTheme.mutedTextColor.withValues(alpha: 0.5),
-            size: 64.w,
-          ),
-          SizedBox(height: 16.h),
-          Text(
-            'No requests yet',
-            style: TextStyle(
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? AppTheme.white
-                  : AppTheme.black,
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            'Be the first to share a prayer request',
-            style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 14.sp),
-          ),
-        ],
+    return RefreshIndicator(
+      onRefresh: controller.refreshData,
+      color: AppTheme.primaryColor,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              Container(
+                height: constraints.maxHeight,
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.volunteer_activism,
+                      color: AppTheme.mutedTextColor.withValues(alpha: 0.5),
+                      size: 64.w,
+                    ),
+                    SizedBox(height: 16.h),
+                    Text(
+                      'No requests yet',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.white
+                            : AppTheme.black,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      'Be the first to share a prayer request',
+                      style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 14.sp),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -8,28 +8,32 @@ import 'package:handy/core/widgets/custom_gradient_header.dart';
 class EventDetailsView extends GetView<EventDetailsController> {
   const EventDetailsView({super.key});
 
-  Color _getCategoryColor(String category) {
-    switch (category) {
-      case 'Study':
-        return const Color(0xFFFF8C00); // Orange
-      case 'Worship':
-        return AppTheme.accentBlue; // Royal Blue
-      case 'Youth':
-        return AppTheme.accentRed; // Coral/Red
-      case 'Prayer':
-        return const Color(0xFFB388FF); // Purple
-      case 'Community':
-        return AppTheme.teal400; // Teal
-      default:
-        return const Color(0xFF132488); // Default Blue
+  Color _getCategoryColor(String? colorHex) {
+    if (colorHex == null || colorHex.isEmpty) {
+      return const Color(0xFF132488);
+    }
+    try {
+      String hex = colorHex.toUpperCase().replaceAll("#", "");
+      if (hex.length == 6) {
+        hex = "FF$hex";
+      }
+      return Color(int.parse(hex, radix: 16));
+    } catch (e) {
+      return const Color(0xFF132488);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final event = controller.event;
-      final primaryColor = _getCategoryColor(event.category);
+      if (controller.isLoading.value && controller.event.value.description == null) {
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator(color: AppTheme.primaryColor)),
+        );
+      }
+      
+      final event = controller.event.value;
+      final primaryColor = _getCategoryColor(event.categoryColor);
 
       return Scaffold(
         body: Column(
@@ -75,7 +79,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                               borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: Text(
-                              event.category.toUpperCase(),
+                              event.categoryLabel.toUpperCase(),
                               style: TextStyle(
                                 color: AppTheme.white,
                                 fontSize: 12.sp,
@@ -155,7 +159,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                                 _buildDetailRow(
                                   Icons.people,
                                   'ATTENDING',
-                                  '${event.attendeeCount} people',
+                                  '${event.attendingCount} people',
                                   primaryColor,
                                 ),
                               ],
@@ -177,7 +181,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                           ),
                           SizedBox(height: 12.h),
                           Text(
-                            event.description,
+                            event.description ?? 'No description provided.',
                             style: TextStyle(
                               color:
                                   Theme.of(context).brightness ==
@@ -198,12 +202,18 @@ class EventDetailsView extends GetView<EventDetailsController> {
                                 SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
-                                    onPressed: () => controller.toggleRSVP(),
-                                    icon: Icon(
-                                      Icons.check_circle,
-                                      color: AppTheme.white,
-                                      size: 24.w,
-                                    ),
+                                    onPressed: controller.isRsvpLoading.value ? null : () => controller.toggleRSVP(),
+                                    icon: controller.isRsvpLoading.value
+                                        ? SizedBox(
+                                            width: 24.w,
+                                            height: 24.w,
+                                            child: const CircularProgressIndicator(color: AppTheme.white, strokeWidth: 2),
+                                          )
+                                        : Icon(
+                                            Icons.check_circle,
+                                            color: AppTheme.white,
+                                            size: 24.w,
+                                          ),
                                     label: Text(
                                       "You're Going!",
                                       style: TextStyle(
@@ -246,12 +256,18 @@ class EventDetailsView extends GetView<EventDetailsController> {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton.icon(
-                                onPressed: () => controller.toggleRSVP(),
-                                icon: Icon(
-                                  Icons.calendar_today,
-                                  color: AppTheme.white,
-                                  size: 20.w,
-                                ),
+                                onPressed: controller.isRsvpLoading.value ? null : () => controller.toggleRSVP(),
+                                icon: controller.isRsvpLoading.value
+                                    ? SizedBox(
+                                        width: 20.w,
+                                        height: 20.w,
+                                        child: const CircularProgressIndicator(color: AppTheme.white, strokeWidth: 2),
+                                      )
+                                    : Icon(
+                                        Icons.calendar_today,
+                                        color: AppTheme.white,
+                                        size: 20.w,
+                                      ),
                                 label: Text(
                                   "RSVP for This Event",
                                   style: TextStyle(
@@ -276,7 +292,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                           SizedBox(
                             width: double.infinity,
                             child: OutlinedButton.icon(
-                              onPressed: () {},
+                              onPressed: controller.addToCalendar,
                               icon: Icon(
                                 Icons.calendar_today,
                                 color: primaryColor,

@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/home/controllers/home_controller.dart';
 
-class DevotionalsDetailsView extends StatelessWidget {
-  DevotionalsDetailsView({super.key});
+import '../controllers/devotionals_details_controller.dart';
 
-  final RxBool isRead = false.obs;
+class DevotionalsDetailsView extends GetView<DevotionalsDetailsController> {
+  const DevotionalsDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,25 @@ class DevotionalsDetailsView extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+      body: Obx(() {
+        if (controller.isLoading.value && controller.devotional.value == null) {
+          return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+        }
+
+        final devotional = controller.devotional.value;
+        if (devotional == null) {
+          return const Center(child: Text('No devotional available'));
+        }
+
+        return RefreshIndicator(
+          onRefresh: controller.refreshData,
+          color: AppTheme.primaryColor,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
               // Top Blue Header
               Container(
                 width: double.infinity,
@@ -48,7 +62,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'TUESDAY · MAY 6, 2025',
+                      '${devotional.dayLabel?.toUpperCase() ?? ''} · ${devotional.date?.toUpperCase() ?? ''}',
                       style: TextStyle(
                         color: AppTheme.white.withValues(alpha: 0.7),
                         fontSize: 12.sp,
@@ -58,7 +72,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     ),
                     SizedBox(height: 8.h),
                     Text(
-                      'More Than Enough',
+                      devotional.title ?? '',
                       style: TextStyle(
                         color: AppTheme.white,
                         fontSize: 28.sp,
@@ -83,7 +97,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'JOHN 6:35',
+                        devotional.scriptureRef?.toUpperCase() ?? '',
                         style: TextStyle(
                           color: AppTheme.royalBlue,
                           fontSize: 14.sp,
@@ -92,7 +106,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                       ),
                       SizedBox(height: 12.h),
                       Text(
-                        '"Jesus said to them, \'I am the bread of life; whoever comes to me shall not hunger, and whoever believes in me shall never thirst.\'"',
+                        '"${devotional.scriptureQuote ?? ''}"',
                         style: TextStyle(
                           color: AppTheme.white,
                           fontSize: 16.sp,
@@ -134,7 +148,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
                     Text(
-                      'Jesus does not offer to supplement our lives — He offers to satisfy them. The crowd had just witnessed the miracle of loaves and fish, yet Jesus pointed beyond the physical to a deeper hunger. Every longing we carry — for meaning, for belonging, for peace — finds its answer in Him. Come to Him today, not just for what He can do, but for who He is.',
+                      devotional.reflection ?? '',
                       style: TextStyle(
                         color: Theme.of(context).brightness == Brightness.dark
                             ? AppTheme.white.withValues(alpha: 0.9)
@@ -178,7 +192,7 @@ class DevotionalsDetailsView extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
                     Text(
-                      'Jesus, You are the bread of life. I confess that I often look for satisfaction in other places. Fill me today with the only thing that truly satisfies. Amen.',
+                      devotional.prayer ?? '',
                       style: TextStyle(
                         color: AppTheme.mutedTextColor,
                         fontSize: 15.sp,
@@ -195,8 +209,9 @@ class DevotionalsDetailsView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   children: [
-                    Obx(
-                      () => isRead.value
+                    Obx(() {
+                      final isReadStatus = controller.devotional.value?.isRead ?? false;
+                      return isReadStatus
                           ? ElevatedButton(
                               onPressed: () {}, // Already read, do nothing
                               style: ElevatedButton.styleFrom(
@@ -228,11 +243,10 @@ class DevotionalsDetailsView extends StatelessWidget {
                               ),
                             )
                           : OutlinedButton(
-                              onPressed: () {
-                                isRead.value = true;
+                              onPressed: () async {
+                                await controller.markAsRead();
                                 if (Get.isRegistered<HomeController>()) {
-                                  Get.find<HomeController>()
-                                      .incrementDevotionalProgress();
+                                  Get.find<HomeController>().fetchDevotionalSummary();
                                 }
                               },
                               style: OutlinedButton.styleFrom(
@@ -245,21 +259,30 @@ class DevotionalsDetailsView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12.r),
                                 ),
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Mark as Read',
-                                    style: TextStyle(
-                                      color: AppTheme.royalBlue,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
+                              child: controller.isMarkingRead.value
+                                  ? SizedBox(
+                                      height: 20.h,
+                                      width: 20.h,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: AppTheme.royalBlue,
+                                      ),
+                                    )
+                                  : Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Mark as Read',
+                                          style: TextStyle(
+                                            color: AppTheme.royalBlue,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                    ),
+                            );
+                    }),
                     SizedBox(height: 16.h),
                     OutlinedButton(
                       onPressed: () {},
@@ -302,5 +325,7 @@ class DevotionalsDetailsView extends StatelessWidget {
         ),
       ),
     );
+  }),
+);
   }
 }

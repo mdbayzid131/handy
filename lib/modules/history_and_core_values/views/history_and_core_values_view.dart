@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../controllers/history_and_core_values_controller.dart';
 
@@ -42,71 +43,47 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSection(
-                context,
-                title: 'Our History',
-                content:
-                    'Founded with a vision to connect people globally, our journey began as a small community initiative. Over the years, we have grown into a platform that empowers individuals through technology and compassion. Our history is a testament to the dedication of our community and the relentless pursuit of our mission.',
+        child: RefreshIndicator(
+          onRefresh: controller.refreshData,
+          color: AppTheme.primaryColor,
+          child: Obx(() {
+            if (controller.isLoading.value && controller.content.value.isEmpty) {
+              return const Center(
+                child: CircularProgressIndicator(color: AppTheme.primaryColor),
+              );
+            }
+
+            return SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+              child: Html(
+                data: controller.content.value,
+                style: {
+                  "body": Style(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.white
+                        : AppTheme.black,
+                    fontSize: FontSize(16.sp),
+                    lineHeight: LineHeight(1.6),
+                    margin: Margins.zero,
+                    padding: HtmlPaddings.zero,
+                  ),
+                  "h2": Style(
+                    fontSize: FontSize(24.sp),
+                    fontWeight: FontWeight.bold,
+                    margin: Margins.only(top: 16.h, bottom: 8.h),
+                  ),
+                  "h3": Style(
+                    fontSize: FontSize(20.sp),
+                    fontWeight: FontWeight.bold,
+                    margin: Margins.only(top: 16.h, bottom: 8.h),
+                  ),
+                },
               ),
-              SizedBox(height: 32.h),
-              _buildSection(
-                context,
-                title: 'Core Values',
-                content:
-                    '• Integrity\nWe believe in doing the right thing, even when no one is watching.\n\n'
-                    '• Compassion\nWe care about the well-being of our community and strive to make a positive impact.\n\n'
-                    '• Innovation\nWe continuously seek new ways to improve and provide the best experience.\n\n'
-                    '• Excellence\nWe set high standards for ourselves and are committed to achieving them.',
-              ),
-              SizedBox(height: 32.h),
-              _buildSection(
-                context,
-                title: 'Our Mission',
-                content:
-                    'To foster a supportive and connected environment where everyone can grow, learn, and thrive together.',
-              ),
-            ],
-          ),
+            );
+          }),
         ),
       ),
-    );
-  }
-
-  Widget _buildSection(
-    BuildContext context, {
-    required String title,
-    required String content,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white
-                : AppTheme.black,
-            fontSize: 24.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 16.h),
-        Text(
-          content,
-          style: TextStyle(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppTheme.white.withValues(alpha: 0.8)
-                : AppTheme.black.withValues(alpha: 0.8),
-            fontSize: 16.sp,
-            height: 1.6,
-          ),
-        ),
-      ],
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 
 import '../../config/constants/api_constants.dart';
 import '../../core/services/api_client.dart';
-import '../models/user_model.dart';
 
 class AuthRepo {
   final ApiClient apiClient;

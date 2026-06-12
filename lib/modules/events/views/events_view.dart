@@ -43,19 +43,54 @@ class EventsView extends GetView<EventsController> {
           Expanded(
             child: SafeArea(
               top: false,
-              child: Obx(
-                () => ListView.separated(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 20.h,
-                  ),
-                  itemCount: controller.filteredEvents.length,
-                  separatorBuilder: (context, index) => SizedBox(height: 20.h),
-                  itemBuilder: (context, index) {
-                    final event = controller.filteredEvents[index];
-                    return EventCard(event: event);
-                  },
-                ),
+              child: RefreshIndicator(
+                color: AppTheme.primaryColor,
+                backgroundColor: AppTheme.containerColor,
+                onRefresh: controller.refreshEvents,
+                child: Obx(() {
+                  if (controller.isFirstLoad.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                    );
+                  }
+
+                  if (controller.allEvents.isEmpty) {
+                    return SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Container(
+                        height: 400.h,
+                        alignment: Alignment.center,
+                        child: Text(
+                          'No upcoming events found',
+                          style: TextStyle(color: AppTheme.white.withValues(alpha: 0.5)),
+                        ),
+                      ),
+                    );
+                  }
+
+                  return ListView.separated(
+                    controller: controller.scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 20.h,
+                    ),
+                    itemCount: controller.allEvents.length + (controller.isLoadMore.value ? 1 : 0),
+                    separatorBuilder: (context, index) => SizedBox(height: 20.h),
+                    itemBuilder: (context, index) {
+                      if (index == controller.allEvents.length) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                          ),
+                        );
+                      }
+                      final event = controller.allEvents[index];
+                      return EventCard(event: event);
+                    },
+                  );
+                }),
               ),
             ),
           ),
@@ -68,48 +103,55 @@ class EventsView extends GetView<EventsController> {
     return Container(
       height: 60.h,
       padding: EdgeInsets.symmetric(vertical: 10.h),
-      child: ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        scrollDirection: Axis.horizontal,
-        itemCount: controller.categories.length,
-        separatorBuilder: (context, index) => SizedBox(width: 10.w),
-        itemBuilder: (context, index) {
-          final category = controller.categories[index];
+      child: Obx(() {
+        if (controller.isCategoriesLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(color: AppTheme.primaryColor),
+          );
+        }
+        return ListView.separated(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          scrollDirection: Axis.horizontal,
+          itemCount: controller.categories.length,
+          separatorBuilder: (context, index) => SizedBox(width: 10.w),
+          itemBuilder: (context, index) {
+            final category = controller.categories[index];
 
-          return Obx(() {
-            final isSelected = controller.selectedCategory.value == category;
-            return GestureDetector(
-              onTap: () => controller.selectedCategory.value = category,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? AppTheme.primaryColor
-                      : AppTheme.containerColor,
-                  borderRadius: BorderRadius.circular(20.r),
-                  border: Border.all(
+            return Obx(() {
+              final isSelected = controller.selectedCategory.value?.id == category.id;
+              return GestureDetector(
+                onTap: () => controller.selectCategory(category),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  decoration: BoxDecoration(
                     color: isSelected
-                        ? Colors.transparent
-                        : AppTheme.secondaryColor,
-                    width: 1,
+                        ? AppTheme.primaryColor
+                        : AppTheme.containerColor,
+                    borderRadius: BorderRadius.circular(20.r),
+                    border: Border.all(
+                      color: isSelected
+                          ? Colors.transparent
+                          : AppTheme.secondaryColor,
+                      width: 1,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    category.label,
+                    style: TextStyle(
+                      color: isSelected
+                          ? AppTheme.white
+                          : AppTheme.white.withValues(alpha: 0.7),
+                      fontSize: 14.sp,
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                    ),
                   ),
                 ),
-                alignment: Alignment.center,
-                child: Text(
-                  category,
-                  style: TextStyle(
-                    color: isSelected
-                        ? AppTheme.white
-                        : AppTheme.white.withValues(alpha: 0.7),
-                    fontSize: 14.sp,
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                  ),
-                ),
-              ),
-            );
-          });
-        },
-      ),
+              );
+            });
+          },
+        );
+      }),
     );
   }
 }

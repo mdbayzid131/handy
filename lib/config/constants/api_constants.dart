@@ -26,6 +26,7 @@ class ApiConstants {
 
   // Sermons
   static const String sermons = '/sermons';
+  static const String latestSermons = '/sermons/latest';
   static const String sermonCategories = '/sermon-category';
 
   // Additional Profile Endpoints
@@ -38,4 +39,43 @@ class ApiConstants {
   static const String givingRecord = '/giving/record';
   static const String givingBankDetails = '/giving/bank-details';
   static const String givingHistory = '/giving/history';
+  //Events
+  static const String events = '/events';
+  static const String latestEvents = '/events/latest';
+  static const String eventsCategories = '/events/categories';
+  static const String eventsHistory = '/events/history';
+  static String eventDetails(String id) => '/events/$id';
+  static String eventRsvp(String id) => '/events/$id/rsvp';
+
+  // Church Info
+  static const String contactAndMission = '/church-info/contact-and-mission';
+
+  // Devotionals
+  static const String devotionalsProfileSummary = '/devotionals/profile-summary';
+  static const String devotionalsList = '/devotionals';
+  static const String devotionalToday = '/devotionals/today';
+  static String devotionalById(String id) => '/devotionals/$id';
+  static String markDevotionalRead(String id) => '/devotionals/$id/read';
+
+  // Community
+  static const String communityList = '/community';
+
+  // Church Info
+  static const String churchInfo = '/church-info';
+
+  // Watch Live
+  static const String youtubeStatus = '/watch-live/youtube/status';
+  static const String youtubeRecent = '/watch-live/youtube/recent';
+  static const String youtubeChannel = '/watch-live/youtube/channel';
+  static const String serviceInfo = '/watch-live/service-info';
+  static const String watchLivePlatforms = '/watch-live/platforms';
+  
+  // Bible
+  static const String bibleVersions = '/bible/versions';
+  static const String bibleBooks = '/bible/books';
+
+  // Prayer Wall
+  static const String prayerRequests = '/prayer/requests';
+  static const String myPrayerRequests = '/prayer/requests/mine';
+  static String prayForRequest(String id) => '/prayer/requests/$id/pray';
 }

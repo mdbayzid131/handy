@@ -6,72 +6,11 @@ import '../../../config/routes/app_pages.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../controllers/devotionals_controller.dart';
 
-class DevotionalItem {
-  final String day;
-  final String date;
-  final String title;
-  final String reference;
-  final String preview;
-
-  DevotionalItem(this.day, this.date, this.title, this.reference, this.preview);
-}
-
 class DevotionalsView extends GetView<DevotionalsController> {
   const DevotionalsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<DevotionalItem> devotionalsList = [
-      DevotionalItem(
-        'MONDAY',
-        'May 5, 2025',
-        'Still Waters',
-        'Psalm 23:2',
-        'In the noise and rush of daily life, God\'s invitation is to rest. The She...',
-      ),
-      DevotionalItem(
-        'TUESDAY',
-        'May 6, 2025',
-        'More Than Enough',
-        'John 6:35',
-        'Jesus does not offer to supplement our lives — He offers to satisfy the...',
-      ),
-      DevotionalItem(
-        'WEDNESDAY',
-        'May 7, 2025',
-        'The Gift of Today',
-        'Lamentations 3:22–23',
-        'Every morning is a fresh page. Yesterday\'s failures do not define ...',
-      ),
-      DevotionalItem(
-        'THURSDAY',
-        'May 8, 2025',
-        'Courage for the Calling',
-        'Joshua 1:9',
-        'God did not tell Joshua to feel courageous — He commanded hi...',
-      ),
-      DevotionalItem(
-        'FRIDAY',
-        'May 9, 2025',
-        'Rooted and Grounded',
-        'Ephesians 3:17',
-        'A tree survives storms not because of its height but because ...',
-      ),
-      DevotionalItem(
-        'SATURDAY',
-        'May 10, 2025',
-        'Sabbath Rest',
-        'Matthew 11:28',
-        'Rest is not laziness — it is trust. When we rest, we declare that the...',
-      ),
-      DevotionalItem(
-        'SUNDAY',
-        'May 11, 2025',
-        'A Day of Worship',
-        'Psalm 100:4',
-        'Sunday is a gift — a weekly reminder that we belong to somet...',
-      ),
-    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -163,131 +102,172 @@ class DevotionalsView extends GetView<DevotionalsController> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.w,
-                  vertical: 0,
-                ), // padding top is handled by banner margin
-                itemCount: devotionalsList.length,
-                itemBuilder: (context, index) {
-                  final item = devotionalsList[index];
+              child: RefreshIndicator(
+                onRefresh: controller.refreshData,
+                color: AppTheme.primaryColor,
+                child: Obx(() {
+                  if (controller.isLoading.value && controller.devotionalsList.isEmpty) {
+                    return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+                  }
 
-                  return Obx(() {
-                    final isSelected = controller.clickedIndices.contains(index);
+                  if (controller.devotionalsList.isEmpty) {
+                    return ListView(
+                      children: [
+                        SizedBox(height: 100.h),
+                        Center(
+                          child: Text(
+                            'No devotionals found',
+                            style: TextStyle(
+                              color: AppTheme.mutedTextColor,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
 
-                    return GestureDetector(
-                      onTap: () {
-                        controller.clickedIndices.add(index);
-                        Get.toNamed(AppRoutes.DEVOTIONALS_DETAILS);
-                      },
-                      child: Container(
-                      margin: EdgeInsets.only(bottom: 16.h),
-                      padding: EdgeInsets.all(20.w),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppTheme.accentBlue
-                            : AppTheme.containerColor,
-                        borderRadius: BorderRadius.circular(16.r),
-                        border: isSelected
-                            ? null
-                            : Border.all(
-                                color: AppTheme.secondaryColor,
-                              ),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 80
-                                .w, // increased slightly to fit longer dates right-aligned
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                SizedBox(
-                                  height: 22.h,
-                                ), // Push down to align with reference text
-                                Text(
-                                  item.day,
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? AppTheme.warningColor
-                                        : AppTheme.mutedTextColor,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.0,
-                                  ),
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  item.date,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? AppTheme.white
-                                        : AppTheme.mutedTextColor,
-                                    fontSize: 12.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 16.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.title,
-                                  style: TextStyle(
-                                    color: AppTheme.white,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  item.reference,
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? AppTheme.warningColor
-                                        : AppTheme.accentBlue,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(height: 8.h),
-                                Text(
-                                  item.preview,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? AppTheme.white.withValues(alpha: 0.8)
-                                        : AppTheme.mutedTextColor,
-                                    fontSize: 13.sp,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 8.w),
-                          Padding(
-                            padding: EdgeInsets.only(top: 24.h),
-                            child: Icon(
-                              Icons.chevron_right,
-                              color: isSelected
-                                  ? AppTheme.white.withValues(alpha: 0.8)
-                                  : AppTheme.mutedTextColor,
-                              size: 20.w,
-                            ),
-                          ),
-                        ],
-                      ),
+                  return ListView.builder(
+                    controller: controller.scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 0,
                     ),
+                    itemCount: controller.devotionalsList.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == controller.devotionalsList.length) {
+                        return Obx(() {
+                          if (controller.isLoadMore.value) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                    color: AppTheme.primaryColor),
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        });
+                      }
+
+                      final item = controller.devotionalsList[index];
+                      final isSelected = item.isRead ?? false;
+
+                      return GestureDetector(
+                        onTap: () {
+                          if (item.id != null) {
+                            Get.toNamed(AppRoutes.DEVOTIONALS_DETAILS, arguments: item.id);
+                          } else {
+                            Get.toNamed(AppRoutes.DEVOTIONALS_DETAILS);
+                          }
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 16.h),
+                          padding: EdgeInsets.all(20.w),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? AppTheme.accentBlue
+                                : AppTheme.containerColor,
+                            borderRadius: BorderRadius.circular(16.r),
+                            border: isSelected
+                                ? null
+                                : Border.all(
+                                    color: AppTheme.secondaryColor,
+                                  ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 80.w,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    SizedBox(height: 22.h),
+                                    Text(
+                                      item.dayLabel ?? '',
+                                      style: TextStyle(
+                                        color: isSelected
+                                            ? AppTheme.warningColor
+                                            : AppTheme.mutedTextColor,
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1.0,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      item.date ?? '',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        color: isSelected
+                                            ? AppTheme.white
+                                            : AppTheme.mutedTextColor,
+                                        fontSize: 12.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 16.w),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.title ?? '',
+                                      style: TextStyle(
+                                        color: AppTheme.white,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      item.scriptureRef ?? '',
+                                      style: TextStyle(
+                                        color: isSelected
+                                            ? AppTheme.warningColor
+                                            : AppTheme.accentBlue,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Text(
+                                      item.reflectionPreview ?? '',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: isSelected
+                                            ? AppTheme.white.withValues(alpha: 0.8)
+                                            : AppTheme.mutedTextColor,
+                                        fontSize: 13.sp,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 8.w),
+                              Padding(
+                                padding: EdgeInsets.only(top: 24.h),
+                                child: Icon(
+                                  Icons.chevron_right,
+                                  color: isSelected
+                                      ? AppTheme.white.withValues(alpha: 0.8)
+                                      : AppTheme.mutedTextColor,
+                                  size: 20.w,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   );
-                });
-              },
+                }),
               ),
             ),
           ],

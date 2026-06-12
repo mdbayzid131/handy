@@ -108,13 +108,12 @@ class BibleView extends GetView<BibleController> {
                         offset: Offset(0, 60.h),
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<String>>[
-                              for (var entry
-                                  in controller.bibleVersions.entries)
+                              for (var version in controller.versions)
                                 PopupMenuItem<String>(
-                                  value: entry.key,
+                                  value: version.abbreviation ?? '',
                                   child: Center(
                                     child: Text(
-                                      entry.value, // Dropdown shows full name
+                                      version.name ?? '', // Dropdown shows full name
                                       style: TextStyle(
                                         color: AppTheme.white,
                                         fontSize: 16.sp,
@@ -133,9 +132,7 @@ class BibleView extends GetView<BibleController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                controller.bibleVersions[controller
-                                        .selectedVersionKey
-                                        .value] ??
+                                controller.versions.firstWhereOrNull((v) => v.abbreviation == controller.selectedVersionKey.value)?.name ??
                                     '',
                                 style: TextStyle(
                                   color: AppTheme.white,
@@ -160,6 +157,10 @@ class BibleView extends GetView<BibleController> {
 
             Expanded(
               child: Obx(() {
+                if (controller.isLoading.value && controller.versions.isEmpty) {
+                  return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+                }
+
                 final books = controller.filteredBooks;
 
                 if (books.isEmpty) {
@@ -176,8 +177,11 @@ class BibleView extends GetView<BibleController> {
 
                 final rowCount = (books.length / 2).ceil();
 
-                return ListView.builder(
-                  padding: EdgeInsets.symmetric(
+                return RefreshIndicator(
+                  onRefresh: controller.refreshData,
+                  color: AppTheme.primaryColor,
+                  child: ListView.builder(
+                    padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
                     vertical: 4.h,
                   ),
@@ -209,8 +213,9 @@ class BibleView extends GetView<BibleController> {
                       ),
                     );
                   },
-                );
-              }),
+                ),
+              );
+            }),
             ),
           ],
         ),
@@ -220,10 +225,18 @@ class BibleView extends GetView<BibleController> {
 
   Widget _buildBookCard(BuildContext context, BibleBook book) {
     return GestureDetector(
-      onTap: () => Get.toNamed(
-        AppRoutes.BIBLE_CHAPTERS,
-        arguments: {'name': book.name, 'chaptersCount': book.chaptersCount},
-      ),
+      onTap: () {
+        final controller = Get.find<BibleController>();
+        final versionId = controller.versions.firstWhereOrNull((v) => v.abbreviation == controller.selectedVersionKey.value)?.id ?? 1;
+        Get.toNamed(
+          AppRoutes.BIBLE_CHAPTERS,
+          arguments: {
+            'bookId': book.id ?? '',
+            'name': book.name ?? '',
+            'versionId': versionId,
+          },
+        );
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         decoration: BoxDecoration(
@@ -235,7 +248,7 @@ class BibleView extends GetView<BibleController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              book.name,
+              book.name ?? '',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,

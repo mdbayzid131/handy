@@ -10,24 +10,24 @@ class EventCard extends StatelessWidget {
 
   const EventCard({super.key, required this.event});
 
-  Color _getCategoryColor(String category) {
-    switch (category.toLowerCase()) {
-      case 'worship':
-        return AppTheme.warningColor;
-      case 'youth':
-        return AppTheme.accentBlue;
-      case 'prayer':
-        return AppTheme.secondaryColor;
-      case 'community':
-        return AppTheme.successColor;
-      default:
-        return AppTheme.primaryColor;
+  Color _getCategoryColor(String? colorHex) {
+    if (colorHex == null || colorHex.isEmpty) {
+      return AppTheme.primaryColor;
+    }
+    try {
+      String hex = colorHex.toUpperCase().replaceAll("#", "");
+      if (hex.length == 6) {
+        hex = "FF$hex";
+      }
+      return Color(int.parse(hex, radix: 16));
+    } catch (e) {
+      return AppTheme.primaryColor;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final headerColor = _getCategoryColor(event.category);
+    final headerColor = _getCategoryColor(event.categoryColor);
 
     return GestureDetector(
       onTap: () => Get.toNamed(AppRoutes.EVENT_DITAILS, arguments: event),
@@ -55,7 +55,7 @@ class EventCard extends StatelessWidget {
                   Icon(Icons.calendar_today, color: AppTheme.white, size: 16.w),
                   SizedBox(width: 8.w),
                   Text(
-                    event.category.toUpperCase(),
+                    event.categoryLabel.toUpperCase(),
                     style: TextStyle(
                       color: AppTheme.white,
                       fontSize: 12.sp,
@@ -100,6 +100,7 @@ class EventCard extends StatelessWidget {
                   ),
                   SizedBox(height: 8.h),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Icon(
                         Icons.location_on,
@@ -107,11 +108,15 @@ class EventCard extends StatelessWidget {
                         size: 14.w,
                       ),
                       SizedBox(width: 8.w),
-                      Text(
-                        event.location,
-                        style: TextStyle(
-                          color: AppTheme.white.withValues(alpha: 0.6),
-                          fontSize: 13.sp,
+                      Expanded(
+                        child: Text(
+                          event.location,
+                          style: TextStyle(
+                            color: AppTheme.white.withValues(alpha: 0.6),
+                            fontSize: 13.sp,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -130,7 +135,7 @@ class EventCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(
-                          '${event.attendeeCount} attending',
+                          '${event.attendingCount} attending',
                           style: TextStyle(
                             color: headerColor.withValues(alpha: 0.9),
                             fontSize: 12.sp,

@@ -1,23 +1,88 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:handy/core/services/storage_service.dart';
+import 'package:handy/core/services/api_client.dart';
+import 'package:handy/core/utils/helpers.dart';
+import 'package:handy/config/constants/api_constants.dart';
+import 'package:handy/data/models/devotional_model.dart';
 
 class DevotionalsController extends GetxController {
-  final RxSet<int> clickedIndices = <int>{}.obs;
+  final ApiClient apiClient = Get.find<ApiClient>();
+
+  final isLoading = false.obs;
+  final isLoadMore = false.obs;
+  final devotionalsList = <DevotionalModel>[].obs;
+
+  int currentPage = 1;
+  int totalPages = 1;
+  final int limit = 10;
+
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
     super.onInit();
-    _loadClickedIndices();
-
-    ever(clickedIndices, (set) {
-      StorageService.setStringList('clickedIndices', set.map((e) => e.toString()).toList());
-    });
+    fetchDevotionals();
+    scrollController.addListener(_scrollListener);
   }
 
-  Future<void> _loadClickedIndices() async {
-    List<String>? storedIndices = await StorageService.getStringList('clickedIndices');
-    if (storedIndices != null) {
-      clickedIndices.addAll(storedIndices.map((e) => int.parse(e)));
+  void _scrollListener() {
+    if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 50) {
+      if (!isLoading.value && !isLoadMore.value && currentPage < totalPages) {
+        loadMoreDevotionals();
+      }
     }
+  }
+
+  Future<void> fetchDevotionals({bool isRefresh = false}) async {
+    if (isRefresh) {
+      currentPage = 1;
+    }
+
+    if (currentPage == 1) {
+      isLoading.value = true;
+    } else {
+      isLoadMore.value = true;
+    }
+
+    try {
+      final response = await apiClient.getData('${ApiConstants.devotionalsList}?page=$currentPage&limit=$limit');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data['data'] != null) {
+          final data = response.data['data'];
+          final List listData = data['devotionals'] ?? [];
+          final items = listData.map((e) => DevotionalModel.fromJson(e)).toList();
+
+          if (currentPage == 1) {
+            devotionalsList.assignAll(items);
+          } else {
+            devotionalsList.addAll(items);
+          }
+
+          final total = data['total'] ?? 0;
+          totalPages = (total / limit).ceil();
+          if (totalPages == 0) totalPages = 1;
+        }
+      }
+    } catch (e) {
+      Helpers.showDebugLog('Error fetching devotionals: $e');
+    } finally {
+      isLoading.value = false;
+      isLoadMore.value = false;
+    }
+  }
+
+  Future<void> loadMoreDevotionals() async {
+    currentPage++;
+    await fetchDevotionals();
+  }
+
+  Future<void> refreshData() async {
+    await fetchDevotionals(isRefresh: true);
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 }

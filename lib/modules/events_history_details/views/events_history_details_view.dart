@@ -8,44 +8,49 @@ import 'package:handy/core/widgets/custom_gradient_header.dart';
 class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
   const EventsHistoryDetailsView({super.key});
 
-  Color _getCategoryColor(String category) {
-    switch (category) {
-      case 'Study':
-        return const Color(0xFFFF8C00); // Orange
-      case 'Worship':
-        return AppTheme.accentBlue; // Royal Blue
-      case 'Youth':
-        return AppTheme.accentRed; // Coral/Red
-      case 'Prayer':
-        return const Color(0xFFB388FF); // Purple
-      case 'Community':
-        return AppTheme.teal400; // Teal
-      default:
-        return const Color(0xFF132488); // Default Blue
+  Color _getCategoryColor(String? colorHex) {
+    if (colorHex == null || colorHex.isEmpty) {
+      return const Color(0xFF132488);
+    }
+    try {
+      String hex = colorHex.toUpperCase().replaceAll("#", "");
+      if (hex.length == 6) {
+        hex = "FF$hex";
+      }
+      return Color(int.parse(hex, radix: 16));
+    } catch (e) {
+      return const Color(0xFF132488);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final event = controller.event;
-    final primaryColor = _getCategoryColor(event.category);
+    return Obx(() {
+      if (controller.isLoading.value && controller.event.value.description == null) {
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator(color: AppTheme.primaryColor)),
+        );
+      }
 
-    return Scaffold(
-      body: Column(
-        children: [
-          const CustomGradientHeader(
-            title: 'Event History Details',
-            subtitle: 'PIWC Stoneyburn',
-            showBackButton: true,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Hero Section / Colored Block
-                  Container(
-                    width: double.infinity,
+      final event = controller.event.value;
+      final primaryColor = _getCategoryColor(event.categoryColor);
+
+      return Scaffold(
+        body: Column(
+          children: [
+            const CustomGradientHeader(
+              title: 'Event History Details',
+              subtitle: 'PIWC Stoneyburn',
+              showBackButton: true,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Hero Section / Colored Block
+                    Container(
+                      width: double.infinity,
                     padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
                     decoration: BoxDecoration(color: primaryColor),
                     child: Column(
@@ -74,7 +79,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
-                            event.category.toUpperCase(),
+                            event.categoryLabel.toUpperCase(),
                             style: TextStyle(
                               color: AppTheme.white,
                               fontSize: 12.sp,
@@ -153,7 +158,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                               _buildDetailRow(
                                 Icons.people,
                                 'ATTENDED',
-                                '${event.attendeeCount} people',
+                                '${event.attendingCount} people',
                                 primaryColor,
                               ),
                             ],
@@ -174,7 +179,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                         ),
                         SizedBox(height: 12.h),
                         Text(
-                          event.description,
+                          event.description ?? '',
                           style: TextStyle(
                             color:
                                 Theme.of(context).brightness == Brightness.dark
@@ -227,6 +232,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
         ],
       ),
     );
+    });
   }
 
   Widget _buildDetailRow(

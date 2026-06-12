@@ -6,7 +6,10 @@ import 'package:handy/config/themes/app_theme.dart';
 import '../../../config/routes/app_pages.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 
-class MoreView extends StatelessWidget {
+import '../controllers/more_controller.dart';
+import 'package:handy/data/models/contact_mission_model.dart';
+
+class MoreView extends GetView<MoreController> {
   const MoreView({super.key});
 
   @override
@@ -16,40 +19,60 @@ class MoreView extends StatelessWidget {
         children: [
           const CustomGradientHeader(title: 'More'),
           Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Features',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppTheme.white
-                          : AppTheme.black,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
+            child: RefreshIndicator(
+              onRefresh: controller.refreshData,
+              color: AppTheme.primaryColor,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Features',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.white
+                            : AppTheme.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20.h),
-                  _buildFeaturesGrid(context),
-                  SizedBox(height: 32.h),
-                  Text(
-                    'Connect With Us',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppTheme.white
-                          : AppTheme.black,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
+                    SizedBox(height: 20.h),
+                    _buildFeaturesGrid(context),
+                    SizedBox(height: 32.h),
+                    Text(
+                      'Connect With Us',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.white
+                            : AppTheme.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20.h),
-                  _buildConnectCard(),
-                  SizedBox(height: 24.h),
-                  _buildMissionCard(),
-                  SizedBox(height: 40.h), // padding at bottom
-                ],
+                    SizedBox(height: 20.h),
+                    SizedBox(height: 20.h),
+                    Obx(() {
+                      if (controller.isLoading.value &&
+                          controller.contactMission.value == null) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: AppTheme.primaryColor,
+                          ),
+                        );
+                      }
+                      return Column(
+                        children: [
+                          _buildConnectCard(controller.contactMission.value),
+                          SizedBox(height: 24.h),
+                          _buildMissionCard(controller.contactMission.value),
+                        ],
+                      );
+                    }),
+                    SizedBox(height: 40.h), // padding at bottom
+                  ],
+                ),
               ),
             ),
           ),
@@ -185,7 +208,7 @@ class MoreView extends StatelessWidget {
     );
   }
 
-  Widget _buildConnectCard() {
+  Widget _buildConnectCard(ContactMissionModel? data) {
     return Container(
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
@@ -224,18 +247,26 @@ class MoreView extends StatelessWidget {
           _buildConnectRow(
             Icons.location_on,
             'Address',
-            '71 Stoneyburn Street, Stoneyburn,\nEH47 8JT',
+            data?.address ?? '71 Stoneyburn Street, Stoneyburn,\nEH47 8JT',
           ),
           SizedBox(height: 20.h),
           _buildConnectRow(
             Icons.access_time,
             'Sunday Service',
-            '10:00 AM – 12:30 PM',
+            data?.sundayService ?? '10:00 AM – 12:30 PM',
           ),
           SizedBox(height: 20.h),
-          _buildConnectRow(Icons.email, 'Email', 'info@piwcstoneyburn.org'),
+          _buildConnectRow(
+            Icons.email,
+            'Email',
+            data?.email ?? 'info@piwcstoneyburn.org',
+          ),
           SizedBox(height: 20.h),
-          _buildConnectRow(Icons.language, 'Website', 'www.piwcstoneyburn.org'),
+          _buildConnectRow(
+            Icons.language,
+            'Website',
+            data?.website ?? 'www.piwcstoneyburn.org',
+          ),
         ],
       ),
     );
@@ -282,9 +313,10 @@ class MoreView extends StatelessWidget {
     );
   }
 
-  Widget _buildMissionCard() {
+  Widget _buildMissionCard(ContactMissionModel? data) {
     return Container(
-      padding: EdgeInsets.all(24.w),
+      padding: EdgeInsets.all(20.w),
+      width: double.infinity,
       decoration: BoxDecoration(
         color: AppTheme.warningColor,
         borderRadius: BorderRadius.circular(20.r),
@@ -301,9 +333,10 @@ class MoreView extends StatelessWidget {
               letterSpacing: 1.2,
             ),
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 4.h),
           Text(
-            '"To make heaven, to take as many people as possible with us, and to have a positive impact on society."',
+            data?.ourMission ??
+                '"To make heaven, to take as many people as possible with us, and to have a positive impact on society."',
             style: TextStyle(
               color: AppTheme.darkNavy.withValues(alpha: 0.8),
               fontSize: 16.sp,

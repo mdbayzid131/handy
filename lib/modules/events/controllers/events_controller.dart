@@ -1,78 +1,133 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:handy/config/constants/api_constants.dart';
+import '../../../core/services/api_client.dart';
+import '../../../core/utils/helpers.dart';
 import '../../../data/models/events_model.dart';
 
 class EventsController extends GetxController {
-  final selectedCategory = 'All'.obs;
+  final ApiClient apiClient = Get.find<ApiClient>();
+  final scrollController = ScrollController();
 
-  final List<String> categories = ['All', 'Worship', 'Youth', 'Prayer', 'Study', 'Community'];
+  final selectedCategory = Rxn<EventCategoryModel>();
+  final categories = <EventCategoryModel>[].obs;
+  final isCategoriesLoading = true.obs;
 
-  final events = <EventModel>[
-    EventModel(
-      id: '1',
-      category: 'Study',
-      title: 'Women\'s Bible Study',
-      date: 'May 8, 2025',
-      time: '10:00 AM',
-      location: 'Room 204',
-      attendeeCount: 29,
-      description: 'Join us as we dive deep into the Word of God, studying the book of Ruth. Coffee and snacks will be provided. All women are welcome!',
-    ),
-    EventModel(
-      id: '2',
-      category: 'Worship',
-      title: 'Sunday Worship Service',
-      date: 'May 11, 2025',
-      time: '9:00 AM & 11:00 AM',
-      location: 'Main Sanctuary',
-      attendeeCount: 247,
-      description: 'Our regular Sunday service featuring contemporary worship and a powerful message from Pastor John. Children\'s ministry is available during both services.',
-    ),
-    EventModel(
-      id: '3',
-      category: 'Worship',
-      title: 'Baptism Sunday',
-      date: 'May 18, 2025',
-      time: '11:00 AM',
-      location: 'Main Sanctuary',
-      attendeeCount: 183,
-      description: 'Celebrate with those taking the next step in their faith journey! If you would like to be baptized, please register online before Wednesday.',
-    ),
-    EventModel(
-      id: '4',
-      category: 'Youth',
-      title: 'Youth Night: Ignite',
-      date: 'May 9, 2025',
-      time: '6:30 PM',
-      location: 'Youth Hall',
-      attendeeCount: 64,
-      description: 'An evening of fun, games, worship, and an inspiring message specifically for teenagers (ages 13-18). Bring a friend!',
-    ),
-    EventModel(
-      id: '5',
-      category: 'Prayer',
-      title: 'Wednesday Prayer Meeting',
-      date: 'May 7, 2025',
-      time: '7:00 PM',
-      location: 'Prayer Room',
-      attendeeCount: 52,
-      description: 'Join us for corporate prayer as we intercede for our community, our nation, and specific needs within the congregation.',
-    ),
-    EventModel(
-      id: '6',
-      category: 'Community',
-      title: 'Men\'s Breakfast Fellowship',
-      date: 'May 10, 2025',
-      time: '7:30 AM',
-      location: 'Fellowship Hall',
-      attendeeCount: 41,
-      description: 'A great time of food, fellowship, and a short devotional. A perfect opportunity to connect with other men in the church.',
-    ),
-  ].obs;
+  final allEvents = <EventModel>[].obs;
+  final isFirstLoad = true.obs;
+  final isLoadMore = false.obs;
 
-  List<EventModel> get filteredEvents {
-    if (selectedCategory.value == 'All') {
-      return events;
+  int currentPage = 1;
+  final int limit = 20;
+  bool hasNextPage = true;
+
+  @override
+  void onInit() {
+    super.onInit();
+    scrollController.addListener(_scrollListener);
+    
+    fetchCategories();
+    fetchEvents();
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+
+  void _scrollListener() {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      loadMoreEvents();
     }
-    return events.where((event) => event.category == selectedCategory.value).toList();
+  }
+
+  Future<void> fetchCategories() async {
+    isCategoriesLoading.value = true;
+    try {
+      final response = await apiClient.getData(ApiConstants.eventsCategories);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data['data'] != null) {
+          final list = (response.data['data'] as List)
+              .map((x) => EventCategoryModel.fromJson(x))
+              .toList();
+          categories.assignAll(list);
+          if (list.isNotEmpty) {
+            selectedCategory.value = list.firstWhere((c) => c.id == 'all', orElse: () => list.first);
+          }
+        }
+      }
+    } catch (e) {
+      Helpers.showDebugLog('Error fetching event categories: $e');
+    } finally {
+      isCategoriesLoading.value = false;
+    }
+  }
+
+  Future<void> fetchEvents({bool isRefresh = false}) async {
+    if (isRefresh) {
+      currentPage = 1;
+      hasNextPage = true;
+    }
+
+    if (!hasNextPage) return;
+
+    if (currentPage == 1) {
+      isFirstLoad.value = true;
+    }
+
+    try {
+      String url = '${ApiConstants.events}?page=$currentPage&limit=$limit';
+      if (selectedCategory.value != null && selectedCategory.value!.id != 'all') {
+        url += '&categoryId=${selectedCategory.value!.id}';
+      }
+
+      final response = await apiClient.getData(url);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (response.data['data'] != null && response.data['data']['events'] != null) {
+          final list = (response.data['data']['events'] as List)
+              .map((x) => EventModel.fromJson(x))
+              .toList();
+          
+          if (currentPage == 1) {
+            allEvents.assignAll(list);
+          } else {
+            allEvents.addAll(list);
+          }
+          
+          if (list.length < limit) {
+            hasNextPage = false;
+          }
+        }
+      }
+    } catch (e) {
+      Helpers.showDebugLog('Error fetching events: $e');
+    } finally {
+      isFirstLoad.value = false;
+    }
+  }
+
+  Future<void> loadMoreEvents() async {
+    if (isLoadMore.value || !hasNextPage) return;
+    
+    isLoadMore.value = true;
+    currentPage++;
+    try {
+      await fetchEvents();
+    } catch (e) {
+      Helpers.showDebugLog('Error fetching more events: $e');
+      currentPage--;
+    } finally {
+      isLoadMore.value = false;
+    }
+  }
+
+  Future<void> refreshEvents() async {
+    await fetchEvents(isRefresh: true);
+  }
+
+  void selectCategory(EventCategoryModel category) {
+    selectedCategory.value = category;
+    fetchEvents(isRefresh: true);
   }
 }

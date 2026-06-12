@@ -40,7 +40,21 @@ class BibleChaptersView extends GetView<BibleChapterController> {
       ),
       body: SafeArea(
         child: Obx(() {
-          final chaptersCount = controller.chaptersCount.value;
+          if (controller.isLoading.value && controller.chaptersList.isEmpty) {
+            return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+          }
+
+          final chapters = controller.chaptersList;
+          if (chapters.isEmpty && !controller.isLoading.value) {
+            return Center(
+              child: Text(
+                'No chapters found',
+                style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 16.sp),
+              ),
+            );
+          }
+
+          final chaptersCount = chapters.length;
           final fullRows = (chaptersCount / 5).floor();
           final remainder = chaptersCount % 5;
           final totalRows = fullRows + (remainder > 0 ? 1 : 0);
@@ -86,7 +100,8 @@ class BibleChaptersView extends GetView<BibleChapterController> {
 
                     List<Widget> rowChildren = [];
                     for (int i = 0; i < itemsInRow; i++) {
-                      int chapter = rowIndex * 5 + i + 1;
+                      int chapterIndex = rowIndex * 5 + i;
+                      String chapter = chapters[chapterIndex];
                       rowChildren.add(
                         Expanded(
                           child: AspectRatio(
@@ -114,7 +129,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
     );
   }
 
-  Widget _buildChapterBox(int chapter) {
+  Widget _buildChapterBox(String chapter) {
     final isSelected = controller.selectedChapter.value == chapter;
     return GestureDetector(
       onTap: () => controller.onChapterSelected(chapter),
@@ -128,7 +143,7 @@ class BibleChaptersView extends GetView<BibleChapterController> {
         ),
         alignment: Alignment.center,
         child: Text(
-          '$chapter',
+          chapter,
           style: TextStyle(
             color: AppTheme.white,
             fontSize: 18.sp,

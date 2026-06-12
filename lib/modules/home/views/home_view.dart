@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/data/models/home_model.dart';
 import '../../../config/constants/image_paths.dart';
@@ -31,8 +32,12 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
+      body: RefreshIndicator(
+        onRefresh: controller.refreshHome,
+        color: AppTheme.primaryColor,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +167,17 @@ class HomeView extends GetView<HomeController> {
                     Get.find<BottomNavBarController>().changeTab(1),
               ),
               SizedBox(height: 16.h),
-              _buildLatestSermonCard(controller.homeData.latestSermon),
+              Obx(() {
+                if (controller.isLoadingSermon.value && controller.latestSermon.value == null) {
+                  return const Center(
+                    child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                  );
+                }
+                if (controller.latestSermon.value == null) {
+                  return const SizedBox.shrink();
+                }
+                return _buildLatestSermonCard(controller.latestSermon.value!);
+              }),
               SizedBox(height: 32.h),
               _buildSectionHeader(
                 context,
@@ -171,42 +186,40 @@ class HomeView extends GetView<HomeController> {
                     Get.find<BottomNavBarController>().changeTab(3),
               ),
               SizedBox(height: 16.h),
-              Padding(
-                padding: EdgeInsets.only(bottom: 16.h),
-                child: EventCard(
-                  event: EventModel(
-                    id: '1',
-                    category: 'Worship',
-                    title: 'Sunday Service — This Week',
-                    date: 'May 5, 2026',
-                    time: '10:00 AM',
-                    location: '71 Stoneyburn Street',
-                    attendeeCount: 150,
-                    description:
-                        'Join us this Sunday at 71 Stoneyburn Street. Service runs from 10:00 AM to 12:30 PM. All are welcome.',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 12.h),
-                child: EventCard(
-                  event: EventModel(
-                    id: '2',
-                    category: 'Community',
-                    title: 'Baptism Sunday',
-                    date: 'May 4, 2026',
-                    time: '09:00 AM',
-                    location: 'Main Church Sanctuary',
-                    attendeeCount: 45,
-                    description:
-                        'If you\'re ready to take the step of water baptism, please speak with any of our elders or pastors.',
-                  ),
-                ),
-              ),
+              Obx(() {
+                if (controller.isLoadingEvents.value && controller.latestEvents.isEmpty) {
+                  return const Center(
+                    child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                  );
+                }
+                if (controller.latestEvents.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.h),
+                      child: Text(
+                        'No upcoming events',
+                        style: TextStyle(
+                          color: AppTheme.white.withValues(alpha: 0.5),
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return Column(
+                  children: controller.latestEvents.map<Widget>((EventModel event) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 16.h),
+                      child: EventCard(event: event),
+                    );
+                  }).toList(),
+                );
+              }),
               SizedBox(height: 28.h),
             ],
           ),
         ),
+      ),
       ),
     );
   }
@@ -267,6 +280,17 @@ class HomeView extends GetView<HomeController> {
             ),
             Obx(() {
               final progress = controller.devotionalProgress.value;
+              final isLoading = controller.isLoadingDevotional.value;
+              
+              if (isLoading) {
+                return Container(
+                  width: 80.w,
+                  height: 80.w,
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(color: AppTheme.white),
+                );
+              }
+
               return Stack(
                 alignment: Alignment.center,
                 children: [
@@ -311,84 +335,96 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildNextServiceCard(NextServiceModel data) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-      decoration: BoxDecoration(
-        color: AppTheme.warningColor,
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 50.w,
-            height: 50.w,
-            decoration: BoxDecoration(
-              color: AppTheme.black.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(16.r),
-            ),
-            child: Icon(
-              Icons.access_time_filled,
-              color: AppTheme.deepBlackBlue.withValues(alpha: 0.7),
-              size: 26.w,
-            ),
-          ),
-          SizedBox(width: 16.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data.label,
-                  style: TextStyle(
-                    color: AppTheme.deepBlackBlue.withValues(alpha: 0.6),
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  data.title,
-                  style: TextStyle(
-                    color: AppTheme.deepBlackBlue,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  data.schedule,
-                  style: TextStyle(
-                    color: AppTheme.deepBlackBlue.withValues(alpha: 0.8),
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            onTap: () => Get.find<BottomNavBarController>().changeTab(1),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+    return Obx(() {
+      final schedule = controller.contactMission.value?.sundayService;
+      final scheduleText = schedule != null ? 'Sunday · ${schedule.split(',').join(' - ')}' : data.schedule;
+
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        decoration: BoxDecoration(
+          color: AppTheme.warningColor,
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 50.w,
+              height: 50.w,
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
-                borderRadius: BorderRadius.circular(24.r),
+                color: AppTheme.black.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(16.r),
               ),
-              child: Text(
-                'Details',
-                style: TextStyle(
-                  color: AppTheme.white,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold,
+              child: Icon(
+                Icons.access_time_filled,
+                color: AppTheme.deepBlackBlue.withValues(alpha: 0.7),
+                size: 26.w,
+              ),
+            ),
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.label,
+                    style: TextStyle(
+                      color: AppTheme.deepBlackBlue.withValues(alpha: 0.6),
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Text(
+                    data.title,
+                    style: TextStyle(
+                      color: AppTheme.deepBlackBlue,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  if (controller.isLoadingContact.value)
+                    SizedBox(
+                      height: 14.sp,
+                      width: 14.sp,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.deepBlackBlue.withValues(alpha: 0.8)),
+                    )
+                  else
+                    Text(
+                      scheduleText,
+                      style: TextStyle(
+                        color: AppTheme.deepBlackBlue.withValues(alpha: 0.8),
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () => Get.find<BottomNavBarController>().changeTab(1),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor,
+                  borderRadius: BorderRadius.circular(24.r),
+                ),
+                child: Text(
+                  'Details',
+                  style: TextStyle(
+                    color: AppTheme.white,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildWatchLiveCard() {
@@ -605,7 +641,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildLatestSermonCard(LatestSermonModel data) {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.SERMON_DITAILS),
+      onTap: () => Get.toNamed(AppRoutes.SERMON_DITAILS, arguments: data.id),
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.all(16.w),
@@ -623,26 +659,41 @@ class HomeView extends GetView<HomeController> {
               decoration: BoxDecoration(
                 color: AppTheme.primaryColor,
                 borderRadius: BorderRadius.circular(16.r),
-                image: const DecorationImage(
-                  image: NetworkImage(
-                    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
-                  ),
-                  fit: BoxFit.cover,
-                ),
               ),
-              child: Center(
-                child: Container(
-                  padding: EdgeInsets.all(4.w),
-                  decoration: BoxDecoration(
-                    color: AppTheme.black.withValues(alpha: 0.4),
-                    shape: BoxShape.circle,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16.r),
+                    child: CachedNetworkImage(
+                      imageUrl: data.thumbnailUrl != null
+                          ? 'https://church-app-ooku.onrender.com${data.thumbnailUrl}'
+                          : 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          Container(color: AppTheme.primaryColor),
+                      errorWidget: (context, url, error) => CachedNetworkImage(
+                        imageUrl:
+                            'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                  child: Icon(
-                    Icons.play_arrow_rounded,
-                    color: AppTheme.white,
-                    size: 20.w,
+                  Center(
+                    child: Container(
+                      padding: EdgeInsets.all(4.w),
+                      decoration: BoxDecoration(
+                        color: AppTheme.black.withValues(alpha: 0.4),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.play_arrow_rounded,
+                        color: AppTheme.white,
+                        size: 20.w,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             SizedBox(width: 16.w),

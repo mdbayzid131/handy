@@ -84,11 +84,28 @@ class GivingSummaryModel {
   });
 
   factory GivingSummaryModel.fromJson(Map<String, dynamic> json) {
+    String? parsedLastGift;
+    if (json['last_gift'] != null) {
+      if (json['last_gift'] is Map) {
+        final map = json['last_gift'] as Map;
+        final amount = map['amount']?.toString() ?? '';
+        final date = map['date']?.toString() ?? '';
+        if (amount.isNotEmpty) {
+          final currency = json['currency'] ?? '£';
+          parsedLastGift = '$currency$amount on $date';
+        } else {
+          parsedLastGift = map.toString();
+        }
+      } else {
+        parsedLastGift = json['last_gift'].toString();
+      }
+    }
+
     return GivingSummaryModel(
       totalGivenThisYear: json['total_given_this_year'],
-      currency: json['currency'],
+      currency: json['currency']?.toString(),
       year: json['year'],
-      lastGift: json['last_gift'],
+      lastGift: parsedLastGift,
       givingStreakWeeks: json['giving_streak_weeks'],
       totalGivenAllTime: json['total_given_all_time'],
       totalDonationsCount: json['total_donations_count'],
