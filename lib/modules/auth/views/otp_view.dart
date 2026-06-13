@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:handy/config/routes/app_pages.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../core/widgets/custom_button.dart';
 import 'package:handy/config/themes/app_theme.dart';
+import '../controllers/otp_controller.dart';
 
-class OtpView extends StatelessWidget {
+class OtpView extends GetView<OtpController> {
   const OtpView({super.key});
 
   @override
@@ -86,6 +86,7 @@ class OtpView extends StatelessWidget {
                     // OTP Input Fields
                     Center(
                       child: Pinput(
+                        controller: controller.pinController,
                         length: 4,
                         defaultPinTheme: PinTheme(
                           width: 64.w,
@@ -157,12 +158,13 @@ class OtpView extends StatelessWidget {
                     SizedBox(height: 40.h),
 
                     // Verify Button
-                    CustomButton(
-                      text: 'Verify Code',
-                      backgroundColor: AppTheme.accentBlue,
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.UPDATE_PASSWORD);
-                      },
+                    Obx(
+                      () => CustomButton(
+                        text: 'Verify Code',
+                        backgroundColor: AppTheme.accentBlue,
+                        onPressed: controller.verifyOtp,
+                        isLoading: controller.isLoading.value,
+                      ),
                     ),
                     SizedBox(height: 24.h),
 
@@ -180,14 +182,22 @@ class OtpView extends StatelessWidget {
                             fontSize: 14.sp,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'Resend',
-                            style: TextStyle(
-                              color: AppTheme.warningColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.bold,
+                        Obx(
+                          () => GestureDetector(
+                            onTap: controller.resendTimer.value == 0
+                                ? controller.resendOtp
+                                : null,
+                            child: Text(
+                              controller.resendTimer.value > 0
+                                  ? 'Resend in ${controller.resendTimer.value}s'
+                                  : 'Resend',
+                              style: TextStyle(
+                                color: controller.resendTimer.value > 0
+                                    ? AppTheme.white.withValues(alpha: 0.5)
+                                    : AppTheme.warningColor,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),

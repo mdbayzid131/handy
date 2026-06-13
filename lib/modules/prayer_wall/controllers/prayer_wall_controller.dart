@@ -13,6 +13,15 @@ class PrayerWallController extends GetxController {
   final requests = <PrayerWallModel>[].obs;
   final myRequests = <PrayerWallModel>[].obs;
   
+  // Pagination State
+  int currentPage = 1;
+  bool hasMore = true;
+  final isLoadingMore = false.obs;
+
+  int myCurrentPage = 1;
+  bool myHasMore = true;
+  final isMyLoadingMore = false.obs;
+
   final isLoading = false.obs;
   final isSubmitting = false.obs;
 
@@ -30,14 +39,14 @@ class PrayerWallController extends GetxController {
       nameController.text = user.name ?? '';
     }
 
-    fetchRequests();
-    fetchMyRequests();
+    fetchRequests(isRefresh: true);
+    fetchMyRequests(isRefresh: true);
 
     ever(isPrayerWall, (_) {
       if (isPrayerWall.value && requests.isEmpty) {
-        fetchRequests();
+        fetchRequests(isRefresh: true);
       } else if (!isPrayerWall.value && myRequests.isEmpty) {
-        fetchMyRequests();
+        fetchMyRequests(isRefresh: true);
       }
     });
   }
@@ -51,43 +60,124 @@ class PrayerWallController extends GetxController {
 
   Future<void> refreshData() async {
     if (isPrayerWall.value) {
-      await fetchRequests();
+      await fetchRequests(isRefresh: true);
     } else {
-      await fetchMyRequests();
+      await fetchMyRequests(isRefresh: true);
     }
   }
 
-  Future<void> fetchRequests() async {
-    isLoading.value = true;
+  void loadMore() {
+    if (isPrayerWall.value) {
+      fetchRequests();
+    } else {
+      fetchMyRequests();
+    }
+  }
+
+  Future<void> fetchRequests({bool isRefresh = false}) async {
+    if (isRefresh) {
+      currentPage = 1;
+      hasMore = true;
+    }
+    if (!hasMore || isLoadingMore.value) return;
+
+    if (currentPage == 1) {
+      isLoading.value = true;
+    } else {
+      isLoadingMore.value = true;
+    }
+
     try {
-      final response = await apiClient.getData('${ApiConstants.prayerRequests}?page=1&limit=50');
+      final response = await apiClient.getData('${ApiConstants.prayerRequests}?page=$currentPage&limit=10');
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
           final List listData = response.data['data'];
-          requests.assignAll(listData.map((e) => PrayerWallModel.fromJson(e)).toList());
+          final newItems = listData.map((e) => PrayerWallModel.fromJson(e)).toList();
+          
+          if (isRefresh) {
+            requests.assignAll(newItems);
+          } else {
+            requests.addAll(newItems);
+          }
+          
+          final pagination = response.data['pagination'];
+          if (pagination != null) {
+             final totalPage = pagination['totalPage'] ?? 1;
+             if (currentPage >= totalPage) {
+               hasMore = false;
+             } else {
+               currentPage++;
+             }
+          } else {
+             if (newItems.length < 10) {
+               hasMore = false;
+             } else {
+               currentPage++;
+             }
+          }
         }
       }
     } catch (e) {
       Helpers.showDebugLog('Error fetching prayer requests: $e');
     } finally {
       isLoading.value = false;
+      isLoadingMore.value = false;
     }
   }
 
-  Future<void> fetchMyRequests() async {
-    isLoading.value = true;
+  Future<void> fetchMyRequests({bool isRefresh = false}) async {
+    if (isRefresh) {
+      myCurrentPage = 1;
+      myHasMore = true;
+    }
+    if (!myHasMore || isMyLoadingMore.value) return;
+
+    if (myCurrentPage == 1) {
+      isLoading.value = true;
+    } else {
+      isMyLoadingMore.value = true;
+    }
+
     try {
-      final response = await apiClient.getData(ApiConstants.myPrayerRequests);
+      // Note: Assuming myPrayerRequests supports pagination
+      final url = ApiConstants.myPrayerRequests.contains('?') 
+          ? '${ApiConstants.myPrayerRequests}&page=$myCurrentPage&limit=10' 
+          : '${ApiConstants.myPrayerRequests}?page=$myCurrentPage&limit=10';
+      final response = await apiClient.getData(url);
+      
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
           final List listData = response.data['data'];
-          myRequests.assignAll(listData.map((e) => PrayerWallModel.fromJson(e)).toList());
+          final newItems = listData.map((e) => PrayerWallModel.fromJson(e)).toList();
+          
+          if (isRefresh) {
+            myRequests.assignAll(newItems);
+          } else {
+            myRequests.addAll(newItems);
+          }
+          
+          final pagination = response.data['pagination'];
+          if (pagination != null) {
+             final totalPage = pagination['totalPage'] ?? 1;
+             if (myCurrentPage >= totalPage) {
+               myHasMore = false;
+             } else {
+               myCurrentPage++;
+             }
+          } else {
+             if (newItems.length < 10) {
+               myHasMore = false;
+             } else {
+               myCurrentPage++;
+             }
+          }
         }
       }
     } catch (e) {
       Helpers.showDebugLog('Error fetching my prayer requests: $e');
     } finally {
       isLoading.value = false;
+      isMyLoadingMore.value = false;
     }
   }
 
@@ -107,14 +197,15 @@ class PrayerWallController extends GetxController {
       final response = await apiClient.postData(ApiConstants.prayerRequests, data);
       
       if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.back(); // close bottom sheet FIRST
         Helpers.showSuccess('Prayer request shared successfully', title: 'Success');
+        
         requestController.clear();
         isAnonymous.value = false;
-        Get.back(); // close bottom sheet
         
         // Refresh both lists
-        fetchRequests();
-        fetchMyRequests();
+        fetchRequests(isRefresh: true);
+        fetchMyRequests(isRefresh: true);
       }
     } catch (e) {
       Helpers.showDebugLog('Error submitting prayer request: $e');

@@ -5,73 +5,66 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Type-safe wrapper around SharedPreferences.
 /// Caches the SharedPreferences instance to avoid repeated async lookups.
 class StorageService extends GetxService {
+  static late SharedPreferences _preferences;
+
+  static Future<void> init() async {
+    _preferences = await SharedPreferences.getInstance();
+  }
+
   //===========================> Get Data <========================
   static Future<String> getString(String key) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getString(key) ?? "";
+    return _preferences.getString(key) ?? "";
   }
 
   static Future<bool?> getBool(String key) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getBool(key);
+    return _preferences.getBool(key);
   }
 
   static Future<int> getInt(String key) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getInt(key) ?? -1;
+    return _preferences.getInt(key) ?? -1;
   }
 
   static Future<double?> getDouble(String key) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getDouble(key);
+    return _preferences.getDouble(key);
   }
 
   static Future<List<String>?> getStringList(String key) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getStringList(key);
+    return _preferences.getStringList(key);
   }
 
   //=============================> Save Data <========================
   static Future<bool> setString(String key, String value) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.setString(key, value);
+    return _preferences.setString(key, value);
   }
 
   static Future<bool> setBool(String key, bool value) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.setBool(key, value);
+    return _preferences.setBool(key, value);
   }
 
   static Future<bool> setInt(String key, int value) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.setInt(key, value);
+    return _preferences.setInt(key, value);
   }
 
   static Future<bool> setDouble(String key, double value) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.setDouble(key, value);
+    return _preferences.setDouble(key, value);
   }
 
   static Future<bool> setStringList(String key, List<String> value) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.setStringList(key, value);
+    return _preferences.setStringList(key, value);
   }
 
   //===============================> Remove Value <==================================
   static Future<bool> remove(String key) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.remove(key);
+    return _preferences.remove(key);
   }
 
   //==============================> Clear All <============================
   static Future<bool> clearAll() async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.clear();
+    return _preferences.clear();
   }
 
   //==============================> Check Key Exists <============================
   static Future<bool> containsKey(String key) async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.containsKey(key);
+    return _preferences.containsKey(key);
   }
 }

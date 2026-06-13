@@ -1,6 +1,7 @@
 class ApiConstants {
   // Base URLs
-  static const String baseUrl = 'https://church-app-ooku.onrender.com/api/v1';
+  static const String baseUrl =
+      'https://urgent-methods-special-tiger.trycloudflare.com/api/v1';
   // static const String apiVersion = '/api/v1';
 
   // Auth Endpoints
@@ -9,11 +10,12 @@ class ApiConstants {
   static const String signup = '/auth/signup';
   static const String logout = '/auth/logout';
   static const String refreshToken = '/auth/refresh';
-  static const String forgotPassword = '/auth/forgot-password';
+  static const String forgotPassword = '/auth/forget-password';
 
   // User Endpoints
   static const String profile = '/user/profile';
   static const String updateProfile = '/user/update';
+  static const String deleteAccount = '/user/delete-account';
 
   // Add your API endpoints here
   static const String resendVerifyEmail = '/auth/resend-verify-email';
@@ -51,7 +53,8 @@ class ApiConstants {
   static const String contactAndMission = '/church-info/contact-and-mission';
 
   // Devotionals
-  static const String devotionalsProfileSummary = '/devotionals/profile-summary';
+  static const String devotionalsProfileSummary =
+      '/devotionals/profile-summary';
   static const String devotionalsList = '/devotionals';
   static const String devotionalToday = '/devotionals/today';
   static String devotionalById(String id) => '/devotionals/$id';
@@ -69,7 +72,7 @@ class ApiConstants {
   static const String youtubeChannel = '/watch-live/youtube/channel';
   static const String serviceInfo = '/watch-live/service-info';
   static const String watchLivePlatforms = '/watch-live/platforms';
-  
+
   // Bible
   static const String bibleVersions = '/bible/versions';
   static const String bibleBooks = '/bible/books';

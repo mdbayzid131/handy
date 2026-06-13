@@ -110,6 +110,15 @@ class ApiClient extends GetxService {
       return handler.next(e);
     }
 
+    // 1.5️⃣ User doesn't exist (e.g. account deleted from DB but token remains)
+    if (e.response?.statusCode == 400) {
+      final data = e.response?.data;
+      if (data is Map && data['message'] == "User doesn't exist!") {
+        _forceLogout();
+        return handler.next(e);
+      }
+    }
+
     // 2️⃣ Token expired → refresh & retry
     if (e.response?.statusCode == 401 &&
         !e.requestOptions.path.contains(ApiConstants.refreshToken) &&
@@ -381,7 +390,12 @@ class ApiClient extends GetxService {
   /// Force logout when refresh fails
   void _forceLogout() {
     try {
-      Get.find<AuthService>().logout(localOnly: true);
+      final authService = Get.find<AuthService>();
+      if (!authService.isLoggedIn.value) {
+        // If already a guest, don't force them to login page for background 401s
+        return;
+      }
+      authService.logout(localOnly: true);
     } catch (_) {
       // Fallback if AuthService is not found
       StorageService.clearAll();

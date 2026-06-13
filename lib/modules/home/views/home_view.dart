@@ -10,6 +10,7 @@ import '../controllers/home_controller.dart';
 import '../../bottom_nab_bar/controllers/bottom_nab_bar.dart';
 import 'package:handy/core/widgets/cards/event_card.dart';
 import 'package:handy/data/models/events_model.dart';
+import '../../../core/services/auth_service.dart';
 
 // ignore: unused_element
 class _QuickAccessItem {
@@ -110,7 +111,13 @@ class HomeView extends GetView<HomeController> {
                       ),
                       SizedBox(width: 16.w),
                       GestureDetector(
-                        onTap: () => Get.find<BottomNavBarController>().goToProfile(),
+                        onTap: () {
+                          if (Get.find<AuthService>().isLoggedIn.value) {
+                            Get.find<BottomNavBarController>().goToProfile();
+                          } else {
+                            Get.toNamed(AppRoutes.LOGIN);
+                          }
+                        },
                         child: Container(
                           width: 40.w,
                           height: 40.w,
@@ -641,7 +648,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildLatestSermonCard(LatestSermonModel data) {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.SERMON_DITAILS, arguments: data.id),
+      onTap: () => Get.toNamed(AppRoutes.SERMON_details, arguments: data.id),
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.all(16.w),

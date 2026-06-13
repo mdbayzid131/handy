@@ -161,4 +161,40 @@ class ProfileController extends GetxController {
       (sermon) => sermon.id == sermonId || sermon.sId == sermonId,
     );
   }
+
+  Future<void> logout() async {
+    Helpers.showLoadingDialog();
+    try {
+      await Get.find<AuthService>().logout();
+      Helpers.showCustomSnackBar(
+        'Logged out successfully',
+        type: SnackBarType.success,
+      );
+    } finally {
+      Helpers.hideLoadingDialog();
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    Helpers.showLoadingDialog();
+    try {
+      final response = await apiClient.deleteData(ApiConstants.deleteAccount);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final message = response.data['message'] ?? 'Account deleted successfully';
+        Helpers.showCustomSnackBar(
+          message,
+          type: SnackBarType.success,
+        );
+        // Clear local data and redirect to login
+        await Get.find<AuthService>().logout(localOnly: true);
+      } else {
+        Helpers.showCustomSnackBar(response.data['message'] ?? 'Failed to delete account');
+      }
+    } catch (e) {
+      Helpers.showDebugLog('Failed to delete account: $e');
+      Helpers.showCustomSnackBar('An error occurred');
+    } finally {
+      Helpers.hideLoadingDialog();
+    }
+  }
 }

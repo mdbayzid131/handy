@@ -36,8 +36,8 @@ import 'package:handy/modules/notifications/bindings/notifications_binding.dart'
 import 'package:handy/modules/notifications/views/notifications_view.dart';
 import 'package:handy/modules/prayer_wall/bindings/prayer_wall_binding.dart';
 import 'package:handy/modules/prayer_wall/views/prayer_wall_view.dart';
-import 'package:handy/modules/sermon_ditails/bindings/sermon_ditails_binding.dart';
-import 'package:handy/modules/sermon_ditails/views/sermon_ditails_view.dart';
+import 'package:handy/modules/sermon_details/bindings/sermon_details_binding.dart';
+import 'package:handy/modules/sermon_details/views/sermon_details_view.dart';
 import 'package:handy/modules/sermons/bindings/sermons_binding.dart';
 import 'package:handy/modules/sermons/views/sermons_view.dart';
 import 'package:handy/modules/watch_live/bindings/watch_live_binding.dart';
@@ -96,9 +96,9 @@ abstract class AppRoutes {
   // ignore: constant_identifier_names
   static const String MORE = '/more';
   // ignore: constant_identifier_names
-  static const String SERMON_DITAILS = '/sermon-ditails';
+  static const String SERMON_details = '/sermon-details';
   // ignore: constant_identifier_names
-  static const String EVENT_DITAILS = '/event-ditails';
+  static const String EVENT_details = '/event-details';
   // ignore: constant_identifier_names
   static const String NOTIFICATION = '/notification';
   // ignore: constant_identifier_names
@@ -151,7 +151,6 @@ final List<GetPage> pages = [
     page: () => const ForgotPasswordView(),
     binding: AuthBinding(),
   ),
-  GetPage(name: '/otp', page: () => const OtpView()),
   GetPage(name: AppRoutes.NO_INTERNET, page: () => const NoInternetScreen()),
 
   // ─── Protected Routes (require authentication) ───
@@ -210,13 +209,13 @@ final List<GetPage> pages = [
     middlewares: [AuthMiddleware()],
   ),
   GetPage(
-    name: AppRoutes.SERMON_DITAILS,
-    page: () => const SermonDitailsView(),
-    binding: SermonDitailsBinding(),
+    name: AppRoutes.SERMON_details,
+    page: () => const SermondetailsView(),
+    binding: SermondetailsBinding(),
     transition: Transition.fadeIn,
   ),
   GetPage(
-    name: AppRoutes.EVENT_DITAILS,
+    name: AppRoutes.EVENT_details,
     page: () => const EventDetailsView(),
     binding: EventDetailsBinding(),
     transition: Transition.fadeIn,

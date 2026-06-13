@@ -5,10 +5,10 @@ import '../../../core/services/api_client.dart';
 import '../../../core/services/api_checker.dart';
 import 'package:handy/config/constants/api_constants.dart';
 
-class SermonDitailsController extends GetxController {
+class SermondetailsController extends GetxController {
   final ApiClient apiClient = Get.find<ApiClient>();
 
-  SermonDitailsController();
+  SermondetailsController();
 
   final RxString sermonId = ''.obs;
   final Rxn<SermonModel> sermonDetail = Rxn<SermonModel>();

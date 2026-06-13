@@ -144,6 +144,7 @@ class AuthService extends GetxService {
     required String confirmPassword,
   }) async {
     return await _authRepo.resetPassword(
+      token: token,
       newPassword: newPassword,
       confirmPassword: confirmPassword,
     );

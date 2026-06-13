@@ -75,32 +75,6 @@ class UpdatePasswordView extends GetView<UpdatePasswordController> {
                     children: [
                       SizedBox(height: 10.h),
 
-                      // Current Password Field
-                      Obx(
-                        () => CustomTextField(
-                          controller: controller.currentPasswordController,
-                          label: 'Current Password',
-                          hintText: 'Enter your current password',
-                          obscureText:
-                              !controller.isCurrentPasswordVisible.value,
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              controller.isCurrentPasswordVisible.value
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: AppTheme.white.withValues(alpha: 0.5),
-                            ),
-                            onPressed:
-                                controller.toggleCurrentPasswordVisibility,
-                          ),
-                          validator: (value) => Validators.required(
-                            value,
-                            message: 'Please enter your current password',
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20.h),
-
                       // New Password Field
                       Obx(
                         () => CustomTextField(

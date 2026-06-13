@@ -307,7 +307,7 @@ class ProfileView extends GetView<ProfileController> {
                   sermon: sermon,
                   onTap: () {
                     Get.toNamed(
-                      AppRoutes.SERMON_DITAILS,
+                      AppRoutes.SERMON_details,
                       arguments: sermon,
                       parameters: {'hideSaveIcon': 'true'},
                     );
@@ -547,7 +547,7 @@ class ProfileView extends GetView<ProfileController> {
                       child: ElevatedButton(
                         onPressed: () {
                           Get.back();
-                          //Get.offAllNamed(AppRoutes.LOGIN);
+                          controller.logout();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.accentRed,
@@ -643,7 +643,7 @@ class ProfileView extends GetView<ProfileController> {
                       child: ElevatedButton(
                         onPressed: () {
                           Get.back();
-                          // Add your account deletion logic here
+                          controller.deleteAccount();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.accentRed,

@@ -6,6 +6,7 @@ import 'package:handy/config/constants/image_paths.dart';
 import 'package:handy/core/services/storage_service.dart';
 
 import 'package:handy/core/services/api_client.dart';
+import 'package:handy/core/services/auth_service.dart';
 import 'package:handy/core/utils/helpers.dart';
 import 'package:handy/config/constants/api_constants.dart';
 
@@ -32,7 +33,11 @@ class HomeController extends GetxController {
     fetchLatestSermon();
     fetchLatestEvents();
     fetchContactAndMission();
-    fetchDevotionalSummary();
+    
+    // Only fetch user-specific data if logged in
+    if (Get.find<AuthService>().isLoggedIn.value) {
+      fetchDevotionalSummary();
+    }
   }
 
   Future<void> fetchDevotionalSummary() async {
@@ -110,11 +115,6 @@ class HomeController extends GetxController {
     await fetchLatestEvents();
     await fetchContactAndMission();
     await fetchDevotionalSummary();
-  }
-
-  Future<void> _loadProgress() async {
-    int value = await StorageService.getInt('devotionalProgress');
-    devotionalProgress.value = value == -1 ? 0 : value;
   }
 
   void toggleExpanded(int index) {

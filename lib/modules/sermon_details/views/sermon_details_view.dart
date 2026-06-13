@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../controllers/sermon_ditails_contoller.dart';
+import '../controllers/sermon_details_controller.dart';
 import '../../profile/controllers/profile_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../data/models/sermon_response_model.dart';
+import '../../../core/services/auth_service.dart';
+import '../../../config/routes/app_pages.dart';
 
-class SermonDitailsView extends GetView<SermonDitailsController> {
-  const SermonDitailsView({super.key});
+class SermondetailsView extends GetView<SermondetailsController> {
+  const SermondetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +81,12 @@ class SermonDitailsView extends GetView<SermonDitailsController> {
                   size: 24.w,
                 ),
                 onPressed: () {
+                  final authService = Get.find<AuthService>();
+                  if (!authService.isLoggedIn.value) {
+                    Get.toNamed(AppRoutes.LOGIN);
+                    return;
+                  }
+                  
                   if (sermonId != null) {
                     profileController.toggleFavoriteSermon(sermonId);
                   }
