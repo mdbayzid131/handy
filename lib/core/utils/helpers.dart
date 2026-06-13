@@ -81,62 +81,79 @@ class Helpers {
     Duration duration = const Duration(seconds: 3),
   }) {
     final Map<String, dynamic> config = _getSnackBarConfig(type);
+    final context = Get.context!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     Get.rawSnackbar(
+      backgroundColor: Colors.transparent,
+      padding: EdgeInsets.zero,
+      barBlur: 0,
       messageText: ClipRRect(
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(24.r),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // iPhone Blur
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
           child: Container(
-            height: 64.h,
+            padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
-              color: (config['bg'] as Color).withValues(
-                alpha: 0.7,
-              ), // Transparent BG
-              borderRadius: BorderRadius.circular(16.r),
+              color: isDark 
+                  ? const Color(0xFF1E1E1E).withValues(alpha: 0.8) 
+                  : AppTheme.white.withValues(alpha: 0.85),
+              borderRadius: BorderRadius.circular(24.r),
               border: Border.all(
-                color: AppTheme.white.withValues(alpha: 0.2),
-                width: 1,
+                color: (config['bg'] as Color).withValues(alpha: 0.5),
+                width: 1.5,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: (config['bg'] as Color).withValues(alpha: 0.15),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                )
+              ],
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Left Icon Area
+                // Icon Area with Glow
                 Container(
-                  width: 56.w,
-                  height: double.infinity,
+                  width: 48.w,
+                  height: 48.w,
                   decoration: BoxDecoration(
-                    color: (config['iconBg'] as Color).withValues(alpha: 0.8),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16.r),
-                      bottomLeft: Radius.circular(16.r),
-                    ),
+                    color: (config['bg'] as Color).withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
                   ),
-                  child: Icon(config['icon'], color: AppTheme.white, size: 28.sp),
+                  child: Icon(
+                    config['icon'], 
+                    color: config['bg'], 
+                    size: 24.w,
+                  ),
                 ),
                 SizedBox(width: 16.w),
                 // Text Content
                 Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         title ?? config['defaultTitle'],
                         style: TextStyle(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.white,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: isDark ? AppTheme.white : AppTheme.black,
                         ),
                       ),
+                      SizedBox(height: 4.h),
                       Text(
                         message,
-                        maxLines: 1,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppTheme.white.withValues(alpha: 0.9),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: isDark 
+                              ? AppTheme.white.withValues(alpha: 0.7) 
+                              : AppTheme.black.withValues(alpha: 0.7),
                         ),
                       ),
                     ],
@@ -147,8 +164,10 @@ class Helpers {
                   onPressed: () => Get.back(),
                   icon: Icon(
                     Icons.close_rounded,
-                    color: AppTheme.white.withValues(alpha: 0.5),
-                    size: 20.sp,
+                    color: isDark 
+                        ? AppTheme.white.withValues(alpha: 0.5) 
+                        : AppTheme.black.withValues(alpha: 0.5),
+                    size: 20.w,
                   ),
                 ),
               ],
