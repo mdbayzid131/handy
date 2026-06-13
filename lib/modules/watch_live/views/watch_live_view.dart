@@ -238,6 +238,11 @@ class WatchLiveView extends GetView<WatchLiveController> {
                         iconData = Icons.facebook;
                       }
 
+                      final isSelected = platform.isYoutube == true &&
+                          platform.watchUrl != null &&
+                          controller.currentVideoId.value != null &&
+                          controller.currentVideoId.value == controller.extractYoutubeId(platform.watchUrl!);
+
                       return GestureDetector(
                         onTap: () => controller.handlePlatformClick(platform),
                         child: Container(
@@ -247,8 +252,8 @@ class WatchLiveView extends GetView<WatchLiveController> {
                             color: AppTheme.cardColor,
                             borderRadius: BorderRadius.circular(16.r),
                             border: Border.all(
-                              color: platform.isYoutube == true ? AppTheme.red500 : AppTheme.white.withValues(alpha: 0.05),
-                              width: platform.isYoutube == true ? 1.5 : 1.0,
+                              color: isSelected ? AppTheme.red500 : AppTheme.white.withValues(alpha: 0.05),
+                              width: isSelected ? 1.5 : 1.0,
                             ),
                           ),
                           child: Row(
@@ -290,7 +295,7 @@ class WatchLiveView extends GetView<WatchLiveController> {
                                   ],
                                 ),
                               ),
-                              if (platform.isYoutube == true)
+                              if (isSelected)
                                 Container(
                                   width: 24.w,
                                   height: 24.w,
@@ -405,31 +410,47 @@ class WatchLiveView extends GetView<WatchLiveController> {
 
                     SizedBox(height: 40.h),
 
-                    if (controller.recentVideos.isNotEmpty) ...[
-                      Text(
-                        'Recent Services',
-                        style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppTheme.white
-                              : AppTheme.black,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    // Always show the header
+                    Text(
+                      'Recent Services',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.white
+                            : AppTheme.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(height: 16.h),
+                    ),
+                    SizedBox(height: 16.h),
 
+                    if (controller.recentVideos.isNotEmpty)
                       ...controller.recentVideos.map((video) {
+                        final isSelected = video.url != null &&
+                            controller.currentVideoId.value != null &&
+                            controller.currentVideoId.value == controller.extractYoutubeId(video.url!);
+
                         return GestureDetector(
                           onTap: () => controller.handleRecentVideoClick(video),
                           child: _buildRecentServiceCard(
                             title: video.title ?? '',
-                            speaker: 'PIWC Stoneyburn', // API doesn't return speaker
+                            speaker: 'PIWC Stoneyburn',
                             time: '${video.duration} · ${video.publishedAt}',
                             thumbnailUrl: video.thumbnailUrl,
+                            isSelected: isSelected,
                           ),
                         );
-                      }),
-                    ],
+                      })
+                    else
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 16.h),
+                        child: Text(
+                          'No recent services available.',
+                          style: TextStyle(
+                            color: AppTheme.mutedTextColor,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ),
 
                     SizedBox(height: 24.h),
 
@@ -544,6 +565,7 @@ class WatchLiveView extends GetView<WatchLiveController> {
     required String speaker,
     required String time,
     String? thumbnailUrl,
+    bool isSelected = false,
   }) {
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
@@ -551,7 +573,10 @@ class WatchLiveView extends GetView<WatchLiveController> {
       decoration: BoxDecoration(
         color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppTheme.white.withValues(alpha: 0.05)),
+        border: Border.all(
+          color: isSelected ? AppTheme.red500 : AppTheme.white.withValues(alpha: 0.05),
+          width: isSelected ? 1.5 : 1.0,
+        ),
       ),
       child: Row(
         children: [
@@ -618,7 +643,18 @@ class WatchLiveView extends GetView<WatchLiveController> {
               ],
             ),
           ),
-          Icon(Icons.chevron_right, color: AppTheme.mutedTextColor, size: 24.w),
+          if (isSelected)
+            Container(
+              width: 24.w,
+              height: 24.w,
+              decoration: const BoxDecoration(
+                color: AppTheme.red500,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.check, color: AppTheme.white, size: 16.w),
+            )
+          else
+            Icon(Icons.chevron_right, color: AppTheme.mutedTextColor, size: 24.w),
         ],
       ),
     );

@@ -186,10 +186,13 @@ class WatchLiveController extends GetxController {
 
   void launchExternalUrl(String url) async {
     final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      Helpers.showDebugLog('Could not launch $url');
+    try {
+      final success = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!success) {
+        Helpers.showDebugLog('Could not launch $url');
+      }
+    } catch (e) {
+      Helpers.showDebugLog('Exception launching $url: $e');
     }
   }
 }

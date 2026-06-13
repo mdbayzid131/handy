@@ -150,7 +150,7 @@ class HomeView extends GetView<HomeController> {
               SizedBox(height: 20.h),
               _buildDailyDevotionalCard(),
               SizedBox(height: 16.h),
-              _buildNextServiceCard(controller.homeData.nextService),
+              _buildNextServiceCard(),
               SizedBox(height: 16.h),
               _buildWatchLiveCard(),
               SizedBox(height: 32.h),
@@ -341,10 +341,10 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildNextServiceCard(NextServiceModel data) {
+  Widget _buildNextServiceCard() {
     return Obx(() {
       final schedule = controller.contactMission.value?.sundayService;
-      final scheduleText = schedule != null ? 'Sunday · ${schedule.split(',').join(' - ')}' : data.schedule;
+      final scheduleText = schedule != null ? 'Sunday · ${schedule.split(',').join(' - ')}' : 'Sunday · 10:00 AM – 12:30 PM';
 
       return Container(
         width: double.infinity,
@@ -374,7 +374,7 @@ class HomeView extends GetView<HomeController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    data.label,
+                    'NEXT SERVICE',
                     style: TextStyle(
                       color: AppTheme.deepBlackBlue.withValues(alpha: 0.6),
                       fontSize: 10.sp,
@@ -384,7 +384,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    data.title,
+                    'Sunday Worship',
                     style: TextStyle(
                       color: AppTheme.deepBlackBlue,
                       fontSize: 16.sp,
