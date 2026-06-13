@@ -180,7 +180,7 @@ class WatchLiveController extends GetxController {
 
   void handleRecentVideoClick(YoutubeRecentVideoModel video) {
     if (video.url != null && video.url!.isNotEmpty) {
-      playYoutubeVideo(video.url!);
+      launchExternalUrl(video.url!);
     }
   }
 

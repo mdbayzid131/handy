@@ -91,8 +91,11 @@ class WatchLiveView extends GetView<WatchLiveController> {
         onRefresh: controller.refreshData,
         color: AppTheme.primaryColor,
         child: Obx(() {
-          if (controller.isLoading.value && controller.youtubeStatus.value == null) {
-            return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+          if (controller.isLoading.value &&
+              controller.youtubeStatus.value == null) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppTheme.primaryColor),
+            );
           }
 
           final serviceInfo = controller.serviceInfo.value;
@@ -120,13 +123,16 @@ class WatchLiveView extends GetView<WatchLiveController> {
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 30.h),
                       child: Obx(() {
-                        if (controller.currentVideoId.value != null && controller.ytController != null) {
+                        if (controller.currentVideoId.value != null &&
+                            controller.ytController != null) {
                           return Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24.r),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppTheme.black.withValues(alpha: 0.3),
+                                  color: AppTheme.deepRed.withValues(
+                                    alpha: 0.3,
+                                  ),
                                   blurRadius: 20,
                                   offset: const Offset(0, 10),
                                 ),
@@ -141,7 +147,10 @@ class WatchLiveView extends GetView<WatchLiveController> {
                           );
                         }
 
-                        // Original Red Card Design
+                        // Placeholder Design based on Live Status
+                        final status = controller.youtubeStatus.value;
+                        final isLive = status?.isLive ?? false;
+
                         return Container(
                           width: double.infinity,
                           padding: EdgeInsets.symmetric(
@@ -149,11 +158,21 @@ class WatchLiveView extends GetView<WatchLiveController> {
                             horizontal: 20.w,
                           ),
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                AppTheme.red700, // Red
-                                AppTheme.deepRed, // Dark Red
-                              ],
+                            gradient: LinearGradient(
+                              colors: isLive
+                                  ? [
+                                      AppTheme.red700, // Red
+                                      const Color.fromARGB(
+                                        255,
+                                        172,
+                                        10,
+                                        32,
+                                      ), // Dark Red
+                                    ]
+                                  : [
+                                      const Color.fromARGB(255, 134, 3, 3),
+                                      const Color.fromARGB(255, 207, 11, 11),
+                                    ],
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                             ),
@@ -168,10 +187,16 @@ class WatchLiveView extends GetView<WatchLiveController> {
                           ),
                           child: Column(
                             children: [
-                              Icon(Icons.videocam, color: AppTheme.white, size: 56.w),
+                              Icon(
+                                isLive ? Icons.videocam : Icons.event,
+                                color: AppTheme.white,
+                                size: 56.w,
+                              ),
                               SizedBox(height: 16.h),
                               Text(
-                                "We're Live Now!",
+                                isLive
+                                    ? "We're Live Now!"
+                                    : "Join Our Next Service",
                                 style: TextStyle(
                                   color: AppTheme.white,
                                   fontSize: 28.sp,
@@ -202,349 +227,416 @@ class WatchLiveView extends GetView<WatchLiveController> {
                     ),
                   ),
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 30.h),
-                    Text(
-                      'Watch on',
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.white
-                            : AppTheme.black,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-
-                  if (controller.platforms.isNotEmpty)
-                    ...controller.platforms.map((platform) {
-                      Color color = AppTheme.standardBlue;
-                      if (platform.color != null && platform.color!.length >= 7) {
-                        try {
-                          color = Color(int.parse(platform.color!.substring(1, 7), radix: 16) + 0xFF000000);
-                        } catch (e) {
-                          // Ignore parsing error
-                        }
-                      }
-                      
-                      IconData iconData = Icons.language;
-                      if (platform.icon == 'youtube') {
-                        iconData = Icons.ondemand_video;
-                      } else if (platform.icon == 'facebook') {
-                        iconData = Icons.facebook;
-                      }
-
-                      final isSelected = platform.isYoutube == true &&
-                          platform.watchUrl != null &&
-                          controller.currentVideoId.value != null &&
-                          controller.currentVideoId.value == controller.extractYoutubeId(platform.watchUrl!);
-
-                      return GestureDetector(
-                        onTap: () => controller.handlePlatformClick(platform),
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 12.h),
-                          padding: EdgeInsets.all(16.w),
-                          decoration: BoxDecoration(
-                            color: AppTheme.cardColor,
-                            borderRadius: BorderRadius.circular(16.r),
-                            border: Border.all(
-                              color: isSelected ? AppTheme.red500 : AppTheme.white.withValues(alpha: 0.05),
-                              width: isSelected ? 1.5 : 1.0,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 30.h),
+                        Text(
+                          'Watch on',
+                          style: TextStyle(
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.white
+                                : AppTheme.black,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 16.h),
+                        
+                        // Watch Live Button
+                        GestureDetector(
+                          onTap: () {
+                            final status = controller.youtubeStatus.value;
+                            if (status?.isLive == true && status?.liveStream != null) {
+                              String? url;
+                              if (status!.liveStream is Map) {
+                                url = status.liveStream['url'] ?? status.liveStream['watchUrl'];
+                              }
+                              if (url != null) {
+                                controller.playYoutubeVideo(url, isLiveStream: true);
+                              }
+                            } else {
+                               final ytPlatform = controller.platforms.firstWhereOrNull((p) => p.isYoutube == true && p.watchUrl != null);
+                               if (ytPlatform != null) {
+                                 controller.playYoutubeVideo(ytPlatform.watchUrl!);
+                               }
+                            }
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(bottom: 12.h),
+                            padding: EdgeInsets.symmetric(vertical: 16.h),
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  AppTheme.red600,
+                                  Color(0xFFFF5722),
+                                ], // Red to Orange gradient
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
+                              borderRadius: BorderRadius.circular(16.r),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.videocam, color: AppTheme.white, size: 24.w),
+                                SizedBox(width: 8.w),
+                                Text(
+                                  'Watch Live on YouTube Live',
+                                  style: TextStyle(
+                                    color: AppTheme.white,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(width: 8.w),
+                                Icon(
+                                  Icons.chevron_right,
+                                  color: AppTheme.white,
+                                  size: 20.w,
+                                ),
+                              ],
                             ),
                           ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 48.w,
-                                height: 48.w,
-                                decoration: BoxDecoration(
-                                  color: color,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                                child: Icon(
-                                  iconData,
-                                  color: AppTheme.white,
-                                  size: 24.w,
-                                ),
-                              ),
-                              SizedBox(width: 16.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      platform.label ?? '',
-                                      style: TextStyle(
-                                        color: AppTheme.white,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      platform.description ?? '',
-                                      style: TextStyle(
-                                        color: AppTheme.mutedTextColor,
-                                        fontSize: 12.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (isSelected)
-                                Container(
-                                  width: 24.w,
-                                  height: 24.w,
-                                  decoration: const BoxDecoration(
-                                    color: AppTheme.red500,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    Icons.check,
-                                    color: AppTheme.white,
-                                    size: 16.w,
-                                  ),
-                                ),
-                            ],
-                          ),
                         ),
-                      );
-                    }),
 
-                    SizedBox(height: 24.h),
-
-                    // Watch Live Button
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 16.h),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            AppTheme.red600,
-                            Color(0xFFFF5722),
-                          ], // Red to Orange gradient
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: BorderRadius.circular(16.r),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.videocam, color: AppTheme.white, size: 24.w),
-                          SizedBox(width: 8.w),
+                        if (controller.platforms.isNotEmpty) ...[
                           Text(
-                            'Watch Live on YouTube Live',
+                            'Other Platforms',
                             style: TextStyle(
-                              color: AppTheme.white,
-                              fontSize: 16.sp,
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppTheme.white
+                                  : AppTheme.black,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(width: 8.w),
-                          Icon(
-                            Icons.chevron_right,
-                            color: AppTheme.white,
-                            size: 20.w,
-                          ),
-                        ],
-                      ),
-                    ),
+                          SizedBox(height: 16.h),
+                          ...controller.platforms.map((platform) {
+                            Color color = AppTheme.standardBlue;
+                            if (platform.color != null &&
+                                platform.color!.length >= 7) {
+                              try {
+                                color = Color(
+                                  int.parse(
+                                        platform.color!.substring(1, 7),
+                                        radix: 16,
+                                      ) +
+                                      0xFF000000,
+                                );
+                              } catch (e) {
+                                // Ignore parsing error
+                              }
+                            }
 
-                    SizedBox(height: 16.h),
+                            IconData iconData = Icons.language;
+                            if (platform.icon == 'youtube') {
+                              iconData = Icons.ondemand_video;
+                            } else if (platform.icon == 'facebook') {
+                              iconData = Icons.facebook;
+                            }
 
-                    Center(
-                      child: Text(
-                        'Opens in your browser · YouTube Live',
-                        style: TextStyle(
-                          color: AppTheme.mutedTextColor,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                    ),
+                            final isSelected =
+                                platform.isYoutube == true &&
+                                platform.watchUrl != null &&
+                                controller.currentVideoId.value != null &&
+                                controller.currentVideoId.value ==
+                                    controller.extractYoutubeId(
+                                      platform.watchUrl!,
+                                    );
 
-                    SizedBox(height: 40.h),
-
-                    // Service Times
-                    if (serviceInfo != null)
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(20.w),
-                        decoration: BoxDecoration(
-                          color: AppTheme.cardColor,
-                          borderRadius: BorderRadius.circular(20.r),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Service Times',
-                              style: TextStyle(
-                                color: AppTheme.white,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 20.h),
-                            _buildServiceTimeRow(
-                              Icons.calendar_today,
-                              serviceInfo.schedule ?? 'Every Sunday',
-                            ),
-                            SizedBox(height: 16.h),
-                            _buildServiceTimeRow(
-                              Icons.access_time,
-                              serviceInfo.time ?? '10:00 AM – 12:30 PM',
-                            ),
-                            SizedBox(height: 16.h),
-                            _buildServiceTimeRow(
-                              Icons.location_on,
-                              serviceInfo.address ?? '71 Stoneyburn Street, EH47 8JT',
-                            ),
-                          ],
-                        ),
-                      ),
-
-                    SizedBox(height: 40.h),
-
-                    // Always show the header
-                    Text(
-                      'Recent Services',
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.white
-                            : AppTheme.black,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-
-                    if (controller.recentVideos.isNotEmpty)
-                      ...controller.recentVideos.map((video) {
-                        final isSelected = video.url != null &&
-                            controller.currentVideoId.value != null &&
-                            controller.currentVideoId.value == controller.extractYoutubeId(video.url!);
-
-                        return GestureDetector(
-                          onTap: () => controller.handleRecentVideoClick(video),
-                          child: _buildRecentServiceCard(
-                            title: video.title ?? '',
-                            speaker: 'PIWC Stoneyburn',
-                            time: '${video.duration} · ${video.publishedAt}',
-                            thumbnailUrl: video.thumbnailUrl,
-                            isSelected: isSelected,
-                          ),
-                        );
-                      })
-                    else
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 16.h),
-                        child: Text(
-                          'No recent services available.',
-                          style: TextStyle(
-                            color: AppTheme.mutedTextColor,
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                      ),
-
-                    SizedBox(height: 24.h),
-
-                    if (channelInfo != null)
-                      // Subscribe Card
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.all(20.w),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [AppTheme.red600, Color(0xFFFF5722)],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                          borderRadius: BorderRadius.circular(16.r),
-                        ),
-                        child: Row(
-                          children: [
-                            if (channelInfo.thumbnailUrl != null)
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20.r),
-                                child: CachedNetworkImage(
-                                  imageUrl: channelInfo.thumbnailUrl!,
-                                  width: 40.w,
-                                  height: 40.w,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => Container(color: AppTheme.white.withValues(alpha: 0.2)),
-                                  errorWidget: (context, url, error) => Icon(Icons.error, color: AppTheme.white),
+                            return GestureDetector(
+                              onTap: () =>
+                                  controller.handlePlatformClick(platform),
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 12.h),
+                                padding: EdgeInsets.all(16.w),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.cardColor,
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  border: Border.all(
+                                    color: isSelected
+                                        ? AppTheme.red500
+                                        : AppTheme.white.withValues(
+                                            alpha: 0.05,
+                                          ),
+                                    width: isSelected ? 1.5 : 1.0,
+                                  ),
                                 ),
-                              )
-                            else
-                              Icon(
-                                Icons.notifications,
-                                color: AppTheme.white,
-                                size: 28.w,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 48.w,
+                                      height: 48.w,
+                                      decoration: BoxDecoration(
+                                        color: color,
+                                        borderRadius: BorderRadius.circular(
+                                          12.r,
+                                        ),
+                                      ),
+                                      child: Icon(
+                                        iconData,
+                                        color: AppTheme.white,
+                                        size: 24.w,
+                                      ),
+                                    ),
+                                    SizedBox(width: 16.w),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            platform.label ?? '',
+                                            style: TextStyle(
+                                              color: AppTheme.white,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4.h),
+                                          Text(
+                                            platform.description ?? '',
+                                            style: TextStyle(
+                                              color: AppTheme.mutedTextColor,
+                                              fontSize: 12.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    if (isSelected)
+                                      Container(
+                                        width: 24.w,
+                                        height: 24.w,
+                                        decoration: const BoxDecoration(
+                                          color: AppTheme.red500,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: AppTheme.white,
+                                          size: 16.w,
+                                        ),
+                                      ),
+                                  ],
+                                ),
                               ),
-                            SizedBox(width: 16.w),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            );
+                          }),
+                        ],
+
+
+                        // Service Times
+                        if (serviceInfo != null)
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(20.w),
+                            decoration: BoxDecoration(
+                              color: AppTheme.cardColor,
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Service Times',
+                                  style: TextStyle(
+                                    color: AppTheme.white,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 20.h),
+                                _buildServiceTimeRow(
+                                  Icons.calendar_today,
+                                  serviceInfo.schedule ?? 'Every Sunday',
+                                ),
+                                SizedBox(height: 16.h),
+                                _buildServiceTimeRow(
+                                  Icons.access_time,
+                                  serviceInfo.time ?? '10:00 AM – 12:30 PM',
+                                ),
+                                SizedBox(height: 16.h),
+                                _buildServiceTimeRow(
+                                  Icons.location_on,
+                                  serviceInfo.address ??
+                                      '71 Stoneyburn Street, EH47 8JT',
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        SizedBox(height: 40.h),
+
+                        // Always show the header
+                        Text(
+                          'Recent Videos',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.white
+                                : AppTheme.black,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 16.h),
+
+                        if (controller.recentVideos.isNotEmpty)
+                          ...controller.recentVideos.map((video) {
+                            final isSelected =
+                                video.url != null &&
+                                controller.currentVideoId.value != null &&
+                                controller.currentVideoId.value ==
+                                    controller.extractYoutubeId(video.url!);
+
+                            return GestureDetector(
+                              onTap: () =>
+                                  controller.handleRecentVideoClick(video),
+                              child: _buildRecentServiceCard(
+                                title: video.title ?? '',
+                                speaker: 'PIWC Stoneyburn',
+                                time:
+                                    '${video.duration} · ${video.publishedAt}',
+                                thumbnailUrl: video.thumbnailUrl,
+                                isSelected: isSelected,
+                              ),
+                            );
+                          })
+                        else
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 16.h),
+                            child: Text(
+                              'No recent services available.',
+                              style: TextStyle(
+                                color: AppTheme.mutedTextColor,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+
+                        SizedBox(height: 24.h),
+
+                        if (channelInfo != null)
+                          // Subscribe Card
+                          GestureDetector(
+                            onTap: () {
+                              if (channelInfo.channelUrl != null &&
+                                  channelInfo.channelUrl!.isNotEmpty) {
+                                controller.launchExternalUrl(
+                                  channelInfo.channelUrl!,
+                                );
+                              }
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(20.w),
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [AppTheme.red600, Color(0xFFFF5722)],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
+                                borderRadius: BorderRadius.circular(16.r),
+                              ),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    channelInfo.channelTitle ?? 'Never miss a service',
-                                    style: TextStyle(
+                                  if (channelInfo.thumbnailUrl != null)
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.r),
+                                      child: CachedNetworkImage(
+                                        imageUrl: channelInfo.thumbnailUrl!,
+                                        width: 40.w,
+                                        height: 40.w,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Container(
+                                              color: AppTheme.white.withValues(
+                                                alpha: 0.2,
+                                              ),
+                                            ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(
+                                              Icons.error,
+                                              color: AppTheme.white,
+                                            ),
+                                      ),
+                                    )
+                                  else
+                                    Icon(
+                                      Icons.notifications,
                                       color: AppTheme.white,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
+                                      size: 28.w,
+                                    ),
+                                  SizedBox(width: 16.w),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          channelInfo.channelTitle ??
+                                              'Never miss a service',
+                                          style: TextStyle(
+                                            color: AppTheme.white,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 4.h),
+                                        Text(
+                                          '${channelInfo.subscriberCount} Subscribers',
+                                          style: TextStyle(
+                                            color: AppTheme.white.withValues(
+                                              alpha: 0.9,
+                                            ),
+                                            fontSize: 12.sp,
+                                            height: 1.3,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    '${channelInfo.subscriberCount} Subscribers',
-                                    style: TextStyle(
-                                      color: AppTheme.white.withValues(alpha: 0.9),
-                                      fontSize: 12.sp,
-                                      height: 1.3,
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w,
+                                      vertical: 8.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.white.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(20.r),
+                                    ),
+                                    child: Text(
+                                      'Subscribe',
+                                      style: TextStyle(
+                                        color: AppTheme.white,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
-                                vertical: 8.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppTheme.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Text(
-                                'Subscribe',
-                                style: TextStyle(
-                                  color: AppTheme.white,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
 
-                    SizedBox(height: 40.h),
-                  ],
-                ),
+                        SizedBox(height: 40.h),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      );
-    }),
-  ),
-);
+            ),
+          );
+        }),
+      ),
+    );
   }
 
   Widget _buildServiceTimeRow(IconData icon, String text) {
@@ -574,7 +666,9 @@ class WatchLiveView extends GetView<WatchLiveController> {
         color: AppTheme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: isSelected ? AppTheme.red500 : AppTheme.white.withValues(alpha: 0.05),
+          color: isSelected
+              ? AppTheme.red500
+              : AppTheme.white.withValues(alpha: 0.05),
           width: isSelected ? 1.5 : 1.0,
         ),
       ),
@@ -595,7 +689,11 @@ class WatchLiveView extends GetView<WatchLiveController> {
             ),
             child: thumbnailUrl == null
                 ? Center(
-                    child: Icon(Icons.play_arrow, color: AppTheme.white, size: 28.w),
+                    child: Icon(
+                      Icons.play_arrow,
+                      color: AppTheme.white,
+                      size: 28.w,
+                    ),
                   )
                 : const SizedBox.shrink(),
           ),
@@ -654,7 +752,11 @@ class WatchLiveView extends GetView<WatchLiveController> {
               child: Icon(Icons.check, color: AppTheme.white, size: 16.w),
             )
           else
-            Icon(Icons.chevron_right, color: AppTheme.mutedTextColor, size: 24.w),
+            Icon(
+              Icons.chevron_right,
+              color: AppTheme.mutedTextColor,
+              size: 24.w,
+            ),
         ],
       ),
     );
