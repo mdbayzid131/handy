@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:handy/core/utils/helpers.dart';
 import '../controllers/watch_live_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -255,13 +256,20 @@ class WatchLiveView extends GetView<WatchLiveController> {
                                 url = status.liveStream['url'] ?? status.liveStream['watchUrl'];
                               }
                               if (url != null) {
-                                controller.playYoutubeVideo(url, isLiveStream: true);
+                                controller.launchExternalUrl(url);
+                              } else {
+                                Helpers.showCustomSnackBar(
+                                  'There is no live stream running at the moment.',
+                                  title: 'Not Live',
+                                  type: SnackBarType.warning,
+                                );
                               }
                             } else {
-                               final ytPlatform = controller.platforms.firstWhereOrNull((p) => p.isYoutube == true && p.watchUrl != null);
-                               if (ytPlatform != null) {
-                                 controller.playYoutubeVideo(ytPlatform.watchUrl!);
-                               }
+                              Helpers.showCustomSnackBar(
+                                'There is no live stream running at the moment.',
+                                title: 'Not Live',
+                                type: SnackBarType.warning,
+                              );
                             }
                           },
                           child: Container(
