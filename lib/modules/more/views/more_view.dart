@@ -239,8 +239,8 @@ class MoreView extends GetView<MoreController> {
             'PIWC Stoneyburn',
             style: TextStyle(
               color: AppTheme.white,
-              fontSize: 22.sp,
-              fontWeight: FontWeight.bold,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
             ),
           ),
           SizedBox(height: 24.h),
@@ -274,7 +274,7 @@ class MoreView extends GetView<MoreController> {
 
   Widget _buildConnectRow(IconData icon, String label, String value) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           padding: EdgeInsets.all(10.w),
@@ -301,9 +301,8 @@ class MoreView extends GetView<MoreController> {
                 value,
                 style: TextStyle(
                   color: AppTheme.white,
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w600,
-                  height: 1.4,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
@@ -329,8 +328,7 @@ class MoreView extends GetView<MoreController> {
             style: TextStyle(
               color: AppTheme.darkNavy,
               fontSize: 16.sp,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 1.2,
+              fontWeight: FontWeight.w600,
             ),
           ),
           SizedBox(height: 4.h),
@@ -339,9 +337,7 @@ class MoreView extends GetView<MoreController> {
                 '"To make heaven, to take as many people as possible with us, and to have a positive impact on society."',
             style: TextStyle(
               color: AppTheme.darkNavy.withValues(alpha: 0.8),
-              fontSize: 16.sp,
-              fontStyle: FontStyle.italic,
-              height: 1.5,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w500,
             ),
           ),

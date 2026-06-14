@@ -11,7 +11,6 @@ class DevotionalsView extends GetView<DevotionalsController> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -106,8 +105,13 @@ class DevotionalsView extends GetView<DevotionalsController> {
                 onRefresh: controller.refreshData,
                 color: AppTheme.primaryColor,
                 child: Obx(() {
-                  if (controller.isLoading.value && controller.devotionalsList.isEmpty) {
-                    return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+                  if (controller.isLoading.value &&
+                      controller.devotionalsList.isEmpty) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppTheme.primaryColor,
+                      ),
+                    );
                   }
 
                   if (controller.devotionalsList.isEmpty) {
@@ -143,7 +147,8 @@ class DevotionalsView extends GetView<DevotionalsController> {
                               padding: EdgeInsets.symmetric(vertical: 20.h),
                               child: const Center(
                                 child: CircularProgressIndicator(
-                                    color: AppTheme.primaryColor),
+                                  color: AppTheme.primaryColor,
+                                ),
                               ),
                             );
                           }
@@ -157,7 +162,10 @@ class DevotionalsView extends GetView<DevotionalsController> {
                       return GestureDetector(
                         onTap: () {
                           if (item.id != null) {
-                            Get.toNamed(AppRoutes.DEVOTIONALS_DETAILS, arguments: item.id);
+                            Get.toNamed(
+                              AppRoutes.DEVOTIONALS_DETAILS,
+                              arguments: item.id,
+                            );
                           } else {
                             Get.toNamed(AppRoutes.DEVOTIONALS_DETAILS);
                           }
@@ -172,19 +180,17 @@ class DevotionalsView extends GetView<DevotionalsController> {
                             borderRadius: BorderRadius.circular(16.r),
                             border: isSelected
                                 ? null
-                                : Border.all(
-                                    color: AppTheme.secondaryColor,
-                                  ),
+                                : Border.all(color: AppTheme.secondaryColor),
                           ),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(
                                 width: 80.w,
                                 child: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    SizedBox(height: 22.h),
                                     Text(
                                       item.dayLabel ?? '',
                                       style: TextStyle(
@@ -192,8 +198,7 @@ class DevotionalsView extends GetView<DevotionalsController> {
                                             ? AppTheme.warningColor
                                             : AppTheme.mutedTextColor,
                                         fontSize: 10.sp,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                     SizedBox(height: 4.h),
@@ -204,7 +209,7 @@ class DevotionalsView extends GetView<DevotionalsController> {
                                         color: isSelected
                                             ? AppTheme.white
                                             : AppTheme.mutedTextColor,
-                                        fontSize: 12.sp,
+                                        fontSize: 10.sp,
                                       ),
                                     ),
                                   ],
@@ -219,8 +224,8 @@ class DevotionalsView extends GetView<DevotionalsController> {
                                       item.title ?? '',
                                       style: TextStyle(
                                         color: AppTheme.white,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                     SizedBox(height: 4.h),
@@ -230,7 +235,7 @@ class DevotionalsView extends GetView<DevotionalsController> {
                                         color: isSelected
                                             ? AppTheme.warningColor
                                             : AppTheme.accentBlue,
-                                        fontSize: 14.sp,
+                                        fontSize: 12.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -241,25 +246,23 @@ class DevotionalsView extends GetView<DevotionalsController> {
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         color: isSelected
-                                            ? AppTheme.white.withValues(alpha: 0.8)
+                                            ? AppTheme.white.withValues(
+                                                alpha: 0.8,
+                                              )
                                             : AppTheme.mutedTextColor,
-                                        fontSize: 13.sp,
-                                        height: 1.5,
+                                        fontSize: 12.sp,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
                               SizedBox(width: 8.w),
-                              Padding(
-                                padding: EdgeInsets.only(top: 24.h),
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  color: isSelected
-                                      ? AppTheme.white.withValues(alpha: 0.8)
-                                      : AppTheme.mutedTextColor,
-                                  size: 20.w,
-                                ),
+                              Icon(
+                                Icons.chevron_right,
+                                color: isSelected
+                                    ? AppTheme.white.withValues(alpha: 0.8)
+                                    : AppTheme.mutedTextColor,
+                                size: 20.w,
                               ),
                             ],
                           ),

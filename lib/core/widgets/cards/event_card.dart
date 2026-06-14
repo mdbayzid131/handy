@@ -7,8 +7,15 @@ import 'package:handy/data/models/events_model.dart';
 
 class EventCard extends StatelessWidget {
   final EventModel event;
+  final VoidCallback? onTap;
+  final bool isPastEvent;
 
-  const EventCard({super.key, required this.event});
+  const EventCard({
+    super.key,
+    required this.event,
+    this.onTap,
+    this.isPastEvent = false,
+  });
 
   Color _getCategoryColor(String? colorHex) {
     if (colorHex == null || colorHex.isEmpty) {
@@ -30,12 +37,12 @@ class EventCard extends StatelessWidget {
     final headerColor = _getCategoryColor(event.categoryColor);
 
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.EVENT_DETAILS, arguments: event),
+      onTap: onTap ?? () => Get.toNamed(AppRoutes.EVENT_DETAILS, arguments: event),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.containerColor,
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: AppTheme.secondaryColor),
+          //border: Border.all(color: AppTheme.secondaryColor),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,8 +83,8 @@ class EventCard extends StatelessWidget {
                     event.title,
                     style: TextStyle(
                       color: AppTheme.white,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(height: 12.h),
@@ -135,9 +142,11 @@ class EventCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Text(
-                          '${event.attendingCount} attending',
+                          isPastEvent
+                              ? '${event.attendingCount} attended'
+                              : '${event.attendingCount} attending',
                           style: TextStyle(
-                            color: headerColor.withValues(alpha: 0.9),
+                            color: AppTheme.white,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
                           ),
@@ -156,8 +165,8 @@ class EventCard extends StatelessWidget {
                           'View',
                           style: TextStyle(
                             color: AppTheme.white,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),

@@ -34,7 +34,7 @@ class SermonCardWidget extends StatelessWidget {
           border: Border.all(color: AppTheme.secondaryColor, width: 1),
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.r),
@@ -82,13 +82,14 @@ class SermonCardWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (sermon.category?.name != null && sermon.category!.name != 'Unknown Category') ...[
+                  if (sermon.category?.name != null &&
+                      sermon.category!.name != 'Unknown Category') ...[
                     Text(
                       sermon.category!.name!,
                       style: TextStyle(
-                        color: AppTheme.primaryColor,
+                        color: AppTheme.accentYellow,
                         fontSize: 10.sp,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                         letterSpacing: 1.0,
                       ),
                     ),
@@ -99,7 +100,7 @@ class SermonCardWidget extends StatelessWidget {
                     style: TextStyle(
                       color: AppTheme.white,
                       fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       height: 1.2,
                     ),
                     maxLines: 1,
@@ -129,7 +130,7 @@ class SermonCardWidget extends StatelessWidget {
                       Text(
                         Helpers.formatTime(sermon.durationSeconds ?? 0),
                         style: TextStyle(
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.accentYellow,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
                         ),

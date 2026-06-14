@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import '../controllers/events_history_controller.dart';
-import '../../../data/models/events_model.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
+import 'package:handy/core/widgets/cards/event_card.dart';
 
 class EventsHistoryView extends GetView<EventsHistoryController> {
   const EventsHistoryView({super.key});
@@ -31,7 +31,9 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
                 child: Obx(() {
                   if (controller.isFirstLoad.value) {
                     return const Center(
-                      child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                      child: CircularProgressIndicator(
+                        color: AppTheme.primaryColor,
+                      ),
                     );
                   }
 
@@ -43,7 +45,12 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
                         alignment: Alignment.center,
                         child: Text(
                           'No history events found',
-                          style: TextStyle(color: AppTheme.white.withValues(alpha: 0.5)),
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.white.withValues(alpha: 0.5)
+                                : AppTheme.black.withValues(alpha: 0.5),
+                          ),
                         ),
                       ),
                     );
@@ -56,19 +63,31 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
                       horizontal: 20.w,
                       vertical: 20.h,
                     ),
-                    itemCount: controller.allEvents.length + (controller.isLoadMore.value ? 1 : 0),
-                    separatorBuilder: (context, index) => SizedBox(height: 20.h),
+                    itemCount:
+                        controller.allEvents.length +
+                        (controller.isLoadMore.value ? 1 : 0),
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: 20.h),
                     itemBuilder: (context, index) {
                       if (index == controller.allEvents.length) {
                         return const Center(
                           child: Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                            child: CircularProgressIndicator(
+                              color: AppTheme.primaryColor,
+                            ),
                           ),
                         );
                       }
                       final event = controller.allEvents[index];
-                      return _buildEventCard(event);
+                      return EventCard(
+                        event: event,
+                        isPastEvent: true,
+                        onTap: () => Get.toNamed(
+                          AppRoutes.EVENTS_HISTORY_DETAILS,
+                          arguments: event,
+                        ),
+                      );
                     },
                   );
                 }),
@@ -99,7 +118,8 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
             final category = controller.categories[index];
 
             return Obx(() {
-              final isSelected = controller.selectedCategory.value?.id == category.id;
+              final isSelected =
+                  controller.selectedCategory.value?.id == category.id;
               return GestureDetector(
                 onTap: () => controller.selectCategory(category),
                 child: Container(
@@ -124,7 +144,9 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
                           ? AppTheme.white
                           : AppTheme.white.withValues(alpha: 0.7),
                       fontSize: 14.sp,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.w500,
                     ),
                   ),
                 ),
@@ -133,168 +155,6 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
           },
         );
       }),
-    );
-  }
-
-  Color _getCategoryColor(String? colorHex) {
-    if (colorHex == null || colorHex.isEmpty) {
-      return const Color(0xFF132488);
-    }
-    try {
-      String hex = colorHex.toUpperCase().replaceAll("#", "");
-      if (hex.length == 6) {
-        hex = "FF$hex";
-      }
-      return Color(int.parse(hex, radix: 16));
-    } catch (e) {
-      return const Color(0xFF132488);
-    }
-  }
-
-  Widget _buildEventCard(EventModel event) {
-    final headerColor = _getCategoryColor(event.categoryColor);
-
-    return GestureDetector(
-      onTap: () =>
-          Get.toNamed(AppRoutes.EVENTS_HISTORY_DETAILS, arguments: event),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.containerColor,
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: AppTheme.secondaryColor),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Colored Header
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              decoration: BoxDecoration(
-                color: headerColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.r),
-                  topRight: Radius.circular(16.r),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.calendar_today, color: AppTheme.white, size: 16.w),
-                  SizedBox(width: 8.w),
-                  Text(
-                    event.categoryLabel.toUpperCase(),
-                    style: TextStyle(
-                      color: AppTheme.white,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // Event Details
-            Padding(
-              padding: EdgeInsets.all(16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    event.title,
-                    style: TextStyle(
-                      color: AppTheme.white,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.access_time,
-                        color: AppTheme.white.withValues(alpha: 0.5),
-                        size: 14.w,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        '${event.date} · ${event.time}',
-                        style: TextStyle(
-                          color: AppTheme.white.withValues(alpha: 0.6),
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.location_on,
-                        color: AppTheme.white.withValues(alpha: 0.5),
-                        size: 14.w,
-                      ),
-                      SizedBox(width: 8.w),
-                      Expanded(
-                        child: Text(
-                          event.location,
-                          style: TextStyle(
-                            color: AppTheme.white.withValues(alpha: 0.6),
-                            fontSize: 13.sp,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 6.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppTheme.secondaryColor,
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        child: Text(
-                          '${event.attendingCount} attended',
-                          style: TextStyle(
-                            color: headerColor.withValues(alpha: 0.9),
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                          vertical: 8.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: headerColor,
-                          borderRadius: BorderRadius.circular(20.r),
-                        ),
-                        child: Text(
-                          'View',
-                          style: TextStyle(
-                            color: AppTheme.white,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

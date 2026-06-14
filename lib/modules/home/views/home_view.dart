@@ -39,194 +39,204 @@ class HomeView extends GetView<HomeController> {
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 70.h),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      // Logo
-                      Container(
-                        width: 50.w,
-                        height: 50.w,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppTheme.backgroundColor
-                              : AppTheme.white,
-                        ),
-                        child: ClipOval(
-                          child: Image.asset(
-                            ImagePaths.appLogo,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Icon(
-                              Icons.church,
-                              size: 24.w,
-                              color: AppTheme.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      // Titles
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'PIWC Stoneyburn',
-                              style: TextStyle(
-                                color:
-                                    Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? AppTheme.white
-                                    : AppTheme.black,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'The Church of Pentecost - UK',
-                              style: TextStyle(
-                                color: AppTheme.warningColor, // Amber
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Action Icons
-                      GestureDetector(
-                        onTap: () => Get.toNamed(AppRoutes.NOTIFICATION),
-                        child: Icon(
-                          Icons.notifications,
-                          color: AppTheme.warningColor,
-                          size: 24.w,
-                        ),
-                      ),
-                      SizedBox(width: 16.w),
-                      GestureDetector(
-                        onTap: () {
-                          if (Get.find<AuthService>().isLoggedIn.value) {
-                            Get.find<BottomNavBarController>().goToProfile();
-                          } else {
-                            Get.toNamed(AppRoutes.LOGIN);
-                          }
-                        },
-                        child: Container(
-                          width: 40.w,
-                          height: 40.w,
-                          decoration: const BoxDecoration(
-                            color: AppTheme.warningColor,
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 70.h),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        // Logo
+                        Container(
+                          width: 50.w,
+                          height: 50.w,
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.backgroundColor
+                                : AppTheme.white,
                           ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              ImagePaths.appLogo,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(
+                                    Icons.church,
+                                    size: 24.w,
+                                    color: AppTheme.white,
+                                  ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        // Titles
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'PIWC Stoneyburn',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? AppTheme.white
+                                      : AppTheme.black,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'The Church of Pentecost - UK',
+                                style: TextStyle(
+                                  color: AppTheme.warningColor, // Amber
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Action Icons
+                        GestureDetector(
+                          onTap: () => Get.toNamed(AppRoutes.NOTIFICATION),
                           child: Icon(
-                            Icons.person,
-                            color: AppTheme.darkNavy,
+                            Icons.notifications,
+                            color: AppTheme.warningColor,
                             size: 24.w,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 18.h),
-                  Text(
-                    ' Welcome, Beloved 🙏',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppTheme.white
-                          : AppTheme.black,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
+                        SizedBox(width: 16.w),
+                        GestureDetector(
+                          onTap: () {
+                            if (Get.find<AuthService>().isLoggedIn.value) {
+                              Get.find<BottomNavBarController>().goToProfile();
+                            } else {
+                              Get.toNamed(AppRoutes.LOGIN);
+                            }
+                          },
+                          child: Container(
+                            width: 40.w,
+                            height: 40.w,
+                            decoration: const BoxDecoration(
+                              color: AppTheme.warningColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.person,
+                              color: AppTheme.darkNavy,
+                              size: 24.w,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              _buildDailyDevotionalCard(),
-              SizedBox(height: 16.h),
-              _buildNextServiceCard(),
-              SizedBox(height: 16.h),
-              _buildWatchLiveCard(),
-              SizedBox(height: 32.h),
-              Text(
-                'Quick Access',
-                style: TextStyle(
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? AppTheme.white
-                      : AppTheme.black,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
+                    SizedBox(height: 18.h),
+                    Text(
+                      ' Welcome, Beloved 🙏',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.white
+                            : AppTheme.black,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(height: 16.h),
-              _buildQuickAccessGrid(context),
-              SizedBox(height: 32.h),
-              _buildSectionHeader(
-                context,
-                'Latest Sermon',
-                onSeeAllTap: () =>
-                    Get.find<BottomNavBarController>().changeTab(1),
-              ),
-              SizedBox(height: 16.h),
-              Obx(() {
-                if (controller.isLoadingSermon.value && controller.latestSermon.value == null) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: AppTheme.primaryColor),
-                  );
-                }
-                if (controller.latestSermon.value == null) {
-                  return const SizedBox.shrink();
-                }
-                return _buildLatestSermonCard(controller.latestSermon.value!);
-              }),
-              SizedBox(height: 32.h),
-              _buildSectionHeader(
-                context,
-                'Events',
-                onSeeAllTap: () =>
-                    Get.find<BottomNavBarController>().changeTab(3),
-              ),
-              SizedBox(height: 16.h),
-              Obx(() {
-                if (controller.isLoadingEvents.value && controller.latestEvents.isEmpty) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: AppTheme.primaryColor),
-                  );
-                }
-                if (controller.latestEvents.isEmpty) {
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20.h),
-                      child: Text(
-                        'No upcoming events',
-                        style: TextStyle(
-                          color: AppTheme.white.withValues(alpha: 0.5),
-                          fontSize: 14.sp,
+                SizedBox(height: 20.h),
+                _buildDailyDevotionalCard(),
+                SizedBox(height: 16.h),
+                _buildNextServiceCard(),
+                SizedBox(height: 16.h),
+                _buildWatchLiveCard(),
+                SizedBox(height: 32.h),
+                Text(
+                  'Quick Access',
+                  style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.white
+                        : AppTheme.black,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                _buildQuickAccessGrid(context),
+                SizedBox(height: 32.h),
+                _buildSectionHeader(
+                  context,
+                  'Latest Sermon',
+                  onSeeAllTap: () =>
+                      Get.find<BottomNavBarController>().changeTab(1),
+                ),
+                SizedBox(height: 16.h),
+                Obx(() {
+                  if (controller.isLoadingSermon.value &&
+                      controller.latestSermon.value == null) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppTheme.primaryColor,
+                      ),
+                    );
+                  }
+                  if (controller.latestSermon.value == null) {
+                    return const SizedBox.shrink();
+                  }
+                  return _buildLatestSermonCard(controller.latestSermon.value!);
+                }),
+                SizedBox(height: 32.h),
+                _buildSectionHeader(
+                  context,
+                  'Events',
+                  onSeeAllTap: () =>
+                      Get.find<BottomNavBarController>().changeTab(3),
+                ),
+                SizedBox(height: 16.h),
+                Obx(() {
+                  if (controller.isLoadingEvents.value &&
+                      controller.latestEvents.isEmpty) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppTheme.primaryColor,
+                      ),
+                    );
+                  }
+                  if (controller.latestEvents.isEmpty) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.h),
+                        child: Text(
+                          'No upcoming events',
+                          style: TextStyle(
+                            color: AppTheme.white.withValues(alpha: 0.5),
+                            fontSize: 14.sp,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }
-                return Column(
-                  children: controller.latestEvents.map<Widget>((EventModel event) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 16.h),
-                      child: EventCard(event: event),
                     );
-                  }).toList(),
-                );
-              }),
-              SizedBox(height: 28.h),
-            ],
+                  }
+                  return Column(
+                    children: controller.latestEvents.map<Widget>((
+                      EventModel event,
+                    ) {
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 16.h),
+                        child: EventCard(event: event),
+                      );
+                    }).toList(),
+                  );
+                }),
+                SizedBox(height: 28.h),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -288,7 +298,7 @@ class HomeView extends GetView<HomeController> {
             Obx(() {
               final progress = controller.devotionalProgress.value;
               final isLoading = controller.isLoadingDevotional.value;
-              
+
               if (isLoading) {
                 return Container(
                   width: 80.w,
@@ -344,7 +354,9 @@ class HomeView extends GetView<HomeController> {
   Widget _buildNextServiceCard() {
     return Obx(() {
       final schedule = controller.contactMission.value?.sundayService;
-      final scheduleText = schedule != null ? 'Sunday · ${schedule.split(',').join(' - ')}' : 'Sunday · 10:00 AM – 12:30 PM';
+      final scheduleText = schedule != null
+          ? 'Sunday · ${schedule.split(',').join(' - ')}'
+          : 'Sunday · 10:00 AM – 12:30 PM';
 
       return Container(
         width: double.infinity,
@@ -396,7 +408,10 @@ class HomeView extends GetView<HomeController> {
                     SizedBox(
                       height: 14.sp,
                       width: 14.sp,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.deepBlackBlue.withValues(alpha: 0.8)),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppTheme.deepBlackBlue.withValues(alpha: 0.8),
+                      ),
                     )
                   else
                     Text(
@@ -712,9 +727,9 @@ class HomeView extends GetView<HomeController> {
                   Text(
                     data.series,
                     style: TextStyle(
-                      color: AppTheme.primaryColor,
+                      color: AppTheme.accentYellow,
                       fontSize: 10.sp,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       letterSpacing: 1.0,
                     ),
                   ),
@@ -724,8 +739,7 @@ class HomeView extends GetView<HomeController> {
                     style: TextStyle(
                       color: AppTheme.white,
                       fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
+                      fontWeight: FontWeight.w600,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -754,9 +768,9 @@ class HomeView extends GetView<HomeController> {
                       Text(
                         data.duration,
                         style: TextStyle(
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.accentYellow,
                           fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],

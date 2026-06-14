@@ -128,7 +128,7 @@ class GiveView extends GetView<GiveController> {
         style: TextStyle(
           color: Theme.of(context).brightness == Brightness.dark
               ? AppTheme.white
-              : AppTheme.white,
+              : AppTheme.black,
           fontSize: 16.sp,
           fontWeight: FontWeight.bold,
         ),
@@ -390,9 +390,7 @@ class GiveView extends GetView<GiveController> {
             return Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 40.h),
-                child: CircularProgressIndicator(
-                  color: AppTheme.primaryColor,
-                ),
+                child: CircularProgressIndicator(color: AppTheme.primaryColor),
               ),
             );
           }
