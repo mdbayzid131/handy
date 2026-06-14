@@ -48,10 +48,19 @@ class BibleVersesView extends GetView<BibleVersesController> {
                 }
 
                 if (controller.verses.isEmpty && !controller.isLoading.value) {
-                  return Center(
-                    child: Text(
-                      'No verses found',
-                      style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 16.sp),
+                  return RefreshIndicator(
+                    onRefresh: controller.refreshData,
+                    color: AppTheme.primaryColor,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        alignment: Alignment.center,
+                        child: Text(
+                          'No verses found',
+                          style: TextStyle(color: AppTheme.mutedTextColor, fontSize: 16.sp),
+                        ),
+                      ),
                     ),
                   );
                 }

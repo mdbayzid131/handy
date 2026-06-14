@@ -21,7 +21,6 @@ class ProfileView extends GetView<ProfileController> {
         return RefreshIndicator(
           onRefresh: controller.fetchAllData,
           color: AppTheme.primaryColor,
-          backgroundColor: AppTheme.containerColor,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: SafeArea(

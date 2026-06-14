@@ -12,36 +12,42 @@ class SermonsView extends GetView<SermonsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          _buildHeader(context),
-          SizedBox(height: 16.h),
-          _buildSearchBar(),
-          SizedBox(height: 16.h),
-          _buildCategories(),
-          SizedBox(height: 16.h),
-          Expanded(
-            child: Obx(() {
-              if (controller.isFirstLoad.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
+      body: RefreshIndicator(
+        onRefresh: controller.refreshData,
+        color: AppTheme.primaryColor,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: controller.scrollController,
+          child: Column(
+            children: [
+              _buildHeader(context),
+              SizedBox(height: 16.h),
+              _buildSearchBar(),
+              SizedBox(height: 16.h),
+              _buildCategories(),
+              SizedBox(height: 16.h),
+              Obx(() {
+                if (controller.isFirstLoad.value) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 40.h),
+                    child: const Center(child: CircularProgressIndicator()),
+                  );
+                }
 
-              if (controller.filteredSermons.isEmpty) {
-                return Center(
-                  child: Text(
-                    'No sermons found.',
-                    style: TextStyle(color: AppTheme.white, fontSize: 16.sp),
-                  ),
-                );
-              }
+                if (controller.filteredSermons.isEmpty) {
+                  return Container(
+                    height: 400.h,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'No sermons found.',
+                      style: TextStyle(color: AppTheme.white, fontSize: 16.sp),
+                    ),
+                  );
+                }
 
-              return RefreshIndicator(
-                onRefresh: controller.refreshData,
-                color: AppTheme.primaryColor,
-                backgroundColor: AppTheme.containerColor,
-                child: ListView.separated(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  controller: controller.scrollController,
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
                     vertical: 10.h,
@@ -61,11 +67,11 @@ class SermonsView extends GetView<SermonsController> {
                     final sermon = controller.filteredSermons[index];
                     return SermonCardWidget(sermon: sermon);
                   },
-                ),
-              );
-            }),
+                );
+              }),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

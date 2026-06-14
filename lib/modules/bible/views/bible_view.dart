@@ -164,12 +164,21 @@ class BibleView extends GetView<BibleController> {
                 final books = controller.filteredBooks;
 
                 if (books.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No books found',
-                      style: TextStyle(
-                        color: AppTheme.mutedTextColor,
-                        fontSize: 16.sp,
+                  return RefreshIndicator(
+                    onRefresh: controller.refreshData,
+                    color: AppTheme.primaryColor,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        alignment: Alignment.center,
+                        child: Text(
+                          'No books found',
+                          style: TextStyle(
+                            color: AppTheme.mutedTextColor,
+                            fontSize: 16.sp,
+                          ),
+                        ),
                       ),
                     ),
                   );

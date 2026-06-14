@@ -19,10 +19,29 @@ class SermondetailsView extends GetView<SermondetailsController> {
       // Get the sermon from arguments or controller
       final sermon = controller.sermonDetail.value;
 
-      if (sermon == null) {
+      if (controller.isLoading.value && sermon == null) {
         return const Scaffold(
           backgroundColor: AppTheme.backgroundColor,
-          body: Center(child: Text("Sermon not found", style: TextStyle(color: Colors.white))),
+          body: Center(child: CircularProgressIndicator(color: AppTheme.primaryColor)),
+        );
+      }
+
+      if (sermon == null) {
+        return Scaffold(
+          backgroundColor: AppTheme.backgroundColor,
+          appBar: const CustomGradientAppBar(title: 'Sermon', showBackButton: true),
+          body: RefreshIndicator(
+            onRefresh: controller.refreshData,
+            color: AppTheme.primaryColor,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                height: 600.h,
+                alignment: Alignment.center,
+                child: const Text("Sermon not found", style: TextStyle(color: Colors.white)),
+              ),
+            ),
+          ),
         );
       }
 
@@ -61,7 +80,6 @@ class SermondetailsView extends GetView<SermondetailsController> {
       body: RefreshIndicator(
         onRefresh: controller.refreshData,
         color: AppTheme.primaryColor,
-        backgroundColor: AppTheme.containerColor,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: SafeArea(

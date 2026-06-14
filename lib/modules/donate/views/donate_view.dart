@@ -51,114 +51,121 @@ class DonateView extends GetView<DonateController> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Obx(() {
-                if (controller.isLoading.value) {
-                  return Container(
-                    height: 200.h,
-                    alignment: Alignment.center,
-                    child: const CircularProgressIndicator(color: AppTheme.primaryColor),
-                  );
-                }
+      body: RefreshIndicator(
+        onRefresh: controller.fetchBankDetails,
+        color: AppTheme.primaryColor,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return Container(
+                        height: 200.h,
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(color: AppTheme.primaryColor),
+                      );
+                    }
 
-                final details = controller.bankDetails.value;
-                if (details == null) {
-                  return Container(
-                    padding: EdgeInsets.all(20.w),
-                    decoration: BoxDecoration(
-                      color: AppTheme.containerColor,
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text('Failed to load bank details', style: TextStyle(color: Colors.white)),
-                  );
-                }
+                    final details = controller.bankDetails.value;
+                    if (details == null) {
+                      return Container(
+                        padding: EdgeInsets.all(20.w),
+                        decoration: BoxDecoration(
+                          color: AppTheme.containerColor,
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('Failed to load bank details', style: TextStyle(color: Colors.white)),
+                      );
+                    }
 
-                return Container(
-                  padding: EdgeInsets.all(20.w),
-                  decoration: BoxDecoration(
-                    color: AppTheme.successColor, // Green card background
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Bank Transfer Details',
+                    return Container(
+                      padding: EdgeInsets.all(20.w),
+                      decoration: BoxDecoration(
+                        color: AppTheme.successColor, // Green card background
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Bank Transfer Details',
+                            style: TextStyle(
+                              color: AppTheme.white,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 24.h),
+                          _buildDetailRow('Account Name', details.accountName),
+                          SizedBox(height: 16.h),
+                          _buildDetailRow('Sort Code', details.sortCode),
+                          SizedBox(height: 16.h),
+                          _buildDetailRow('Account No.', details.accountNumber),
+                          SizedBox(height: 16.h),
+                          _buildDetailRow('Amount', '£$amount'),
+                          SizedBox(height: 16.h),
+                          _buildDetailRow('Reference', details.reference.isNotEmpty ? details.reference : fund),
+                          SizedBox(height: 24.h),
+                          Divider(
+                            color: AppTheme.white.withValues(alpha: 0.2),
+                            thickness: 1,
+                            height: 1,
+                          ),
+                          SizedBox(height: 24.h),
+                          Text(
+                            details.note.isNotEmpty ? details.note : 'Please use your full name as the payment reference so we can acknowledge your gift.',
+                            style: TextStyle(
+                              color: AppTheme.white.withValues(alpha: 0.85),
+                              fontSize: 14.sp,
+                              height: 1.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                  SizedBox(height: 48.h),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.white
+                            : AppTheme.containerColor,
+                        foregroundColor: AppTheme.successColor,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 12.h,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        'Finish',
                         style: TextStyle(
-                          color: AppTheme.white,
-                          fontSize: 18.sp,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.black
+                              : AppTheme.white,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 24.h),
-                      _buildDetailRow('Account Name', details.accountName),
-                      SizedBox(height: 16.h),
-                      _buildDetailRow('Sort Code', details.sortCode),
-                      SizedBox(height: 16.h),
-                      _buildDetailRow('Account No.', details.accountNumber),
-                      SizedBox(height: 16.h),
-                      _buildDetailRow('Amount', '£$amount'),
-                      SizedBox(height: 16.h),
-                      _buildDetailRow('Reference', details.reference.isNotEmpty ? details.reference : fund),
-                      SizedBox(height: 24.h),
-                      Divider(
-                        color: AppTheme.white.withValues(alpha: 0.2),
-                        thickness: 1,
-                        height: 1,
-                      ),
-                      SizedBox(height: 24.h),
-                      Text(
-                        details.note.isNotEmpty ? details.note : 'Please use your full name as the payment reference so we can acknowledge your gift.',
-                        style: TextStyle(
-                          color: AppTheme.white.withValues(alpha: 0.85),
-                          fontSize: 14.sp,
-                          height: 1.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-              SizedBox(height: 48.h),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).brightness == Brightness.dark
-                        ? AppTheme.white
-                        : AppTheme.containerColor,
-                    foregroundColor: AppTheme.successColor,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20.w,
-                      vertical: 12.h,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
                     ),
                   ),
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: Text(
-                    'Finish',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppTheme.black
-                          : AppTheme.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

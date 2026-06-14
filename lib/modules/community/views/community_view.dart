@@ -35,6 +35,7 @@ class CommunityView extends GetView<CommunityController> {
 
                 if (controller.communityList.isEmpty) {
                   return ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     children: [
                       SizedBox(height: 100.h),
                       Center(
@@ -51,6 +52,7 @@ class CommunityView extends GetView<CommunityController> {
                 }
 
                 return ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
                     horizontal: 20.w,
                     vertical: 24.h,

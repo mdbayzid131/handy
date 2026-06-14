@@ -16,7 +16,6 @@ class GiveView extends GetView<GiveController> {
       body: RefreshIndicator(
         onRefresh: controller.fetchFunds,
         color: AppTheme.primaryColor,
-        backgroundColor: AppTheme.containerColor,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(

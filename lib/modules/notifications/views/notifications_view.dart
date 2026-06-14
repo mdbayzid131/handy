@@ -20,9 +20,15 @@ class NotificationView extends GetView<NotificationController> {
           ),
           Expanded(
             child: Obx(() {
-              return SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-                child: SafeArea(
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await Future.delayed(const Duration(seconds: 1));
+                },
+                color: AppTheme.primaryColor,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  child: SafeArea(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -147,6 +153,7 @@ class NotificationView extends GetView<NotificationController> {
                       SizedBox(height: 24.h),
                     ],
                   ),
+                ),
                 ),
               );
             }),

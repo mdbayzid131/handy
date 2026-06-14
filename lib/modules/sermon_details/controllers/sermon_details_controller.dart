@@ -63,8 +63,8 @@ class SermondetailsController extends GetxController {
   }
 
   Future<void> refreshData() async {
-    final id = sermonDetail.value?.sId ?? sermonDetail.value?.id;
-    if (id != null) {
+    final id = sermonDetail.value?.sId ?? sermonDetail.value?.id ?? sermonId.value;
+    if (id != null && id.isNotEmpty) {
       await fetchSermonDetail(id);
     }
   }

@@ -22,8 +22,14 @@ class SettingsView extends GetView<SettingsController> {
             showBackButton: true,
           ),
           Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+            child: RefreshIndicator(
+              color: AppTheme.primaryColor,
+              onRefresh: () async {
+                await Future.delayed(const Duration(seconds: 1));
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -118,6 +124,7 @@ class SettingsView extends GetView<SettingsController> {
               ),
             ),
           ),
+        ),
         ],
       ),
     );

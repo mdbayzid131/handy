@@ -16,61 +16,62 @@ class EventsView extends GetView<EventsController> {
     Get.put(EventsController());
 
     return Scaffold(
-      body: Column(
-        children: [
-          CustomGradientHeader(
-            title: 'Events',
-            trailingWidget: GestureDetector(
-              onTap: () => Get.toNamed(AppRoutes.EVENTS_HISTORY),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: AppTheme.warningColor,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Text(
-                  'History',
-                  style: TextStyle(
-                    color: AppTheme.black,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
+      body: RefreshIndicator(
+        color: AppTheme.primaryColor,
+        onRefresh: controller.refreshEvents,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: controller.scrollController,
+          child: Column(
+            children: [
+              CustomGradientHeader(
+                title: 'Events',
+                trailingWidget: GestureDetector(
+                  onTap: () => Get.toNamed(AppRoutes.EVENTS_HISTORY),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    decoration: BoxDecoration(
+                      color: AppTheme.warningColor,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text(
+                      'History',
+                      style: TextStyle(
+                        color: AppTheme.black,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          _buildCategoryFilters(),
-          Expanded(
-            child: SafeArea(
-              top: false,
-              child: RefreshIndicator(
-                color: AppTheme.primaryColor,
-                backgroundColor: AppTheme.containerColor,
-                onRefresh: controller.refreshEvents,
+              _buildCategoryFilters(),
+              SafeArea(
+                top: false,
                 child: Obx(() {
                   if (controller.isFirstLoad.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 40.h),
+                      child: const Center(
+                        child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                      ),
                     );
                   }
 
                   if (controller.allEvents.isEmpty) {
-                    return SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Container(
-                        height: 400.h,
-                        alignment: Alignment.center,
-                        child: Text(
-                          'No upcoming events found',
-                          style: TextStyle(color: AppTheme.white.withValues(alpha: 0.5)),
-                        ),
+                    return Container(
+                      height: 400.h,
+                      alignment: Alignment.center,
+                      child: Text(
+                        'No upcoming events found',
+                        style: TextStyle(color: AppTheme.white.withValues(alpha: 0.5)),
                       ),
                     );
                   }
 
                   return ListView.separated(
-                    controller: controller.scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(
                       horizontal: 20.w,
                       vertical: 20.h,
@@ -92,9 +93,9 @@ class EventsView extends GetView<EventsController> {
                   );
                 }),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

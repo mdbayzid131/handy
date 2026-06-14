@@ -26,7 +26,6 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
               top: false,
               child: RefreshIndicator(
                 color: AppTheme.primaryColor,
-                backgroundColor: AppTheme.containerColor,
                 onRefresh: controller.refreshEvents,
                 child: Obx(() {
                   if (controller.isFirstLoad.value) {

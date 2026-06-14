@@ -116,6 +116,7 @@ class DevotionalsView extends GetView<DevotionalsController> {
 
                   if (controller.devotionalsList.isEmpty) {
                     return ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       children: [
                         SizedBox(height: 100.h),
                         Center(
