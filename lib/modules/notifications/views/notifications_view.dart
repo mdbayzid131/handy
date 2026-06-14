@@ -27,133 +27,141 @@ class NotificationView extends GetView<NotificationController> {
                 color: AppTheme.primaryColor,
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 12.h,
+                  ),
                   child: SafeArea(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (!controller.isSystemNotificationsEnabled.value)
-                        Container(
-                          margin: EdgeInsets.only(bottom: 24.h),
-                          padding: EdgeInsets.all(16.w),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [AppTheme.accentRed, AppTheme.pinkRed],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (!controller.isSystemNotificationsEnabled.value)
+                          Container(
+                            margin: EdgeInsets.only(bottom: 24.h),
+                            padding: EdgeInsets.all(16.w),
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [AppTheme.accentRed, AppTheme.pinkRed],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.notifications_off,
-                                color: AppTheme.white,
-                              ),
-                              SizedBox(width: 12.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Notifications are off',
-                                      style: TextStyle(
-                                        color: AppTheme.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.sp,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      'Tap to enable and stay connected with PIWC Stoneyburn',
-                                      style: TextStyle(
-                                        color: AppTheme.white,
-                                        fontSize: 13.sp,
-                                      ),
-                                    ),
-                                  ],
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.notifications_off,
+                                  color: AppTheme.white,
                                 ),
+                                SizedBox(width: 12.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Notifications are off',
+                                        style: TextStyle(
+                                          color: AppTheme.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        'Tap to enable and stay connected with PIWC Stoneyburn',
+                                        style: TextStyle(
+                                          color: AppTheme.white,
+                                          fontSize: 13.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 8.w),
+                                const Icon(
+                                  Icons.chevron_right,
+                                  color: AppTheme.white,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        Text(
+                          'Notification Preferences',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.white
+                                : AppTheme.black,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 16.h),
+
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.containerColor,
+                            borderRadius: BorderRadius.circular(16.r),
+                            border: Border.all(
+                              color: AppTheme.secondaryColor,
+                              width: 1,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              _buildPreferenceItem(
+                                icon: Icons.notifications,
+                                iconBgColor: AppTheme.indigo,
+                                title: 'Sunday Service Reminder',
+                                subtitle:
+                                    'Reminder every Saturday at 6:00 PM before Sunday service',
+                                value: controller.sundayServiceReminder.value,
+                                onChanged: (val) =>
+                                    controller.sundayServiceReminder.value =
+                                        val,
                               ),
-                              SizedBox(width: 8.w),
-                              const Icon(
-                                Icons.chevron_right,
-                                color: AppTheme.white,
+                              _buildDivider(),
+                              _buildPreferenceItem(
+                                icon: Icons.calendar_month,
+                                iconBgColor: AppTheme.deepTeal,
+                                title: 'Event Reminders',
+                                subtitle:
+                                    "1-hour reminder before events you've saved",
+                                value: controller.eventReminders.value,
+                                onChanged: (val) =>
+                                    controller.eventReminders.value = val,
+                              ),
+                              _buildDivider(),
+                              _buildPreferenceItem(
+                                icon: Icons.play_circle_fill,
+                                iconBgColor: AppTheme.deepPurple,
+                                title: 'New Sermons',
+                                subtitle:
+                                    'Notified when a new sermon is uploaded',
+                                value: controller.newSermons.value,
+                                onChanged: (val) =>
+                                    controller.newSermons.value = val,
+                              ),
+                              _buildDivider(),
+                              _buildPreferenceItem(
+                                icon: Icons.volunteer_activism,
+                                iconBgColor: AppTheme.burntOrange,
+                                title: 'Prayer Updates',
+                                subtitle:
+                                    'Notified when someone prays for your request',
+                                value: controller.prayerUpdates.value,
+                                onChanged: (val) =>
+                                    controller.prayerUpdates.value = val,
                               ),
                             ],
                           ),
                         ),
-
-                      Text(
-                        'Notification Preferences',
-                        style: TextStyle(
-                          color: AppTheme.white,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 16.h),
-
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppTheme.containerColor,
-                          borderRadius: BorderRadius.circular(16.r),
-                          border: Border.all(
-                            color: AppTheme.secondaryColor,
-                            width: 1,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            _buildPreferenceItem(
-                              icon: Icons.notifications,
-                              iconBgColor: AppTheme.indigo,
-                              title: 'Sunday Service Reminder',
-                              subtitle:
-                                  'Reminder every Saturday at 6:00 PM before Sunday service',
-                              value: controller.sundayServiceReminder.value,
-                              onChanged: (val) =>
-                                  controller.sundayServiceReminder.value = val,
-                            ),
-                            _buildDivider(),
-                            _buildPreferenceItem(
-                              icon: Icons.calendar_month,
-                              iconBgColor: AppTheme.deepTeal,
-                              title: 'Event Reminders',
-                              subtitle:
-                                  "1-hour reminder before events you've saved",
-                              value: controller.eventReminders.value,
-                              onChanged: (val) =>
-                                  controller.eventReminders.value = val,
-                            ),
-                            _buildDivider(),
-                            _buildPreferenceItem(
-                              icon: Icons.play_circle_fill,
-                              iconBgColor: AppTheme.deepPurple,
-                              title: 'New Sermons',
-                              subtitle:
-                                  'Notified when a new sermon is uploaded',
-                              value: controller.newSermons.value,
-                              onChanged: (val) =>
-                                  controller.newSermons.value = val,
-                            ),
-                            _buildDivider(),
-                            _buildPreferenceItem(
-                              icon: Icons.volunteer_activism,
-                              iconBgColor: AppTheme.burntOrange,
-                              title: 'Prayer Updates',
-                              subtitle:
-                                  'Notified when someone prays for your request',
-                              value: controller.prayerUpdates.value,
-                              onChanged: (val) =>
-                                  controller.prayerUpdates.value = val,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 24.h),
-                    ],
+                        SizedBox(height: 24.h),
+                      ],
+                    ),
                   ),
-                ),
                 ),
               );
             }),
