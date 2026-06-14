@@ -17,7 +17,7 @@ class GiveFundModel {
 
   factory GiveFundModel.fromJson(Map<String, dynamic> json) {
     return GiveFundModel(
-      id: json['_id'] ?? '',
+      id: json['_id'] ?? json['id'] ?? '',
       title: json['name'] ?? '',
       desc: json['description'] ?? '',
       icon: _getIconData(json['icon']),

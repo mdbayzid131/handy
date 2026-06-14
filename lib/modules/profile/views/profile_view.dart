@@ -307,7 +307,7 @@ class ProfileView extends GetView<ProfileController> {
                   sermon: sermon,
                   onTap: () {
                     Get.toNamed(
-                      AppRoutes.SERMON_details,
+                      AppRoutes.SERMON_DETAILS,
                       arguments: sermon,
                       parameters: {'hideSaveIcon': 'true'},
                     );

@@ -111,7 +111,12 @@ class ProfileController extends GetxController {
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null &&
             response.data['data']['totalThisYear'] != null) {
-          totalThisYear.value = response.data['data']['totalThisYear'];
+          final rawValue = response.data['data']['totalThisYear'];
+          if (rawValue is num) {
+            totalThisYear.value = rawValue.toDouble();
+          } else if (rawValue is String) {
+            totalThisYear.value = double.tryParse(rawValue) ?? 0.0;
+          }
         }
       }
     } catch (e) {

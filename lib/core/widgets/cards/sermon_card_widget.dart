@@ -24,7 +24,7 @@ class SermonCardWidget extends StatelessWidget {
       onTap:
           onTap ??
           () {
-            Get.toNamed(AppRoutes.SERMON_details, arguments: sermon);
+            Get.toNamed(AppRoutes.SERMON_DETAILS, arguments: sermon);
           },
       child: Container(
         padding: EdgeInsets.all(16.w),

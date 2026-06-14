@@ -648,7 +648,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildLatestSermonCard(LatestSermonModel data) {
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.SERMON_details, arguments: data.id),
+      onTap: () => Get.toNamed(AppRoutes.SERMON_DETAILS, arguments: data.id),
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.all(16.w),

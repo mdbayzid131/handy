@@ -18,8 +18,8 @@ import 'package:handy/modules/devotionals/views/devotionals_view.dart';
 import 'package:handy/modules/devotionals_details/bindings/devotionals_details_binding.dart';
 import 'package:handy/modules/devotionals_details/views/devotionals_details_view.dart';
 import 'package:handy/modules/donate/bindings/donate_binding.dart';
-import 'package:handy/modules/event_details/bindings/event_details_binding.dart';
-import 'package:handy/modules/event_details/views/event_details_view.dart';
+import 'package:handy/modules/EVENT_DETAILS/bindings/EVENT_DETAILS_binding.dart';
+import 'package:handy/modules/EVENT_DETAILS/views/EVENT_DETAILS_view.dart';
 import 'package:handy/modules/events/bindings/events_binding.dart';
 import 'package:handy/modules/events/views/events_view.dart';
 import 'package:handy/modules/events_history/bindings/events_history_binding.dart';
@@ -36,8 +36,8 @@ import 'package:handy/modules/notifications/bindings/notifications_binding.dart'
 import 'package:handy/modules/notifications/views/notifications_view.dart';
 import 'package:handy/modules/prayer_wall/bindings/prayer_wall_binding.dart';
 import 'package:handy/modules/prayer_wall/views/prayer_wall_view.dart';
-import 'package:handy/modules/sermon_details/bindings/sermon_details_binding.dart';
-import 'package:handy/modules/sermon_details/views/sermon_details_view.dart';
+import 'package:handy/modules/SERMON_DETAILS/bindings/SERMON_DETAILS_binding.dart';
+import 'package:handy/modules/SERMON_DETAILS/views/SERMON_DETAILS_view.dart';
 import 'package:handy/modules/sermons/bindings/sermons_binding.dart';
 import 'package:handy/modules/sermons/views/sermons_view.dart';
 import 'package:handy/modules/watch_live/bindings/watch_live_binding.dart';
@@ -96,9 +96,9 @@ abstract class AppRoutes {
   // ignore: constant_identifier_names
   static const String MORE = '/more';
   // ignore: constant_identifier_names
-  static const String SERMON_details = '/sermon-details';
+  static const String SERMON_DETAILS = '/sermon-details';
   // ignore: constant_identifier_names
-  static const String EVENT_details = '/event-details';
+  static const String EVENT_DETAILS = '/event-details';
   // ignore: constant_identifier_names
   static const String NOTIFICATION = '/notification';
   // ignore: constant_identifier_names
@@ -209,13 +209,13 @@ final List<GetPage> pages = [
     middlewares: [AuthMiddleware()],
   ),
   GetPage(
-    name: AppRoutes.SERMON_details,
+    name: AppRoutes.SERMON_DETAILS,
     page: () => const SermondetailsView(),
     binding: SermondetailsBinding(),
     transition: Transition.fadeIn,
   ),
   GetPage(
-    name: AppRoutes.EVENT_details,
+    name: AppRoutes.EVENT_DETAILS,
     page: () => const EventDetailsView(),
     binding: EventDetailsBinding(),
     transition: Transition.fadeIn,

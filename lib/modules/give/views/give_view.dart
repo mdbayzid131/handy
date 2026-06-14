@@ -152,51 +152,53 @@ class GiveView extends GetView<GiveController> {
         ),
         itemBuilder: (context, index) {
           final fund = controller.funds[index];
-          final isSelected = controller.selectedFund.value == fund.title;
-          return GestureDetector(
-            onTap: () => controller.selectedFund.value = fund.title,
-            child: Container(
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                color: isSelected ? fund.color : AppTheme.containerColor,
-                borderRadius: BorderRadius.circular(16.r),
-                border: Border.all(
-                  color: isSelected
-                      ? Colors.transparent
-                      : AppTheme.secondaryColor,
-                  width: 1,
+          return Obx(() {
+            final isSelected = controller.selectedFundId.value == fund.id;
+            return GestureDetector(
+              onTap: () => controller.selectedFundId.value = fund.id,
+              child: Container(
+                padding: EdgeInsets.all(16.w),
+                decoration: BoxDecoration(
+                  color: isSelected ? fund.color : AppTheme.containerColor,
+                  borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(
+                    color: isSelected
+                        ? Colors.transparent
+                        : AppTheme.secondaryColor,
+                    width: 1,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      fund.icon,
+                      color: isSelected ? AppTheme.white : fund.color,
+                      size: 24.w,
+                    ),
+                    SizedBox(height: 12.h),
+                    Text(
+                      fund.title,
+                      style: TextStyle(
+                        color: AppTheme.white,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      fund.desc,
+                      style: TextStyle(
+                        color: AppTheme.white.withValues(alpha: 0.5),
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    fund.icon,
-                    color: isSelected ? AppTheme.white : fund.color,
-                    size: 24.w,
-                  ),
-                  SizedBox(height: 12.h),
-                  Text(
-                    fund.title,
-                    style: TextStyle(
-                      color: AppTheme.white,
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    fund.desc,
-                    style: TextStyle(
-                      color: AppTheme.white.withValues(alpha: 0.5),
-                      fontSize: 12.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+            );
+          });
         },
       );
     });
@@ -298,18 +300,28 @@ class GiveView extends GetView<GiveController> {
 
   Widget _buildGiveNowButton() {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (controller.selectedAmount.value <= 0) {
           Helpers.showError('Please select or enter an amount to donate');
           return;
         }
-        Get.toNamed(
-          AppRoutes.DONATE,
-          arguments: {
-            'fund': controller.selectedFund.value,
-            'amount': controller.selectedAmount.value,
-          },
-        );
+
+        final fundId = controller.selectedFundId.value;
+        final fund = controller.funds.firstWhereOrNull((f) => f.id == fundId)?.title ?? 'Fund';
+        final amount = controller.selectedAmount.value;
+
+        // Make the API call to record the transaction
+        final success = await controller.recordTransaction();
+
+        if (success) {
+          Get.toNamed(
+            AppRoutes.DONATE,
+            arguments: {
+              'fund': fund,
+              'amount': amount,
+            },
+          );
+        }
       },
       child: Container(
         width: double.infinity,
@@ -318,20 +330,32 @@ class GiveView extends GetView<GiveController> {
           color: AppTheme.primaryColor,
           borderRadius: BorderRadius.circular(16.r),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Donate',
-              style: TextStyle(
-                color: AppTheme.white,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
+        child: Obx(() => controller.isSubmitting.value
+            ? Center(
+                child: SizedBox(
+                  width: 20.w,
+                  height: 20.w,
+                  child: CircularProgressIndicator(
+                    color: AppTheme.white,
+                    strokeWidth: 2.w,
+                  ),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Donate',
+                    style: TextStyle(
+                      color: AppTheme.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Icon(Icons.chevron_right, color: AppTheme.white, size: 20.w),
+                ],
               ),
-            ),
-            SizedBox(width: 8.w),
-            Icon(Icons.chevron_right, color: AppTheme.white, size: 20.w),
-          ],
         ),
       ),
     );

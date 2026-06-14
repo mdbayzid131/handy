@@ -11,9 +11,9 @@ class GiveController extends GetxController {
   final showHistory = false.obs;
   final isLoading = true.obs;
   
-  final totalThisYear = 0.obs;
+  final totalThisYear = 0.0.obs;
 
-  final selectedFund = 'Offering'.obs;
+  final selectedFundId = ''.obs;
   final selectedAmount = 0.obs;
 
   final amountController = TextEditingController();
@@ -53,21 +53,52 @@ class GiveController extends GetxController {
       final fundsResponse = futures[0];
       final totalResponse = futures[1];
 
-      if (fundsResponse.statusCode == 200 || fundsResponse.statusCode == 201) {
-        if (fundsResponse.data['data'] != null) {
-          final fundsList = (fundsResponse.data['data'] as List)
-              .map((x) => GiveFundModel.fromJson(x as Map<String, dynamic>))
-              .toList();
-          funds.assignAll(fundsList);
+      try {
+        if (fundsResponse.statusCode == 200 || fundsResponse.statusCode == 201) {
+          if (fundsResponse.data['data'] != null && fundsResponse.data['data'] is List) {
+            final fundsList = (fundsResponse.data['data'] as List)
+                .map((x) => GiveFundModel.fromJson(x as Map<String, dynamic>))
+                .toList();
+            funds.assignAll(fundsList);
+            
+            if (fundsList.isNotEmpty) {
+              final exists = fundsList.any((f) => f.id == selectedFundId.value);
+              if (!exists) {
+                selectedFundId.value = fundsList.first.id;
+              }
+            }
+          }
         }
+      } catch (e) {
+        Helpers.showDebugLog('Failed to parse funds: $e');
       }
       
-      if (totalResponse.statusCode == 200 || totalResponse.statusCode == 201) {
-        if (totalResponse.data['data'] != null && totalResponse.data['data']['totalThisYear'] != null) {
-          totalThisYear.value = (totalResponse.data['data']['totalThisYear'] as num).toInt();
+      try {
+        if (totalResponse.statusCode == 200 || totalResponse.statusCode == 201) {
+          var dataObj = totalResponse.data['data'];
+          if (dataObj != null) {
+            if (dataObj is Map && dataObj['totalThisYear'] != null) {
+              final rawValue = dataObj['totalThisYear'];
+              if (rawValue is num) {
+                totalThisYear.value = rawValue.toDouble();
+              } else if (rawValue is String) {
+                totalThisYear.value = double.tryParse(rawValue) ?? 0.0;
+              }
+            } else if (dataObj is num) {
+              totalThisYear.value = dataObj.toDouble();
+            } else if (dataObj is String) {
+              totalThisYear.value = double.tryParse(dataObj) ?? 0.0;
+            }
+          }
+        } else {
+          Helpers.showError('Total API Error: ${totalResponse.statusCode}');
         }
+      } catch (e) {
+        Helpers.showError('Parse Error: $e');
+        Helpers.showDebugLog('Failed to parse totalThisYear: $e');
       }
     } catch (e) {
+      Helpers.showError('Fetch Error: $e');
       Helpers.showDebugLog('Failed to fetch data: $e');
     } finally {
       isLoading.value = false;
@@ -76,21 +107,21 @@ class GiveController extends GetxController {
 
   final isSubmitting = false.obs;
 
-  Future<void> recordTransaction() async {
+  Future<bool> recordTransaction() async {
     if (selectedAmount.value <= 0) {
       Helpers.showError('Please enter a valid amount');
-      return;
+      return false;
     }
     
-    if (selectedFund.value.isEmpty) {
+    if (selectedFundId.value.isEmpty) {
       Helpers.showError('Please select a fund');
-      return;
+      return false;
     }
 
-    final fund = funds.firstWhereOrNull((f) => f.title == selectedFund.value);
+    final fund = funds.firstWhereOrNull((f) => f.id == selectedFundId.value);
     if (fund == null) {
       Helpers.showError('Selected fund not found');
-      return;
+      return false;
     }
 
     isSubmitting.value = true;
@@ -113,10 +144,13 @@ class GiveController extends GetxController {
         
         // Refresh total
         await fetchFunds();
+        return true;
       }
+      return false;
     } catch (e) {
       Helpers.showDebugLog('Failed to record transaction: $e');
       Helpers.showError('Failed to process transaction. Please try again.');
+      return false;
     } finally {
       isSubmitting.value = false;
     }

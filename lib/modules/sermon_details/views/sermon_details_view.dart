@@ -8,6 +8,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../data/models/sermon_response_model.dart';
 import '../../../core/services/auth_service.dart';
 import '../../../config/routes/app_pages.dart';
+import '../../../core/widgets/custom_gradient_appbar.dart';
 
 class SermondetailsView extends GetView<SermondetailsController> {
   const SermondetailsView({super.key});
@@ -26,75 +27,37 @@ class SermondetailsView extends GetView<SermondetailsController> {
       }
 
       return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppTheme.primaryLighter, // Lighter blue
-                AppTheme.primaryDarker, // Darker blue
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppTheme.white, size: 24.w),
-          onPressed: () => Get.back(),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Sermon',
-              style: TextStyle(
-                color: AppTheme.white,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'PIWC Stoneyburn',
-              style: TextStyle(
-                color: AppTheme.warningColor,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+        appBar: CustomGradientAppBar(
+          title: 'Sermon',
+          subtitle: 'PIWC Stoneyburn',
+          actions: [
+            if (Get.parameters['hideSaveIcon'] != 'true')
+              Obx(() {
+                final profileController = Get.find<ProfileController>();
+                final sermonId = sermon.sId ?? sermon.id;
+                final isFav = sermonId != null ? profileController.isSermonFavorite(sermonId) : false;
+                
+                return IconButton(
+                  icon: Icon(
+                    isFav ? Icons.bookmark : Icons.bookmark_border,
+                    color: AppTheme.white,
+                    size: 24.w,
+                  ),
+                  onPressed: () {
+                    final authService = Get.find<AuthService>();
+                    if (!authService.isLoggedIn.value) {
+                      Get.toNamed(AppRoutes.LOGIN);
+                      return;
+                    }
+                    
+                    if (sermonId != null) {
+                      profileController.toggleFavoriteSermon(sermonId);
+                    }
+                  },
+                );
+              }),
           ],
         ),
-        titleSpacing: 0,
-        actions: [
-          if (Get.parameters['hideSaveIcon'] != 'true')
-            Obx(() {
-              final profileController = Get.find<ProfileController>();
-              final sermonId = sermon.sId ?? sermon.id;
-              final isFav = sermonId != null ? profileController.isSermonFavorite(sermonId) : false;
-              
-              return IconButton(
-                icon: Icon(
-                  isFav ? Icons.bookmark : Icons.bookmark_border,
-                  color: AppTheme.white,
-                  size: 24.w,
-                ),
-                onPressed: () {
-                  final authService = Get.find<AuthService>();
-                  if (!authService.isLoggedIn.value) {
-                    Get.toNamed(AppRoutes.LOGIN);
-                    return;
-                  }
-                  
-                  if (sermonId != null) {
-                    profileController.toggleFavoriteSermon(sermonId);
-                  }
-                },
-              );
-            }),
-        ],
-      ),
       body: RefreshIndicator(
         onRefresh: controller.refreshData,
         color: AppTheme.primaryColor,

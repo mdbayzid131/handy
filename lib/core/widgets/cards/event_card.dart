@@ -30,7 +30,7 @@ class EventCard extends StatelessWidget {
     final headerColor = _getCategoryColor(event.categoryColor);
 
     return GestureDetector(
-      onTap: () => Get.toNamed(AppRoutes.EVENT_details, arguments: event),
+      onTap: () => Get.toNamed(AppRoutes.EVENT_DETAILS, arguments: event),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.containerColor,

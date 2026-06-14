@@ -45,7 +45,10 @@ class HomeController extends GetxController {
       final response = await apiClient.getData(ApiConstants.devotionalsProfileSummary);
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
-          devotionalProgress.value = response.data['data']['weekly_progress'] ?? 0;
+          int weekly = response.data['data']['weekly_progress'] ?? 0;
+          int streak = response.data['data']['devotionals_streak_days'] ?? 0;
+          // Fallback to streak if weekly_progress is not updating properly from backend
+          devotionalProgress.value = weekly > 0 ? weekly : (streak > 7 ? streak % 7 : streak);
         }
       }
     } catch (e) {
