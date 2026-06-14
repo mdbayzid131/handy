@@ -12,7 +12,6 @@ class SermonsView extends GetView<SermonsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
       body: Column(
         children: [
           _buildHeader(context),
@@ -43,8 +42,13 @@ class SermonsView extends GetView<SermonsController> {
                 child: ListView.separated(
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: controller.scrollController,
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-                  itemCount: controller.filteredSermons.length + (controller.isLoadMore.value ? 1 : 0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 10.h,
+                  ),
+                  itemCount:
+                      controller.filteredSermons.length +
+                      (controller.isLoadMore.value ? 1 : 0),
                   separatorBuilder: (context, index) => SizedBox(height: 16.h),
                   itemBuilder: (context, index) {
                     if (index == controller.filteredSermons.length) {
@@ -101,7 +105,10 @@ class SermonsView extends GetView<SermonsController> {
             borderRadius: BorderRadius.circular(12.r),
             borderSide: BorderSide(color: AppTheme.primaryColor, width: 1),
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 12.h,
+            horizontal: 16.w,
+          ),
         ),
       ),
     );
@@ -109,13 +116,14 @@ class SermonsView extends GetView<SermonsController> {
 
   Widget _buildCategories() {
     return Obx(() {
-      if (controller.isCategoriesLoading.value && controller.categories.isEmpty) {
+      if (controller.isCategoriesLoading.value &&
+          controller.categories.isEmpty) {
         return SizedBox(
           height: 36.h,
           child: const Center(child: CircularProgressIndicator()),
         );
       }
-      
+
       return SizedBox(
         height: 36.h,
         child: ListView.separated(
@@ -126,11 +134,15 @@ class SermonsView extends GetView<SermonsController> {
           itemBuilder: (context, index) {
             final category = controller.categories[index];
             return Obx(() {
-              final isSelected = controller.selectedCategoryId.value == category.id;
+              final isSelected =
+                  controller.selectedCategoryId.value == category.id;
               return GestureDetector(
                 onTap: () => controller.selectCategory(category.id ?? 'All'),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 4.h,
+                  ),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? AppTheme.primaryColor

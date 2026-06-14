@@ -85,14 +85,16 @@ class GiveView extends GetView<GiveController> {
                 fontSize: 14.sp,
               ),
             ),
-            Obx(() => Text(
-              '£${controller.totalThisYear.value.toStringAsFixed(2)}',
-              style: TextStyle(
-                color: AppTheme.warningColor,
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
+            Obx(
+              () => Text(
+                '£${controller.totalThisYear.value.toStringAsFixed(2)}',
+                style: TextStyle(
+                  color: AppTheme.warningColor,
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )),
+            ),
           ],
         ),
       ),
@@ -307,7 +309,9 @@ class GiveView extends GetView<GiveController> {
         }
 
         final fundId = controller.selectedFundId.value;
-        final fund = controller.funds.firstWhereOrNull((f) => f.id == fundId)?.title ?? 'Fund';
+        final fund =
+            controller.funds.firstWhereOrNull((f) => f.id == fundId)?.title ??
+            'Fund';
         final amount = controller.selectedAmount.value;
 
         // Make the API call to record the transaction
@@ -316,10 +320,7 @@ class GiveView extends GetView<GiveController> {
         if (success) {
           Get.toNamed(
             AppRoutes.DONATE,
-            arguments: {
-              'fund': fund,
-              'amount': amount,
-            },
+            arguments: {'fund': fund, 'amount': amount},
           );
         }
       },
@@ -330,32 +331,37 @@ class GiveView extends GetView<GiveController> {
           color: AppTheme.primaryColor,
           borderRadius: BorderRadius.circular(16.r),
         ),
-        child: Obx(() => controller.isSubmitting.value
-            ? Center(
-                child: SizedBox(
-                  width: 20.w,
-                  height: 20.w,
-                  child: CircularProgressIndicator(
-                    color: AppTheme.white,
-                    strokeWidth: 2.w,
-                  ),
-                ),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Donate',
-                    style: TextStyle(
+        child: Obx(
+          () => controller.isSubmitting.value
+              ? Center(
+                  child: SizedBox(
+                    width: 20.w,
+                    height: 20.w,
+                    child: CircularProgressIndicator(
                       color: AppTheme.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
+                      strokeWidth: 2.w,
                     ),
                   ),
-                  SizedBox(width: 8.w),
-                  Icon(Icons.chevron_right, color: AppTheme.white, size: 20.w),
-                ],
-              ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Donate',
+                      style: TextStyle(
+                        color: AppTheme.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Icon(
+                      Icons.chevron_right,
+                      color: AppTheme.white,
+                      size: 20.w,
+                    ),
+                  ],
+                ),
         ),
       ),
     );
@@ -373,7 +379,7 @@ class GiveView extends GetView<GiveController> {
             style: TextStyle(
               color: Theme.of(context).brightness == Brightness.dark
                   ? AppTheme.white
-                  : AppTheme.white,
+                  : AppTheme.black,
               fontSize: 18.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -384,7 +390,9 @@ class GiveView extends GetView<GiveController> {
             return Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 40.h),
-                child: const CircularProgressIndicator(color: AppTheme.primaryColor),
+                child: CircularProgressIndicator(
+                  color: AppTheme.primaryColor,
+                ),
               ),
             );
           }
@@ -395,7 +403,11 @@ class GiveView extends GetView<GiveController> {
                 padding: EdgeInsets.symmetric(vertical: 40.h),
                 child: Text(
                   'No giving history found.',
-                  style: TextStyle(color: AppTheme.white.withValues(alpha: 0.5)),
+                  style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.white.withValues(alpha: 0.5)
+                        : AppTheme.black.withValues(alpha: 0.5),
+                  ),
                 ),
               ),
             );
@@ -408,93 +420,93 @@ class GiveView extends GetView<GiveController> {
             itemCount: controller.historyData.length,
             separatorBuilder: (context, index) => SizedBox(height: 16.h),
             itemBuilder: (context, index) {
-            final item = controller.historyData[index];
-            return Container(
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                color: AppTheme.containerColor,
-                borderRadius: BorderRadius.circular(16.r),
-                border: Border.all(color: AppTheme.secondaryColor),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 48.w,
-                    height: 48.w,
-                    decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12.r),
+              final item = controller.historyData[index];
+              return Container(
+                padding: EdgeInsets.all(16.w),
+                decoration: BoxDecoration(
+                  color: AppTheme.containerColor,
+                  borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(color: AppTheme.secondaryColor),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 48.w,
+                      height: 48.w,
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      child: Icon(
+                        Icons.receipt_long,
+                        color: AppTheme.primaryColor,
+                        size: 24.w,
+                      ),
                     ),
-                    child: Icon(
-                      Icons.receipt_long,
-                      color: AppTheme.primaryColor,
-                      size: 24.w,
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.title,
+                            style: TextStyle(
+                              color: AppTheme.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            item.date,
+                            style: TextStyle(
+                              color: AppTheme.white.withValues(alpha: 0.5),
+                              fontSize: 13.sp,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 16.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          item.title,
+                          item.amount,
                           style: TextStyle(
-                            color: AppTheme.white,
+                            color: AppTheme.warningColor,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 4.h),
-                        Text(
-                          item.date,
-                          style: TextStyle(
-                            color: AppTheme.white.withValues(alpha: 0.5),
-                            fontSize: 13.sp,
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 6.w,
+                              height: 6.w,
+                              decoration: const BoxDecoration(
+                                color: AppTheme.successColor,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              item.status,
+                              style: TextStyle(
+                                color: AppTheme.successColor,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        item.amount,
-                        style: TextStyle(
-                          color: AppTheme.warningColor,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Row(
-                        children: [
-                          Container(
-                            width: 6.w,
-                            height: 6.w,
-                            decoration: const BoxDecoration(
-                              color: AppTheme.successColor,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          SizedBox(width: 4.w),
-                          Text(
-                            item.status,
-                            style: TextStyle(
-                              color: AppTheme.successColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
-        );
+                  ],
+                ),
+              );
+            },
+          );
         }),
       ],
     );

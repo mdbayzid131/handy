@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:handy/core/services/api_client.dart';
 import 'package:handy/core/utils/helpers.dart';
 import 'package:handy/config/constants/api_constants.dart';
+import 'package:handy/core/services/auth_service.dart';
 import 'package:handy/data/models/devotional_model.dart';
 
 class DevotionalsController extends GetxController {
@@ -21,7 +22,11 @@ class DevotionalsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchDevotionals();
+    if (Get.find<AuthService>().isLoggedIn.value) {
+      fetchDevotionals();
+    } else {
+      isLoading.value = false;
+    }
     scrollController.addListener(_scrollListener);
   }
 

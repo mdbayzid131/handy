@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:handy/core/services/api_client.dart';
 import 'package:handy/config/constants/api_constants.dart';
 import 'package:handy/core/utils/helpers.dart';
+import 'package:handy/core/services/auth_service.dart';
 import '../../../data/models/give_model.dart';
 
 class GiveController extends GetxController {
@@ -31,7 +32,11 @@ class GiveController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchFunds();
+    if (Get.find<AuthService>().isLoggedIn.value) {
+      fetchFunds();
+    } else {
+      isLoading.value = false;
+    }
     amountController.addListener(() {
       if (amountController.text.isNotEmpty) {
         final val = int.tryParse(amountController.text) ?? 0;
@@ -189,7 +194,11 @@ class GiveController extends GetxController {
   void toggleHistory() {
     showHistory.value = !showHistory.value;
     if (showHistory.value && historyData.isEmpty) {
-      fetchHistory();
+      if (Get.find<AuthService>().isLoggedIn.value) {
+        fetchHistory();
+      } else {
+        isHistoryLoading.value = false;
+      }
     }
   }
 }

@@ -116,7 +116,9 @@ class HomeController extends GetxController {
     await fetchLatestSermon();
     await fetchLatestEvents();
     await fetchContactAndMission();
-    await fetchDevotionalSummary();
+    if (Get.find<AuthService>().isLoggedIn.value) {
+      await fetchDevotionalSummary();
+    }
   }
 
   void toggleExpanded(int index) {
