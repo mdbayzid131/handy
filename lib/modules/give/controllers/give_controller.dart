@@ -136,7 +136,7 @@ class GiveController extends GetxController {
         "amount": selectedAmount.value.toDouble(),
         "currency": "GBP",
         "status": "completed",
-        "reference": "TXN-${DateTime.now().millisecondsSinceEpoch}"
+        "reference": fund.title
       };
 
       final response = await apiClient.postData(ApiConstants.givingRecord, body);
