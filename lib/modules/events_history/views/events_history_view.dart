@@ -6,6 +6,7 @@ import '../controllers/events_history_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 import 'package:handy/core/widgets/cards/event_card.dart';
+import 'package:handy/core/widgets/shimmers/event_card_shimmer.dart';
 
 class EventsHistoryView extends GetView<EventsHistoryController> {
   const EventsHistoryView({super.key});
@@ -29,10 +30,12 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
                 onRefresh: controller.refreshEvents,
                 child: Obx(() {
                   if (controller.isFirstLoad.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppTheme.primaryColor,
-                      ),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                      itemCount: 4,
+                      itemBuilder: (context, index) => const EventCardShimmer(),
                     );
                   }
 
