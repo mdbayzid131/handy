@@ -7,6 +7,7 @@ import '../../../core/widgets/custom_gradient_header.dart';
 import '../controllers/prayer_wall_controller.dart';
 import '../../../core/services/auth_service.dart';
 import '../../../config/routes/app_pages.dart';
+import '../../../core/widgets/shimmers/list_shimmer.dart';
 
 class PrayerWallView extends GetView<PrayerWallController> {
   const PrayerWallView({super.key});
@@ -329,8 +330,9 @@ class PrayerWallView extends GetView<PrayerWallController> {
 
   Widget _buildPrayerList(BuildContext context, List<PrayerWallModel> list) {
     if (controller.isLoading.value && list.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator(color: AppTheme.primaryColor),
+      return ListView(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+        children: const [ListShimmer(itemCount: 4)],
       );
     }
     if (list.isEmpty) return _buildEmptyState(context);

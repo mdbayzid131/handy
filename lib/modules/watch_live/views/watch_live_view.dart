@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:handy/core/utils/helpers.dart';
 import '../controllers/watch_live_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../../../core/widgets/shimmers/shimmer_helper.dart';
 
 class WatchLiveView extends GetView<WatchLiveController> {
   const WatchLiveView({super.key});
@@ -94,8 +95,27 @@ class WatchLiveView extends GetView<WatchLiveController> {
         child: Obx(() {
           if (controller.isLoading.value &&
               controller.youtubeStatus.value == null) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppTheme.primaryColor),
+            return SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                child: ShimmerHelper(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ShimmerContainer(width: double.infinity, height: 200.h, borderRadius: 24.r),
+                      SizedBox(height: 30.h),
+                      ShimmerContainer(width: 100.w, height: 20.h),
+                      SizedBox(height: 16.h),
+                      ShimmerContainer(width: double.infinity, height: 60.h, borderRadius: 16.r),
+                      SizedBox(height: 12.h),
+                      ShimmerContainer(width: double.infinity, height: 80.h, borderRadius: 16.r),
+                      SizedBox(height: 20.h),
+                      ShimmerContainer(width: double.infinity, height: 150.h, borderRadius: 20.r),
+                    ],
+                  ),
+                ),
+              ),
             );
           }
 
@@ -439,44 +459,42 @@ class WatchLiveView extends GetView<WatchLiveController> {
 
 
                         // Service Times
-                        if (serviceInfo != null)
-                          Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.all(20.w),
-                            decoration: BoxDecoration(
-                              color: AppTheme.cardColor,
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Service Times',
-                                  style: TextStyle(
-                                    color: AppTheme.white,
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 20.h),
-                                _buildServiceTimeRow(
-                                  Icons.calendar_today,
-                                  serviceInfo.schedule ?? 'Every Sunday',
-                                ),
-                                SizedBox(height: 16.h),
-                                _buildServiceTimeRow(
-                                  Icons.access_time,
-                                  serviceInfo.time ?? '10:00 AM – 12:30 PM',
-                                ),
-                                SizedBox(height: 16.h),
-                                _buildServiceTimeRow(
-                                  Icons.location_on,
-                                  serviceInfo.address ??
-                                      '71 Stoneyburn Street, EH47 8JT',
-                                ),
-                              ],
-                            ),
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(20.w),
+                          decoration: BoxDecoration(
+                            color: AppTheme.cardColor,
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Service Times',
+                                style: TextStyle(
+                                  color: AppTheme.white,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 20.h),
+                              _buildServiceTimeRow(
+                                Icons.calendar_today,
+                                serviceInfo?.schedule?.trim().isNotEmpty == true ? serviceInfo!.schedule! : 'Not Available',
+                              ),
+                              SizedBox(height: 16.h),
+                              _buildServiceTimeRow(
+                                Icons.access_time,
+                                serviceInfo?.time?.trim().isNotEmpty == true ? serviceInfo!.time! : 'Not Available',
+                              ),
+                              SizedBox(height: 16.h),
+                              _buildServiceTimeRow(
+                                Icons.location_on,
+                                serviceInfo?.address?.trim().isNotEmpty == true ? serviceInfo!.address! : 'Not Available',
+                              ),
+                            ],
+                          ),
+                        ),
 
                         SizedBox(height: 40.h),
 

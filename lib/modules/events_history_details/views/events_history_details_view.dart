@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/events_history_details_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
+import '../../../core/widgets/shimmers/details_shimmer.dart';
 
 class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
   const EventsHistoryDetailsView({super.key});
@@ -28,7 +29,12 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
     return Obx(() {
       if (controller.isLoading.value && controller.event.value.description == null) {
         return const Scaffold(
-          body: Center(child: CircularProgressIndicator(color: AppTheme.primaryColor)),
+          body: Column(
+            children: [
+              CustomGradientHeader(title: 'Event History Details', subtitle: 'PIWC Stoneyburn', showBackButton: true),
+              Expanded(child: DetailsShimmer()),
+            ],
+          ),
         );
       }
 

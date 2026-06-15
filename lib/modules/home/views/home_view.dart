@@ -11,6 +11,9 @@ import '../../bottom_nab_bar/controllers/bottom_nab_bar.dart';
 import 'package:handy/core/widgets/cards/event_card.dart';
 import 'package:handy/data/models/events_model.dart';
 import '../../../core/services/auth_service.dart';
+import '../../../core/widgets/shimmers/shimmer_helper.dart';
+import '../../../core/widgets/shimmers/sermon_card_shimmer.dart';
+import '../../../core/widgets/shimmers/event_card_shimmer.dart';
 
 // ignore: unused_element
 class _QuickAccessItem {
@@ -179,14 +182,21 @@ class HomeView extends GetView<HomeController> {
                 Obx(() {
                   if (controller.isLoadingSermon.value &&
                       controller.latestSermon.value == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppTheme.primaryColor,
-                      ),
-                    );
+                    return const SermonCardShimmer();
                   }
                   if (controller.latestSermon.value == null) {
-                    return const SizedBox.shrink();
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.h),
+                        child: Text(
+                          'No latest sermon available',
+                          style: TextStyle(
+                            color: AppTheme.white.withValues(alpha: 0.5),
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ),
+                    );
                   }
                   return _buildLatestSermonCard(controller.latestSermon.value!);
                 }),
@@ -201,10 +211,8 @@ class HomeView extends GetView<HomeController> {
                 Obx(() {
                   if (controller.isLoadingEvents.value &&
                       controller.latestEvents.isEmpty) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppTheme.primaryColor,
-                      ),
+                    return Column(
+                      children: List.generate(2, (index) => const EventCardShimmer()),
                     );
                   }
                   if (controller.latestEvents.isEmpty) {
@@ -300,11 +308,12 @@ class HomeView extends GetView<HomeController> {
               final isLoading = controller.isLoadingDevotional.value;
 
               if (isLoading) {
-                return Container(
-                  width: 80.w,
-                  height: 80.w,
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(color: AppTheme.white),
+                return ShimmerHelper(
+                  child: ShimmerContainer(
+                    width: 80.w,
+                    height: 80.w,
+                    shape: BoxShape.circle,
+                  ),
                 );
               }
 
@@ -354,9 +363,9 @@ class HomeView extends GetView<HomeController> {
   Widget _buildNextServiceCard() {
     return Obx(() {
       final schedule = controller.contactMission.value?.sundayService;
-      final scheduleText = schedule != null
+      final scheduleText = schedule != null && schedule.isNotEmpty
           ? 'Sunday · ${schedule.split(',').join(' - ')}'
-          : 'Sunday · 10:00 AM – 12:30 PM';
+          : 'Sunday · No schedule';
 
       return Container(
         width: double.infinity,
@@ -404,24 +413,14 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ),
                   SizedBox(height: 4.h),
-                  if (controller.isLoadingContact.value)
-                    SizedBox(
-                      height: 14.sp,
-                      width: 14.sp,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: AppTheme.deepBlackBlue.withValues(alpha: 0.8),
-                      ),
-                    )
-                  else
-                    Text(
-                      scheduleText,
-                      style: TextStyle(
-                        color: AppTheme.deepBlackBlue.withValues(alpha: 0.8),
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  Text(
+                    scheduleText,
+                    style: TextStyle(
+                      color: AppTheme.deepBlackBlue.withValues(alpha: 0.8),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
                     ),
+                  ),
                 ],
               ),
             ),

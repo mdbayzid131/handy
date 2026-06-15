@@ -5,6 +5,7 @@ import 'package:handy/core/widgets/custom_gradient_header.dart';
 
 import '../controllers/community_controller.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/shimmers/shimmer_helper.dart';
 
 class CommunityView extends GetView<CommunityController> {
   const CommunityView({super.key});
@@ -26,10 +27,49 @@ class CommunityView extends GetView<CommunityController> {
               child: Obx(() {
                 if (controller.isLoading.value &&
                     controller.communityList.isEmpty) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: AppTheme.primaryColor,
-                    ),
+                  return ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 16.h),
+                        padding: EdgeInsets.all(20.w),
+                        decoration: BoxDecoration(
+                          color: AppTheme.containerColor,
+                          borderRadius: BorderRadius.circular(16.r),
+                          border: Border.all(color: AppTheme.secondaryColor),
+                        ),
+                        child: ShimmerHelper(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ShimmerContainer(width: 52.w, height: 52.w, borderRadius: 12.r),
+                                  SizedBox(width: 16.w),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        ShimmerContainer(width: 150.w, height: 14.h),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 16.h),
+                              ShimmerContainer(width: double.infinity, height: 14.h),
+                              SizedBox(height: 4.h),
+                              ShimmerContainer(width: 200.w, height: 14.h),
+                              SizedBox(height: 20.h),
+                              ShimmerContainer(width: double.infinity, height: 48.h, borderRadius: 24.r),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   );
                 }
 

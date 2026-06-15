@@ -6,6 +6,7 @@ import '../controllers/give_controller.dart';
 import '../../../config/routes/app_pages.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 import 'package:handy/core/utils/helpers.dart';
+import '../../../core/widgets/shimmers/shimmer_helper.dart';
 
 class GiveView extends GetView<GiveController> {
   const GiveView({super.key});
@@ -138,8 +139,58 @@ class GiveView extends GetView<GiveController> {
   Widget _buildFundGrid(BuildContext context) {
     return Obx(() {
       if (controller.isLoading.value && controller.funds.isEmpty) {
-        return const Center(child: CircularProgressIndicator());
+        return GridView.builder(
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: 4,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12.w,
+            mainAxisSpacing: 12.h,
+            childAspectRatio: 1.1,
+          ),
+          itemBuilder: (context, index) {
+            return Container(
+              padding: EdgeInsets.all(16.w),
+              decoration: BoxDecoration(
+                color: AppTheme.containerColor,
+                borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(color: AppTheme.secondaryColor, width: 1),
+              ),
+              child: ShimmerHelper(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ShimmerContainer(width: 24.w, height: 24.w, borderRadius: 12.r),
+                    SizedBox(height: 12.h),
+                    ShimmerContainer(width: 80.w, height: 16.h),
+                    SizedBox(height: 4.h),
+                    ShimmerContainer(width: 100.w, height: 12.h),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
       }
+      
+      if (controller.funds.isEmpty) {
+        return Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 40.h),
+            child: Text(
+              'No funds available at the moment',
+              style: TextStyle(
+                color: AppTheme.white.withValues(alpha: 0.5),
+                fontSize: 14.sp,
+              ),
+            ),
+          ),
+        );
+      }
+
       return GridView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
@@ -386,11 +437,48 @@ class GiveView extends GetView<GiveController> {
         ),
         Obx(() {
           if (controller.isHistoryLoading.value) {
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 40.h),
-                child: CircularProgressIndicator(color: AppTheme.primaryColor),
-              ),
+            return ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0.h),
+              itemCount: 3,
+              separatorBuilder: (context, index) => SizedBox(height: 16.h),
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: EdgeInsets.all(16.w),
+                  decoration: BoxDecoration(
+                    color: AppTheme.containerColor,
+                    borderRadius: BorderRadius.circular(16.r),
+                    border: Border.all(color: AppTheme.secondaryColor),
+                  ),
+                  child: ShimmerHelper(
+                    child: Row(
+                      children: [
+                        ShimmerContainer(width: 48.w, height: 48.w, borderRadius: 12.r),
+                        SizedBox(width: 16.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ShimmerContainer(width: 100.w, height: 16.h),
+                              SizedBox(height: 4.h),
+                              ShimmerContainer(width: 80.w, height: 12.h),
+                            ],
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            ShimmerContainer(width: 60.w, height: 16.h),
+                            SizedBox(height: 4.h),
+                            ShimmerContainer(width: 50.w, height: 12.h),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             );
           }
 

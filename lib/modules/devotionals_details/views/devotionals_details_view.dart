@@ -6,6 +6,7 @@ import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/home/controllers/home_controller.dart';
 
 import '../controllers/devotionals_details_controller.dart';
+import '../../../core/widgets/shimmers/details_shimmer.dart';
 
 class DevotionalsDetailsView extends GetView<DevotionalsDetailsController> {
   const DevotionalsDetailsView({super.key});
@@ -36,7 +37,7 @@ class DevotionalsDetailsView extends GetView<DevotionalsDetailsController> {
       ),
       body: Obx(() {
         if (controller.isLoading.value && controller.devotional.value == null) {
-          return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+          return const DetailsShimmer();
         }
 
         final devotional = controller.devotional.value;

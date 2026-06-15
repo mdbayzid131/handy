@@ -9,6 +9,7 @@ import '../../../data/models/sermon_response_model.dart';
 import '../../../core/services/auth_service.dart';
 import '../../../config/routes/app_pages.dart';
 import '../../../core/widgets/custom_gradient_appbar.dart';
+import '../../../core/widgets/shimmers/details_shimmer.dart';
 
 class SermondetailsView extends GetView<SermondetailsController> {
   const SermondetailsView({super.key});
@@ -20,9 +21,10 @@ class SermondetailsView extends GetView<SermondetailsController> {
       final sermon = controller.sermonDetail.value;
 
       if (controller.isLoading.value && sermon == null) {
-        return const Scaffold(
+        return Scaffold(
           backgroundColor: AppTheme.backgroundColor,
-          body: Center(child: CircularProgressIndicator(color: AppTheme.primaryColor)),
+          appBar: const CustomGradientAppBar(title: 'Sermon', showBackButton: true),
+          body: const DetailsShimmer(),
         );
       }
 

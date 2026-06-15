@@ -6,6 +6,7 @@ import '../../../config/routes/app_pages.dart';
 import '../../../data/models/bible_model.dart';
 import '../controllers/bible_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
+import '../../../core/widgets/shimmers/shimmer_helper.dart';
 
 class BibleView extends GetView<BibleController> {
   const BibleView({super.key});
@@ -158,7 +159,60 @@ class BibleView extends GetView<BibleController> {
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value && controller.versions.isEmpty) {
-                  return const Center(child: CircularProgressIndicator(color: AppTheme.primaryColor));
+                  return ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 16.h),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.containerColor,
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  border: Border.all(color: AppTheme.secondaryColor),
+                                ),
+                                child: ShimmerHelper(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ShimmerContainer(width: 80.w, height: 16.h),
+                                      SizedBox(height: 6.h),
+                                      ShimmerContainer(width: 40.w, height: 12.h),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 16.w),
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.containerColor,
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  border: Border.all(color: AppTheme.secondaryColor),
+                                ),
+                                child: ShimmerHelper(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ShimmerContainer(width: 80.w, height: 16.h),
+                                      SizedBox(height: 6.h),
+                                      ShimmerContainer(width: 40.w, height: 12.h),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 }
 
                 final books = controller.filteredBooks;

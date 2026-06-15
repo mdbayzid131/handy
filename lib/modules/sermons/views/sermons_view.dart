@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../../../core/widgets/custom_gradient_header.dart';
 import '../../../core/widgets/cards/sermon_card_widget.dart';
+import '../../../core/widgets/shimmers/shimmer_helper.dart';
+import '../../../core/widgets/shimmers/sermon_card_shimmer.dart';
 import '../controllers/sermons_controller.dart';
 
 class SermonsView extends GetView<SermonsController> {
@@ -28,9 +30,12 @@ class SermonsView extends GetView<SermonsController> {
               SizedBox(height: 16.h),
               Obx(() {
                 if (controller.isFirstLoad.value) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 40.h),
-                    child: const Center(child: CircularProgressIndicator()),
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    itemCount: 4,
+                    itemBuilder: (context, index) => const SermonCardShimmer(),
                   );
                 }
 
@@ -126,7 +131,15 @@ class SermonsView extends GetView<SermonsController> {
           controller.categories.isEmpty) {
         return SizedBox(
           height: 36.h,
-          child: const Center(child: CircularProgressIndicator()),
+          child: ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            scrollDirection: Axis.horizontal,
+            itemCount: 4,
+            separatorBuilder: (context, index) => SizedBox(width: 12.w),
+            itemBuilder: (context, index) => ShimmerHelper(
+              child: ShimmerContainer(width: 80.w, height: 36.h, borderRadius: 20.r),
+            ),
+          ),
         );
       }
 

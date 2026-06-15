@@ -62,6 +62,7 @@ class MoreView extends GetView<MoreController> {
                           ),
                         );
                       }
+
                       return Column(
                         children: [
                           _buildConnectCard(controller.contactMission.value),
@@ -209,6 +210,11 @@ class MoreView extends GetView<MoreController> {
   }
 
   Widget _buildConnectCard(ContactMissionModel? data) {
+    final address = data?.address?.trim().isNotEmpty == true ? data!.address! : 'Not Available';
+    final sundayService = data?.sundayService?.trim().isNotEmpty == true ? data!.sundayService! : 'Not Available';
+    final email = data?.email?.trim().isNotEmpty == true ? data!.email! : 'Not Available';
+    final website = data?.website?.trim().isNotEmpty == true ? data!.website! : 'Not Available';
+
     return Container(
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
@@ -247,25 +253,25 @@ class MoreView extends GetView<MoreController> {
           _buildConnectRow(
             Icons.location_on,
             'Address',
-            data?.address ?? '71 Stoneyburn Street, Stoneyburn,\nEH47 8JT',
+            address,
           ),
           SizedBox(height: 20.h),
           _buildConnectRow(
             Icons.access_time,
             'Sunday Service',
-            data?.sundayService ?? '10:00 AM – 12:30 PM',
+            sundayService,
           ),
           SizedBox(height: 20.h),
           _buildConnectRow(
             Icons.email,
             'Email',
-            data?.email ?? 'info@piwcstoneyburn.org',
+            email,
           ),
           SizedBox(height: 20.h),
           _buildConnectRow(
             Icons.language,
             'Website',
-            data?.website ?? 'www.piwcstoneyburn.org',
+            website,
           ),
         ],
       ),
@@ -313,6 +319,10 @@ class MoreView extends GetView<MoreController> {
   }
 
   Widget _buildMissionCard(ContactMissionModel? data) {
+    final mission = data?.ourMission?.trim().isNotEmpty == true 
+        ? data!.ourMission! 
+        : 'Mission statement is currently unavailable.';
+
     return Container(
       padding: EdgeInsets.all(20.w),
       width: double.infinity,
@@ -333,8 +343,7 @@ class MoreView extends GetView<MoreController> {
           ),
           SizedBox(height: 4.h),
           Text(
-            data?.ourMission ??
-                '"To make heaven, to take as many people as possible with us, and to have a positive impact on society."',
+            mission,
             style: TextStyle(
               color: AppTheme.darkNavy.withValues(alpha: 0.8),
               fontSize: 12.sp,

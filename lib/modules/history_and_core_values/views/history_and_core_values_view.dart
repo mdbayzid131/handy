@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../controllers/history_and_core_values_controller.dart';
+import '../../../core/widgets/shimmers/details_shimmer.dart';
 
 class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
   const HistoryAndCoreValuesView({super.key});
@@ -48,8 +49,24 @@ class HistoryAndCoreValuesView extends GetView<HistoryAndCoreValuesController> {
           color: AppTheme.primaryColor,
           child: Obx(() {
             if (controller.isLoading.value && controller.content.value.isEmpty) {
-              return const Center(
-                child: CircularProgressIndicator(color: AppTheme.primaryColor),
+              return const DetailsShimmer();
+            }
+
+            if (controller.content.value.isEmpty) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.w),
+                  child: Text(
+                    'No history or core values available at the moment.',
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppTheme.white.withValues(alpha: 0.5)
+                          : AppTheme.black.withValues(alpha: 0.5),
+                      fontSize: 14.sp,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               );
             }
 

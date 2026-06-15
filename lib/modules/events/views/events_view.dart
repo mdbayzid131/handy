@@ -6,6 +6,8 @@ import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/modules/events/controllers/events_controller.dart';
 import 'package:handy/core/widgets/cards/event_card.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
+import 'package:handy/core/widgets/shimmers/shimmer_helper.dart';
+import 'package:handy/core/widgets/shimmers/event_card_shimmer.dart';
 
 class EventsView extends GetView<EventsController> {
   const EventsView({super.key});
@@ -50,11 +52,12 @@ class EventsView extends GetView<EventsController> {
                 top: false,
                 child: Obx(() {
                   if (controller.isFirstLoad.value) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 40.h),
-                      child: const Center(
-                        child: CircularProgressIndicator(color: AppTheme.primaryColor),
-                      ),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                      itemCount: 4,
+                      itemBuilder: (context, index) => const EventCardShimmer(),
                     );
                   }
 
@@ -106,8 +109,14 @@ class EventsView extends GetView<EventsController> {
       padding: EdgeInsets.symmetric(vertical: 10.h),
       child: Obx(() {
         if (controller.isCategoriesLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppTheme.primaryColor),
+          return ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            scrollDirection: Axis.horizontal,
+            itemCount: 4,
+            separatorBuilder: (context, index) => SizedBox(width: 10.w),
+            itemBuilder: (context, index) => ShimmerHelper(
+              child: ShimmerContainer(width: 80.w, height: 40.h, borderRadius: 20.r),
+            ),
           );
         }
         return ListView.separated(

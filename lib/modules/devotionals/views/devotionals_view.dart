@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../config/routes/app_pages.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../controllers/devotionals_controller.dart';
+import '../../../core/widgets/shimmers/shimmer_helper.dart';
 
 class DevotionalsView extends GetView<DevotionalsController> {
   const DevotionalsView({super.key});
@@ -107,10 +108,54 @@ class DevotionalsView extends GetView<DevotionalsController> {
                 child: Obx(() {
                   if (controller.isLoading.value &&
                       controller.devotionalsList.isEmpty) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppTheme.primaryColor,
-                      ),
+                    return ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0),
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 16.h),
+                          padding: EdgeInsets.all(20.w),
+                          decoration: BoxDecoration(
+                            color: AppTheme.containerColor,
+                            borderRadius: BorderRadius.circular(16.r),
+                            border: Border.all(color: AppTheme.secondaryColor),
+                          ),
+                          child: ShimmerHelper(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 80.w,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      ShimmerContainer(width: 40.w, height: 10.h),
+                                      SizedBox(height: 4.h),
+                                      ShimmerContainer(width: 60.w, height: 10.h),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 16.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ShimmerContainer(width: double.infinity, height: 12.h),
+                                      SizedBox(height: 4.h),
+                                      ShimmerContainer(width: 100.w, height: 12.h),
+                                      SizedBox(height: 8.h),
+                                      ShimmerContainer(width: double.infinity, height: 12.h),
+                                      SizedBox(height: 4.h),
+                                      ShimmerContainer(width: 150.w, height: 12.h),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     );
                   }
 
