@@ -24,7 +24,9 @@ class LatestSermonModel {
     }
     return LatestSermonModel(
       id: json['_id'] ?? json['id'] ?? '',
-      series: json['category'] != null ? json['category']['name'] ?? 'Sermon' : 'Sermon',
+      series: json['category'] != null
+          ? json['category']['name'] ?? 'Sermon'
+          : 'Sermon',
       title: json['title'] ?? '',
       preacher: json['speaker'] ?? '',
       duration: formattedDuration,

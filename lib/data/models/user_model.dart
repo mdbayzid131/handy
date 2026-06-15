@@ -38,8 +38,8 @@ class UserModel {
       refreshToken: json['refreshToken'],
       favoriteSermons: json['favoriteSermons'] != null
           ? (json['favoriteSermons'] as List)
-              .map((x) => SermonModel.fromJson(x))
-              .toList()
+                .map((x) => SermonModel.fromJson(x))
+                .toList()
           : null,
       initials: json['initials'],
       memberSince: json['member_since'],

@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import '../../data/repositories/user_repository.dart';
 import '../controllers/internet_controller.dart';
 import '../services/api_client.dart';

@@ -5,7 +5,13 @@ class PaginationModel {
   int? totalPages;
   bool? hasNextPage;
 
-  PaginationModel({this.page, this.limit, this.total, this.totalPages, this.hasNextPage});
+  PaginationModel({
+    this.page,
+    this.limit,
+    this.total,
+    this.totalPages,
+    this.hasNextPage,
+  });
 
   factory PaginationModel.fromJson(Map<String, dynamic> json) {
     return PaginationModel(
@@ -25,7 +31,13 @@ class CategoryModel {
   String? coverImageUrl;
   int? sermonCount;
 
-  CategoryModel({this.id, this.name, this.description, this.coverImageUrl, this.sermonCount});
+  CategoryModel({
+    this.id,
+    this.name,
+    this.description,
+    this.coverImageUrl,
+    this.sermonCount,
+  });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
@@ -100,8 +112,8 @@ class SermonModel {
       v: json['__v'],
       category: json['category'] != null
           ? (json['category'] is String
-              ? CategoryModel(id: json['category'], name: 'Unknown Category')
-              : CategoryModel.fromJson(json['category']))
+                ? CategoryModel(id: json['category'], name: 'Unknown Category')
+                : CategoryModel.fromJson(json['category']))
           : null,
       id: json['id'],
     );
@@ -134,7 +146,12 @@ class SermonListResponseModel {
   String? message;
   SermonListData? data;
 
-  SermonListResponseModel({this.success, this.statusCode, this.message, this.data});
+  SermonListResponseModel({
+    this.success,
+    this.statusCode,
+    this.message,
+    this.data,
+  });
 
   factory SermonListResponseModel.fromJson(Map<String, dynamic> json) {
     return SermonListResponseModel(
@@ -192,7 +209,9 @@ class CategoryResponseModel {
       success: json['success'],
       message: json['message'],
       data: json['data'] != null
-          ? (json['data'] as List).map((i) => CategoryModel.fromJson(i)).toList()
+          ? (json['data'] as List)
+                .map((i) => CategoryModel.fromJson(i))
+                .toList()
           : null,
     );
   }

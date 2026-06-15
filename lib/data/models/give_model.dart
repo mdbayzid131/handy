@@ -91,7 +91,9 @@ class GiveHistoryModel {
 
   factory GiveHistoryModel.fromJson(Map<String, dynamic> json) {
     // For formatting like "£250.00"
-    String currencySymbol = json['currency'] == 'GBP' ? '£' : (json['currency'] ?? '');
+    String currencySymbol = json['currency'] == 'GBP'
+        ? '£'
+        : (json['currency'] ?? '');
     String amt = json['amount'] != null ? json['amount'].toString() : '0';
 
     return GiveHistoryModel(

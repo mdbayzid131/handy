@@ -35,3 +35,47 @@ class PrayerWallModel {
     );
   }
 }
+
+class PrayerWallPaginationModel {
+  final int page;
+  final int limit;
+  final int totalPage;
+  final int total;
+
+  PrayerWallPaginationModel({
+    required this.page,
+    required this.limit,
+    required this.totalPage,
+    required this.total,
+  });
+
+  factory PrayerWallPaginationModel.fromJson(Map<String, dynamic> json) {
+    return PrayerWallPaginationModel(
+      page: json['page'] ?? 1,
+      limit: json['limit'] ?? 10,
+      totalPage: json['totalPage'] ?? 1,
+      total: json['total'] ?? 0,
+    );
+  }
+}
+
+class PrayerWallResponseModel {
+  final List<PrayerWallModel> data;
+  final PrayerWallPaginationModel? pagination;
+
+  PrayerWallResponseModel({
+    required this.data,
+    this.pagination,
+  });
+
+  factory PrayerWallResponseModel.fromJson(Map<String, dynamic> json) {
+    return PrayerWallResponseModel(
+      data: json['data'] != null
+          ? (json['data'] as List).map((v) => PrayerWallModel.fromJson(v)).toList()
+          : [],
+      pagination: json['pagination'] != null
+          ? PrayerWallPaginationModel.fromJson(json['pagination'])
+          : null,
+    );
+  }
+}

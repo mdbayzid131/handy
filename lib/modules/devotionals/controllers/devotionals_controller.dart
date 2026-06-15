@@ -53,9 +53,8 @@ class DevotionalsController extends GetxController {
       final response = await apiClient.getData('${ApiConstants.devotionalsList}?page=$currentPage&limit=$limit');
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
-          final data = response.data['data'];
-          final List listData = data['devotionals'] ?? [];
-          final items = listData.map((e) => DevotionalModel.fromJson(e)).toList();
+          final responseData = DevotionalsResponseModel.fromJson(response.data['data']);
+          final items = responseData.devotionals;
 
           if (currentPage == 1) {
             devotionalsList.assignAll(items);
@@ -63,7 +62,7 @@ class DevotionalsController extends GetxController {
             devotionalsList.addAll(items);
           }
 
-          final total = data['total'] ?? 0;
+          final total = responseData.total;
           totalPages = (total / limit).ceil();
           if (totalPages == 0) totalPages = 1;
         }

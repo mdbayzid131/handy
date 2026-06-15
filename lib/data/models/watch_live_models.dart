@@ -3,11 +3,7 @@ class YoutubeStatusModel {
   final dynamic liveStream;
   final dynamic upcomingStream;
 
-  YoutubeStatusModel({
-    this.isLive,
-    this.liveStream,
-    this.upcomingStream,
-  });
+  YoutubeStatusModel({this.isLive, this.liveStream, this.upcomingStream});
 
   factory YoutubeStatusModel.fromJson(Map<String, dynamic> json) {
     return YoutubeStatusModel(
@@ -52,11 +48,7 @@ class ServiceInfoModel {
   final String? time;
   final String? address;
 
-  ServiceInfoModel({
-    this.schedule,
-    this.time,
-    this.address,
-  });
+  ServiceInfoModel({this.schedule, this.time, this.address});
 
   factory ServiceInfoModel.fromJson(Map<String, dynamic> json) {
     return ServiceInfoModel(

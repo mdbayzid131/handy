@@ -90,9 +90,9 @@ class PrayerWallController extends GetxController {
     try {
       final response = await apiClient.getData('${ApiConstants.prayerRequests}?page=$currentPage&limit=10');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        if (response.data['data'] != null) {
-          final List listData = response.data['data'];
-          final newItems = listData.map((e) => PrayerWallModel.fromJson(e)).toList();
+        if (response.data != null) {
+          final responseData = PrayerWallResponseModel.fromJson(response.data);
+          final newItems = responseData.data;
           
           if (isRefresh) {
             requests.assignAll(newItems);
@@ -100,10 +100,9 @@ class PrayerWallController extends GetxController {
             requests.addAll(newItems);
           }
           
-          final pagination = response.data['pagination'];
+          final pagination = responseData.pagination;
           if (pagination != null) {
-             final totalPage = pagination['totalPage'] ?? 1;
-             if (currentPage >= totalPage) {
+             if (currentPage >= pagination.totalPage) {
                hasMore = false;
              } else {
                currentPage++;
@@ -146,9 +145,9 @@ class PrayerWallController extends GetxController {
       final response = await apiClient.getData(url);
       
       if (response.statusCode == 200 || response.statusCode == 201) {
-        if (response.data['data'] != null) {
-          final List listData = response.data['data'];
-          final newItems = listData.map((e) => PrayerWallModel.fromJson(e)).toList();
+        if (response.data != null) {
+          final responseData = PrayerWallResponseModel.fromJson(response.data);
+          final newItems = responseData.data;
           
           if (isRefresh) {
             myRequests.assignAll(newItems);
@@ -156,10 +155,9 @@ class PrayerWallController extends GetxController {
             myRequests.addAll(newItems);
           }
           
-          final pagination = response.data['pagination'];
+          final pagination = responseData.pagination;
           if (pagination != null) {
-             final totalPage = pagination['totalPage'] ?? 1;
-             if (myCurrentPage >= totalPage) {
+             if (myCurrentPage >= pagination.totalPage) {
                myHasMore = false;
              } else {
                myCurrentPage++;

@@ -104,3 +104,28 @@ class EventModel {
     );
   }
 }
+
+class EventsResponseModel {
+  final List<EventModel> events;
+  final int total;
+  final int page;
+  final int limit;
+
+  EventsResponseModel({
+    required this.events,
+    required this.total,
+    required this.page,
+    required this.limit,
+  });
+
+  factory EventsResponseModel.fromJson(Map<String, dynamic> json) {
+    return EventsResponseModel(
+      events: json['events'] != null
+          ? (json['events'] as List).map((v) => EventModel.fromJson(v)).toList()
+          : [],
+      total: json['total'] ?? 0,
+      page: json['page'] ?? 1,
+      limit: json['limit'] ?? 10,
+    );
+  }
+}

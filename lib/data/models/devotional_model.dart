@@ -41,3 +41,28 @@ class DevotionalModel {
     );
   }
 }
+
+class DevotionalsResponseModel {
+  final List<DevotionalModel> devotionals;
+  final int total;
+  final int page;
+  final int limit;
+
+  DevotionalsResponseModel({
+    required this.devotionals,
+    required this.total,
+    required this.page,
+    required this.limit,
+  });
+
+  factory DevotionalsResponseModel.fromJson(Map<String, dynamic> json) {
+    return DevotionalsResponseModel(
+      devotionals: json['devotionals'] != null
+          ? (json['devotionals'] as List).map((v) => DevotionalModel.fromJson(v)).toList()
+          : [],
+      total: json['total'] ?? 0,
+      page: json['page'] ?? 1,
+      limit: json['limit'] ?? 10,
+    );
+  }
+}

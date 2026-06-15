@@ -18,7 +18,7 @@ class EventsHistoryController extends GetxController {
   final isLoadMore = false.obs;
 
   int currentPage = 1;
-  final int limit = 20;
+  final int limit = 10;
   bool hasNextPage = true;
 
   @override
@@ -84,10 +84,9 @@ class EventsHistoryController extends GetxController {
 
       final response = await apiClient.getData(url);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        if (response.data['data'] != null && response.data['data']['events'] != null) {
-          final list = (response.data['data']['events'] as List)
-              .map((x) => EventModel.fromJson(x))
-              .toList();
+        if (response.data['data'] != null) {
+          final eventsData = EventsResponseModel.fromJson(response.data['data']);
+          final list = eventsData.events;
           
           if (currentPage == 1) {
             allEvents.assignAll(list);
@@ -95,7 +94,7 @@ class EventsHistoryController extends GetxController {
             allEvents.addAll(list);
           }
           
-          if (list.length < limit) {
+          if (list.length < limit || allEvents.length >= eventsData.total) {
             hasNextPage = false;
           }
         }
