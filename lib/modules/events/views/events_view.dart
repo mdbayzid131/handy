@@ -31,7 +31,10 @@ class EventsView extends GetView<EventsController> {
                 trailingWidget: GestureDetector(
                   onTap: () => Get.toNamed(AppRoutes.EVENTS_HISTORY),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
                     decoration: BoxDecoration(
                       color: AppTheme.warningColor,
                       borderRadius: BorderRadius.circular(20.r),
@@ -55,7 +58,10 @@ class EventsView extends GetView<EventsController> {
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 20.h,
+                      ),
                       itemCount: 4,
                       itemBuilder: (context, index) => const EventCardShimmer(),
                     );
@@ -67,7 +73,11 @@ class EventsView extends GetView<EventsController> {
                       alignment: Alignment.center,
                       child: Text(
                         'No upcoming events found',
-                        style: TextStyle(color: AppTheme.white.withValues(alpha: 0.5)),
+                        style: TextStyle(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.white
+                              : AppTheme.black,
+                        ),
                       ),
                     );
                   }
@@ -79,14 +89,19 @@ class EventsView extends GetView<EventsController> {
                       horizontal: 20.w,
                       vertical: 20.h,
                     ),
-                    itemCount: controller.allEvents.length + (controller.isLoadMore.value ? 1 : 0),
-                    separatorBuilder: (context, index) => SizedBox(height: 20.h),
+                    itemCount:
+                        controller.allEvents.length +
+                        (controller.isLoadMore.value ? 1 : 0),
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: 20.h),
                     itemBuilder: (context, index) {
                       if (index == controller.allEvents.length) {
                         return const Center(
                           child: Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(color: AppTheme.primaryColor),
+                            child: CircularProgressIndicator(
+                              color: AppTheme.primaryColor,
+                            ),
                           ),
                         );
                       }
@@ -115,7 +130,11 @@ class EventsView extends GetView<EventsController> {
             itemCount: 4,
             separatorBuilder: (context, index) => SizedBox(width: 10.w),
             itemBuilder: (context, index) => ShimmerHelper(
-              child: ShimmerContainer(width: 80.w, height: 40.h, borderRadius: 20.r),
+              child: ShimmerContainer(
+                width: 80.w,
+                height: 40.h,
+                borderRadius: 20.r,
+              ),
             ),
           );
         }
@@ -128,7 +147,8 @@ class EventsView extends GetView<EventsController> {
             final category = controller.categories[index];
 
             return Obx(() {
-              final isSelected = controller.selectedCategory.value?.id == category.id;
+              final isSelected =
+                  controller.selectedCategory.value?.id == category.id;
               return GestureDetector(
                 onTap: () => controller.selectCategory(category),
                 child: Container(
@@ -153,7 +173,9 @@ class EventsView extends GetView<EventsController> {
                           ? AppTheme.white
                           : AppTheme.white.withValues(alpha: 0.7),
                       fontSize: 14.sp,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.w500,
                     ),
                   ),
                 ),

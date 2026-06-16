@@ -99,14 +99,12 @@ class GiveController extends GetxController {
             }
           }
         } else {
-          Helpers.showError('Total API Error: ${totalResponse.statusCode}');
+          Helpers.showDebugLog('Total API Error: ${totalResponse.statusCode}');
         }
       } catch (e) {
-        Helpers.showError('Parse Error: $e');
         Helpers.showDebugLog('Failed to parse totalThisYear: $e');
       }
     } catch (e) {
-      Helpers.showError('Fetch Error: $e');
       Helpers.showDebugLog('Failed to fetch data: $e');
     } finally {
       isLoading.value = false;

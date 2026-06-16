@@ -191,7 +191,10 @@ class HomeView extends GetView<HomeController> {
                         child: Text(
                           'No latest sermon available',
                           style: TextStyle(
-                            color: AppTheme.white.withValues(alpha: 0.5),
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.white
+                                : AppTheme.black,
                             fontSize: 14.sp,
                           ),
                         ),
@@ -212,7 +215,10 @@ class HomeView extends GetView<HomeController> {
                   if (controller.isLoadingEvents.value &&
                       controller.latestEvents.isEmpty) {
                     return Column(
-                      children: List.generate(2, (index) => const EventCardShimmer()),
+                      children: List.generate(
+                        2,
+                        (index) => const EventCardShimmer(),
+                      ),
                     );
                   }
                   if (controller.latestEvents.isEmpty) {
@@ -222,7 +228,10 @@ class HomeView extends GetView<HomeController> {
                         child: Text(
                           'No upcoming events',
                           style: TextStyle(
-                            color: AppTheme.white.withValues(alpha: 0.5),
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.white
+                                : AppTheme.black,
                             fontSize: 14.sp,
                           ),
                         ),

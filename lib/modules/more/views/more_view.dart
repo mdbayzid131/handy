@@ -8,6 +8,7 @@ import 'package:handy/core/widgets/custom_gradient_header.dart';
 
 import '../controllers/more_controller.dart';
 import 'package:handy/data/models/contact_mission_model.dart';
+import 'package:handy/core/services/auth_service.dart';
 
 class MoreView extends GetView<MoreController> {
   const MoreView({super.key});
@@ -126,7 +127,13 @@ class MoreView extends GetView<MoreController> {
               Icons.person,
               'My Profile',
               [AppTheme.lightBlue, AppTheme.standardBlue],
-              onTap: () => Get.toNamed(AppRoutes.PROFILE),
+              onTap: () {
+                if (!Get.find<AuthService>().isLoggedIn.value) {
+                  Get.toNamed(AppRoutes.LOGIN);
+                } else {
+                  Get.toNamed(AppRoutes.PROFILE);
+                }
+              },
             ),
             _buildFeatureItem(
               context,

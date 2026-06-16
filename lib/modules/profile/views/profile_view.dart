@@ -15,42 +15,39 @@ class ProfileView extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: Obx(() {
-        // Remove global shimmer, render normally
-        return RefreshIndicator(
-          onRefresh: controller.fetchAllData,
-          color: AppTheme.primaryColor,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildTopHeader(context),
-                  Padding(
-                    padding: EdgeInsets.all(20.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildGivingSummary(context),
-                        SizedBox(height: 32.h),
-                        _buildSavedSermons(context),
-                        SizedBox(height: 32.h),
-                        _buildAccountSection(context),
-                        SizedBox(height: 16.h),
-                        _buildDeleteAccountSection(context),
-                        SizedBox(height: 40.h),
-                        _buildVersionInfo(),
-                        SizedBox(height: 20.h),
-                      ],
-                    ),
+      body: RefreshIndicator(
+        onRefresh: controller.fetchAllData,
+        color: AppTheme.primaryColor,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTopHeader(context),
+                Padding(
+                  padding: EdgeInsets.all(20.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildGivingSummary(context),
+                      SizedBox(height: 32.h),
+                      _buildSavedSermons(context),
+                      SizedBox(height: 32.h),
+                      _buildAccountSection(context),
+                      SizedBox(height: 16.h),
+                      _buildDeleteAccountSection(context),
+                      SizedBox(height: 40.h),
+                      _buildVersionInfo(),
+                      SizedBox(height: 20.h),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 

@@ -33,7 +33,10 @@ class SermonsView extends GetView<SermonsController> {
                   return ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 10.h,
+                    ),
                     itemCount: 4,
                     itemBuilder: (context, index) => const SermonCardShimmer(),
                   );
@@ -45,7 +48,12 @@ class SermonsView extends GetView<SermonsController> {
                     alignment: Alignment.center,
                     child: Text(
                       'No sermons found.',
-                      style: TextStyle(color: AppTheme.white, fontSize: 16.sp),
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppTheme.white
+                            : AppTheme.black,
+                        fontSize: 16.sp,
+                      ),
                     ),
                   );
                 }
@@ -137,7 +145,11 @@ class SermonsView extends GetView<SermonsController> {
             itemCount: 4,
             separatorBuilder: (context, index) => SizedBox(width: 12.w),
             itemBuilder: (context, index) => ShimmerHelper(
-              child: ShimmerContainer(width: 80.w, height: 36.h, borderRadius: 20.r),
+              child: ShimmerContainer(
+                width: 80.w,
+                height: 36.h,
+                borderRadius: 20.r,
+              ),
             ),
           ),
         );
