@@ -23,10 +23,14 @@ class GiveView extends GetView<GiveController> {
           child: Column(
             children: [
               _buildHeader(context),
-              Obx(
-                () => controller.showHistory.value
-                    ? _buildHistoryList(context)
-                    : _buildGiveForm(context),
+              StreamBuilder<bool>(
+                stream: controller.showHistory.stream,
+                initialData: controller.showHistory.value,
+                builder: (context, snapshot) {
+                  return (snapshot.data == true)
+                      ? _buildHistoryList(context)
+                      : _buildGiveForm(context);
+                },
               ),
             ],
           ),
@@ -59,14 +63,14 @@ class GiveView extends GetView<GiveController> {
                   controller.showHistory.value
                       ? Icons.arrow_back_rounded
                       : Icons.history_rounded,
-                  color: AppTheme.white,
+                  color: AppTheme.black,
                   size: 16.w,
                 ),
                 SizedBox(width: 6.w),
                 Text(
                   controller.showHistory.value ? 'Back' : 'History',
                   style: TextStyle(
-                    color: AppTheme.white,
+                    color: AppTheme.black,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -193,7 +197,11 @@ class GiveView extends GetView<GiveController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ShimmerContainer(width: 24.w, height: 24.w, borderRadius: 12.r),
+                    ShimmerContainer(
+                      width: 24.w,
+                      height: 24.w,
+                      borderRadius: 12.r,
+                    ),
                     SizedBox(height: 12.h),
                     ShimmerContainer(width: 80.w, height: 16.h),
                     SizedBox(height: 4.h),
@@ -205,7 +213,7 @@ class GiveView extends GetView<GiveController> {
           },
         );
       }
-      
+
       if (controller.funds.isEmpty) {
         return Center(
           child: Padding(
@@ -428,11 +436,7 @@ class GiveView extends GetView<GiveController> {
               ),
             ),
             SizedBox(width: 8.w),
-            Icon(
-              Icons.chevron_right,
-              color: AppTheme.white,
-              size: 20.w,
-            ),
+            Icon(Icons.chevron_right, color: AppTheme.white, size: 20.w),
           ],
         ),
       ),
@@ -476,7 +480,11 @@ class GiveView extends GetView<GiveController> {
                   child: ShimmerHelper(
                     child: Row(
                       children: [
-                        ShimmerContainer(width: 48.w, height: 48.w, borderRadius: 12.r),
+                        ShimmerContainer(
+                          width: 48.w,
+                          height: 48.w,
+                          borderRadius: 12.r,
+                        ),
                         SizedBox(width: 16.w),
                         Expanded(
                           child: Column(

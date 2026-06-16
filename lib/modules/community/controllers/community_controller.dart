@@ -3,6 +3,7 @@ import 'package:handy/core/services/api_client.dart';
 import 'package:handy/core/utils/helpers.dart';
 import 'package:handy/config/constants/api_constants.dart';
 import 'package:handy/data/models/community_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CommunityController extends GetxController {
   final ApiClient apiClient = Get.find<ApiClient>();
@@ -37,5 +38,18 @@ class CommunityController extends GetxController {
 
   Future<void> refreshData() async {
     await fetchCommunity();
+  }
+
+  Future<void> joinCommunity(String? url) async {
+    if (url != null && url.isNotEmpty) {
+      final uri = Uri.tryParse(url);
+      if (uri != null && await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        Helpers.showError('Could not launch the link');
+      }
+    } else {
+      Helpers.showError('No link provided');
+    }
   }
 }

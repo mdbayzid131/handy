@@ -4,6 +4,8 @@ import '../../../core/services/api_client.dart';
 import '../../../core/utils/helpers.dart';
 import '../../../data/models/events_model.dart';
 import '../../../config/constants/api_constants.dart';
+import 'package:handy/modules/events/controllers/events_controller.dart';
+import 'package:handy/modules/home/controllers/home_controller.dart';
 
 class EventDetailsController extends GetxController {
   final ApiClient apiClient = Get.find<ApiClient>();
@@ -53,6 +55,24 @@ class EventDetailsController extends GetxController {
           );
           isRSVPd.value = event.value.hasRsvp;
           Helpers.showSuccess(response.data['message'] ?? 'RSVP status updated');
+
+          // Sync with EventsController
+          if (Get.isRegistered<EventsController>()) {
+            final eventsController = Get.find<EventsController>();
+            final index = eventsController.allEvents.indexWhere((e) => e.id == event.value.id);
+            if (index != -1) {
+              eventsController.allEvents[index] = event.value;
+            }
+          }
+
+          // Sync with HomeController
+          if (Get.isRegistered<HomeController>()) {
+            final homeController = Get.find<HomeController>();
+            final index = homeController.latestEvents.indexWhere((e) => e.id == event.value.id);
+            if (index != -1) {
+              homeController.latestEvents[index] = event.value;
+            }
+          }
         }
       }
     } catch (e) {

@@ -7,6 +7,7 @@ import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 import 'package:handy/core/widgets/cards/event_card.dart';
 import 'package:handy/core/widgets/shimmers/event_card_shimmer.dart';
+import 'package:handy/core/widgets/shimmers/shimmer_helper.dart';
 
 class EventsHistoryView extends GetView<EventsHistoryController> {
   const EventsHistoryView({super.key});
@@ -107,8 +108,23 @@ class EventsHistoryView extends GetView<EventsHistoryController> {
       padding: EdgeInsets.symmetric(vertical: 10.h),
       child: Obx(() {
         if (controller.isCategoriesLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppTheme.primaryColor),
+          return ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            scrollDirection: Axis.horizontal,
+            itemCount: 5,
+            separatorBuilder: (context, index) => SizedBox(width: 10.w),
+            itemBuilder: (context, index) {
+              return ShimmerHelper(
+                child: Container(
+                  width: 80.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                    color: AppTheme.containerColor,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                ),
+              );
+            },
           );
         }
         return ListView.separated(

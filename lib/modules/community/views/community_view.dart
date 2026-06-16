@@ -6,6 +6,7 @@ import 'package:handy/core/widgets/custom_gradient_header.dart';
 import '../controllers/community_controller.dart';
 import 'package:get/get.dart';
 import '../../../core/widgets/shimmers/shimmer_helper.dart';
+import 'package:handy/core/utils/helpers.dart';
 
 class CommunityView extends GetView<CommunityController> {
   const CommunityView({super.key});
@@ -158,35 +159,25 @@ class CommunityView extends GetView<CommunityController> {
                           SizedBox(height: 20.h),
                           SizedBox(
                             width: double.infinity,
-                            child: StatefulBuilder(
-                              builder: (context, setState) {
-                                return ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: item.isJoined
-                                        ? const Color(0xFF2ECC71)
-                                        : AppTheme.royalBlue,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(24.r),
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 14.h,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      item.isJoined = !item.isJoined;
-                                    });
-                                  },
-                                  child: Text(
-                                    item.isJoined ? 'Joined ✓' : 'Join',
-                                    style: TextStyle(
-                                      color: AppTheme.white,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                );
-                              },
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.royalBlue,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24.r),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 14.h,
+                                ),
+                              ),
+                              onPressed: () => controller.joinCommunity(item.joinLink),
+                              child: Text(
+                                'Join',
+                                style: TextStyle(
+                                  color: AppTheme.white,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                         ],

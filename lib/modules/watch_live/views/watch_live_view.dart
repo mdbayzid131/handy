@@ -103,15 +103,31 @@ class WatchLiveView extends GetView<WatchLiveController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ShimmerContainer(width: double.infinity, height: 200.h, borderRadius: 24.r),
+                      ShimmerContainer(
+                        width: double.infinity,
+                        height: 200.h,
+                        borderRadius: 24.r,
+                      ),
                       SizedBox(height: 30.h),
                       ShimmerContainer(width: 100.w, height: 20.h),
                       SizedBox(height: 16.h),
-                      ShimmerContainer(width: double.infinity, height: 60.h, borderRadius: 16.r),
+                      ShimmerContainer(
+                        width: double.infinity,
+                        height: 60.h,
+                        borderRadius: 16.r,
+                      ),
                       SizedBox(height: 12.h),
-                      ShimmerContainer(width: double.infinity, height: 80.h, borderRadius: 16.r),
+                      ShimmerContainer(
+                        width: double.infinity,
+                        height: 80.h,
+                        borderRadius: 16.r,
+                      ),
                       SizedBox(height: 20.h),
-                      ShimmerContainer(width: double.infinity, height: 150.h, borderRadius: 20.r),
+                      ShimmerContainer(
+                        width: double.infinity,
+                        height: 150.h,
+                        borderRadius: 20.r,
+                      ),
                     ],
                   ),
                 ),
@@ -257,7 +273,8 @@ class WatchLiveView extends GetView<WatchLiveController> {
                         Text(
                           'Watch on',
                           style: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
                                 ? AppTheme.white
                                 : AppTheme.black,
                             fontSize: 18.sp,
@@ -265,15 +282,18 @@ class WatchLiveView extends GetView<WatchLiveController> {
                           ),
                         ),
                         SizedBox(height: 16.h),
-                        
+
                         // Watch Live Button
                         GestureDetector(
                           onTap: () {
                             final status = controller.youtubeStatus.value;
-                            if (status?.isLive == true && status?.liveStream != null) {
+                            if (status?.isLive == true &&
+                                status?.liveStream != null) {
                               String? url;
                               if (status!.liveStream is Map) {
-                                url = status.liveStream['url'] ?? status.liveStream['watchUrl'];
+                                url =
+                                    status.liveStream['url'] ??
+                                    status.liveStream['watchUrl'];
                               }
                               if (url != null) {
                                 controller.launchExternalUrl(url);
@@ -310,7 +330,11 @@ class WatchLiveView extends GetView<WatchLiveController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.videocam, color: AppTheme.white, size: 24.w),
+                                Icon(
+                                  Icons.videocam,
+                                  color: AppTheme.white,
+                                  size: 24.w,
+                                ),
                                 SizedBox(width: 8.w),
                                 Text(
                                   'Watch Live on YouTube Live',
@@ -335,7 +359,9 @@ class WatchLiveView extends GetView<WatchLiveController> {
                           Text(
                             'Other Platforms',
                             style: TextStyle(
-                              color: Theme.of(context).brightness == Brightness.dark
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
                                   ? AppTheme.white
                                   : AppTheme.black,
                               fontSize: 18.sp,
@@ -457,7 +483,6 @@ class WatchLiveView extends GetView<WatchLiveController> {
                           }),
                         ],
 
-
                         // Service Times
                         Container(
                           width: double.infinity,
@@ -480,17 +505,23 @@ class WatchLiveView extends GetView<WatchLiveController> {
                               SizedBox(height: 20.h),
                               _buildServiceTimeRow(
                                 Icons.calendar_today,
-                                serviceInfo?.schedule?.trim().isNotEmpty == true ? serviceInfo!.schedule! : 'Not Available',
+                                serviceInfo?.schedule?.trim().isNotEmpty == true
+                                    ? serviceInfo!.schedule!
+                                    : 'Not Available',
                               ),
                               SizedBox(height: 16.h),
                               _buildServiceTimeRow(
                                 Icons.access_time,
-                                serviceInfo?.time?.trim().isNotEmpty == true ? serviceInfo!.time! : 'Not Available',
+                                serviceInfo?.time?.trim().isNotEmpty == true
+                                    ? serviceInfo!.time!
+                                    : 'Not Available',
                               ),
                               SizedBox(height: 16.h),
                               _buildServiceTimeRow(
                                 Icons.location_on,
-                                serviceInfo?.address?.trim().isNotEmpty == true ? serviceInfo!.address! : 'Not Available',
+                                serviceInfo?.address?.trim().isNotEmpty == true
+                                    ? serviceInfo!.address!
+                                    : 'Not Available',
                               ),
                             ],
                           ),
@@ -609,8 +640,8 @@ class WatchLiveView extends GetView<WatchLiveController> {
                                               'Never miss a service',
                                           style: TextStyle(
                                             color: AppTheme.white,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                         SizedBox(height: 4.h),
@@ -642,7 +673,7 @@ class WatchLiveView extends GetView<WatchLiveController> {
                                       'Subscribe',
                                       style: TextStyle(
                                         color: AppTheme.white,
-                                        fontSize: 14.sp,
+                                        fontSize: 10.sp,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),

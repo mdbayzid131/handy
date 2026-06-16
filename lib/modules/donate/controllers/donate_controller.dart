@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:handy/config/constants/api_constants.dart';
 import 'package:handy/core/services/api_client.dart';
+import 'package:handy/core/services/storage_service.dart';
 import 'package:handy/core/utils/helpers.dart';
 import '../../../data/models/give_model.dart';
 import 'package:handy/modules/give/controllers/give_controller.dart';
+import 'package:handy/modules/profile/controllers/profile_controller.dart';
 
 class DonateController extends GetxController {
   final ApiClient apiClient = Get.find<ApiClient>();
@@ -14,18 +17,38 @@ class DonateController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _loadCachedBankDetails();
     fetchBankDetails();
+  }
+
+  Future<void> _loadCachedBankDetails() async {
+    try {
+      final cachedStr = await StorageService.getString('cached_bank_details');
+      if (cachedStr.isNotEmpty) {
+        final decoded = jsonDecode(cachedStr);
+        bankDetails.value = BankDetailsModel.fromJson(decoded);
+        isLoading.value = false;
+      }
+    } catch (e) {
+      Helpers.showDebugLog('Error loading cached bank details: $e');
+    }
   }
 
   final isSubmitting = false.obs;
 
   Future<void> fetchBankDetails() async {
-    isLoading.value = true;
+    if (bankDetails.value == null) {
+      isLoading.value = true;
+    }
     try {
       final response = await apiClient.getData(ApiConstants.givingBankDetails);
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
           bankDetails.value = BankDetailsModel.fromJson(response.data['data']);
+          StorageService.setString(
+            'cached_bank_details',
+            jsonEncode(response.data['data']),
+          );
         }
       }
     } catch (e) {
@@ -66,8 +89,15 @@ class DonateController extends GetxController {
         // Refresh GiveController data so the total updates
         if (Get.isRegistered<GiveController>()) {
           Get.find<GiveController>().fetchFunds();
+          Get.find<GiveController>().fetchHistory();
           Get.find<GiveController>().selectedAmount.value = 0;
           Get.find<GiveController>().amountController.clear();
+        }
+
+        // Refresh ProfileController giving summary
+        if (Get.isRegistered<ProfileController>()) {
+          Get.find<ProfileController>().fetchGivingSummary();
+          Get.find<ProfileController>().fetchTotalThisYear();
         }
       } else {
         Helpers.showError(response.data['message'] ?? 'Failed to record transaction');

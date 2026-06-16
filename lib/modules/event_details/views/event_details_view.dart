@@ -5,6 +5,8 @@ import '../controllers/event_details_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 import '../../../core/widgets/shimmers/details_shimmer.dart';
+import 'package:handy/core/services/auth_service.dart';
+import 'package:handy/config/routes/app_pages.dart';
 
 class EventDetailsView extends GetView<EventDetailsController> {
   const EventDetailsView({super.key});
@@ -262,7 +264,15 @@ class EventDetailsView extends GetView<EventDetailsController> {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton.icon(
-                                onPressed: controller.isRsvpLoading.value ? null : () => controller.toggleRSVP(),
+                                onPressed: controller.isRsvpLoading.value 
+                                    ? null 
+                                    : () {
+                                        if (!Get.find<AuthService>().isLoggedIn.value) {
+                                          Get.toNamed(AppRoutes.LOGIN);
+                                        } else {
+                                          controller.toggleRSVP();
+                                        }
+                                      },
                                 icon: controller.isRsvpLoading.value
                                     ? SizedBox(
                                         width: 20.w,
