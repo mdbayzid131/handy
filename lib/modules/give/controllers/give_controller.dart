@@ -11,7 +11,7 @@ class GiveController extends GetxController {
 
   final showHistory = false.obs;
   final isLoading = true.obs;
-  
+
   final totalThisYear = 0.0.obs;
 
   final selectedFundId = ''.obs;
@@ -48,24 +48,26 @@ class GiveController extends GetxController {
   }
 
   Future<void> fetchFunds() async {
-    isLoading.value = true;
+    if (funds.isEmpty) isLoading.value = true;
     try {
       final futures = await Future.wait([
         apiClient.getData(ApiConstants.givingFunds),
         apiClient.getData(ApiConstants.givingTotalThisYear),
       ]);
-      
+
       final fundsResponse = futures[0];
       final totalResponse = futures[1];
 
       try {
-        if (fundsResponse.statusCode == 200 || fundsResponse.statusCode == 201) {
-          if (fundsResponse.data['data'] != null && fundsResponse.data['data'] is List) {
+        if (fundsResponse.statusCode == 200 ||
+            fundsResponse.statusCode == 201) {
+          if (fundsResponse.data['data'] != null &&
+              fundsResponse.data['data'] is List) {
             final fundsList = (fundsResponse.data['data'] as List)
                 .map((x) => GiveFundModel.fromJson(x as Map<String, dynamic>))
                 .toList();
             funds.assignAll(fundsList);
-            
+
             if (fundsList.isNotEmpty) {
               final exists = fundsList.any((f) => f.id == selectedFundId.value);
               if (!exists) {
@@ -77,9 +79,10 @@ class GiveController extends GetxController {
       } catch (e) {
         Helpers.showDebugLog('Failed to parse funds: $e');
       }
-      
+
       try {
-        if (totalResponse.statusCode == 200 || totalResponse.statusCode == 201) {
+        if (totalResponse.statusCode == 200 ||
+            totalResponse.statusCode == 201) {
           var dataObj = totalResponse.data['data'];
           if (dataObj != null) {
             if (dataObj is Map && dataObj['totalThisYear'] != null) {
@@ -110,56 +113,7 @@ class GiveController extends GetxController {
     }
   }
 
-  final isSubmitting = false.obs;
 
-  Future<bool> recordTransaction() async {
-    if (selectedAmount.value <= 0) {
-      Helpers.showError('Please enter a valid amount');
-      return false;
-    }
-    
-    if (selectedFundId.value.isEmpty) {
-      Helpers.showError('Please select a fund');
-      return false;
-    }
-
-    final fund = funds.firstWhereOrNull((f) => f.id == selectedFundId.value);
-    if (fund == null) {
-      Helpers.showError('Selected fund not found');
-      return false;
-    }
-
-    isSubmitting.value = true;
-    try {
-      final body = {
-        "fundId": fund.id,
-        "amount": selectedAmount.value.toDouble(),
-        "currency": "GBP",
-        "status": "completed",
-        "reference": fund.title
-      };
-
-      final response = await apiClient.postData(ApiConstants.givingRecord, body);
-      
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        Helpers.showSuccess('Transaction recorded successfully');
-        // Reset form
-        selectedAmount.value = 0;
-        amountController.clear();
-        
-        // Refresh total
-        await fetchFunds();
-        return true;
-      }
-      return false;
-    } catch (e) {
-      Helpers.showDebugLog('Failed to record transaction: $e');
-      Helpers.showError('Failed to process transaction. Please try again.');
-      return false;
-    } finally {
-      isSubmitting.value = false;
-    }
-  }
 
   @override
   void onClose() {
@@ -177,7 +131,8 @@ class GiveController extends GetxController {
     try {
       final response = await apiClient.getData(ApiConstants.givingHistory);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        if (response.data['data'] != null && response.data['data']['transactions'] != null) {
+        if (response.data['data'] != null &&
+            response.data['data']['transactions'] != null) {
           final list = (response.data['data']['transactions'] as List)
               .map((x) => GiveHistoryModel.fromJson(x))
               .toList();

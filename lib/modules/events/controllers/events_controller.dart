@@ -72,7 +72,7 @@ class EventsController extends GetxController {
 
     if (!hasNextPage) return;
 
-    if (currentPage == 1) {
+    if (currentPage == 1 && allEvents.isEmpty) {
       isFirstLoad.value = true;
     }
 

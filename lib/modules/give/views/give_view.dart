@@ -7,6 +7,7 @@ import '../../../config/routes/app_pages.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 import 'package:handy/core/utils/helpers.dart';
 import '../../../core/widgets/shimmers/shimmer_helper.dart';
+import 'package:handy/core/services/auth_service.dart';
 
 class GiveView extends GetView<GiveController> {
   const GiveView({super.key});
@@ -37,9 +38,15 @@ class GiveView extends GetView<GiveController> {
   Widget _buildHeader(BuildContext context) {
     return CustomGradientHeader(
       title: 'Give',
-      trailingWidget: Obx(
-        () => GestureDetector(
-          onTap: () => controller.toggleHistory(),
+      trailingWidget: Obx(() {
+        return GestureDetector(
+          onTap: () {
+            if (!Get.find<AuthService>().isLoggedIn.value) {
+              Get.toNamed(AppRoutes.LOGIN);
+            } else {
+              controller.toggleHistory();
+            }
+          },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
@@ -67,26 +74,49 @@ class GiveView extends GetView<GiveController> {
               ],
             ),
           ),
-        ),
-      ),
-      bottomWidget: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-        decoration: BoxDecoration(
-          color: AppTheme.white.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Your giving this year',
-              style: TextStyle(
-                color: AppTheme.white.withValues(alpha: 0.8),
-                fontSize: 14.sp,
-              ),
+        );
+      }),
+      bottomWidget: Obx(() {
+        if (!Get.find<AuthService>().isLoggedIn.value) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+            decoration: BoxDecoration(
+              color: AppTheme.white.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12.r),
             ),
-            Obx(
-              () => Text(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.lock_outline, color: AppTheme.white, size: 18.w),
+                SizedBox(width: 8.w),
+                Text(
+                  'Login to view your giving this year',
+                  style: TextStyle(
+                    color: AppTheme.white.withValues(alpha: 0.8),
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+          decoration: BoxDecoration(
+            color: AppTheme.white.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Your giving this year',
+                style: TextStyle(
+                  color: AppTheme.white.withValues(alpha: 0.8),
+                  fontSize: 14.sp,
+                ),
+              ),
+              Text(
                 '£${controller.totalThisYear.value.toStringAsFixed(2)}',
                 style: TextStyle(
                   color: AppTheme.warningColor,
@@ -94,10 +124,10 @@ class GiveView extends GetView<GiveController> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -353,26 +383,31 @@ class GiveView extends GetView<GiveController> {
   Widget _buildGiveNowButton() {
     return GestureDetector(
       onTap: () async {
+        if (!Get.find<AuthService>().isLoggedIn.value) {
+          Get.toNamed(AppRoutes.LOGIN);
+          return;
+        }
+
         if (controller.selectedAmount.value <= 0) {
           Helpers.showError('Please select or enter an amount to donate');
           return;
         }
 
         final fundId = controller.selectedFundId.value;
+        if (fundId.isEmpty) {
+          Helpers.showError('Please select a fund');
+          return;
+        }
+
         final fund =
             controller.funds.firstWhereOrNull((f) => f.id == fundId)?.title ??
             'Fund';
         final amount = controller.selectedAmount.value;
 
-        // Make the API call to record the transaction
-        final success = await controller.recordTransaction();
-
-        if (success) {
-          Get.toNamed(
-            AppRoutes.DONATE,
-            arguments: {'fund': fund, 'amount': amount},
-          );
-        }
+        Get.toNamed(
+          AppRoutes.DONATE,
+          arguments: {'fundId': fundId, 'fund': fund, 'amount': amount},
+        );
       },
       child: Container(
         width: double.infinity,
@@ -381,37 +416,24 @@ class GiveView extends GetView<GiveController> {
           color: AppTheme.primaryColor,
           borderRadius: BorderRadius.circular(16.r),
         ),
-        child: Obx(
-          () => controller.isSubmitting.value
-              ? Center(
-                  child: SizedBox(
-                    width: 20.w,
-                    height: 20.w,
-                    child: CircularProgressIndicator(
-                      color: AppTheme.white,
-                      strokeWidth: 2.w,
-                    ),
-                  ),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Donate',
-                      style: TextStyle(
-                        color: AppTheme.white,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(width: 8.w),
-                    Icon(
-                      Icons.chevron_right,
-                      color: AppTheme.white,
-                      size: 20.w,
-                    ),
-                  ],
-                ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Donate',
+              style: TextStyle(
+                color: AppTheme.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(width: 8.w),
+            Icon(
+              Icons.chevron_right,
+              color: AppTheme.white,
+              size: 20.w,
+            ),
+          ],
         ),
       ),
     );

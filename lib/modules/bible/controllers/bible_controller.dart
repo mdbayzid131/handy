@@ -85,7 +85,7 @@ class BibleController extends GetxController {
 
   List<BibleBook> get filteredBooks {
     if (searchQuery.value.isEmpty) {
-      return booksList;
+      return booksList.toList();
     }
     return booksList.where((book) => (book.name ?? '').toLowerCase().contains(searchQuery.value.toLowerCase())).toList();
   }

@@ -113,10 +113,11 @@ class SermonsController extends GetxController {
   }
 
   Future<void> fetchSermons() async {
-    isFirstLoad.value = true;
+    if (allSermons.isEmpty) {
+      isFirstLoad.value = true;
+    }
     currentPage = 1;
     hasNextPage = true;
-    allSermons.clear();
 
     try {
       final Map<String, dynamic> query = {

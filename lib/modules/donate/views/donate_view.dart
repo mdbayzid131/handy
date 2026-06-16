@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/utils/helpers.dart';
+import '../../../core/widgets/shimmers/shimmer_helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../controllers/donate_controller.dart';
@@ -59,11 +61,32 @@ class DonateView extends GetView<DonateController> {
                 children: [
                   Obx(() {
                     if (controller.isLoading.value) {
-                      return Container(
-                        height: 200.h,
-                        alignment: Alignment.center,
-                        child: const CircularProgressIndicator(
-                          color: AppTheme.primaryColor,
+                      return ShimmerHelper(
+                        child: Container(
+                          padding: EdgeInsets.all(20.w),
+                          decoration: BoxDecoration(
+                            color: isDarkMode ? Colors.black : Colors.white,
+                            borderRadius: BorderRadius.circular(16.r),
+                            border: Border.all(
+                              color: AppTheme.secondaryColor,
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ShimmerContainer(width: 100.w, height: 16.h),
+                              SizedBox(height: 8.h),
+                              ShimmerContainer(width: double.infinity, height: 24.h),
+                              SizedBox(height: 16.h),
+                              ShimmerContainer(width: 80.w, height: 16.h),
+                              SizedBox(height: 8.h),
+                              ShimmerContainer(width: double.infinity, height: 24.h),
+                              SizedBox(height: 16.h),
+                              ShimmerContainer(width: 120.w, height: 16.h),
+                              SizedBox(height: 8.h),
+                              ShimmerContainer(width: double.infinity, height: 24.h),
+                            ],
+                          ),
                         ),
                       );
                     }
@@ -135,7 +158,7 @@ class DonateView extends GetView<DonateController> {
                   SizedBox(height: 48.h),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
+                    child: Obx(() => ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isDarkMode ? AppTheme.white : AppTheme.containerColor,
                         foregroundColor: AppTheme.successColor,
@@ -147,16 +170,37 @@ class DonateView extends GetView<DonateController> {
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                       ),
-                      onPressed: () => Get.back(),
-                      child: Text(
-                        'Finish',
-                        style: TextStyle(
-                          color: isDarkMode ? AppTheme.black : AppTheme.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                      onPressed: controller.isSubmitting.value 
+                        ? null 
+                        : () {
+                            if (args != null && args['fundId'] != null) {
+                              controller.recordTransaction(
+                                fundId: args['fundId'],
+                                amount: (args['amount'] as num).toDouble(),
+                                reference: args['fund'] ?? '',
+                              );
+                            } else {
+                              Get.back();
+                            }
+                          },
+                      child: controller.isSubmitting.value
+                        ? SizedBox(
+                            width: 20.w,
+                            height: 20.w,
+                            child: CircularProgressIndicator(
+                              color: isDarkMode ? AppTheme.black : AppTheme.successColor,
+                              strokeWidth: 2.w,
+                            ),
+                          )
+                        : Text(
+                            'Finish',
+                            style: TextStyle(
+                              color: isDarkMode ? AppTheme.black : AppTheme.white,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                    )),
                   ),
                 ],
               ),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/bottom_nab_bar/controllers/bottom_nab_bar.dart';
 import '../../../config/routes/app_pages.dart';
+import '../../../core/widgets/shimmers/sermon_card_shimmer.dart';
 import '../../../core/widgets/cards/sermon_card_widget.dart';
 import '../controllers/profile_controller.dart';
 
@@ -15,9 +16,7 @@ class ProfileView extends GetView<ProfileController> {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        // Remove global shimmer, render normally
         return RefreshIndicator(
           onRefresh: controller.fetchAllData,
           color: AppTheme.primaryColor,
@@ -282,6 +281,11 @@ class ProfileView extends GetView<ProfileController> {
         ),
         SizedBox(height: 8.h),
         Obx(() {
+          if (controller.isLoading.value) {
+            return Column(
+              children: List.generate(2, (index) => const SermonCardShimmer()),
+            );
+          }
           if (controller.favoriteSermons.isEmpty) {
             return Center(
               child: Padding(

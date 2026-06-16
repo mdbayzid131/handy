@@ -18,7 +18,7 @@ class MoreController extends GetxController {
   }
 
   Future<void> fetchContactAndMission() async {
-    isLoading.value = true;
+    if (contactMission.value == null) isLoading.value = true;
     try {
       final response = await apiClient.getData(ApiConstants.contactAndMission);
       if (response.statusCode == 200 || response.statusCode == 201) {

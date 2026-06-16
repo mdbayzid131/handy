@@ -158,7 +158,9 @@ class BibleView extends GetView<BibleController> {
 
             Expanded(
               child: Obx(() {
-                if (controller.isLoading.value && controller.versions.isEmpty) {
+                final books = controller.filteredBooks;
+
+                if (controller.isLoading.value && books.isEmpty) {
                   return ListView.builder(
                     padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
                     itemCount: 6,
@@ -215,7 +217,6 @@ class BibleView extends GetView<BibleController> {
                   );
                 }
 
-                final books = controller.filteredBooks;
 
                 if (books.isEmpty) {
                   return RefreshIndicator(
