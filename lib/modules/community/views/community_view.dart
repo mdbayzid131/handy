@@ -6,7 +6,6 @@ import 'package:handy/core/widgets/custom_gradient_header.dart';
 import '../controllers/community_controller.dart';
 import 'package:get/get.dart';
 import '../../../core/widgets/shimmers/shimmer_helper.dart';
-import 'package:handy/core/utils/helpers.dart';
 
 class CommunityView extends GetView<CommunityController> {
   const CommunityView({super.key});
