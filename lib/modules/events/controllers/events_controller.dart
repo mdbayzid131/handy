@@ -9,7 +9,7 @@ class EventsController extends GetxController {
   final ApiClient apiClient = Get.find<ApiClient>();
   final scrollController = ScrollController();
 
-  final selectedCategory = Rxn<EventCategoryModel>();
+  final selectedCategory = Rxn<EventCategoryModel>(EventCategoryModel(id: 'all', label: 'All'));
   final categories = <EventCategoryModel>[].obs;
   final isCategoriesLoading = true.obs;
 
@@ -51,10 +51,16 @@ class EventsController extends GetxController {
           final list = (response.data['data'] as List)
               .map((x) => EventCategoryModel.fromJson(x))
               .toList();
-          categories.assignAll(list);
-          if (list.isNotEmpty) {
-            selectedCategory.value = list.firstWhere((c) => c.id == 'all', orElse: () => list.first);
+          
+          if (!list.any((c) => c.id.toLowerCase() == 'all')) {
+            list.insert(0, EventCategoryModel(id: 'all', label: 'All'));
           }
+
+          categories.assignAll(list);
+          selectedCategory.value = list.firstWhere(
+            (c) => c.id.toLowerCase() == 'all', 
+            orElse: () => list.first
+          );
         }
       }
     } catch (e) {
@@ -77,12 +83,16 @@ class EventsController extends GetxController {
     }
 
     try {
-      String url = '${ApiConstants.events}?page=$currentPage&limit=$limit';
+      Map<String, dynamic> query = {
+        'page': currentPage,
+        'limit': limit,
+      };
+      
       if (selectedCategory.value != null && selectedCategory.value!.id != 'all') {
-        url += '&categoryId=${selectedCategory.value!.id}';
+        query['category'] = selectedCategory.value!.label.toLowerCase();
       }
 
-      final response = await apiClient.getData(url);
+      final response = await apiClient.getData(ApiConstants.events, query: query);
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
           final eventsData = EventsResponseModel.fromJson(response.data['data']);
@@ -127,6 +137,7 @@ class EventsController extends GetxController {
 
   void selectCategory(EventCategoryModel category) {
     selectedCategory.value = category;
+    allEvents.clear();
     fetchEvents(isRefresh: true);
   }
 }
