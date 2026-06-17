@@ -47,7 +47,7 @@ class SermonsController extends GetxController {
 
   Future<void> refreshData() async {
     fetchCategories();
-    await fetchSermons();
+    await fetchSermons(isRefresh: true);
   }
 
   void _scrollListener() {
@@ -112,12 +112,19 @@ class SermonsController extends GetxController {
     }
   }
 
-  Future<void> fetchSermons() async {
+  Future<void> fetchSermons({bool isRefresh = false}) async {
+    if (isRefresh) {
+      currentPage = 1;
+      hasNextPage = true;
+    } else {
+      allSermons.clear();
+      currentPage = 1;
+      hasNextPage = true;
+    }
+
     if (allSermons.isEmpty) {
       isFirstLoad.value = true;
     }
-    currentPage = 1;
-    hasNextPage = true;
 
     try {
       final Map<String, dynamic> query = {

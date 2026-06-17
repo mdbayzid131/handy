@@ -9,7 +9,9 @@ class EventsHistoryController extends GetxController {
   final ApiClient apiClient = Get.find<ApiClient>();
   final scrollController = ScrollController();
 
-  final selectedCategory = Rxn<EventCategoryModel>(EventCategoryModel(id: 'all', label: 'All'));
+  final selectedCategory = Rxn<EventCategoryModel>(
+    EventCategoryModel(id: 'all', label: 'All'),
+  );
   final categories = <EventCategoryModel>[].obs;
   final isCategoriesLoading = true.obs;
 
@@ -25,7 +27,7 @@ class EventsHistoryController extends GetxController {
   void onInit() {
     super.onInit();
     scrollController.addListener(_scrollListener);
-    
+
     fetchCategories();
     fetchEvents();
   }
@@ -37,7 +39,8 @@ class EventsHistoryController extends GetxController {
   }
 
   void _scrollListener() {
-    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
       loadMoreEvents();
     }
   }
@@ -51,15 +54,15 @@ class EventsHistoryController extends GetxController {
           final list = (response.data['data'] as List)
               .map((x) => EventCategoryModel.fromJson(x))
               .toList();
-          
+
           if (!list.any((c) => c.id.toLowerCase() == 'all')) {
             list.insert(0, EventCategoryModel(id: 'all', label: 'All'));
           }
 
           categories.assignAll(list);
           selectedCategory.value = list.firstWhere(
-            (c) => c.id.toLowerCase() == 'all', 
-            orElse: () => list.first
+            (c) => c.id.toLowerCase() == 'all',
+            orElse: () => list.first,
           );
         }
       }
@@ -83,27 +86,30 @@ class EventsHistoryController extends GetxController {
     }
 
     try {
-      Map<String, dynamic> query = {
-        'page': currentPage,
-        'limit': limit,
-      };
+      Map<String, dynamic> query = {'page': currentPage, 'limit': limit};
 
-      if (selectedCategory.value != null && selectedCategory.value!.id != 'all') {
+      if (selectedCategory.value != null &&
+          selectedCategory.value!.id != 'all') {
         query['category'] = selectedCategory.value!.label.toLowerCase();
       }
 
-      final response = await apiClient.getData(ApiConstants.eventsHistory, query: query);
+      final response = await apiClient.getData(
+        ApiConstants.eventsHistory,
+        query: query,
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
-          final eventsData = EventsResponseModel.fromJson(response.data['data']);
+          final eventsData = EventsResponseModel.fromJson(
+            response.data['data'],
+          );
           final list = eventsData.events;
-          
+
           if (currentPage == 1) {
             allEvents.assignAll(list);
           } else {
             allEvents.addAll(list);
           }
-          
+
           if (list.length < limit || allEvents.length >= eventsData.total) {
             hasNextPage = false;
           }
@@ -118,7 +124,7 @@ class EventsHistoryController extends GetxController {
 
   Future<void> loadMoreEvents() async {
     if (isLoadMore.value || !hasNextPage) return;
-    
+
     isLoadMore.value = true;
     currentPage++;
     try {

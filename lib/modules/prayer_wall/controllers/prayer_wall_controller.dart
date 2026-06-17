@@ -81,9 +81,9 @@ class PrayerWallController extends GetxController {
     }
     if (!hasMore || isLoadingMore.value) return;
 
-    if (currentPage == 1) {
+    if (currentPage == 1 && requests.isEmpty) {
       isLoading.value = true;
-    } else {
+    } else if (currentPage > 1) {
       isLoadingMore.value = true;
     }
 
@@ -131,9 +131,9 @@ class PrayerWallController extends GetxController {
     }
     if (!myHasMore || isMyLoadingMore.value) return;
 
-    if (myCurrentPage == 1) {
+    if (myCurrentPage == 1 && myRequests.isEmpty) {
       isLoading.value = true;
-    } else {
+    } else if (myCurrentPage > 1) {
       isMyLoadingMore.value = true;
     }
 

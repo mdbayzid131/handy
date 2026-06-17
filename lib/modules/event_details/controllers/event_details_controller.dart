@@ -9,7 +9,7 @@ import 'package:handy/modules/home/controllers/home_controller.dart';
 
 class EventDetailsController extends GetxController {
   final ApiClient apiClient = Get.find<ApiClient>();
-  
+
   late Rx<EventModel> event;
   final isRSVPd = false.obs;
   final isLoading = false.obs;
@@ -27,7 +27,9 @@ class EventDetailsController extends GetxController {
   Future<void> fetchEventDetails() async {
     isLoading.value = true;
     try {
-      final response = await apiClient.getData(ApiConstants.eventDetails(event.value.id));
+      final response = await apiClient.getData(
+        ApiConstants.eventDetails(event.value.id),
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
           event.value = EventModel.fromJson(response.data['data']);
@@ -45,21 +47,29 @@ class EventDetailsController extends GetxController {
     if (isRsvpLoading.value) return;
     isRsvpLoading.value = true;
     try {
-      final response = await apiClient.postData(ApiConstants.eventRsvp(event.value.id), {});
+      final response = await apiClient.postData(
+        ApiConstants.eventRsvp(event.value.id),
+        {},
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
           final data = response.data['data'];
           event.value = event.value.copyWith(
             hasRsvp: data['hasRsvp'] ?? event.value.hasRsvp,
-            attendingCount: data['attendingCount'] ?? event.value.attendingCount,
+            attendingCount:
+                data['attendingCount'] ?? event.value.attendingCount,
           );
           isRSVPd.value = event.value.hasRsvp;
-          Helpers.showSuccess(response.data['message'] ?? 'RSVP status updated');
+          Helpers.showSuccess(
+            response.data['message'] ?? 'RSVP status updated',
+          );
 
           // Sync with EventsController
           if (Get.isRegistered<EventsController>()) {
             final eventsController = Get.find<EventsController>();
-            final index = eventsController.allEvents.indexWhere((e) => e.id == event.value.id);
+            final index = eventsController.allEvents.indexWhere(
+              (e) => e.id == event.value.id,
+            );
             if (index != -1) {
               eventsController.allEvents[index] = event.value;
             }
@@ -68,7 +78,9 @@ class EventDetailsController extends GetxController {
           // Sync with HomeController
           if (Get.isRegistered<HomeController>()) {
             final homeController = Get.find<HomeController>();
-            final index = homeController.latestEvents.indexWhere((e) => e.id == event.value.id);
+            final index = homeController.latestEvents.indexWhere(
+              (e) => e.id == event.value.id,
+            );
             if (index != -1) {
               homeController.latestEvents[index] = event.value;
             }
