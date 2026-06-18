@@ -61,6 +61,7 @@ class BibleChapterController extends GetxController {
       'book': bookName.value,
       'chapter': chapter,
       'versionId': versionId.value,
+      'maxChapters': chaptersList.length,
     });
   }
 }

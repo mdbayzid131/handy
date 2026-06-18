@@ -28,6 +28,11 @@ class BibleVersesController extends GetxController {
       if (ch != null) {
         chapter.value = int.tryParse(ch.toString()) ?? 1;
       }
+      
+      final max = args['maxChapters'];
+      if (max != null) {
+        maxChapters.value = int.tryParse(max.toString()) ?? 50;
+      }
     }
     
     if (bookId.value.isNotEmpty) {
