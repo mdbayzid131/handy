@@ -99,10 +99,43 @@ class EventDetailsController extends GetxController {
     try {
       DateTime startDate;
       if (event.value.dateISO.isNotEmpty) {
-        startDate = DateTime.parse(event.value.dateISO);
-        // If there's time, try to parse or just set default hour
+        startDate = DateTime.parse(event.value.dateISO).toLocal();
       } else {
         startDate = DateTime.now();
+      }
+
+      if (event.value.time.isNotEmpty) {
+        try {
+          // Example time format: "10:00 AM" or "14:30"
+          final timeStr = event.value.time.trim();
+          final isAmPm = timeStr.toLowerCase().contains('m');
+          
+          // We can try parsing using basic logic or intl
+          // A simple generic regex to extract hours and minutes
+          final RegExp timeRegex = RegExp(r'(\d{1,2}):(\d{2})');
+          final match = timeRegex.firstMatch(timeStr);
+          
+          if (match != null) {
+            int hour = int.parse(match.group(1)!);
+            int minute = int.parse(match.group(2)!);
+            
+            if (isAmPm) {
+              final isPm = timeStr.toLowerCase().contains('p');
+              if (isPm && hour < 12) hour += 12;
+              if (!isPm && hour == 12) hour = 0;
+            }
+            
+            startDate = DateTime(
+              startDate.year,
+              startDate.month,
+              startDate.day,
+              hour,
+              minute,
+            );
+          }
+        } catch (e) {
+          Helpers.showDebugLog('Error parsing event time: $e');
+        }
       }
 
       final Event calEvent = Event(

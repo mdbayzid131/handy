@@ -49,6 +49,10 @@
 	</dict>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs access to your calendar to add events.</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>This app needs access to your calendar to add events.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
