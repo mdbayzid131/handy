@@ -68,7 +68,9 @@ class SermonModel {
   String? date;
   int? durationSeconds;
   String? audioUrl;
+  String? videoUrl;
   String? thumbnailUrl;
+  String? shareUrl;
   String? keyScripture;
   String? description;
   List<String>? tags;
@@ -85,7 +87,9 @@ class SermonModel {
     this.date,
     this.durationSeconds,
     this.audioUrl,
+    this.videoUrl,
     this.thumbnailUrl,
+    this.shareUrl,
     this.keyScripture,
     this.description,
     this.tags,
@@ -103,7 +107,9 @@ class SermonModel {
       date: json['date'],
       durationSeconds: json['duration_seconds'],
       audioUrl: json['audio_url'],
+      videoUrl: json['video_url'],
       thumbnailUrl: json['thumbnail_url'],
+      shareUrl: json['share_url'],
       keyScripture: json['key_scripture'],
       description: json['description'],
       tags: json['tags'] != null ? List<String>.from(json['tags']) : null,
@@ -127,7 +133,9 @@ class SermonModel {
       'date': date,
       'duration_seconds': durationSeconds,
       'audio_url': audioUrl,
+      'video_url': videoUrl,
       'thumbnail_url': thumbnailUrl,
+      'share_url': shareUrl,
       'key_scripture': keyScripture,
       'description': description,
       'tags': tags,

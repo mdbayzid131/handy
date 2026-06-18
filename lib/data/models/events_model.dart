@@ -11,8 +11,8 @@ class EventCategoryModel {
 
   factory EventCategoryModel.fromJson(Map<String, dynamic> json) {
     return EventCategoryModel(
-      id: json['id'] ?? '',
-      label: json['label'] ?? '',
+      id: json['_id'] ?? json['id'] ?? '',
+      label: json['name'] ?? json['label'] ?? '',
       color: json['color'],
     );
   }

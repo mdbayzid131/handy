@@ -10,6 +10,8 @@ import '../../../core/services/auth_service.dart';
 import '../../../config/routes/app_pages.dart';
 import '../../../core/widgets/custom_gradient_appbar.dart';
 import '../../../core/widgets/shimmers/details_shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../config/constants/api_constants.dart';
 
 class SermondetailsView extends GetView<SermondetailsController> {
   const SermondetailsView({super.key});
@@ -23,7 +25,10 @@ class SermondetailsView extends GetView<SermondetailsController> {
       if (controller.isLoading.value && sermon == null) {
         return Scaffold(
           backgroundColor: AppTheme.backgroundColor,
-          appBar: const CustomGradientAppBar(title: 'Sermon', showBackButton: true),
+          appBar: const CustomGradientAppBar(
+            title: 'Sermon',
+            showBackButton: true,
+          ),
           body: const DetailsShimmer(),
         );
       }
@@ -31,7 +36,10 @@ class SermondetailsView extends GetView<SermondetailsController> {
       if (sermon == null) {
         return Scaffold(
           backgroundColor: AppTheme.backgroundColor,
-          appBar: const CustomGradientAppBar(title: 'Sermon', showBackButton: true),
+          appBar: const CustomGradientAppBar(
+            title: 'Sermon',
+            showBackButton: true,
+          ),
           body: RefreshIndicator(
             onRefresh: controller.refreshData,
             color: AppTheme.primaryColor,
@@ -40,7 +48,10 @@ class SermondetailsView extends GetView<SermondetailsController> {
               child: Container(
                 height: 600.h,
                 alignment: Alignment.center,
-                child: const Text("Sermon not found", style: TextStyle(color: Colors.white)),
+                child: const Text(
+                  "Sermon not found",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),
@@ -56,8 +67,10 @@ class SermondetailsView extends GetView<SermondetailsController> {
               Obx(() {
                 final profileController = Get.find<ProfileController>();
                 final sermonId = sermon.sId ?? sermon.id;
-                final isFav = sermonId != null ? profileController.isSermonFavorite(sermonId) : false;
-                
+                final isFav = sermonId != null
+                    ? profileController.isSermonFavorite(sermonId)
+                    : false;
+
                 return IconButton(
                   icon: Icon(
                     isFav ? Icons.bookmark : Icons.bookmark_border,
@@ -70,7 +83,7 @@ class SermondetailsView extends GetView<SermondetailsController> {
                       Get.toNamed(AppRoutes.LOGIN);
                       return;
                     }
-                    
+
                     if (sermonId != null) {
                       profileController.toggleFavoriteSermon(sermonId);
                     }
@@ -79,54 +92,55 @@ class SermondetailsView extends GetView<SermondetailsController> {
               }),
           ],
         ),
-      body: RefreshIndicator(
-        onRefresh: controller.refreshData,
-        color: AppTheme.primaryColor,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SermonVideoPlayer(),
-                Padding(
-                  padding: EdgeInsets.all(20.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                      sermon.title ?? 'No Title',
-                      style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? AppTheme.white
-                            : AppTheme.black,
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.bold,
-                        height: 1.2,
-                      ),
+        body: RefreshIndicator(
+          onRefresh: controller.refreshData,
+          color: AppTheme.primaryColor,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildVideoPlayer(context, sermon),
+                  Padding(
+                    padding: EdgeInsets.all(20.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          sermon.title ?? 'No Title',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.white
+                                : AppTheme.black,
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.bold,
+                            height: 1.2,
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          sermon.speaker ?? 'Unknown Speaker',
+                          style: TextStyle(
+                            color: AppTheme.accentBlue,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                        _buildAboutSection(context, sermon),
+                      ],
                     ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      sermon.speaker ?? 'Unknown Speaker',
-                      style: TextStyle(
-                        color: AppTheme.accentBlue,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-                    _buildAboutSection(context, sermon),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
-      ),
-    );
-  });
-}
+      );
+    });
+  }
 
   Widget _buildAboutSection(BuildContext context, SermonModel sermon) {
     return Column(
@@ -138,7 +152,9 @@ class SermondetailsView extends GetView<SermondetailsController> {
             decoration: BoxDecoration(
               color: AppTheme.primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.3)),
+              border: Border.all(
+                color: AppTheme.primaryColor.withValues(alpha: 0.3),
+              ),
             ),
             child: Text(
               sermon.keyScripture!,
@@ -239,49 +255,45 @@ class SermondetailsView extends GetView<SermondetailsController> {
       ),
     );
   }
-}
-
-class SermonVideoPlayer extends StatefulWidget {
-  const SermonVideoPlayer({super.key});
-
-  @override
-  State<SermonVideoPlayer> createState() => _SermonVideoPlayerState();
-}
-
-class _SermonVideoPlayerState extends State<SermonVideoPlayer> {
-  late YoutubePlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    // Demo YouTube Video ID
-    _controller = YoutubePlayerController.fromVideoId(
-      videoId: 'aqz-KE-bpKQ', 
-      autoPlay: false,
-      params: const YoutubePlayerParams(
-        showFullscreenButton: true,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.close();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: AppTheme.black,
-      child: AspectRatio(
-        aspectRatio: 16 / 9,
-        child: YoutubePlayer(
-          controller: _controller,
-          aspectRatio: 16 / 9,
-        ),
-      ),
+  Widget _buildVideoPlayer(BuildContext context, SermonModel sermon) {
+    return GetBuilder<SermondetailsController>(
+      builder: (ctrl) {
+        if (ctrl.youtubePlayerController != null) {
+          return Container(
+            width: double.infinity,
+            color: AppTheme.black,
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: YoutubePlayer(controller: ctrl.youtubePlayerController!, aspectRatio: 16 / 9),
+            ),
+          );
+        } else {
+          final String hostUrl = ApiConstants.baseUrl.replaceAll('/api/v1', '');
+          final thumbnailUrl = sermon.thumbnailUrl;
+          final String imgUrl = (thumbnailUrl != null && thumbnailUrl.isNotEmpty)
+              ? (thumbnailUrl.startsWith('http')
+                  ? thumbnailUrl
+                  : '$hostUrl$thumbnailUrl')
+              : 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop';
+              
+          return Container(
+            width: double.infinity,
+            color: AppTheme.black,
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: CachedNetworkImage(
+                imageUrl: imgUrl,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(color: AppTheme.primaryColor),
+                errorWidget: (context, url, error) => CachedNetworkImage(
+                  imageUrl: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

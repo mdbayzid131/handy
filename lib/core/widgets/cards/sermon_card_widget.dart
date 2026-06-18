@@ -47,9 +47,11 @@ class SermonCardWidget extends StatelessWidget {
                     CachedNetworkImage(
                       imageUrl:
                           (sermon.thumbnailUrl != null &&
-                              sermon.thumbnailUrl!.isNotEmpty)
-                          ? '$hostUrl${sermon.thumbnailUrl}'
-                          : 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                                  sermon.thumbnailUrl!.isNotEmpty)
+                              ? (sermon.thumbnailUrl!.startsWith('http')
+                                  ? sermon.thumbnailUrl!
+                                  : '$hostUrl${sermon.thumbnailUrl}')
+                              : 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
                           Container(color: AppTheme.primaryColor),

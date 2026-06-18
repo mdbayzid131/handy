@@ -120,39 +120,14 @@ class SermonsController extends GetxController {
       allSermons.clear();
       currentPage = 1;
       hasNextPage = true;
-    }
-
-    if (allSermons.isEmpty) {
       isFirstLoad.value = true;
     }
 
     try {
-      final Map<String, dynamic> query = {
-        'page': currentPage,
-        'limit': limit,
-      };
-
-      if (searchQuery.value.isNotEmpty) {
-        query['searchTerm'] = searchQuery.value;
-      }
-      
-      if (selectedCategoryId.value != 'All') {
-        query['category'] = selectedCategoryId.value;
-      }
-
-      final response = await apiClient.getData(
-        ApiConstants.sermons,
-        query: query,
-      );
-
-      ApiChecker.checkGetApi(response);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final responseModel = SermonListResponseModel.fromJson(response.data);
-        if (responseModel.success == true && responseModel.data != null) {
-          allSermons.assignAll(responseModel.data!.data ?? []);
-          hasNextPage = responseModel.data!.pagination?.hasNextPage ?? false;
-        }
+      final responseModel = await _getSermonsFromApi(currentPage);
+      if (responseModel != null && responseModel.data != null) {
+        allSermons.assignAll(responseModel.data!.data ?? []);
+        hasNextPage = responseModel.data!.pagination?.hasNextPage ?? false;
       }
     } catch (e, s) {
       Helpers.showDebugLog('Error fetching sermons: $e\n$s');
@@ -168,32 +143,10 @@ class SermonsController extends GetxController {
     currentPage++;
 
     try {
-      final Map<String, dynamic> query = {
-        'page': currentPage,
-        'limit': limit,
-      };
-
-      if (searchQuery.value.isNotEmpty) {
-        query['searchTerm'] = searchQuery.value;
-      }
-      
-      if (selectedCategoryId.value != 'All') {
-        query['category'] = selectedCategoryId.value;
-      }
-
-      final response = await apiClient.getData(
-        ApiConstants.sermons,
-        query: query,
-      );
-
-      ApiChecker.checkGetApi(response);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final responseModel = SermonListResponseModel.fromJson(response.data);
-        if (responseModel.success == true && responseModel.data != null) {
-          allSermons.addAll(responseModel.data!.data ?? []);
-          hasNextPage = responseModel.data!.pagination?.hasNextPage ?? false;
-        }
+      final responseModel = await _getSermonsFromApi(currentPage);
+      if (responseModel != null && responseModel.data != null) {
+        allSermons.addAll(responseModel.data!.data ?? []);
+        hasNextPage = responseModel.data!.pagination?.hasNextPage ?? false;
       } else {
         currentPage--;
       }
@@ -203,5 +156,35 @@ class SermonsController extends GetxController {
     } finally {
       isLoadMore.value = false;
     }
+  }
+
+  Future<SermonListResponseModel?> _getSermonsFromApi(int page) async {
+    final Map<String, dynamic> query = {
+      'page': page,
+      'limit': limit,
+    };
+
+    if (searchQuery.value.isNotEmpty) {
+      query['searchTerm'] = searchQuery.value;
+    }
+
+    if (selectedCategoryId.value != 'All') {
+      query['category'] = selectedCategoryId.value;
+    }
+
+    final response = await apiClient.getData(
+      ApiConstants.sermons,
+      query: query,
+    );
+
+    ApiChecker.checkGetApi(response);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseModel = SermonListResponseModel.fromJson(response.data);
+      if (responseModel.success == true) {
+        return responseModel;
+      }
+    }
+    return null;
   }
 }
