@@ -43,10 +43,18 @@ class CommunityController extends GetxController {
   Future<void> joinCommunity(String? url) async {
     if (url != null && url.isNotEmpty) {
       final uri = Uri.tryParse(url);
-      if (uri != null && await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (uri != null) {
+        try {
+          final success = await launchUrl(uri, mode: LaunchMode.externalApplication);
+          if (!success) {
+            Helpers.showError('Could not open the link');
+          }
+        } catch (e) {
+          Helpers.showDebugLog('Error launching url: $e');
+          Helpers.showError('Could not open the link');
+        }
       } else {
-        Helpers.showError('Could not launch the link');
+        Helpers.showError('Invalid link format');
       }
     } else {
       Helpers.showError('No link provided');
