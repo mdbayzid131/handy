@@ -607,6 +607,8 @@ class WatchLiveView extends GetView<WatchLiveController> {
                                       borderRadius: BorderRadius.circular(20.r),
                                       child: CachedNetworkImage(
                                         imageUrl: channelInfo.thumbnailUrl!,
+                                        memCacheWidth: 200,
+                                        memCacheHeight: 200,
                                         width: 40.w,
                                         height: 40.w,
                                         fit: BoxFit.cover,
@@ -739,7 +741,11 @@ class WatchLiveView extends GetView<WatchLiveController> {
               borderRadius: BorderRadius.circular(12.r),
               image: thumbnailUrl != null
                   ? DecorationImage(
-                      image: CachedNetworkImageProvider(thumbnailUrl),
+                      image: CachedNetworkImageProvider(
+                        thumbnailUrl,
+                        maxWidth: 400,
+                        maxHeight: 400,
+                      ),
                       fit: BoxFit.cover,
                     )
                   : null,

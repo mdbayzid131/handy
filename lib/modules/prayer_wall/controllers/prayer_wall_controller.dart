@@ -204,6 +204,12 @@ class PrayerWallController extends GetxController {
         // Refresh both lists
         fetchRequests(isRefresh: true);
         fetchMyRequests(isRefresh: true);
+      } else {
+        String errorMessage = 'Failed to submit request';
+        if (response.data != null && response.data is Map && response.data['message'] != null) {
+          errorMessage = response.data['message'].toString();
+        }
+        Helpers.showError(errorMessage, title: 'Error');
       }
     } catch (e) {
       Helpers.showDebugLog('Error submitting prayer request: $e');

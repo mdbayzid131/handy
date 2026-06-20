@@ -247,6 +247,7 @@ class DevotionalsDetailsView extends GetView<DevotionalsDetailsController> {
                               onPressed: () async {
                                 await controller.markAsRead();
                                 if (Get.isRegistered<HomeController>()) {
+                                  Get.find<HomeController>().incrementDevotionalProgress();
                                   Get.find<HomeController>().fetchDevotionalSummary();
                                 }
                               },

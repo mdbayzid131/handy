@@ -121,7 +121,10 @@ class GiveController extends GetxController {
 
   void selectAmount(int amount) {
     selectedAmount.value = amount;
-    amountController.text = amount.toString();
+    amountController.value = TextEditingValue(
+      text: amount.toString(),
+      selection: TextSelection.collapsed(offset: amount.toString().length),
+    );
   }
 
   Future<void> fetchHistory() async {

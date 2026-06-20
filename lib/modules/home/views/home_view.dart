@@ -699,12 +699,14 @@ class HomeView extends GetView<HomeController> {
                       imageUrl: data.thumbnailUrl != null
                           ? 'https://church-app-ooku.onrender.com${data.thumbnailUrl}'
                           : 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                      memCacheWidth: 400,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
                           Container(color: AppTheme.primaryColor),
                       errorWidget: (context, url, error) => CachedNetworkImage(
                         imageUrl:
                             'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                        memCacheWidth: 400,
                         fit: BoxFit.cover,
                       ),
                     ),

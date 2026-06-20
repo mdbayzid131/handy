@@ -283,10 +283,12 @@ class SermondetailsView extends GetView<SermondetailsController> {
               aspectRatio: 16 / 9,
               child: CachedNetworkImage(
                 imageUrl: imgUrl,
+                memCacheWidth: 800,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(color: AppTheme.primaryColor),
                 errorWidget: (context, url, error) => CachedNetworkImage(
                   imageUrl: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                  memCacheWidth: 800,
                   fit: BoxFit.cover,
                 ),
               ),
