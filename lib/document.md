@@ -1,62 +1,125 @@
-# Share URL API Guide for App Developers
+# Push Notifications API Integration (Flutter)
  
-This document explains how to retrieve the generated Deep Link (`share_url`) from the backend for sharing a specific sermon.
+This document outlines how the Flutter app should communicate with the backend to enable push notifications using Firebase Cloud Messaging (FCM).
  
-## 1. Overview
-The backend automatically generates a Deep Link (`share_url`) for every sermon. You do not need to manually construct the deep link URL in the Flutter app. Instead, simply use the `share_url` string provided in the backend API response whenever the user taps the "Share" button.
+## 1. Backend API Endpoint
  
----
+You need to send the device's FCM token to the backend so we know where to route the notifications.
  
-## 2. API Endpoints
+- **URL:** `{{BASE_URL}}/api/v1/notifications/save-token`
+- **Method:** `POST`
+- **Headers:**
+  - `Content-Type: application/json`
+  - `Authorization: Bearer <user_token>` *(Optional, if the user is currently logged in)*
  
-The `share_url` is automatically included in the response of the following `GET` endpoints:
- 
-### GET /api/v1/sermons/:id
-Use this endpoint to get the full details of a specific sermon, which includes the ready-to-use share URL.
+**Request Body JSON:**
+```json
+{
+  "token": "fcm_device_token_here",
+  "user": "65b2a1... (Optional: MongoDB User ID if logged in)",
+  "platform": "android" // Can be "android", "ios", or "web"
+}
+```
  
 **Success Response (200 OK):**
 ```json
 {
-  "success": true,
   "statusCode": 200,
-  "message": "Sermon detail retrieved successfully",
+  "success": true,
+  "message": "Device token saved successfully",
   "data": {
-    "id": "6a3453e42c5ab9757793def6",
-    "title": "Future Communications Representative",
-    "speaker": "Curvo bellum...",
-    "category": {
-      "id": "6a20cb948b7b9e83fe28a658",
-      "name": "Pearline Olsonmm"
-    },
-    "date": "2026-03-11T00:00:00.000Z",
-    "duration_seconds": 128,
-    "video_url": "Valetudo ascit...",
-    "thumbnail_url": "...",
-    "description": "Alii degenero...",
-    "tags": [],
-    "share_url": "https://church-app.com/share/sermons/6a3453e42c5ab9757793def6"
+    "token": "fcm_device_token_here",
+    "user": null,
+    "platform": "android",
+    "_id": "6678...",
+    "createdAt": "2024-06-21T...",
+    "updatedAt": "2024-06-21T..."
   }
 }
 ```
  
-*(Note: The `share_url` field is also returned in the paginated list endpoint `GET /api/v1/sermons` and the recent list `GET /api/v1/sermons/latest` inside each sermon object).*
- 
 ---
  
-## 3. Flutter Implementation Step
+## 2. Flutter Implementation Guide
  
-When implementing the share functionality in the mobile app, you can use the standard Flutter `share_plus` package (or similar) and pass the `share_url` variable.
+### Step 1: Add Dependencies
+Add the required Firebase and HTTP packages to your `pubspec.yaml`:
+```yaml
+dependencies:
+  firebase_core: ^latest_version
+  firebase_messaging: ^latest_version
+  http: ^latest_version
+```
  
-**Example Pseudo-code:**
+### Step 2: Request Permissions & Send Token to Backend
+Here is the Dart implementation to get the token, handle permissions (for iOS/Android 13+), and send it to our backend API:
+ 
 ```dart
-import 'package:share_plus/share_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io' show Platform;
  
-void shareSermon(Sermon sermon) {
-  // Share the sermon title and the deep link
-  Share.share('${sermon.title} - ${sermon.speaker}\nListen here: ${sermon.shareUrl}');
+class PushNotificationService {
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+ 
+  Future<void> init() async {
+    // 1. Request permission (required for iOS and Android 13+)
+    NotificationSettings settings = await _fcm.requestPermission();
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted notification permission');
+    }
+ 
+    // 2. Get the FCM device token
+    String? token = await _fcm.getToken();
+    if (token != null) {
+      print("FCM Token: $token");
+      await saveTokenToBackend(token);
+    }
+ 
+    // 3. Listen for token refreshes (in case the token expires/changes)
+    _fcm.onTokenRefresh.listen((newToken) {
+      saveTokenToBackend(newToken);
+    });
+  }
+ 
+  Future<void> saveTokenToBackend(String token) async {
+    // OPTIMIZATION: Only send to backend if the token is new or changed
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // String? savedToken = prefs.getString('fcm_token');
+    // if (savedToken == token) return; // Already saved to backend, skip!
+ 
+    final String platform = Platform.isIOS ? 'ios' : 'android';
+   
+    try {
+      final response = await http.post(
+        // Replace with your actual live/dev API URL
+        Uri.parse('https://your-api-domain.com/api/v1/notifications/save-token'),
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': 'Bearer YOUR_USER_TOKEN', // If user is logged in
+        },
+        body: jsonEncode({
+          'token': token,
+          'platform': platform,
+          // 'user': 'USER_ID', // Provide if user is logged in
+        }),
+      );
+ 
+      if (response.statusCode == 200) {
+        print('Token successfully saved to the backend!');
+        // await prefs.setString('fcm_token', token); // Save locally after success
+      } else {
+        print('Failed to save token: ${response.body}');
+      }
+    } catch (e) {
+      print('Error sending token to backend: $e');
+    }
+  }
 }
 ```
  
-Church-App.com is for sale | HugeDomains
-Friendly and helpful customer support that goes above and beyond. We help you get the perfect domain name.
- 
+### Step 3: Handling Incoming Notifications
+Make sure to also implement the standard Firebase message handlers in your app to show the notifications when the app is open or in the background:
+- `FirebaseMessaging.onMessage.listen(...)` (Foreground)
+- `FirebaseMessaging.onBackgroundMessage(...)` (Background/Terminated)

@@ -12,6 +12,9 @@ class ApiConstants {
   static const String refreshToken = '/auth/refresh';
   static const String forgotPassword = '/auth/forget-password';
 
+  // Notifications
+  static const String saveFcmToken = '/notifications/save-token';
+
   // User Endpoints
   static const String profile = '/user/profile';
   static const String updateProfile = '/user/update';
