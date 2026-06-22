@@ -36,8 +36,10 @@ class NotificationView extends GetView<NotificationController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (!controller.isSystemNotificationsEnabled.value)
-                          Container(
-                            margin: EdgeInsets.only(bottom: 24.h),
+                          GestureDetector(
+                            onTap: () => controller.toggleSystemNotifications(),
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 24.h),
                             padding: EdgeInsets.all(16.w),
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
@@ -86,6 +88,7 @@ class NotificationView extends GetView<NotificationController> {
                               ],
                             ),
                           ),
+                        ),
 
                         Text(
                           'Notification Preferences',

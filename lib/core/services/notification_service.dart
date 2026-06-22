@@ -29,13 +29,15 @@ class NotificationService extends GetxService {
         importance: Importance.max,
       );
 
-  final AndroidNotificationChannel _downloadChannel =
-      const AndroidNotificationChannel(
-        'download_channel',
-        'Downloads',
-        description: 'Notifications for downloaded files',
-        importance: Importance.max,
-      );
+  final AndroidNotificationChannel _downloadChannel = const AndroidNotificationChannel(
+    'download_channel',
+    'Downloads',
+    description: 'Notifications for downloaded files',
+    importance: Importance.max,
+  );
+
+  RemoteMessage? _initialMessage;
+  bool _hasHandledInitialMessage = false;
 
   Future<NotificationService> init() async {
     await _requestPermission();
@@ -102,8 +104,8 @@ class NotificationService extends GetxService {
     // Check if payload is JSON (from FCM routing)
     try {
       final data = jsonDecode(response.payload!);
-      if (data is Map && data.containsKey('route')) {
-        _handleRouting(data['route']);
+      if (data is Map) {
+        _handleRouting(Map<String, dynamic>.from(data));
         return;
       }
     } catch (_) {
@@ -131,11 +133,14 @@ class NotificationService extends GetxService {
     });
 
     // Terminated state initial message
-    RemoteMessage? initialMessage = await _fcm.getInitialMessage();
-    if (initialMessage != null) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        _handleRoutingFromMessage(initialMessage);
-      });
+    _initialMessage = await _fcm.getInitialMessage();
+    // We do NOT route immediately. We wait for SplashController to finish and call handlePendingInitialMessage()
+  }
+
+  void handlePendingInitialMessage() {
+    if (_initialMessage != null && !_hasHandledInitialMessage) {
+      _hasHandledInitialMessage = true;
+      _handleRoutingFromMessage(_initialMessage!);
     }
   }
 
@@ -170,15 +175,28 @@ class NotificationService extends GetxService {
   }
 
   void _handleRoutingFromMessage(RemoteMessage message) {
-    if (message.data.containsKey('route')) {
-      _handleRouting(message.data['route']);
-    }
+    _handleRouting(message.data);
   }
 
-  void _handleRouting(String? route) {
-    if (route != null && route.isNotEmpty) {
-      AppLogger.debug("Navigating to route from notification: $route");
-      Get.toNamed(route);
+  void _handleRouting(Map<String, dynamic> data) {
+    AppLogger.debug("Handling notification routing with payload: $data");
+
+    if (data.containsKey('type')) {
+      final type = data['type'];
+      if (type == 'sermon') {
+        final id = data['id'];
+        if (id != null) {
+          Get.toNamed('/sermon-details', arguments: {'id': id});
+        }
+      } else if (type == 'service_reminder' || type == 'custom') {
+        Get.offAllNamed('/bottom-nav-bar');
+      }
+    } else if (data.containsKey('route')) {
+      final route = data['route'] as String?;
+      if (route != null && route.isNotEmpty) {
+        AppLogger.debug("Navigating to route from notification: $route");
+        Get.toNamed(route);
+      }
     }
   }
 

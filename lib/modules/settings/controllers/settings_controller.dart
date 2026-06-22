@@ -1,8 +1,20 @@
 import 'package:get/get.dart';
 
+import 'package:handy/modules/notifications/controllers/notifications_controller.dart';
+
 class SettingsController extends GetxController {
-  final sundayServiceReminder = false.obs;
-  final eventReminders = true.obs;
-  final newSermons = false.obs;
-  final prayerUpdates = true.obs;
+  late final NotificationController notifCtrl;
+
+  @override
+  void onInit() {
+    super.onInit();
+    notifCtrl = Get.isRegistered<NotificationController>() 
+        ? Get.find<NotificationController>() 
+        : Get.put(NotificationController());
+  }
+
+  RxBool get sundayServiceReminder => notifCtrl.sundayServiceReminder;
+  RxBool get eventReminders => notifCtrl.eventReminders;
+  RxBool get newSermons => notifCtrl.newSermons;
+  RxBool get prayerUpdates => notifCtrl.prayerUpdates;
 }
