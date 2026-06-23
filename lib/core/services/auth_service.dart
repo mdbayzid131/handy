@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:uuid/uuid.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/core/services/storage_service.dart';
 import 'package:handy/core/utils/logger.dart';
@@ -37,6 +40,37 @@ class AuthService extends GetxService {
   /// Check if user is authenticated
   bool get isAuthenticated => isLoggedIn.value;
 
+  // ──────────────────── DEVICE INIT (GUEST) ────────────────────
+
+  Future<String> getOrCreateDeviceId() async {
+    String deviceId = await StorageService.getString(StorageConstants.deviceId);
+    if (deviceId.isEmpty) {
+      deviceId = const Uuid().v4();
+      await StorageService.setString(StorageConstants.deviceId, deviceId);
+    }
+    return deviceId;
+  }
+
+  Future<void> initDevice() async {
+    try {
+      final deviceId = await getOrCreateDeviceId();
+      String fcmToken = await FirebaseMessaging.instance.getToken() ?? 'unknown';
+      final platform = Platform.isAndroid ? 'android' : (Platform.isIOS ? 'ios' : 'web');
+
+      final response = await _authRepo.deviceInit(
+        deviceId: deviceId,
+        fcmToken: fcmToken,
+        platform: platform,
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        await _saveAuthTokens(response);
+      }
+    } catch (e) {
+      AppLogger.debug('Device Init failed: $e');
+    }
+  }
+
   // ──────────────────── REGISTER ────────────────────
 
   Future<Response> register({
@@ -44,10 +78,12 @@ class AuthService extends GetxService {
     required String email,
     required String password,
   }) async {
+    final deviceId = await getOrCreateDeviceId();
     return await _authRepo.register(
       name: name,
       email: email,
       password: password,
+      deviceId: deviceId,
     );
   }
 
@@ -75,7 +111,12 @@ class AuthService extends GetxService {
     required String email,
     required String password,
   }) async {
-    return await _authRepo.login(email: email, password: password);
+    final deviceId = await getOrCreateDeviceId();
+    return await _authRepo.login(
+      email: email, 
+      password: password,
+      deviceId: deviceId,
+    );
   }
 
   // ──────────────────── CHANGE PASSWORD ────────────────────

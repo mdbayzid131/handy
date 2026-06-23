@@ -5,10 +5,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../../../config/routes/app_pages.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
-
 import '../controllers/more_controller.dart';
-import 'package:handy/data/models/contact_mission_model.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:handy/core/services/auth_service.dart';
+import 'package:handy/data/models/contact_mission_model.dart';
 
 class MoreView extends GetView<MoreController> {
   const MoreView({super.key});
@@ -217,10 +217,18 @@ class MoreView extends GetView<MoreController> {
   }
 
   Widget _buildConnectCard(ContactMissionModel? data) {
-    final address = data?.address?.trim().isNotEmpty == true ? data!.address! : 'Not Available';
-    final sundayService = data?.sundayService?.trim().isNotEmpty == true ? data!.sundayService! : 'Not Available';
-    final email = data?.email?.trim().isNotEmpty == true ? data!.email! : 'Not Available';
-    final website = data?.website?.trim().isNotEmpty == true ? data!.website! : 'Not Available';
+    final address = data?.address?.trim().isNotEmpty == true
+        ? data!.address!
+        : 'Not Available';
+    final sundayService = data?.sundayService?.trim().isNotEmpty == true
+        ? data!.sundayService!
+        : 'Not Available';
+    final email = data?.email?.trim().isNotEmpty == true
+        ? data!.email!
+        : 'Not Available';
+    final website = data?.website?.trim().isNotEmpty == true
+        ? data!.website!
+        : 'Not Available';
 
     return Container(
       padding: EdgeInsets.all(24.w),
@@ -257,35 +265,44 @@ class MoreView extends GetView<MoreController> {
             ),
           ),
           SizedBox(height: 24.h),
+          _buildConnectRow(Icons.location_on, 'Address', address),
+          SizedBox(height: 20.h),
+          _buildConnectRow(Icons.access_time, 'Sunday Service', sundayService),
+          SizedBox(height: 20.h),
+          _buildConnectRow(Icons.email, 'Email', email),
+          SizedBox(height: 20.h),
+          _buildConnectRow(Icons.language, 'Website', website),
+          SizedBox(height: 20.h),
           _buildConnectRow(
-            Icons.location_on,
-            'Address',
-            address,
+            FontAwesomeIcons.youtube,
+            'YouTube',
+            _getSocialUrl(data, 'youtube'),
           ),
           SizedBox(height: 20.h),
           _buildConnectRow(
-            Icons.access_time,
-            'Sunday Service',
-            sundayService,
-          ),
-          SizedBox(height: 20.h),
-          _buildConnectRow(
-            Icons.email,
-            'Email',
-            email,
-          ),
-          SizedBox(height: 20.h),
-          _buildConnectRow(
-            Icons.language,
-            'Website',
-            website,
+            FontAwesomeIcons.instagram,
+            'Instagram',
+            _getSocialUrl(data, 'instagram'),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildConnectRow(IconData icon, String label, String value) {
+  String _getSocialUrl(ContactMissionModel? data, String platform) {
+    if (data?.socialLinks != null) {
+      for (var link in data!.socialLinks!) {
+        if (link.platform?.toLowerCase() == platform.toLowerCase() &&
+            link.url != null &&
+            link.url!.isNotEmpty) {
+          return link.url!;
+        }
+      }
+    }
+    return 'Not Available';
+  }
+
+  Widget _buildConnectRow(dynamic icon, String label, String value) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -295,7 +312,9 @@ class MoreView extends GetView<MoreController> {
             color: AppTheme.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12.r),
           ),
-          child: Icon(icon, color: AppTheme.warningColor, size: 20.w),
+          child: icon is IconData
+              ? Icon(icon, color: AppTheme.warningColor, size: 20.w)
+              : FaIcon(icon, color: AppTheme.warningColor, size: 20.w),
         ),
         SizedBox(width: 16.w),
         Expanded(
@@ -326,8 +345,8 @@ class MoreView extends GetView<MoreController> {
   }
 
   Widget _buildMissionCard(ContactMissionModel? data) {
-    final mission = data?.ourMission?.trim().isNotEmpty == true 
-        ? data!.ourMission! 
+    final mission = data?.ourMission?.trim().isNotEmpty == true
+        ? data!.ourMission!
         : 'Mission statement is currently unavailable.';
 
     return Container(

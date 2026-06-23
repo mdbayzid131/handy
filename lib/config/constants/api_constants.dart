@@ -5,6 +5,7 @@ class ApiConstants {
   // static const String apiVersion = '/api/v1';
 
   // Auth Endpoints
+  static const String deviceInit = '/auth/device-init';
   static const String login = '/auth/login';
   static const String register = '/user/register';
   static const String signup = '/auth/signup';
@@ -20,11 +21,11 @@ class ApiConstants {
   static const String updateProfile = '/user/update';
   static const String deleteAccount = '/user/delete-account';
 
-  // Add your API endpoints here
-  static const String resendVerifyEmail = '/auth/resend-verify-email';
-  static const String verifyEmail = '/auth/verify-email';
+  // Auth Endpoints - Recovery & Verification
   static const String resetPassword = '/auth/reset-password';
   static const String changePassword = '/auth/change-password';
+  static const String verifyEmail = '/auth/verify-email';
+  static const String resendVerifyEmail = '/auth/resend-verify-email';
 
   //products
   static const String products = '/product';

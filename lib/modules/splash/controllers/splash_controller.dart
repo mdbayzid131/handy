@@ -2,9 +2,10 @@ import 'package:get/get.dart';
 import '../../../config/routes/app_pages.dart';
 
 import 'package:handy/core/services/notification_service.dart';
+import 'package:handy/core/services/auth_service.dart';
 
 class SplashController extends GetxController {
-  // final AuthService _authService = Get.find();
+  final AuthService _authService = Get.find();
 
   @override
   void onInit() {
@@ -15,6 +16,10 @@ class SplashController extends GetxController {
   Future<void> navigate() async {
     await Future.delayed(const Duration(seconds: 2));
 
+    if (!_authService.isLoggedIn.value) {
+      await _authService.initDevice();
+    }
+
     Get.offAllNamed(AppRoutes.BOTTOM_NAV_BAR);
     
     // Check if there's an initial push notification payload that needs to route the user
@@ -23,11 +28,5 @@ class SplashController extends GetxController {
         Get.find<NotificationService>().handlePendingInitialMessage();
       });
     }
-
-    // if (_authService.isLoggedIn.value) {
-    //   Get.offAllNamed(AppRoutes.BOTTOM_NAV_BAR);
-    // } else {
-    //   Get.offAllNamed(AppRoutes.LOGIN);
-    // }
   }
 }

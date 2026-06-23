@@ -29,7 +29,7 @@ class ApiClient extends GetxService {
 
   static const String _fallbackMessage =
       'Something went wrong, please try again';
-  static const int _timeoutSeconds = 30;
+  static const int _timeoutSeconds = 60;
   static const Duration _errorThrottleDuration = Duration(seconds: 3);
 
   static DateTime? _lastErrorTime;

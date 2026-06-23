@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/logger.dart';
 import '../../config/constants/api_constants.dart';
 import 'api_client.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// ===================== NOTIFICATION SERVICE =====================
 /// Service for Push Notifications (FCM) and Local Notifications (Downloads).
@@ -48,6 +49,10 @@ class NotificationService extends GetxService {
   }
 
   Future<void> _requestPermission() async {
+    if (Platform.isAndroid) {
+      await Permission.notification.request();
+    }
+    
     NotificationSettings settings = await _fcm.requestPermission(
       alert: true,
       announcement: false,
@@ -69,7 +74,7 @@ class NotificationService extends GetxService {
 
   Future<void> _initLocalNotifications() async {
     const androidSettings = AndroidInitializationSettings(
-      '@mipmap/launcher_icon',
+      '@mipmap/ic_launcher',
     );
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
@@ -146,9 +151,8 @@ class NotificationService extends GetxService {
 
   void _showFCMNotification(RemoteMessage message) {
     RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
 
-    if (notification != null && android != null) {
+    if (notification != null) {
       _plugin.show(
         notification.hashCode,
         notification.title,
@@ -158,7 +162,7 @@ class NotificationService extends GetxService {
             _fcmChannel.id,
             _fcmChannel.name,
             channelDescription: _fcmChannel.description,
-            icon: '@mipmap/launcher_icon',
+            icon: '@mipmap/ic_launcher',
             importance: Importance.max,
             priority: Priority.high,
           ),
@@ -220,15 +224,13 @@ class NotificationService extends GetxService {
   Future<void> _sendTokenToBackend(String token) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final savedToken = prefs.getString('fcm_token');
-
-      // Avoid unnecessary API calls if the token hasn't changed
-      if (savedToken == token) return;
 
       final platform = Platform.isIOS ? 'ios' : 'android';
 
-      // Give GetX a second to initialize the ApiClient in InitialBinding
-      await Future.delayed(const Duration(seconds: 2));
+      // Wait until ApiClient is registered by InitialBinding
+      while (!Get.isRegistered<ApiClient>()) {
+        await Future.delayed(const Duration(milliseconds: 500));
+      }
 
       final apiClient = Get.find<ApiClient>();
 

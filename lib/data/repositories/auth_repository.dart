@@ -7,30 +7,31 @@ class AuthRepo {
   final ApiClient apiClient;
   AuthRepo({required this.apiClient});
 
-  // Future<String> getDeviceId() async {
-  //   final deviceInfo = DeviceInfoPlugin();
-  //
-  //   if (Platform.isAndroid) {
-  //     final androidInfo = await deviceInfo.androidInfo;
-  //     return androidInfo.id; // অথবা androidInfo.device, androidInfo.model
-  //   } else if (Platform.isIOS) {
-  //     final iosInfo = await deviceInfo.iosInfo;
-  //     return iosInfo.identifierForVendor ?? "unknown";
-  //   } else {
-  //     return "unsupported";
-  //   }
-  // }
+  /// ===================== DEVICE INIT =====================
+  Future<Response> deviceInit({
+    required String deviceId,
+    required String fcmToken,
+    required String platform,
+  }) async {
+    return await apiClient.postData(ApiConstants.deviceInit, {
+      "deviceId": deviceId,
+      "fcmToken": fcmToken,
+      "platform": platform,
+    });
+  }
 
   /// ===================== REGISTER =====================
   Future<Response> register({
     required String name,
     required String email,
     required String password,
+    required String deviceId,
   }) async {
     return await apiClient.postData(ApiConstants.register, {
       "name": name,
       "email": email,
       "password": password,
+      "deviceId": deviceId,
     });
   }
 
@@ -57,10 +58,12 @@ class AuthRepo {
   Future<Response> login({
     required String email,
     required String password,
+    required String deviceId,
   }) async {
     return await apiClient.postData(ApiConstants.login, {
       "email": email,
       "password": password,
+      "deviceId": deviceId,
     });
   }
 

@@ -17,7 +17,11 @@ class DonateController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _loadCachedBankDetails();
+    _initData();
+  }
+
+  Future<void> _initData() async {
+    await _loadCachedBankDetails();
     fetchBankDetails();
   }
 
