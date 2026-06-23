@@ -36,7 +36,7 @@ class ApiClient extends GetxService {
 
   /// Expose dio only for edge-case direct usage (avoid if possible).
   Dio get dio => _dio;
-//
+  //
   // ─────────────────────────── LIFECYCLE ───────────────────────────
 
   @override
@@ -51,15 +51,17 @@ class ApiClient extends GetxService {
       ),
     );
     _dio.interceptors.add(_buildInterceptor());
-    _dio.interceptors.add(PrettyDioLogger(
-      requestHeader: true,
-      requestBody: true,
-      responseBody: true,
-      responseHeader: false,
-      error: true,
-      compact: true,
-      maxWidth: 90,
-    ));
+    _dio.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+        maxWidth: 90,
+      ),
+    );
   }
 
   // ──────────────────────── INTERCEPTOR ────────────────────────
@@ -401,7 +403,7 @@ class ApiClient extends GetxService {
       StorageService.clearAll();
       Get.offAllNamed(AppRoutes.LOGIN);
     }
-    
+
     Get.snackbar(
       'Session Expired',
       'Please login again.',

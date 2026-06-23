@@ -74,7 +74,7 @@ class NotificationService extends GetxService {
 
   Future<void> _initLocalNotifications() async {
     const androidSettings = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
+      'ic_notification',
     );
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
@@ -162,7 +162,8 @@ class NotificationService extends GetxService {
             _fcmChannel.id,
             _fcmChannel.name,
             channelDescription: _fcmChannel.description,
-            icon: '@mipmap/ic_launcher',
+            icon: 'ic_notification',
+            largeIcon: const DrawableResourceAndroidBitmap('ic_notification'),
             importance: Importance.max,
             priority: Priority.high,
           ),
