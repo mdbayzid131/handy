@@ -48,7 +48,7 @@ class BottomNavBarController extends GetxController {
   }
 
   void goToProfile() {
-    if (_authService.isLoggedIn.value) {
+    if (_authService.isLoggedIn.value || _authService.currentUser.value != null) {
       Get.toNamed(AppRoutes.PROFILE);
     } else {
       Get.toNamed(AppRoutes.LOGIN);

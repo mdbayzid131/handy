@@ -57,12 +57,20 @@ class RegisterController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data != null && response.data['data'] != null) {
-          final user = UserModel.fromJson(response.data['data']);
+          final userData = response.data['data']['user'] ?? response.data['data'];
+          final user = UserModel.fromJson(userData);
+          _authService.currentUser.value = user;
           AppLogger.info('User created successfully: ${user.name}');
         }
+        
+        // Save the tokens to auto-login
+        await _authService.handleAuthResponse(response);
+
         final message = response.data?['message'] ?? 'Registration successful';
-        Helpers.showCustomSnackBar(message);
-        Get.offAllNamed(AppRoutes.LOGIN);
+        Helpers.showCustomSnackBar(message, type: SnackBarType.success);
+        
+        // Go to bottom nav bar instead of Login since user is auto-logged in
+        Get.offAllNamed(AppRoutes.BOTTOM_NAV_BAR);
       } else {
         ApiChecker.checkWriteApi(response);
       }

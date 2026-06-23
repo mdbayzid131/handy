@@ -117,7 +117,8 @@ class HomeView extends GetView<HomeController> {
                         SizedBox(width: 16.w),
                         GestureDetector(
                           onTap: () {
-                            if (Get.find<AuthService>().isLoggedIn.value) {
+                            final authService = Get.find<AuthService>();
+                            if (authService.isLoggedIn.value || authService.currentUser.value != null) {
                               Get.find<BottomNavBarController>().goToProfile();
                             } else {
                               Get.toNamed(AppRoutes.LOGIN);

@@ -201,8 +201,8 @@ class AuthService extends GetxService {
 
     if (authData is! Map) return;
 
-    final accessToken = authData['accessToken'] ?? authData['token'];
-    final refreshToken = authData['refreshToken'];
+    final accessToken = authData['accessToken'] ?? authData['token'] ?? (data is Map ? (data['accessToken'] ?? data['token']) : null);
+    final refreshToken = authData['refreshToken'] ?? (data is Map ? data['refreshToken'] : null);
 
     if (accessToken != null) {
       await StorageService.setString(
