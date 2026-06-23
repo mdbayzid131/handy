@@ -211,11 +211,6 @@ class PrayerWallView extends GetView<PrayerWallController> {
             showBackButton: true,
             trailingWidget: ElevatedButton(
               onPressed: () {
-                final authService = Get.find<AuthService>();
-                if (!authService.isLoggedIn.value) {
-                  Get.toNamed(AppRoutes.LOGIN);
-                  return;
-                }
                 _showAddRequestBottomSheet(context);
               },
               style: ElevatedButton.styleFrom(
@@ -438,11 +433,6 @@ class PrayerWallView extends GetView<PrayerWallController> {
                   SizedBox(height: 16.h),
                   GestureDetector(
                     onTap: () {
-                      final authService = Get.find<AuthService>();
-                      if (!authService.isLoggedIn.value) {
-                        Get.toNamed(AppRoutes.LOGIN);
-                        return;
-                      }
                       controller.prayForRequest(item.id);
                     },
                     child: Container(
