@@ -12,6 +12,7 @@ class PrayerWallController extends GetxController {
 
   final requests = <PrayerWallModel>[].obs;
   final myRequests = <PrayerWallModel>[].obs;
+  final deletedRequestIds = <String>{}.obs;
   
   // Pagination State
   int currentPage = 1;
@@ -92,12 +93,14 @@ class PrayerWallController extends GetxController {
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data != null) {
           final responseData = PrayerWallResponseModel.fromJson(response.data);
-          final newItems = responseData.data;
+          final newItems = responseData.data.where((e) => !deletedRequestIds.contains(e.id)).toList();
           
           if (isRefresh) {
             requests.assignAll(newItems);
           } else {
-            requests.addAll(newItems);
+            final currentIds = requests.map((e) => e.id).toSet();
+            final uniqueItems = newItems.where((e) => !currentIds.contains(e.id)).toList();
+            requests.addAll(uniqueItems);
           }
           
           final pagination = responseData.pagination;
@@ -147,12 +150,14 @@ class PrayerWallController extends GetxController {
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data != null) {
           final responseData = PrayerWallResponseModel.fromJson(response.data);
-          final newItems = responseData.data;
+          final newItems = responseData.data.where((e) => !deletedRequestIds.contains(e.id)).toList();
           
           if (isRefresh) {
             myRequests.assignAll(newItems);
           } else {
-            myRequests.addAll(newItems);
+            final currentIds = myRequests.map((e) => e.id).toSet();
+            final uniqueItems = newItems.where((e) => !currentIds.contains(e.id)).toList();
+            myRequests.addAll(uniqueItems);
           }
           
           final pagination = responseData.pagination;
@@ -195,15 +200,15 @@ class PrayerWallController extends GetxController {
       final response = await apiClient.postData(ApiConstants.prayerRequests, data);
       
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.back(); // close bottom sheet FIRST
+        // Refresh both lists and wait for them to update before closing
+        await fetchRequests(isRefresh: true);
+        await fetchMyRequests(isRefresh: true);
+        
+        Get.back(); // close bottom sheet
         Helpers.showSuccess('Prayer request shared successfully', title: 'Success');
         
         requestController.clear();
         isAnonymous.value = false;
-        
-        // Refresh both lists
-        fetchRequests(isRefresh: true);
-        fetchMyRequests(isRefresh: true);
       } else {
         String errorMessage = 'Failed to submit request';
         if (response.data != null && response.data is Map && response.data['message'] != null) {
@@ -218,6 +223,83 @@ class PrayerWallController extends GetxController {
       isSubmitting.value = false;
     }
   }
+
+  Future<void> editRequest(String id) async {
+    if (requestController.text.trim().isEmpty) {
+      Helpers.showError('Prayer request cannot be empty', title: 'Error');
+      return;
+    }
+
+    isSubmitting.value = true;
+    try {
+      final deviceId = await authService.getOrCreateDeviceId();
+      final data = {
+        "content": requestController.text.trim(),
+        "author_name": isAnonymous.value ? "Anonymous" : nameController.text.trim(),
+        "is_anonymous": isAnonymous.value,
+      };
+      
+      if (!authService.isLoggedIn.value) {
+        data["device_fingerprint"] = deviceId;
+      }
+
+      final response = await apiClient.patchData(ApiConstants.prayerRequest(id), data);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        await fetchRequests(isRefresh: true);
+        await fetchMyRequests(isRefresh: true);
+
+        Get.back(); // close bottom sheet
+        Helpers.showSuccess('Prayer request updated successfully', title: 'Success');
+
+        requestController.clear();
+        isAnonymous.value = false;
+      } else {
+        String errorMessage = 'Failed to update request';
+        if (response.data != null && response.data is Map && response.data['message'] != null) {
+          errorMessage = response.data['message'].toString();
+        }
+        Helpers.showError(errorMessage, title: 'Error');
+      }
+    } catch (e) {
+      Helpers.showDebugLog('Error updating prayer request: $e');
+      Helpers.showError('Failed to update request', title: 'Error');
+    } finally {
+      isSubmitting.value = false;
+    }
+  }
+
+  Future<void> deleteRequest(String id) async {
+    try {
+      final deviceId = await authService.getOrCreateDeviceId();
+      final data = <String, dynamic>{};
+      
+      if (!authService.isLoggedIn.value) {
+        data["device_fingerprint"] = deviceId;
+      }
+
+      final response = await apiClient.deleteData(ApiConstants.prayerRequest(id), body: data);
+
+      if (response.statusCode == 200 || response.statusCode == 201 || response.statusCode == 204) {
+        // Remove locally for instant UI update
+        deletedRequestIds.add(id);
+        requests.removeWhere((item) => item.id == id);
+        myRequests.removeWhere((item) => item.id == id);
+        
+        Helpers.showSuccess('Prayer request deleted successfully', title: 'Success');
+      } else {
+        String errorMessage = 'Failed to delete request';
+        if (response.data != null && response.data is Map && response.data['message'] != null) {
+          errorMessage = response.data['message'].toString();
+        }
+        Helpers.showError(errorMessage, title: 'Error');
+      }
+    } catch (e) {
+      Helpers.showDebugLog('Error deleting prayer request: $e');
+      Helpers.showError('Failed to delete request', title: 'Error');
+    }
+  }
+
 
   Future<void> prayForRequest(String id) async {
     try {

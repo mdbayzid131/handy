@@ -35,9 +35,8 @@ class ContactMissionModel {
 
   factory ContactMissionModel.fromJson(Map<String, dynamic> json) {
     var list = json['social_links'] as List?;
-    List<SocialLinkModel>? socialLinksList = list != null
-        ? list.map((i) => SocialLinkModel.fromJson(i)).toList()
-        : null;
+    List<SocialLinkModel>? socialLinksList =
+        list?.map((i) => SocialLinkModel.fromJson(i)).toList();
 
     return ContactMissionModel(
       address: json['address'],

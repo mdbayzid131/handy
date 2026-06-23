@@ -5,8 +5,6 @@ import 'package:handy/config/themes/app_theme.dart';
 import '../../../data/models/prayer_wall_model.dart';
 import '../../../core/widgets/custom_gradient_header.dart';
 import '../controllers/prayer_wall_controller.dart';
-import '../../../core/services/auth_service.dart';
-import '../../../config/routes/app_pages.dart';
 import '../../../core/widgets/shimmers/list_shimmer.dart';
 
 class PrayerWallView extends GetView<PrayerWallController> {
@@ -200,6 +198,252 @@ class PrayerWallView extends GetView<PrayerWallController> {
     );
   }
 
+  void _showEditRequestBottomSheet(BuildContext context, PrayerWallModel item) {
+    controller.nameController.text = item.name == 'Anonymous' ? '' : item.name;
+    controller.requestController.text = item.request;
+    controller.isAnonymous.value = item.name == 'Anonymous';
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: AppTheme.backgroundColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.r),
+              topRight: Radius.circular(20.r),
+            ),
+          ),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          onPressed: () => Get.back(),
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: AppTheme.mutedTextColor,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'Edit Request',
+                          style: TextStyle(
+                            color: AppTheme.white,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Obx(
+                          () => TextButton(
+                            onPressed: controller.isSubmitting.value
+                                ? null
+                                : () {
+                                    controller.editRequest(item.id);
+                                  },
+                            child: controller.isSubmitting.value
+                                ? SizedBox(
+                                    width: 16.w,
+                                    height: 16.w,
+                                    child: const CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: AppTheme.accentBlue,
+                                    ),
+                                  )
+                                : Text(
+                                    'Update',
+                                    style: TextStyle(
+                                      color: controller.isSubmitting.value
+                                          ? AppTheme.mutedTextColor
+                                          : AppTheme.accentBlue,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 24.h),
+                    Text(
+                      'Your Name',
+                      style: TextStyle(
+                        color: AppTheme.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Obx(
+                      () => TextField(
+                        controller: controller.nameController,
+                        enabled: !controller.isAnonymous.value,
+                        style: TextStyle(
+                          color: controller.isAnonymous.value
+                              ? AppTheme.white.withValues(alpha: 0.5)
+                              : AppTheme.white,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Anonymous',
+                          hintStyle: const TextStyle(
+                            color: AppTheme.mutedTextColor,
+                          ),
+                          filled: true,
+                          fillColor: AppTheme.containerColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 16.h,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Prayer as Anonymous',
+                          style: TextStyle(
+                            color: AppTheme.white.withValues(alpha: 0.8),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Obx(
+                          () => Checkbox(
+                            value: controller.isAnonymous.value,
+                            onChanged: (value) {
+                              controller.isAnonymous.value = value ?? false;
+                            },
+                            activeColor: AppTheme.royalBlue,
+                            checkColor: AppTheme.white,
+                            side: BorderSide(
+                              color: AppTheme.white.withValues(alpha: 0.5),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 24.h),
+                    Text(
+                      'Prayer Request',
+                      style: TextStyle(
+                        color: AppTheme.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    TextField(
+                      controller: controller.requestController,
+                      maxLines: 5,
+                      style: const TextStyle(color: AppTheme.white),
+                      decoration: InputDecoration(
+                        hintText: 'Share what\'s on your heart...',
+                        hintStyle: const TextStyle(
+                          color: AppTheme.mutedTextColor,
+                        ),
+                        filled: true,
+                        fillColor: AppTheme.containerColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 16.h,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showDeleteConfirmationDialog(
+    BuildContext context,
+    PrayerWallModel item,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppTheme.containerColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+            side: BorderSide(color: AppTheme.secondaryColor),
+          ),
+          title: Text(
+            'Delete Request',
+            style: TextStyle(
+              color: AppTheme.white,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Are you sure you want to delete this prayer request? This action cannot be undone.',
+            style: TextStyle(
+              color: AppTheme.mutedTextColor,
+              fontSize: 14.sp,
+              height: 1.5,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Get.back(),
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: AppTheme.accentBlue,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                controller.deleteRequest(item.id);
+                Get.back();
+              },
+              child: Text(
+                'Delete',
+                style: TextStyle(
+                  color: AppTheme.errorColor,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -314,8 +558,16 @@ class PrayerWallView extends GetView<PrayerWallController> {
           Expanded(
             child: Obx(
               () => controller.isPrayerWall.value
-                  ? _buildPrayerList(context, controller.requests)
-                  : _buildPrayerList(context, controller.myRequests),
+                  ? _buildPrayerList(
+                      context,
+                      controller.requests,
+                      isMyRequest: false,
+                    )
+                  : _buildPrayerList(
+                      context,
+                      controller.myRequests,
+                      isMyRequest: true,
+                    ),
             ),
           ),
         ],
@@ -323,7 +575,11 @@ class PrayerWallView extends GetView<PrayerWallController> {
     );
   }
 
-  Widget _buildPrayerList(BuildContext context, List<PrayerWallModel> list) {
+  Widget _buildPrayerList(
+    BuildContext context,
+    List<PrayerWallModel> list, {
+    bool isMyRequest = false,
+  }) {
     if (controller.isLoading.value && list.isEmpty) {
       return ListView(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -335,7 +591,8 @@ class PrayerWallView extends GetView<PrayerWallController> {
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification scrollInfo) {
         if (scrollInfo is ScrollEndNotification &&
-            scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+            scrollInfo.metrics.pixels > 0 &&
+            scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent) {
           controller.loadMore();
         }
         return false;
@@ -382,6 +639,7 @@ class PrayerWallView extends GetView<PrayerWallController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CircleAvatar(
                         backgroundColor: AppTheme.primaryLighter,
@@ -419,6 +677,72 @@ class PrayerWallView extends GetView<PrayerWallController> {
                           ],
                         ),
                       ),
+                      if (isMyRequest)
+                        Transform.translate(
+                          offset: Offset(12.w, -12.h),
+                          child: PopupMenuButton<String>(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: AppTheme.white,
+                              size: 24.w,
+                            ),
+                            color: AppTheme.containerColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                              side: BorderSide(color: AppTheme.secondaryColor),
+                            ),
+                            onSelected: (value) {
+                              if (value == 'edit') {
+                                _showEditRequestBottomSheet(context, item);
+                              } else if (value == 'delete') {
+                                _showDeleteConfirmationDialog(context, item);
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 'edit',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.edit_outlined,
+                                      color: AppTheme.accentBlue,
+                                      size: 20.w,
+                                    ),
+                                    SizedBox(width: 12.w),
+                                    Text(
+                                      'Edit',
+                                      style: TextStyle(
+                                        color: AppTheme.white,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'delete',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.delete_outline,
+                                      color: AppTheme.errorColor,
+                                      size: 20.w,
+                                    ),
+                                    SizedBox(width: 12.w),
+                                    Text(
+                                      'Delete',
+                                      style: TextStyle(
+                                        color: AppTheme.errorColor,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
                   SizedBox(height: 16.h),

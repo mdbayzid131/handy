@@ -85,4 +85,5 @@ class ApiConstants {
   static const String prayerRequests = '/prayer/requests';
   static const String myPrayerRequests = '/prayer/requests/mine';
   static String prayForRequest(String id) => '/prayer/requests/$id/pray';
+  static String prayerRequest(String id) => '/prayer/requests/$id';
 }

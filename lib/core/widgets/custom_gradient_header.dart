@@ -89,7 +89,7 @@ class CustomGradientHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              if (trailingWidget != null) trailingWidget!,
+              ?trailingWidget,
             ],
           ),
           if (bottomWidget != null) ...[
