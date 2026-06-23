@@ -32,11 +32,7 @@ class GiveController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (Get.find<AuthService>().isLoggedIn.value) {
-      fetchFunds();
-    } else {
-      isLoading.value = false;
-    }
+    fetchFunds();
     amountController.addListener(() {
       if (amountController.text.isNotEmpty) {
         final val = int.tryParse(amountController.text) ?? 0;
@@ -50,19 +46,10 @@ class GiveController extends GetxController {
   Future<void> fetchFunds() async {
     if (funds.isEmpty) isLoading.value = true;
     try {
-      final futures = await Future.wait([
-        apiClient.getData(ApiConstants.givingFunds),
-        apiClient.getData(ApiConstants.givingTotalThisYear),
-      ]);
-
-      final fundsResponse = futures[0];
-      final totalResponse = futures[1];
-
       try {
-        if (fundsResponse.statusCode == 200 ||
-            fundsResponse.statusCode == 201) {
-          if (fundsResponse.data['data'] != null &&
-              fundsResponse.data['data'] is List) {
+        final fundsResponse = await apiClient.getData(ApiConstants.givingFunds);
+        if (fundsResponse.statusCode == 200 || fundsResponse.statusCode == 201) {
+          if (fundsResponse.data['data'] != null && fundsResponse.data['data'] is List) {
             final fundsList = (fundsResponse.data['data'] as List)
                 .map((x) => GiveFundModel.fromJson(x as Map<String, dynamic>))
                 .toList();
@@ -80,29 +67,33 @@ class GiveController extends GetxController {
         Helpers.showDebugLog('Failed to parse funds: $e');
       }
 
-      try {
-        if (totalResponse.statusCode == 200 ||
-            totalResponse.statusCode == 201) {
-          var dataObj = totalResponse.data['data'];
-          if (dataObj != null) {
-            if (dataObj is Map && dataObj['totalThisYear'] != null) {
-              final rawValue = dataObj['totalThisYear'];
-              if (rawValue is num) {
-                totalThisYear.value = rawValue.toDouble();
-              } else if (rawValue is String) {
-                totalThisYear.value = double.tryParse(rawValue) ?? 0.0;
+      if (Get.find<AuthService>().isLoggedIn.value) {
+        try {
+          final totalResponse = await apiClient.getData(ApiConstants.givingTotalThisYear);
+          if (totalResponse.statusCode == 200 || totalResponse.statusCode == 201) {
+            var dataObj = totalResponse.data['data'];
+            if (dataObj != null) {
+              if (dataObj is Map && dataObj['totalThisYear'] != null) {
+                final rawValue = dataObj['totalThisYear'];
+                if (rawValue is num) {
+                  totalThisYear.value = rawValue.toDouble();
+                } else if (rawValue is String) {
+                  totalThisYear.value = double.tryParse(rawValue) ?? 0.0;
+                }
+              } else if (dataObj is num) {
+                totalThisYear.value = dataObj.toDouble();
+              } else if (dataObj is String) {
+                totalThisYear.value = double.tryParse(dataObj) ?? 0.0;
               }
-            } else if (dataObj is num) {
-              totalThisYear.value = dataObj.toDouble();
-            } else if (dataObj is String) {
-              totalThisYear.value = double.tryParse(dataObj) ?? 0.0;
             }
+          } else {
+            Helpers.showDebugLog('Total API Error: ${totalResponse.statusCode}');
           }
-        } else {
-          Helpers.showDebugLog('Total API Error: ${totalResponse.statusCode}');
+        } catch (e) {
+          Helpers.showDebugLog('Failed to parse totalThisYear: $e');
         }
-      } catch (e) {
-        Helpers.showDebugLog('Failed to parse totalThisYear: $e');
+      } else {
+        totalThisYear.value = 0.0;
       }
     } catch (e) {
       Helpers.showDebugLog('Failed to fetch data: $e');

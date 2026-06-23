@@ -391,11 +391,6 @@ class GiveView extends GetView<GiveController> {
   Widget _buildGiveNowButton() {
     return GestureDetector(
       onTap: () async {
-        if (!Get.find<AuthService>().isLoggedIn.value) {
-          Get.toNamed(AppRoutes.LOGIN);
-          return;
-        }
-
         if (controller.selectedAmount.value <= 0) {
           Helpers.showError('Please select or enter an amount to donate');
           return;

@@ -78,7 +78,8 @@ class LoginController extends GetxController {
     Get.toNamed(AppRoutes.FORGOT_PASSWORD);
   }
 
-  void continueAsGuest() {
+  void continueAsGuest() async {
+    await Get.find<AuthService>().clearLocalAuth(); // Force clear any stale token
     Get.offAllNamed(AppRoutes.BOTTOM_NAV_BAR);
   }
 }

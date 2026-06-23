@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:handy/modules/bottom_nab_bar/controllers/bottom_nab_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import '../../../config/routes/app_pages.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 import '../controllers/more_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:handy/core/services/auth_service.dart';
 import 'package:handy/data/models/contact_mission_model.dart';
 
 class MoreView extends GetView<MoreController> {
@@ -128,11 +128,7 @@ class MoreView extends GetView<MoreController> {
               'My Profile',
               [AppTheme.lightBlue, AppTheme.standardBlue],
               onTap: () {
-                if (!Get.find<AuthService>().isLoggedIn.value) {
-                  Get.toNamed(AppRoutes.LOGIN);
-                } else {
-                  Get.toNamed(AppRoutes.PROFILE);
-                }
+                Get.find<BottomNavBarController>().goToProfile();
               },
             ),
             _buildFeatureItem(

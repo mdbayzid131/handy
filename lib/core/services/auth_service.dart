@@ -33,8 +33,8 @@ class AuthService extends GetxService {
   // ──────────────────── AUTH STATE ────────────────────
 
   Future<void> _checkLoginStatus() async {
-    final token = await StorageService.getString(StorageConstants.bearerToken);
-    isLoggedIn.value = token.isNotEmpty;
+    final bool isLogged = await StorageService.getBool(StorageConstants.isLoggedIn) ?? false;
+    isLoggedIn.value = isLogged;
   }
 
   /// Check if user is authenticated
@@ -64,7 +64,7 @@ class AuthService extends GetxService {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        await _saveAuthTokens(response);
+        await _saveAuthTokens(response, isGuest: true);
       }
     } catch (e) {
       AppLogger.debug('Device Init failed: $e');
@@ -144,7 +144,7 @@ class AuthService extends GetxService {
       // Just catch and ignore errors on logout API
       AppLogger.debug('Logout API failed: $e');
     } finally {
-      await _clearLocalAuth();
+      await clearLocalAuth();
       Get.offAllNamed(AppRoutes.LOGIN);
     }
   }
@@ -195,7 +195,7 @@ class AuthService extends GetxService {
 
   /// Save auth tokens from API response.
   /// Public so controllers can call it after social login etc.
-  Future<void> _saveAuthTokens(Response response) async {
+  Future<void> _saveAuthTokens(Response response, {bool isGuest = false}) async {
     final data = response.data;
     final authData = data is Map ? (data['data'] ?? data) : data;
 
@@ -209,7 +209,10 @@ class AuthService extends GetxService {
         StorageConstants.bearerToken,
         accessToken.toString(),
       );
-      isLoggedIn.value = true;
+      if (!isGuest) {
+        isLoggedIn.value = true;
+        await StorageService.setBool(StorageConstants.isLoggedIn, true);
+      }
     }
 
     if (refreshToken != null) {
@@ -225,11 +228,12 @@ class AuthService extends GetxService {
     await _saveAuthTokens(response);
   }
 
-  /// Clear all local auth data
-  Future<void> _clearLocalAuth() async {
+  /// Clear all local auth data without routing
+  Future<void> clearLocalAuth() async {
     await StorageService.remove(StorageConstants.bearerToken);
     await StorageService.remove(StorageConstants.refreshToken);
     await StorageService.remove(StorageConstants.userData);
+    await StorageService.setBool(StorageConstants.isLoggedIn, false);
     isLoggedIn.value = false;
     currentUser.value = null;
   }

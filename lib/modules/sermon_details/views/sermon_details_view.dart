@@ -255,6 +255,7 @@ class SermondetailsView extends GetView<SermondetailsController> {
       ),
     );
   }
+
   Widget _buildVideoPlayer(BuildContext context, SermonModel sermon) {
     return GetBuilder<SermondetailsController>(
       builder: (ctrl) {
@@ -264,18 +265,22 @@ class SermondetailsView extends GetView<SermondetailsController> {
             color: AppTheme.black,
             child: AspectRatio(
               aspectRatio: 16 / 9,
-              child: YoutubePlayer(controller: ctrl.youtubePlayerController!, aspectRatio: 16 / 9),
+              child: YoutubePlayer(
+                controller: ctrl.youtubePlayerController!,
+                aspectRatio: 16 / 9,
+              ),
             ),
           );
         } else {
           final String hostUrl = ApiConstants.baseUrl.replaceAll('/api/v1', '');
           final thumbnailUrl = sermon.thumbnailUrl;
-          final String imgUrl = (thumbnailUrl != null && thumbnailUrl.isNotEmpty)
+          final String imgUrl =
+              (thumbnailUrl != null && thumbnailUrl.isNotEmpty)
               ? (thumbnailUrl.startsWith('http')
-                  ? thumbnailUrl
-                  : '$hostUrl$thumbnailUrl')
+                    ? thumbnailUrl
+                    : '$hostUrl$thumbnailUrl')
               : 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop';
-              
+
           return Container(
             width: double.infinity,
             color: AppTheme.black,
@@ -285,9 +290,11 @@ class SermondetailsView extends GetView<SermondetailsController> {
                 imageUrl: imgUrl,
                 memCacheWidth: 800,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Container(color: AppTheme.primaryColor),
+                placeholder: (context, url) =>
+                    Container(color: AppTheme.primaryColor),
                 errorWidget: (context, url, error) => CachedNetworkImage(
-                  imageUrl: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
+                  imageUrl:
+                      'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
                   memCacheWidth: 800,
                   fit: BoxFit.cover,
                 ),
