@@ -12,6 +12,7 @@ class UserModel {
   final String? initials;
   final String? memberSince;
   final String? status;
+  final NotificationPreferences? notificationPreferences;
 
   UserModel({
     this.id,
@@ -25,6 +26,7 @@ class UserModel {
     this.initials,
     this.memberSince,
     this.status,
+    this.notificationPreferences,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -44,6 +46,9 @@ class UserModel {
       initials: json['initials'],
       memberSince: json['member_since'],
       status: json['status'],
+      notificationPreferences: json['notificationPreferences'] != null 
+          ? NotificationPreferences.fromJson(json['notificationPreferences']) 
+          : null,
     );
   }
 
@@ -60,6 +65,47 @@ class UserModel {
       'initials': initials,
       'member_since': memberSince,
       'status': status,
+      'notificationPreferences': notificationPreferences?.toJson(),
+    };
+  }
+}
+
+class NotificationPreferences {
+  final bool sermon;
+  final bool devotional;
+  final bool event;
+  final bool prayer;
+  final bool serviceReminder;
+  final bool custom;
+
+  NotificationPreferences({
+    this.sermon = true,
+    this.devotional = true,
+    this.event = true,
+    this.prayer = true,
+    this.serviceReminder = true,
+    this.custom = true,
+  });
+
+  factory NotificationPreferences.fromJson(Map<String, dynamic> json) {
+    return NotificationPreferences(
+      sermon: json['sermon'] ?? true,
+      devotional: json['devotional'] ?? true,
+      event: json['event'] ?? true,
+      prayer: json['prayer'] ?? true,
+      serviceReminder: json['service_reminder'] ?? true,
+      custom: json['custom'] ?? true,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'sermon': sermon,
+      'devotional': devotional,
+      'event': event,
+      'prayer': prayer,
+      'service_reminder': serviceReminder,
+      'custom': custom,
     };
   }
 }

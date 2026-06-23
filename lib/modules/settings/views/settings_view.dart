@@ -176,6 +176,17 @@ class SettingsView extends GetView<SettingsController> {
             'Prayer Updates',
             'Notified when someone prays for your request',
             controller.prayerUpdates,
+          ),
+          Divider(
+            color: AppTheme.secondaryColor,
+            height: 1,
+            indent: 20.w,
+            endIndent: 20.w,
+          ),
+          _buildSwitchRow(
+            'New Devotionals',
+            'Notified when a new devotional is posted',
+            controller.devotionalUpdates,
             isLast: true,
           ),
         ],

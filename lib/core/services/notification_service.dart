@@ -235,7 +235,7 @@ class NotificationService extends GetxService {
 
       final apiClient = Get.find<ApiClient>();
 
-      final response = await apiClient.postData(ApiConstants.saveFcmToken, {
+      final response = await apiClient.postData(ApiConstants.deviceToken, {
         "token": token,
         "platform": platform,
         "user": null, // Guest users included

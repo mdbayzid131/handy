@@ -158,6 +158,18 @@ class NotificationView extends GetView<NotificationController> {
                                 onChanged: (val) =>
                                     controller.prayerUpdates.value = val,
                               ),
+                              _buildDivider(),
+                              _buildPreferenceItem(
+                                icon: Icons.book,
+                                iconBgColor: AppTheme.primaryColor,
+                                title: 'New Devotionals',
+                                subtitle:
+                                    'Notified when a new devotional is posted',
+                                value: controller.devotionalUpdates.value,
+                                onChanged: (val) =>
+                                    controller.devotionalUpdates.value = val,
+                              ),
+
                             ],
                           ),
                         ),

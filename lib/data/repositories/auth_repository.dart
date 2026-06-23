@@ -20,6 +20,17 @@ class AuthRepo {
     });
   }
 
+  /// ===================== DEVICE TOKEN REGISTRATION =====================
+  Future<Response> registerDeviceToken({
+    required String token,
+    required String deviceType,
+  }) async {
+    return await apiClient.postData(ApiConstants.deviceToken, {
+      "token": token,
+      "deviceType": deviceType,
+    });
+  }
+
   /// ===================== REGISTER =====================
   Future<Response> register({
     required String name,

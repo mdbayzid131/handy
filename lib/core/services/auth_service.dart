@@ -66,6 +66,12 @@ class AuthService extends GetxService {
       if (response.statusCode == 200 || response.statusCode == 201) {
         await _saveAuthTokens(response, isGuest: true);
       }
+
+      // Register device token for Push Notifications
+      await _authRepo.registerDeviceToken(
+        token: fcmToken,
+        deviceType: platform,
+      );
     } catch (e) {
       AppLogger.debug('Device Init failed: $e');
     }

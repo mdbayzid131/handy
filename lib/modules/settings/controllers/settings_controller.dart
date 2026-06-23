@@ -17,4 +17,6 @@ class SettingsController extends GetxController {
   RxBool get eventReminders => notifCtrl.eventReminders;
   RxBool get newSermons => notifCtrl.newSermons;
   RxBool get prayerUpdates => notifCtrl.prayerUpdates;
+  RxBool get devotionalUpdates => notifCtrl.devotionalUpdates;
+  RxBool get customNotifications => notifCtrl.customNotifications;
 }
