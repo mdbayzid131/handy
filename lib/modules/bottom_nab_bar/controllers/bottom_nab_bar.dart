@@ -65,4 +65,20 @@ class BottomNavBarController extends GetxController {
 
     Get.offAllNamed(AppRoutes.LOGIN);
   }
+
+  DateTime? lastBackPressed;
+
+  Future<bool> handleBackButton() async {
+    if (currentIndex.value != 0) {
+      changeTab(0);
+      return false;
+    }
+    final now = DateTime.now();
+    if (lastBackPressed == null || now.difference(lastBackPressed!) > const Duration(seconds: 2)) {
+      lastBackPressed = now;
+      Helpers.showCustomSnackBar('Press back again to exit');
+      return false;
+    }
+    return true;
+  }
 }

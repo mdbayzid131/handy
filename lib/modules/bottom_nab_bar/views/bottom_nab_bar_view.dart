@@ -16,8 +16,10 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.black,
-      child: Scaffold(
-        body: Obx(
+      child: WillPopScope(
+        onWillPop: controller.handleBackButton,
+        child: Scaffold(
+          body: Obx(
           () => IndexedStack(
             index: controller.currentIndex.value,
             children: const [
@@ -83,6 +85,7 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
                 ),
               ),
             ),
+          ),
           ),
         ),
       ),
