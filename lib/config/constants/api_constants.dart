@@ -13,7 +13,7 @@ class ApiConstants {
   static const String refreshToken = '/auth/refresh';
   static const String forgotPassword = '/auth/forget-password';
 
-  static const String deviceToken = '/notifications/device-token';
+  static const String deviceToken = '/notifications/save-token';
 
   // User Endpoints
   static const String profile = '/user/profile';
@@ -79,6 +79,10 @@ class ApiConstants {
   // Bible
   static const String bibleVersions = '/bible/versions';
   static const String bibleBooks = '/bible/books';
+  static String bibleChapters(String bookId, int versionId) =>
+      '/bible/books/$bookId/chapters?version=$versionId';
+  static String bibleVerses(String bookId, int chapter, int versionId) =>
+      '/bible/books/$bookId/chapters/$chapter?version=$versionId';
 
   // Prayer Wall
   static const String prayerRequests = '/prayer/requests';

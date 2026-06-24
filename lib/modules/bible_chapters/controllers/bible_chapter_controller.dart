@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:handy/core/services/api_client.dart';
 import 'package:handy/core/utils/helpers.dart';
 import '../../../config/routes/app_pages.dart';
+import 'package:handy/config/constants/api_constants.dart';
 
 class BibleChapterController extends GetxController {
   final ApiClient apiClient = Get.find<ApiClient>();
@@ -40,7 +41,7 @@ class BibleChapterController extends GetxController {
   Future<void> fetchChapters() async {
     isLoading.value = true;
     try {
-      final response = await apiClient.getData('/bible/books/${bookId.value}/chapters?version=${versionId.value}');
+      final response = await apiClient.getData(ApiConstants.bibleChapters(bookId.value, versionId.value));
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
           final List listData = response.data['data'];
