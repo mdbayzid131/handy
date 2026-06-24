@@ -31,5 +31,5 @@ void main() {
     }
   }
 
-  print('Successfully fixed $changedFiles files.');
+  stdout.writeln('Successfully fixed $changedFiles files.');
 }

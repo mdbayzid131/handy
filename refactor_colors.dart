@@ -52,5 +52,5 @@ void main() {
     }
   }
 
-  print('Successfully updated $changedFiles files.');
+  stdout.writeln('Successfully updated $changedFiles files.');
 }
