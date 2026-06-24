@@ -268,7 +268,6 @@ final List<GetPage> pages = [
   GetPage(
     name: AppRoutes.DONATE,
     page: () => const DonateView(),
-    middlewares: [AuthMiddleware()],
     binding: DonateBinding(),
     transition: Transition.fadeIn,
   ),
