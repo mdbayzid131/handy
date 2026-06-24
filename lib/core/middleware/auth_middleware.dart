@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../services/auth_service.dart';
+import '../../config/routes/app_pages.dart';
 
 /// ===================== AUTH MIDDLEWARE =====================
 /// Route guard that redirects unauthenticated users to the login screen.
@@ -10,13 +12,12 @@ class AuthMiddleware extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
-    // Disable auth check for now to allow UI testing
-    return null;
+    // Auth check enabled
 
-    // final authService = Get.find<AuthService>();
-    // if (!authService.isAuthenticated) {
-    //   return const RouteSettings(name: AppRoutes.LOGIN);
-    // }
-    // return null;
+    final authService = Get.find<AuthService>();
+    if (!authService.isAuthenticated) {
+      return const RouteSettings(name: AppRoutes.LOGIN);
+    }
+    return null;
   }
 }

@@ -13,7 +13,7 @@ import 'dart:convert';
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print("Handling a background message: ${message.messageId}");
+  debugPrint("Handling a background message: ${message.messageId}");
 
   // If this is a data-only payload, we need to show the notification manually
   if (message.notification == null && message.data.isNotEmpty) {

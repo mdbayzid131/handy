@@ -266,7 +266,6 @@ final List<GetPage> pages = [
     name: AppRoutes.PRAYER_WALL,
     page: () => const PrayerWallView(),
     binding: PrayerWallBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.WATCH_LIVE,

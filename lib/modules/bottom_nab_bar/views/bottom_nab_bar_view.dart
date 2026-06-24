@@ -16,8 +16,15 @@ class BottomNavBarView extends GetView<BottomNavBarController> {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.black,
-      child: WillPopScope(
-        onWillPop: controller.handleBackButton,
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (bool didPop, dynamic result) async {
+          if (didPop) return;
+          final bool shouldPop = await controller.handleBackButton();
+          if (shouldPop) {
+            Get.back();
+          }
+        },
         child: Scaffold(
           body: Obx(
           () => IndexedStack(
