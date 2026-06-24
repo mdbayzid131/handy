@@ -13,7 +13,7 @@ class PrayerWallController extends GetxController {
   final requests = <PrayerWallModel>[].obs;
   final myRequests = <PrayerWallModel>[].obs;
   final deletedRequestIds = <String>{}.obs;
-  
+
   // Pagination State
   int currentPage = 1;
   bool hasMore = true;
@@ -89,33 +89,39 @@ class PrayerWallController extends GetxController {
     }
 
     try {
-      final response = await apiClient.getData('${ApiConstants.prayerRequests}?page=$currentPage&limit=10');
+      final response = await apiClient.getData(
+        '${ApiConstants.prayerRequests}?page=$currentPage&limit=10',
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data != null) {
           final responseData = PrayerWallResponseModel.fromJson(response.data);
-          final newItems = responseData.data.where((e) => !deletedRequestIds.contains(e.id)).toList();
-          
+          final newItems = responseData.data
+              .where((e) => !deletedRequestIds.contains(e.id))
+              .toList();
+
           if (isRefresh) {
             requests.assignAll(newItems);
           } else {
             final currentIds = requests.map((e) => e.id).toSet();
-            final uniqueItems = newItems.where((e) => !currentIds.contains(e.id)).toList();
+            final uniqueItems = newItems
+                .where((e) => !currentIds.contains(e.id))
+                .toList();
             requests.addAll(uniqueItems);
           }
-          
+
           final pagination = responseData.pagination;
           if (pagination != null) {
-             if (currentPage >= pagination.totalPage) {
-               hasMore = false;
-             } else {
-               currentPage++;
-             }
+            if (currentPage >= pagination.totalPage) {
+              hasMore = false;
+            } else {
+              currentPage++;
+            }
           } else {
-             if (newItems.length < 10) {
-               hasMore = false;
-             } else {
-               currentPage++;
-             }
+            if (newItems.length < 10) {
+              hasMore = false;
+            } else {
+              currentPage++;
+            }
           }
         }
       }
@@ -142,37 +148,41 @@ class PrayerWallController extends GetxController {
 
     try {
       // Note: Assuming myPrayerRequests supports pagination
-      final url = ApiConstants.myPrayerRequests.contains('?') 
-          ? '${ApiConstants.myPrayerRequests}&page=$myCurrentPage&limit=10' 
+      final url = ApiConstants.myPrayerRequests.contains('?')
+          ? '${ApiConstants.myPrayerRequests}&page=$myCurrentPage&limit=10'
           : '${ApiConstants.myPrayerRequests}?page=$myCurrentPage&limit=10';
       final response = await apiClient.getData(url);
-      
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data != null) {
           final responseData = PrayerWallResponseModel.fromJson(response.data);
-          final newItems = responseData.data.where((e) => !deletedRequestIds.contains(e.id)).toList();
-          
+          final newItems = responseData.data
+              .where((e) => !deletedRequestIds.contains(e.id))
+              .toList();
+
           if (isRefresh) {
             myRequests.assignAll(newItems);
           } else {
             final currentIds = myRequests.map((e) => e.id).toSet();
-            final uniqueItems = newItems.where((e) => !currentIds.contains(e.id)).toList();
+            final uniqueItems = newItems
+                .where((e) => !currentIds.contains(e.id))
+                .toList();
             myRequests.addAll(uniqueItems);
           }
-          
+
           final pagination = responseData.pagination;
           if (pagination != null) {
-             if (myCurrentPage >= pagination.totalPage) {
-               myHasMore = false;
-             } else {
-               myCurrentPage++;
-             }
+            if (myCurrentPage >= pagination.totalPage) {
+              myHasMore = false;
+            } else {
+              myCurrentPage++;
+            }
           } else {
-             if (newItems.length < 10) {
-               myHasMore = false;
-             } else {
-               myCurrentPage++;
-             }
+            if (newItems.length < 10) {
+              myHasMore = false;
+            } else {
+              myCurrentPage++;
+            }
           }
         }
       }
@@ -189,29 +199,39 @@ class PrayerWallController extends GetxController {
       Helpers.showError('Prayer request cannot be empty', title: 'Error');
       return;
     }
-    
+
     isSubmitting.value = true;
     try {
       final data = {
         "content": requestController.text.trim(),
-        "author_name": isAnonymous.value ? "Anonymous" : nameController.text.trim(),
-        "is_anonymous": isAnonymous.value
+        "author_name": isAnonymous.value
+            ? "Anonymous"
+            : nameController.text.trim(),
+        "is_anonymous": isAnonymous.value,
       };
-      final response = await apiClient.postData(ApiConstants.prayerRequests, data);
-      
+      final response = await apiClient.postData(
+        ApiConstants.prayerRequests,
+        data,
+      );
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Refresh both lists and wait for them to update before closing
         await fetchRequests(isRefresh: true);
         await fetchMyRequests(isRefresh: true);
-        
+
         Get.back(); // close bottom sheet
-        Helpers.showSuccess('Prayer request shared successfully', title: 'Success');
-        
+        Helpers.showSuccess(
+          'Prayer request shared successfully',
+          title: 'Success',
+        );
+
         requestController.clear();
         isAnonymous.value = false;
       } else {
         String errorMessage = 'Failed to submit request';
-        if (response.data != null && response.data is Map && response.data['message'] != null) {
+        if (response.data != null &&
+            response.data is Map &&
+            response.data['message'] != null) {
           errorMessage = response.data['message'].toString();
         }
         Helpers.showError(errorMessage, title: 'Error');
@@ -235,28 +255,38 @@ class PrayerWallController extends GetxController {
       final deviceId = await authService.getOrCreateDeviceId();
       final data = {
         "content": requestController.text.trim(),
-        "author_name": isAnonymous.value ? "Anonymous" : nameController.text.trim(),
+        "author_name": isAnonymous.value
+            ? "Anonymous"
+            : nameController.text.trim(),
         "is_anonymous": isAnonymous.value,
       };
-      
+
       if (!authService.isLoggedIn.value) {
         data["device_fingerprint"] = deviceId;
       }
 
-      final response = await apiClient.patchData(ApiConstants.prayerRequest(id), data);
+      final response = await apiClient.patchData(
+        ApiConstants.prayerRequest(id),
+        data,
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         await fetchRequests(isRefresh: true);
         await fetchMyRequests(isRefresh: true);
 
         Get.back(); // close bottom sheet
-        Helpers.showSuccess('Prayer request updated successfully', title: 'Success');
+        Helpers.showSuccess(
+          'Prayer request updated successfully',
+          title: 'Success',
+        );
 
         requestController.clear();
         isAnonymous.value = false;
       } else {
         String errorMessage = 'Failed to update request';
-        if (response.data != null && response.data is Map && response.data['message'] != null) {
+        if (response.data != null &&
+            response.data is Map &&
+            response.data['message'] != null) {
           errorMessage = response.data['message'].toString();
         }
         Helpers.showError(errorMessage, title: 'Error');
@@ -273,23 +303,33 @@ class PrayerWallController extends GetxController {
     try {
       final deviceId = await authService.getOrCreateDeviceId();
       final data = <String, dynamic>{};
-      
+
       if (!authService.isLoggedIn.value) {
         data["device_fingerprint"] = deviceId;
       }
 
-      final response = await apiClient.deleteData(ApiConstants.prayerRequest(id), body: data);
+      final response = await apiClient.deleteData(
+        ApiConstants.prayerRequest(id),
+        body: data,
+      );
 
-      if (response.statusCode == 200 || response.statusCode == 201 || response.statusCode == 204) {
+      if (response.statusCode == 200 ||
+          response.statusCode == 201 ||
+          response.statusCode == 204) {
         // Remove locally for instant UI update
         deletedRequestIds.add(id);
         requests.removeWhere((item) => item.id == id);
         myRequests.removeWhere((item) => item.id == id);
-        
-        Helpers.showSuccess('Prayer request deleted successfully', title: 'Success');
+
+        Helpers.showSuccess(
+          'Prayer request deleted successfully',
+          title: 'Success',
+        );
       } else {
         String errorMessage = 'Failed to delete request';
-        if (response.data != null && response.data is Map && response.data['message'] != null) {
+        if (response.data != null &&
+            response.data is Map &&
+            response.data['message'] != null) {
           errorMessage = response.data['message'].toString();
         }
         Helpers.showError(errorMessage, title: 'Error');
@@ -300,21 +340,25 @@ class PrayerWallController extends GetxController {
     }
   }
 
-
   Future<void> prayForRequest(String id) async {
     try {
-      final response = await apiClient.postData(ApiConstants.prayForRequest(id), {});
+      final response = await apiClient.postData(
+        ApiConstants.prayForRequest(id),
+        {},
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null) {
-           final updatedRequest = PrayerWallModel.fromJson(response.data['data']);
-           final index = requests.indexWhere((r) => r.id == id);
-           if (index != -1) {
-             requests[index] = updatedRequest;
-           }
-           final myIndex = myRequests.indexWhere((r) => r.id == id);
-           if (myIndex != -1) {
-             myRequests[myIndex] = updatedRequest;
-           }
+          final updatedRequest = PrayerWallModel.fromJson(
+            response.data['data'],
+          );
+          final index = requests.indexWhere((r) => r.id == id);
+          if (index != -1) {
+            requests[index] = updatedRequest;
+          }
+          final myIndex = myRequests.indexWhere((r) => r.id == id);
+          if (myIndex != -1) {
+            myRequests[myIndex] = updatedRequest;
+          }
         }
       }
     } catch (e) {
