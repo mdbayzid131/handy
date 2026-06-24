@@ -158,7 +158,6 @@ final List<GetPage> pages = [
     name: AppRoutes.BOTTOM_NAV_BAR,
     page: () => const BottomNavBarView(),
     binding: BottomNavBarBinding(),
-    // middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.HOME,
@@ -182,25 +181,21 @@ final List<GetPage> pages = [
     name: AppRoutes.SETTINGS,
     page: () => const SettingsView(),
     binding: SettingsBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.SERMONS,
     page: () => const SermonsView(),
     binding: SermonsBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.GIVE,
     page: () => const GiveView(),
     binding: GiveBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.EVENTS,
     page: () => const EventsView(),
     binding: EventsBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.MORE,
@@ -224,43 +219,36 @@ final List<GetPage> pages = [
     name: AppRoutes.NOTIFICATION,
     page: () => const NotificationView(),
     binding: NotificationsBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.BIBLE,
     page: () => const BibleView(),
     binding: BibleBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.BIBLE_CHAPTERS,
     page: () => const BibleChaptersView(),
     binding: BibleChapterBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.BIBLE_VERSES,
     page: () => const BibleVersesView(),
     binding: BibleVersesBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.COMMUNITY,
     page: () => const CommunityView(),
     binding: CommunityBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.DEVOTIONALS,
     page: () => const DevotionalsView(),
     binding: DevotionalsBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.DEVOTIONALS_DETAILS,
     page: () => DevotionalsDetailsView(),
     binding: DevotionalsDetailsBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.PRAYER_WALL,
@@ -271,13 +259,11 @@ final List<GetPage> pages = [
     name: AppRoutes.WATCH_LIVE,
     page: () => const WatchLiveView(),
     binding: WatchLiveBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.HISTORY_AND_CORE_VALUES,
     page: () => const HistoryAndCoreValuesView(),
     binding: HistoryAndCoreValuesBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.DONATE,

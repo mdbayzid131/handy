@@ -83,10 +83,19 @@ class HomeController extends GetxController {
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['data'] != null && response.data['data'] is List) {
           final List data = response.data['data'];
-          latestEvents.value = data.map((e) => EventModel.fromJson(e)).toList();
+          if (data.isNotEmpty) {
+            latestEvents.value = data.map((e) => EventModel.fromJson(e)).toList();
+          } else {
+            latestEvents.clear();
+          }
+        } else {
+          latestEvents.clear();
         }
+      } else {
+        latestEvents.clear();
       }
     } catch (e) {
+      latestEvents.clear();
       Helpers.showDebugLog('Error fetching latest events: $e');
     } finally {
       isLoadingEvents.value = false;
@@ -98,14 +107,22 @@ class HomeController extends GetxController {
     try {
       final response = await apiClient.getData(ApiConstants.latestSermons);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        if (response.data['data'] != null &&
-            (response.data['data'] as List).isNotEmpty) {
-          latestSermon.value = LatestSermonModel.fromJson(
-            response.data['data'][0],
-          );
+        final data = response.data['data'];
+        if (data != null && data is List && data.isNotEmpty) {
+          final item = data[0];
+          if (item != null && item is Map && (item['_id'] != null || item['id'] != null)) {
+            latestSermon.value = LatestSermonModel.fromJson(item as Map<String, dynamic>);
+          } else {
+            latestSermon.value = null;
+          }
+        } else {
+          latestSermon.value = null;
         }
+      } else {
+        latestSermon.value = null;
       }
     } catch (e) {
+      latestSermon.value = null;
       Helpers.showDebugLog('Error fetching latest sermon: $e');
     } finally {
       isLoadingSermon.value = false;
