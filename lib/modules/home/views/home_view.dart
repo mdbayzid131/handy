@@ -697,8 +697,10 @@ class HomeView extends GetView<HomeController> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16.r),
                     child: CachedNetworkImage(
-                      imageUrl: data.thumbnailUrl != null
-                          ? 'https://church-app-ooku.onrender.com${data.thumbnailUrl}'
+                      imageUrl: (data.thumbnailUrl != null && data.thumbnailUrl!.isNotEmpty)
+                          ? (data.thumbnailUrl!.startsWith('http')
+                              ? data.thumbnailUrl!
+                              : 'https://church-app-ooku.onrender.com${data.thumbnailUrl}')
                           : 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
                       memCacheWidth: 400,
                       fit: BoxFit.cover,
