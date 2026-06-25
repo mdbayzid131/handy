@@ -85,6 +85,19 @@ class ApiClient extends GetxService {
       options.headers['Authorization'] = 'Bearer $_bearerToken';
     }
 
+    try {
+      final authService = Get.find<AuthService>();
+      final deviceId = await authService.getOrCreateDeviceId();
+      if (deviceId.isNotEmpty) {
+        options.headers['device-id'] = deviceId;
+      }
+    } catch (_) {
+      final deviceId = await StorageService.getString(StorageConstants.deviceId);
+      if (deviceId.isNotEmpty) {
+        options.headers['device-id'] = deviceId;
+      }
+    }
+
     AppLogger.request(options);
     return handler.next(options);
   }

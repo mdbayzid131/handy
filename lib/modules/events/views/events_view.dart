@@ -31,11 +31,7 @@ class EventsView extends GetView<EventsController> {
                 title: 'Events',
                 trailingWidget: GestureDetector(
                   onTap: () {
-                    if (!Get.find<AuthService>().isLoggedIn.value) {
-                      Get.toNamed(AppRoutes.LOGIN);
-                    } else {
-                      Get.toNamed(AppRoutes.EVENTS_HISTORY);
-                    }
+                    Get.toNamed(AppRoutes.EVENTS_HISTORY);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(

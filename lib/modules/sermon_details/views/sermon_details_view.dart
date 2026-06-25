@@ -78,12 +78,6 @@ class SermondetailsView extends GetView<SermondetailsController> {
                     size: 24.w,
                   ),
                   onPressed: () {
-                    final authService = Get.find<AuthService>();
-                    if (!authService.isLoggedIn.value) {
-                      Get.toNamed(AppRoutes.LOGIN);
-                      return;
-                    }
-
                     if (sermonId != null) {
                       profileController.toggleFavoriteSermon(sermonId);
                     }

@@ -45,11 +45,7 @@ class GiveView extends GetView<GiveController> {
       trailingWidget: Obx(() {
         return GestureDetector(
           onTap: () {
-            if (!Get.find<AuthService>().isLoggedIn.value) {
-              Get.toNamed(AppRoutes.LOGIN);
-            } else {
-              controller.toggleHistory();
-            }
+            controller.toggleHistory();
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -81,29 +77,6 @@ class GiveView extends GetView<GiveController> {
         );
       }),
       bottomWidget: Obx(() {
-        if (!Get.find<AuthService>().isLoggedIn.value) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-            decoration: BoxDecoration(
-              color: AppTheme.white.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.lock_outline, color: AppTheme.white, size: 18.w),
-                SizedBox(width: 8.w),
-                Text(
-                  'Login to view your giving this year',
-                  style: TextStyle(
-                    color: AppTheme.white.withValues(alpha: 0.8),
-                    fontSize: 14.sp,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           decoration: BoxDecoration(

@@ -287,12 +287,10 @@ final List<GetPage> pages = [
     name: AppRoutes.EVENTS_HISTORY,
     page: () => const EventsHistoryView(),
     binding: EventsHistoryBinding(),
-    middlewares: [AuthMiddleware()],
   ),
   GetPage(
     name: AppRoutes.EVENTS_HISTORY_DETAILS,
     page: () => const EventsHistoryDetailsView(),
     binding: EventsHistoryDetailsBinding(),
-    middlewares: [AuthMiddleware()],
   ),
 ];

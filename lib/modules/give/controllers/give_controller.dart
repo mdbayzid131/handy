@@ -67,33 +67,29 @@ class GiveController extends GetxController {
         Helpers.showDebugLog('Failed to parse funds: $e');
       }
 
-      if (Get.find<AuthService>().isLoggedIn.value) {
-        try {
-          final totalResponse = await apiClient.getData(ApiConstants.givingTotalThisYear);
-          if (totalResponse.statusCode == 200 || totalResponse.statusCode == 201) {
-            var dataObj = totalResponse.data['data'];
-            if (dataObj != null) {
-              if (dataObj is Map && dataObj['totalThisYear'] != null) {
-                final rawValue = dataObj['totalThisYear'];
-                if (rawValue is num) {
-                  totalThisYear.value = rawValue.toDouble();
-                } else if (rawValue is String) {
-                  totalThisYear.value = double.tryParse(rawValue) ?? 0.0;
-                }
-              } else if (dataObj is num) {
-                totalThisYear.value = dataObj.toDouble();
-              } else if (dataObj is String) {
-                totalThisYear.value = double.tryParse(dataObj) ?? 0.0;
+      try {
+        final totalResponse = await apiClient.getData(ApiConstants.givingTotalThisYear);
+        if (totalResponse.statusCode == 200 || totalResponse.statusCode == 201) {
+          var dataObj = totalResponse.data['data'];
+          if (dataObj != null) {
+            if (dataObj is Map && dataObj['totalThisYear'] != null) {
+              final rawValue = dataObj['totalThisYear'];
+              if (rawValue is num) {
+                totalThisYear.value = rawValue.toDouble();
+              } else if (rawValue is String) {
+                totalThisYear.value = double.tryParse(rawValue) ?? 0.0;
               }
+            } else if (dataObj is num) {
+              totalThisYear.value = dataObj.toDouble();
+            } else if (dataObj is String) {
+              totalThisYear.value = double.tryParse(dataObj) ?? 0.0;
             }
-          } else {
-            Helpers.showDebugLog('Total API Error: ${totalResponse.statusCode}');
           }
-        } catch (e) {
-          Helpers.showDebugLog('Failed to parse totalThisYear: $e');
+        } else {
+          Helpers.showDebugLog('Total API Error: ${totalResponse.statusCode}');
         }
-      } else {
-        totalThisYear.value = 0.0;
+      } catch (e) {
+        Helpers.showDebugLog('Failed to parse totalThisYear: $e');
       }
     } catch (e) {
       Helpers.showDebugLog('Failed to fetch data: $e');
@@ -141,11 +137,7 @@ class GiveController extends GetxController {
   void toggleHistory() {
     showHistory.value = !showHistory.value;
     if (showHistory.value && historyData.isEmpty) {
-      if (Get.find<AuthService>().isLoggedIn.value) {
-        fetchHistory();
-      } else {
-        isHistoryLoading.value = false;
-      }
+      fetchHistory();
     }
   }
 }

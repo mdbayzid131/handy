@@ -267,11 +267,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
                                 onPressed: controller.isRsvpLoading.value 
                                     ? null 
                                     : () {
-                                        if (!Get.find<AuthService>().isLoggedIn.value) {
-                                          Get.toNamed(AppRoutes.LOGIN);
-                                        } else {
-                                          controller.toggleRSVP();
-                                        }
+                                        controller.toggleRSVP();
                                       },
                                 icon: controller.isRsvpLoading.value
                                     ? SizedBox(
