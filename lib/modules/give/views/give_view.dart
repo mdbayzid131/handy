@@ -7,7 +7,6 @@ import '../../../config/routes/app_pages.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 import 'package:handy/core/utils/helpers.dart';
 import '../../../core/widgets/shimmers/shimmer_helper.dart';
-import 'package:handy/core/services/auth_service.dart';
 
 class GiveView extends GetView<GiveController> {
   const GiveView({super.key});

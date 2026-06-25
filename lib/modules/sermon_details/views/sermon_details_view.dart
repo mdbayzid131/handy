@@ -6,8 +6,6 @@ import '../../profile/controllers/profile_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../../../data/models/sermon_response_model.dart';
-import '../../../core/services/auth_service.dart';
-import '../../../config/routes/app_pages.dart';
 import '../../../core/widgets/custom_gradient_appbar.dart';
 import '../../../core/widgets/shimmers/details_shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';

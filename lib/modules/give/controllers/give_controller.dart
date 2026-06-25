@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:handy/core/services/api_client.dart';
 import 'package:handy/config/constants/api_constants.dart';
 import 'package:handy/core/utils/helpers.dart';
-import 'package:handy/core/services/auth_service.dart';
 import '../../../data/models/give_model.dart';
 
 class GiveController extends GetxController {
@@ -48,8 +47,10 @@ class GiveController extends GetxController {
     try {
       try {
         final fundsResponse = await apiClient.getData(ApiConstants.givingFunds);
-        if (fundsResponse.statusCode == 200 || fundsResponse.statusCode == 201) {
-          if (fundsResponse.data['data'] != null && fundsResponse.data['data'] is List) {
+        if (fundsResponse.statusCode == 200 ||
+            fundsResponse.statusCode == 201) {
+          if (fundsResponse.data['data'] != null &&
+              fundsResponse.data['data'] is List) {
             final fundsList = (fundsResponse.data['data'] as List)
                 .map((x) => GiveFundModel.fromJson(x as Map<String, dynamic>))
                 .toList();
@@ -68,8 +69,11 @@ class GiveController extends GetxController {
       }
 
       try {
-        final totalResponse = await apiClient.getData(ApiConstants.givingTotalThisYear);
-        if (totalResponse.statusCode == 200 || totalResponse.statusCode == 201) {
+        final totalResponse = await apiClient.getData(
+          ApiConstants.givingTotalThisYear,
+        );
+        if (totalResponse.statusCode == 200 ||
+            totalResponse.statusCode == 201) {
           var dataObj = totalResponse.data['data'];
           if (dataObj != null) {
             if (dataObj is Map && dataObj['totalThisYear'] != null) {
@@ -97,8 +101,6 @@ class GiveController extends GetxController {
       isLoading.value = false;
     }
   }
-
-
 
   @override
   void onClose() {

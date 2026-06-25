@@ -5,8 +5,6 @@ import '../controllers/event_details_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 import '../../../core/widgets/shimmers/details_shimmer.dart';
-import 'package:handy/core/services/auth_service.dart';
-import 'package:handy/config/routes/app_pages.dart';
 
 class EventDetailsView extends GetView<EventDetailsController> {
   const EventDetailsView({super.key});
@@ -29,17 +27,22 @@ class EventDetailsView extends GetView<EventDetailsController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.isLoading.value && controller.event.value.description == null) {
+      if (controller.isLoading.value &&
+          controller.event.value.description == null) {
         return const Scaffold(
           body: Column(
             children: [
-              CustomGradientHeader(title: 'Event Details', subtitle: 'PIWC Stoneyburn', showBackButton: true),
+              CustomGradientHeader(
+                title: 'Event Details',
+                subtitle: 'PIWC Stoneyburn',
+                showBackButton: true,
+              ),
               Expanded(child: DetailsShimmer()),
             ],
           ),
         );
       }
-      
+
       final event = controller.event.value;
       final primaryColor = _getCategoryColor(event.categoryColor);
 
@@ -210,12 +213,18 @@ class EventDetailsView extends GetView<EventDetailsController> {
                                 SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
-                                    onPressed: controller.isRsvpLoading.value ? null : () => controller.toggleRSVP(),
+                                    onPressed: controller.isRsvpLoading.value
+                                        ? null
+                                        : () => controller.toggleRSVP(),
                                     icon: controller.isRsvpLoading.value
                                         ? SizedBox(
                                             width: 24.w,
                                             height: 24.w,
-                                            child: const CircularProgressIndicator(color: AppTheme.white, strokeWidth: 2),
+                                            child:
+                                                const CircularProgressIndicator(
+                                                  color: AppTheme.white,
+                                                  strokeWidth: 2,
+                                                ),
                                           )
                                         : Icon(
                                             Icons.check_circle,
@@ -264,8 +273,8 @@ class EventDetailsView extends GetView<EventDetailsController> {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton.icon(
-                                onPressed: controller.isRsvpLoading.value 
-                                    ? null 
+                                onPressed: controller.isRsvpLoading.value
+                                    ? null
                                     : () {
                                         controller.toggleRSVP();
                                       },
@@ -273,7 +282,10 @@ class EventDetailsView extends GetView<EventDetailsController> {
                                     ? SizedBox(
                                         width: 20.w,
                                         height: 20.w,
-                                        child: const CircularProgressIndicator(color: AppTheme.white, strokeWidth: 2),
+                                        child: const CircularProgressIndicator(
+                                          color: AppTheme.white,
+                                          strokeWidth: 2,
+                                        ),
                                       )
                                     : Icon(
                                         Icons.calendar_today,

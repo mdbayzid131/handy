@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/modules/events/controllers/events_controller.dart';
-import 'package:handy/core/services/auth_service.dart';
 import 'package:handy/core/widgets/cards/event_card.dart';
 import 'package:handy/core/widgets/custom_gradient_header.dart';
 import 'package:handy/core/widgets/shimmers/shimmer_helper.dart';

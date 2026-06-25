@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart' hide Response;
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/core/services/storage_service.dart';
@@ -44,9 +46,32 @@ class AuthService extends GetxService {
 
   Future<String> getOrCreateDeviceId() async {
     String deviceId = await StorageService.getString(StorageConstants.deviceId);
+    
     if (deviceId.isEmpty) {
-      deviceId = const Uuid().v4();
-      await StorageService.setString(StorageConstants.deviceId, deviceId);
+      try {
+        const secureStorage = FlutterSecureStorage();
+        deviceId = await secureStorage.read(key: StorageConstants.deviceId) ?? '';
+        
+        if (deviceId.isEmpty) {
+          final deviceInfo = DeviceInfoPlugin();
+          if (Platform.isIOS) {
+            final iosInfo = await deviceInfo.iosInfo;
+            deviceId = iosInfo.identifierForVendor ?? const Uuid().v4();
+          } else {
+            // For Android, we use a UUID but save it in Secure Storage (KeyStore),
+            // which can survive uninstalls via Auto Backup on Android 6.0+.
+            deviceId = const Uuid().v4();
+          }
+          await secureStorage.write(key: StorageConstants.deviceId, value: deviceId);
+        }
+        // Save to SharedPreferences for fast subsequent reads
+        await StorageService.setString(StorageConstants.deviceId, deviceId);
+      } catch (e) {
+        AppLogger.debug('Error getting hardware ID: $e');
+        // Fallback
+        deviceId = const Uuid().v4();
+        await StorageService.setString(StorageConstants.deviceId, deviceId);
+      }
     }
     return deviceId;
   }
