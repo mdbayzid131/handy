@@ -26,6 +26,27 @@ class HomeController extends GetxController {
 
   final isLoadingDevotional = false.obs;
 
+  String get formattedSundayService {
+    final schedule = contactMission.value?.sundayService;
+    if (schedule == null || schedule.isEmpty) {
+      return 'Sunday · No schedule';
+    }
+    final times = schedule.split(',').map((t) {
+      try {
+        final parts = t.trim().split(':');
+        if (parts.length >= 2) {
+          int hour = int.parse(parts[0]);
+          int minute = int.parse(parts[1]);
+          String period = hour >= 12 ? 'PM' : 'AM';
+          hour = hour % 12;
+          if (hour == 0) hour = 12;
+          return '$hour:${minute.toString().padLeft(2, '0')} $period';
+        }
+      } catch (_) {}
+      return t.trim();
+    }).join(' - ');
+    return 'Sunday · $times';
+  }
   @override
   void onInit() {
     super.onInit();

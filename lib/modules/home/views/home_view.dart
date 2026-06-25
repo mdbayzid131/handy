@@ -118,7 +118,8 @@ class HomeView extends GetView<HomeController> {
                         GestureDetector(
                           onTap: () {
                             final authService = Get.find<AuthService>();
-                            if (authService.isLoggedIn.value || authService.currentUser.value != null) {
+                            if (authService.isLoggedIn.value ||
+                                authService.currentUser.value != null) {
                               Get.find<BottomNavBarController>().goToProfile();
                             } else {
                               Get.toNamed(AppRoutes.LOGIN);
@@ -372,10 +373,7 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildNextServiceCard() {
     return Obx(() {
-      final schedule = controller.contactMission.value?.sundayService;
-      final scheduleText = schedule != null && schedule.isNotEmpty
-          ? 'Sunday · ${schedule.split(',').join(' - ')}'
-          : 'Sunday · No schedule';
+      final scheduleText = controller.formattedSundayService;
 
       return Container(
         width: double.infinity,
@@ -422,12 +420,12 @@ class HomeView extends GetView<HomeController> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: 8.h),
                   Text(
                     scheduleText,
                     style: TextStyle(
                       color: AppTheme.deepBlackBlue.withValues(alpha: 0.8),
-                      fontSize: 12.sp,
+                      fontSize: 9.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -697,10 +695,12 @@ class HomeView extends GetView<HomeController> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16.r),
                     child: CachedNetworkImage(
-                      imageUrl: (data.thumbnailUrl != null && data.thumbnailUrl!.isNotEmpty)
+                      imageUrl:
+                          (data.thumbnailUrl != null &&
+                              data.thumbnailUrl!.isNotEmpty)
                           ? (data.thumbnailUrl!.startsWith('http')
-                              ? data.thumbnailUrl!
-                              : 'https://church-app-ooku.onrender.com${data.thumbnailUrl}')
+                                ? data.thumbnailUrl!
+                                : 'https://church-app-ooku.onrender.com${data.thumbnailUrl}')
                           : 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=200&auto=format&fit=crop',
                       memCacheWidth: 400,
                       fit: BoxFit.cover,
