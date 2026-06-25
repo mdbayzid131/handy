@@ -216,9 +216,7 @@ class MoreView extends GetView<MoreController> {
     final address = data?.address?.trim().isNotEmpty == true
         ? data!.address!
         : 'Not Available';
-    final sundayService = data?.sundayService?.trim().isNotEmpty == true
-        ? data!.sundayService!
-        : 'Not Available';
+
     final email = data?.email?.trim().isNotEmpty == true
         ? data!.email!
         : 'Not Available';
@@ -263,7 +261,11 @@ class MoreView extends GetView<MoreController> {
           SizedBox(height: 24.h),
           _buildConnectRow(Icons.location_on, 'Address', address),
           SizedBox(height: 20.h),
-          _buildConnectRow(Icons.access_time, 'Sunday Service', sundayService),
+          _buildConnectRow(
+            Icons.access_time,
+            'Sunday Service',
+            controller.formattedSundayService,
+          ),
           SizedBox(height: 20.h),
           _buildConnectRow(Icons.email, 'Email', email),
           SizedBox(height: 20.h),
