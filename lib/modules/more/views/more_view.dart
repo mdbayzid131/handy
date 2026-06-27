@@ -466,6 +466,7 @@ class MoreView extends GetView<MoreController> {
                 ),
                 SizedBox(height: 8.h),
                 TextField(
+                  controller: controller.titleController,
                   decoration: InputDecoration(
                     hintText: 'Title',
                     filled: true,
@@ -488,6 +489,7 @@ class MoreView extends GetView<MoreController> {
                 ),
                 SizedBox(height: 8.h),
                 TextField(
+                  controller: controller.descriptionController,
                   maxLines: 4,
                   decoration: InputDecoration(
                     hintText: 'Description',
@@ -525,32 +527,36 @@ class MoreView extends GetView<MoreController> {
                     ),
                     SizedBox(width: 16.w),
                     Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // API call later
-                          Get.back();
-                          Get.snackbar(
-                            'Thank you!',
-                            'Your report has been submitted.',
+                      child: Obx(
+                        () => ElevatedButton(
+                          onPressed: controller.isSubmittingFeedback.value
+                              ? null
+                              : controller.submitFeedback,
+                          style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.primaryColor,
-                            colorText: AppTheme.white,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.primaryColor,
-                          padding: EdgeInsets.symmetric(vertical: 16.h),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
+                            padding: EdgeInsets.symmetric(vertical: 16.h),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            elevation: 0,
                           ),
-                          elevation: 0,
-                        ),
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(
-                            color: AppTheme.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          child: controller.isSubmittingFeedback.value
+                              ? SizedBox(
+                                  width: 24.w,
+                                  height: 24.w,
+                                  child: const CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: AppTheme.white,
+                                  ),
+                                )
+                              : Text(
+                                  'Submit',
+                                  style: TextStyle(
+                                    color: AppTheme.white,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                         ),
                       ),
                     ),

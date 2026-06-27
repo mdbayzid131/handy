@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:handy/core/services/api_client.dart';
 import 'package:handy/core/utils/helpers.dart';
@@ -65,6 +66,65 @@ class MoreController extends GetxController {
       return formattedString;
     } catch (e) {
       return rawTime;
+    }
+  }
+
+  // Feedback form controllers
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final isSubmittingFeedback = false.obs;
+
+  @override
+  void onClose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    super.onClose();
+  }
+
+  Future<void> submitFeedback() async {
+    final title = titleController.text.trim();
+    final description = descriptionController.text.trim();
+
+    if (title.isEmpty || description.isEmpty) {
+      Helpers.showError(
+        'Please provide both title and description',
+        title: 'Error',
+      );
+      return;
+    }
+
+    isSubmittingFeedback.value = true;
+    try {
+      final response = await apiClient.postData(
+        ApiConstants.feedback,
+        {
+          "title": title,
+          "description": description,
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.back(); // close bottom sheet
+        Helpers.showSuccess(
+          'Feedback created successfully',
+          title: 'Success',
+        );
+        titleController.clear();
+        descriptionController.clear();
+      } else {
+        Helpers.showError(
+          response.data?['message'] ?? 'Failed to submit feedback',
+          title: 'Error',
+        );
+      }
+    } catch (e) {
+      Helpers.showDebugLog('Error submitting feedback: $e');
+      Helpers.showError(
+        'Something went wrong. Please try again.',
+        title: 'Error',
+      );
+    } finally {
+      isSubmittingFeedback.value = false;
     }
   }
 }

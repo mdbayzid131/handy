@@ -68,6 +68,7 @@ class ApiConstants {
 
   // Church Info
   static const String churchInfo = '/church-info';
+  static const String feedback = '/feedback';
 
   // Watch Live
   static const String youtubeStatus = '/watch-live/youtube/status';
