@@ -34,54 +34,15 @@ class PrayerWallView extends GetView<PrayerWallController> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          onPressed: () => Get.back(),
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(
-                              color: AppTheme.mutedTextColor,
-                              fontSize: 16.sp,
-                            ),
-                          ),
+                    Center(
+                      child: Text(
+                        'Share a Request',
+                        style: TextStyle(
+                          color: AppTheme.white,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Text(
-                          'Share a Request',
-                          style: TextStyle(
-                            color: AppTheme.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Obx(
-                          () => TextButton(
-                            onPressed: controller.isSubmitting.value
-                                ? null
-                                : controller.submitRequest,
-                            child: controller.isSubmitting.value
-                                ? SizedBox(
-                                    width: 16.w,
-                                    height: 16.w,
-                                    child: const CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: AppTheme.accentBlue,
-                                    ),
-                                  )
-                                : Text(
-                                    'Submit',
-                                    style: TextStyle(
-                                      color: controller.isSubmitting.value
-                                          ? AppTheme.mutedTextColor
-                                          : AppTheme.accentBlue,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                     SizedBox(height: 24.h),
                     Text(
@@ -186,6 +147,71 @@ class PrayerWallView extends GetView<PrayerWallController> {
                         fontSize: 12.sp,
                         height: 1.5,
                       ),
+                    ),
+                    SizedBox(height: 32.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        OutlinedButton(
+                          onPressed: () => Get.back(),
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(
+                              color: AppTheme.primaryColor,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24.w,
+                              vertical: 12.h,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                          ),
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: AppTheme.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        Obx(
+                          () => ElevatedButton(
+                            onPressed: controller.isSubmitting.value
+                                ? null
+                                : controller.submitRequest,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.primaryColor,
+                              foregroundColor: AppTheme.white,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 24.w,
+                                vertical: 12.h,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: controller.isSubmitting.value
+                                ? SizedBox(
+                                    width: 20.w,
+                                    height: 20.w,
+                                    child: const CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: AppTheme.backgroundColor,
+                                    ),
+                                  )
+                                : Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 16.h),
                   ],
