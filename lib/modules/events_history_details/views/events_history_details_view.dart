@@ -55,48 +55,87 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Hero Section / Colored Block
-                    Container(
-                      width: double.infinity,
-                    padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
-                    decoration: BoxDecoration(color: primaryColor),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 80.w,
-                          height: 80.w,
+                    if (event.image != null && event.image!.isNotEmpty)
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(
+                            () => Scaffold(
+                              backgroundColor: Colors.black,
+                              body: GestureDetector(
+                                onTap: () => Get.back(),
+                                child: Center(
+                                  child: InteractiveViewer(
+                                    panEnabled: true,
+                                    minScale: 0.5,
+                                    maxScale: 4,
+                                    child: Image.network(
+                                      event.image!,
+                                      fit: BoxFit.contain,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            transition: Transition.fadeIn,
+                          );
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 250.h,
                           decoration: BoxDecoration(
-                            color: AppTheme.white.withValues(alpha: 0.2),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.calendar_today,
-                            color: AppTheme.white,
-                            size: 36.w,
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16.w,
-                            vertical: 6.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppTheme.white.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          child: Text(
-                            event.categoryLabel.toUpperCase(),
-                            style: TextStyle(
-                              color: AppTheme.white,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
+                            color: primaryColor,
+                            image: DecorationImage(
+                              image: NetworkImage(event.image!),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
+                      )
+                    else
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.only(top: 30.h, bottom: 40.h),
+                        decoration: BoxDecoration(color: primaryColor),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 80.w,
+                              height: 80.w,
+                              decoration: BoxDecoration(
+                                color: AppTheme.white.withValues(alpha: 0.2),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.calendar_today,
+                                color: AppTheme.white,
+                                size: 36.w,
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.w,
+                                vertical: 6.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppTheme.white.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              child: Text(
+                                event.categoryLabel.toUpperCase(),
+                                style: TextStyle(
+                                  color: AppTheme.white,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                   // Content Details Section
                   Padding(
                     padding: EdgeInsets.all(20.w),

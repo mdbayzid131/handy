@@ -33,6 +33,7 @@ class EventModel {
   final bool hasRsvp;
   final bool isPast;
   final String? description;
+  final String? image;
 
   EventModel({
     required this.id,
@@ -49,6 +50,7 @@ class EventModel {
     required this.hasRsvp,
     required this.isPast,
     this.description,
+    this.image,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
@@ -67,6 +69,7 @@ class EventModel {
       hasRsvp: json['hasRsvp'] ?? false,
       isPast: json['isPast'] ?? false,
       description: json['description'],
+      image: json['image'],
     );
   }
 
@@ -85,6 +88,7 @@ class EventModel {
     bool? hasRsvp,
     bool? isPast,
     String? description,
+    String? image,
   }) {
     return EventModel(
       id: id ?? this.id,
@@ -101,6 +105,7 @@ class EventModel {
       hasRsvp: hasRsvp ?? this.hasRsvp,
       isPast: isPast ?? this.isPast,
       description: description ?? this.description,
+      image: image ?? this.image,
     );
   }
 }
