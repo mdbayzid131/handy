@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/modules/bottom_nab_bar/controllers/bottom_nab_bar.dart';
+import '../../home/controllers/home_controller.dart';
 import '../../../config/routes/app_pages.dart';
 import '../../../core/widgets/shimmers/sermon_card_shimmer.dart';
 import '../../../core/widgets/cards/sermon_card_widget.dart';
@@ -189,7 +190,6 @@ class ProfileView extends GetView<ProfileController> {
       final totalThisYear = controller.totalThisYear.value;
       final year = summary?.year ?? DateTime.now().year;
       final lastGiftStr = summary?.lastGift ?? 'None';
-      final streak = summary?.givingStreakWeeks ?? 0;
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,8 +231,8 @@ class ProfileView extends GetView<ProfileController> {
                   endIndent: 20.w,
                 ),
                 _buildGivingRow(
-                  'Giving Streak',
-                  '$streak weeks',
+                  'Devotional',
+                  '${Get.find<HomeController>().devotionalProgress.value}/7',
                   isLastBold: true,
                 ),
               ],
