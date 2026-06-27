@@ -68,6 +68,7 @@ class MoreView extends GetView<MoreController> {
                         children: [
                           _buildConnectCard(controller.contactMission.value),
                           SizedBox(height: 24.h),
+                          _buildReportCard(),
                           _buildMissionCard(controller.contactMission.value),
                         ],
                       );
@@ -376,6 +377,193 @@ class MoreView extends GetView<MoreController> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildReportCard() {
+    return GestureDetector(
+      onTap: () => _showReportBottomSheet(),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 24.h),
+        padding: EdgeInsets.all(20.w),
+        decoration: BoxDecoration(
+          color: AppTheme.primaryColor,
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(color: AppTheme.secondaryColor),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                color: Colors.red.withValues(alpha: 0.50),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.report_problem_rounded,
+                color: Colors.red,
+                size: 24.w,
+              ),
+            ),
+            SizedBox(width: 16.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Report',
+                    style: TextStyle(
+                      color: AppTheme.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios, color: AppTheme.white, size: 16.w),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showReportBottomSheet() {
+    Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.all(24.w),
+        decoration: BoxDecoration(
+          color: AppTheme.backgroundColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(Get.context!).viewInsets.bottom,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    'Report',
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.white,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                Text(
+                  'Title',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.white,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Title',
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 71, 103, 231),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  style: TextStyle(color: AppTheme.white),
+                ),
+                SizedBox(height: 16.h),
+                Text(
+                  'Description',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.white,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                TextField(
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    hintText: 'Description',
+                    filled: true,
+                    fillColor: const Color.fromARGB(255, 71, 103, 231),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  style: TextStyle(color: AppTheme.white),
+                ),
+                SizedBox(height: 32.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Get.back(),
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          side: BorderSide(color: AppTheme.secondaryColor),
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: AppTheme.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // API call later
+                          Get.back();
+                          Get.snackbar(
+                            'Thank you!',
+                            'Your report has been submitted.',
+                            backgroundColor: AppTheme.primaryColor,
+                            colorText: AppTheme.white,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.primaryColor,
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(
+                            color: AppTheme.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.h),
+              ],
+            ),
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+      ignoreSafeArea: false,
     );
   }
 }
