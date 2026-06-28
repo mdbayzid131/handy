@@ -9,6 +9,8 @@ import '../utils/logger.dart';
 import '../../config/constants/api_constants.dart';
 import 'api_client.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// ===================== NOTIFICATION SERVICE =====================
 /// Service for Push Notifications (FCM) and Local Notifications (Downloads).
@@ -30,12 +32,13 @@ class NotificationService extends GetxService {
         importance: Importance.max,
       );
 
-  final AndroidNotificationChannel _downloadChannel = const AndroidNotificationChannel(
-    'download_channel',
-    'Downloads',
-    description: 'Notifications for downloaded files',
-    importance: Importance.max,
-  );
+  final AndroidNotificationChannel _downloadChannel =
+      const AndroidNotificationChannel(
+        'download_channel',
+        'Downloads',
+        description: 'Notifications for downloaded files',
+        importance: Importance.max,
+      );
 
   RemoteMessage? _initialMessage;
   bool _hasHandledInitialMessage = false;
@@ -52,7 +55,7 @@ class NotificationService extends GetxService {
     if (Platform.isAndroid) {
       await Permission.notification.request();
     }
-    
+
     NotificationSettings settings = await _fcm.requestPermission(
       alert: true,
       announcement: false,
@@ -73,9 +76,7 @@ class NotificationService extends GetxService {
   }
 
   Future<void> _initLocalNotifications() async {
-    const androidSettings = AndroidInitializationSettings(
-      'ic_notification',
-    );
+    const androidSettings = AndroidInitializationSettings('ic_notification');
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -149,10 +150,62 @@ class NotificationService extends GetxService {
     }
   }
 
-  void _showFCMNotification(RemoteMessage message) {
+  /// Helper method to download an image from a URL and save it to the device's temporary directory
+  Future<String> _downloadAndSaveFile(String url, String fileName) async {
+    final Directory directory = await getTemporaryDirectory();
+    final String filePath = '${directory.path}/$fileName';
+
+    final dio = Dio();
+    await dio.download(url, filePath);
+
+    return filePath;
+  }
+
+  Future<void> _showFCMNotification(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
 
     if (notification != null) {
+      // 1. Determine if there's an image URL in the payload
+      String? imageUrl;
+
+      // Check the data payload for custom thumbnail/image fields
+      if (message.data.containsKey('thumbnail_url') &&
+          message.data['thumbnail_url']?.isNotEmpty == true) {
+        imageUrl = message.data['thumbnail_url'];
+      } else if (message.data.containsKey('image') &&
+          message.data['image']?.isNotEmpty == true) {
+        imageUrl = message.data['image'];
+      } else {
+        // Fallback to standard FCM notification image URL
+        imageUrl =
+            notification.android?.imageUrl ?? notification.apple?.imageUrl;
+      }
+
+      BigPictureStyleInformation? bigPictureStyleInformation;
+      String? downloadedPath;
+
+      // 2. Download the image if available
+      if (imageUrl != null && imageUrl.isNotEmpty) {
+        try {
+          downloadedPath = await _downloadAndSaveFile(
+            imageUrl,
+            'notification_image_${DateTime.now().millisecondsSinceEpoch}.jpg',
+          );
+
+          // 3. Configure BigPictureStyleInformation for Android
+          bigPictureStyleInformation = BigPictureStyleInformation(
+            FilePathAndroidBitmap(downloadedPath),
+            largeIcon: FilePathAndroidBitmap(downloadedPath),
+            hideExpandedLargeIcon: true,
+            contentTitle: notification.title,
+            summaryText: notification.body,
+          );
+        } catch (e) {
+          AppLogger.warning('Failed to download notification image: $e');
+        }
+      }
+
+      // 4. Show the notification
       _plugin.show(
         notification.hashCode,
         notification.title,
@@ -163,14 +216,22 @@ class NotificationService extends GetxService {
             _fcmChannel.name,
             channelDescription: _fcmChannel.description,
             icon: 'ic_notification',
-            largeIcon: const DrawableResourceAndroidBitmap('ic_notification'),
+            // Default large icon if no image is downloaded
+            largeIcon: downloadedPath == null
+                ? const DrawableResourceAndroidBitmap('ic_notification')
+                : FilePathAndroidBitmap(downloadedPath),
             importance: Importance.max,
             priority: Priority.high,
+            styleInformation: bigPictureStyleInformation,
           ),
-          iOS: const DarwinNotificationDetails(
+          iOS: DarwinNotificationDetails(
             presentAlert: true,
             presentBadge: true,
             presentSound: true,
+            // Attach image for iOS if downloaded
+            attachments: downloadedPath != null
+                ? [DarwinNotificationAttachment(downloadedPath)]
+                : null,
           ),
         ),
         // Encode data map as payload for routing on tap
