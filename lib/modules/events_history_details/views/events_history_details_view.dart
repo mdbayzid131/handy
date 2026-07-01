@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/events_history_details_controller.dart';
 import 'package:handy/config/themes/app_theme.dart';
@@ -21,6 +22,16 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
       return Color(int.parse(hex, radix: 16));
     } catch (e) {
       return const Color(0xFF132488);
+    }
+  }
+
+  String _formatTime(String timeStr) {
+    try {
+      final format = DateFormat("HH:mm");
+      final dateTime = format.parse(timeStr);
+      return DateFormat("h:mm a").format(dateTime);
+    } catch (e) {
+      return timeStr;
     }
   }
 
@@ -181,7 +192,7 @@ class EventsHistoryDetailsView extends GetView<EventsHistoryDetailsController> {
                               _buildDetailRow(
                                 Icons.access_time,
                                 'TIME',
-                                event.time,
+                                _formatTime(event.time),
                                 primaryColor,
                               ),
                               Divider(

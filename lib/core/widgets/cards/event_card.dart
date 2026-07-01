@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:handy/config/routes/app_pages.dart';
 import 'package:handy/config/themes/app_theme.dart';
 import 'package:handy/data/models/events_model.dart';
@@ -29,6 +30,16 @@ class EventCard extends StatelessWidget {
       return Color(int.parse(hex, radix: 16));
     } catch (e) {
       return AppTheme.primaryColor;
+    }
+  }
+
+  String _formatTime(String timeStr) {
+    try {
+      final format = DateFormat("HH:mm");
+      final dateTime = format.parse(timeStr);
+      return DateFormat("h:mm a").format(dateTime);
+    } catch (e) {
+      return timeStr;
     }
   }
 
@@ -98,7 +109,7 @@ class EventCard extends StatelessWidget {
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        '${event.date} · ${event.time}',
+                        '${event.date} · ${_formatTime(event.time)}',
                         style: TextStyle(
                           color: AppTheme.white.withValues(alpha: 0.6),
                           fontSize: 13.sp,
