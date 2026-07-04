@@ -56,9 +56,14 @@ class BibleVersesController extends GetxController {
           final List listData = response.data['data']['verses'];
           verses.assignAll(listData.map((e) => BibleVerseModel.fromJson(e)).toList());
         }
+      } else {
+        final message = response.data?['message'] ?? 'Something went wrong';
+        Helpers.showCustomSnackBar(message);
       }
     } catch (e) {
-      Helpers.showDebugLog('Error fetching verses: $e');
+      Helpers.showCustomSnackBar(
+        e.toString(),
+      );
     } finally {
       isLoading.value = false;
     }
