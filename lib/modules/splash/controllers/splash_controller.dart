@@ -21,7 +21,7 @@ class SplashController extends GetxController {
     }
 
     Get.offAllNamed(AppRoutes.BOTTOM_NAV_BAR);
-    
+
     // Check if there's an initial push notification payload that needs to route the user
     if (Get.isRegistered<NotificationService>()) {
       Future.delayed(const Duration(milliseconds: 300), () {

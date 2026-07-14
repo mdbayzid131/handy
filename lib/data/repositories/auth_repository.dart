@@ -70,11 +70,13 @@ class AuthRepo {
     required String email,
     required String password,
     required String deviceId,
+    required String fcmToken,
   }) async {
     return await apiClient.postData(ApiConstants.login, {
       "email": email,
       "password": password,
       "deviceId": deviceId,
+      "fcmToken": fcmToken,
     });
   }
 

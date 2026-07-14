@@ -35,7 +35,8 @@ class AuthService extends GetxService {
   // ──────────────────── AUTH STATE ────────────────────
 
   Future<void> _checkLoginStatus() async {
-    final bool isLogged = await StorageService.getBool(StorageConstants.isLoggedIn) ?? false;
+    final bool isLogged =
+        await StorageService.getBool(StorageConstants.isLoggedIn) ?? false;
     isLoggedIn.value = isLogged;
   }
 
@@ -46,12 +47,13 @@ class AuthService extends GetxService {
 
   Future<String> getOrCreateDeviceId() async {
     String deviceId = await StorageService.getString(StorageConstants.deviceId);
-    
+
     if (deviceId.isEmpty) {
       try {
         const secureStorage = FlutterSecureStorage();
-        deviceId = await secureStorage.read(key: StorageConstants.deviceId) ?? '';
-        
+        deviceId =
+            await secureStorage.read(key: StorageConstants.deviceId) ?? '';
+
         if (deviceId.isEmpty) {
           final deviceInfo = DeviceInfoPlugin();
           if (Platform.isIOS) {
@@ -62,7 +64,10 @@ class AuthService extends GetxService {
             // which can survive uninstalls via Auto Backup on Android 6.0+.
             deviceId = const Uuid().v4();
           }
-          await secureStorage.write(key: StorageConstants.deviceId, value: deviceId);
+          await secureStorage.write(
+            key: StorageConstants.deviceId,
+            value: deviceId,
+          );
         }
         // Save to SharedPreferences for fast subsequent reads
         await StorageService.setString(StorageConstants.deviceId, deviceId);
@@ -79,8 +84,11 @@ class AuthService extends GetxService {
   Future<void> initDevice() async {
     try {
       final deviceId = await getOrCreateDeviceId();
-      String fcmToken = await FirebaseMessaging.instance.getToken() ?? 'unknown';
-      final platform = Platform.isAndroid ? 'android' : (Platform.isIOS ? 'ios' : 'web');
+      String fcmToken =
+          await FirebaseMessaging.instance.getToken() ?? 'unknown';
+      final platform = Platform.isAndroid
+          ? 'android'
+          : (Platform.isIOS ? 'ios' : 'web');
 
       final response = await _authRepo.deviceInit(
         deviceId: deviceId,
@@ -143,10 +151,12 @@ class AuthService extends GetxService {
     required String password,
   }) async {
     final deviceId = await getOrCreateDeviceId();
+    String fcmToken = await FirebaseMessaging.instance.getToken() ?? 'unknown';
     return await _authRepo.login(
-      email: email, 
+      email: email,
       password: password,
       deviceId: deviceId,
+      fcmToken: fcmToken,
     );
   }
 
@@ -226,14 +236,21 @@ class AuthService extends GetxService {
 
   /// Save auth tokens from API response.
   /// Public so controllers can call it after social login etc.
-  Future<void> _saveAuthTokens(Response response, {bool isGuest = false}) async {
+  Future<void> _saveAuthTokens(
+    Response response, {
+    bool isGuest = false,
+  }) async {
     final data = response.data;
     final authData = data is Map ? (data['data'] ?? data) : data;
 
     if (authData is! Map) return;
 
-    final accessToken = authData['accessToken'] ?? authData['token'] ?? (data is Map ? (data['accessToken'] ?? data['token']) : null);
-    final refreshToken = authData['refreshToken'] ?? (data is Map ? data['refreshToken'] : null);
+    final accessToken =
+        authData['accessToken'] ??
+        authData['token'] ??
+        (data is Map ? (data['accessToken'] ?? data['token']) : null);
+    final refreshToken =
+        authData['refreshToken'] ?? (data is Map ? data['refreshToken'] : null);
 
     if (accessToken != null) {
       await StorageService.setString(

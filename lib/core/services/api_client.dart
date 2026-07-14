@@ -351,12 +351,9 @@ class ApiClient extends GetxService {
 
       final response = await _dio.post(
         ApiConstants.refreshToken,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $refreshTokenValue',
-            'Content-Type': 'application/json',
-          },
-        ),
+        data: {
+          "refreshToken": refreshTokenValue,
+        },
       );
 
       if (response.statusCode == 200) {
@@ -407,10 +404,16 @@ class ApiClient extends GetxService {
     try {
       final authService = Get.find<AuthService>();
       if (!authService.isLoggedIn.value) {
-        // If already a guest, don't force them to login page for background 401s
+        // If already a guest, simply try to re-init device to recover session
+        authService.initDevice();
         return;
       }
-      authService.logout(localOnly: true);
+      
+      // For registered users: wipe tokens, get new guest token, and redirect to login
+      authService.clearLocalAuth().then((_) {
+        authService.initDevice();
+        Get.offAllNamed(AppRoutes.LOGIN);
+      });
     } catch (_) {
       // Fallback if AuthService is not found
       StorageService.clearAll();
