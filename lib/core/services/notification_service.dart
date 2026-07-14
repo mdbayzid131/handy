@@ -76,7 +76,7 @@ class NotificationService extends GetxService {
   }
 
   Future<void> _initLocalNotifications() async {
-    const androidSettings = AndroidInitializationSettings('ic_notification');
+    const androidSettings = AndroidInitializationSettings('@mipmap/launcher_icon');
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -215,10 +215,10 @@ class NotificationService extends GetxService {
             _fcmChannel.id,
             _fcmChannel.name,
             channelDescription: _fcmChannel.description,
-            icon: 'ic_notification',
+            icon: '@mipmap/launcher_icon',
             // Default large icon if no image is downloaded
             largeIcon: downloadedPath == null
-                ? const DrawableResourceAndroidBitmap('ic_notification')
+                ? const DrawableResourceAndroidBitmap('@mipmap/launcher_icon')
                 : FilePathAndroidBitmap(downloadedPath),
             importance: Importance.max,
             priority: Priority.high,

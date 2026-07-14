@@ -59,7 +59,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     final plugin = FlutterLocalNotificationsPlugin();
     await plugin.initialize(
       const InitializationSettings(
-        android: AndroidInitializationSettings('ic_notification'),
+        android: AndroidInitializationSettings('@mipmap/launcher_icon'),
         iOS: DarwinInitializationSettings(),
       ),
     );
@@ -74,13 +74,17 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
           'High Importance Notifications',
           importance: Importance.max,
           priority: Priority.high,
-          icon: 'ic_notification',
+          icon: '@mipmap/launcher_icon',
           largeIcon: downloadedPath == null
-              ? const DrawableResourceAndroidBitmap('ic_notification')
+              ? const DrawableResourceAndroidBitmap('@mipmap/launcher_icon')
               : FilePathAndroidBitmap(downloadedPath),
           styleInformation: bigPictureStyleInformation,
         ),
-        iOS: const DarwinNotificationDetails(),
+        iOS: DarwinNotificationDetails(
+          attachments: downloadedPath != null
+              ? [DarwinNotificationAttachment(downloadedPath)]
+              : null,
+        ),
       ),
       payload: jsonEncode(message.data),
     );
